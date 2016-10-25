@@ -38,7 +38,7 @@ try:
         }
     }
 
-    filename = 'marbles.tif'
+    filename = '1_1s.tif'
     path = 'images/'
     mimetype = 'image/tiff'
 
