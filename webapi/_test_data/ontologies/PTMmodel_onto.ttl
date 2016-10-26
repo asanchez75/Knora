@@ -1,0 +1,1018 @@
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmln.com/foaf/0.1/> .
+@prefix dc: <http://www.knora.org/ontology/dc#> .
+@prefix knora-base: <http://www.knora.org/ontology/knora-base#> .
+@prefix salsah-gui: <http://www.knora.org/ontology/salsah-gui#> .
+@base <http://www.knora.org/ontology/PTMmodel> .
+
+@prefix RTIproject: <http://www.knora.org/ontology/PTMmodel#> .
+@prefix : <http://www.knora.org/ontology/PTMmodel#> .
+
+<http://www.knora.org/ontology/PTMmodel> rdf:type owl:Ontology ;
+
+##########################################################
+#
+# PROPERTIES
+#
+##########################################################
+
+#############################################################################################
+### ###########################################
+### PTMmodel:hasGlossValue
+
+:hasGlossValue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Gloss"@en ;
+
+         rdfs:comment ""The input gloss value"""@en ;
+
+         knora-base:subjectClassConstraint :RTIparam ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "1"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+## ###########################################
+### PTMmodel:hasGlossVersion
+
+:hasGlossVersion rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Gloss algorithm version"@en ;
+
+         rdfs:comment ""Version of gloss algorithm in use"""@en ;
+
+         knora-base:subjectClassConstraint :RTIparam ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "2"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:hasLightDir
+
+:hasLightDir rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Light direction"@en ;
+
+         rdfs:comment ""Input light direction in the viewer"""@en ;
+
+         knora-base:subjectClassConstraint :RTIparam ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "3"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:hasImgOrientation
+
+:hasImgOrientation rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Rotation"@en ;
+
+         rdfs:comment ""Rotation of the artefact in the viewer"""@en ;
+
+         knora-base:subjectClassConstraint :RTIparam ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "4"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+### ###########################################
+### PTMmodel:hasImgZoom
+
+:hasImgZoom rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Zoom"@en ;
+
+         rdfs:comment ""Amount of zooming into the artefact"""@en ;
+
+         knora-base:subjectClassConstraint :RTIparam ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "5"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:hasRTIshadingModel
+
+:hasRTIshadingModel rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf dc:description ;
+
+             rdfs:label "Defines the used shading model"@en ;
+
+             rdfs:comment """The RTI parameters are complete when the parameters of the shading model are included"""@en ;
+
+             knora-base:subjectClassConstraint :RTIparam ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "6"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:hasRTIdescript
+
+:hasRTIdescript rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf dc:description ;
+
+             rdfs:label "Beschreibung (Richtext)"@de ;
+
+             rdfs:comment """Beschreibung"""@de ;
+
+             knora-base:subjectClassConstraint :RTIparam ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "7"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:hasRTIcomment
+
+:hasRTIcomment rdf:type owl:ObjectProperty ;
+
+              rdfs:subPropertyOf knora-base:hasComment ;
+
+              rdfs:label "Kommentar"@de ,
+                         "Commentaire"@fr ,
+                         "Commento"@it ,
+                         "Comment"@en ;
+
+              rdfs:comment """Unstrukturierte Bemerkungen zu einem Objekt"""@de ;
+
+              knora-base:subjectClassConstraint :RTIparam ;
+
+              knora-base:objectClassConstraint knora-base:TextValue ;
+
+              salsah-gui:guiOrder "8"^^xsd:integer ;
+
+              salsah-gui:guiElement salsah-gui:Textarea ;
+
+              salsah-gui:guiAttribute "width=95%" ,
+                                      "rows=7" ,
+                                      "wrap=soft" ;
+
+              knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                  knora-base:UnknownUser ;
+
+              knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+              knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+  ### PTMmodel:hasModelDescript
+
+  :hasModelDescript rdf:type owl:ObjectProperty ;
+
+           rdfs:subPropertyOf knora-base:hasValue ;
+
+           rdfs:label "Gloss algorithm version"@en ;
+
+           rdfs:comment ""Version of gloss algorithm in use"""@en ;
+
+           knora-base:subjectClassConstraint :RTIshadingModel ;
+
+           knora-base:objectClassConstraint knora-base:TextValue ;
+
+           salsah-gui:guiOrder "9"^^xsd:integer ;
+
+           salsah-gui:guiElement salsah-gui:SimpleText ;
+
+           salsah-gui:guiAttribute "min=4" ,
+                                   "max=8" ;
+
+           knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                               knora-base:KnownUser ;
+
+           knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+
+
+### ###########################################
+### PTMmodel:hasModelComment
+
+:hasModelComment rdf:type owl:ObjectProperty ;
+
+              rdfs:subPropertyOf knora-base:hasComment ;
+
+              rdfs:label "Kommentar"@de ,
+                         "Commentaire"@fr ,
+                         "Commento"@it ,
+                         "Comment"@en ;
+
+              rdfs:comment """Unstrukturierte Bemerkungen zu einem Objekt"""@de ;
+
+              knora-base:subjectClassConstraint :RTIshadingModel ;
+
+              knora-base:objectClassConstraint knora-base:TextValue ;
+
+              salsah-gui:guiOrder "10"^^xsd:integer ;
+
+              salsah-gui:guiElement salsah-gui:Textarea ;
+
+              salsah-gui:guiAttribute "width=95%" ,
+                                      "rows=7" ,
+                                      "wrap=soft" ;
+
+              knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                  knora-base:UnknownUser ;
+
+              knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+              knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+#############################################################################################
+### ###########################################
+### PTMmodel:has_kR_pvalue
+
+:has_kR_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kR"@en ;
+
+         rdfs:comment ""The input kR value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "1"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+## ###########################################
+### PTMmodel:has_kG_pvalue
+
+:has_kG_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kG"@en ;
+
+         rdfs:comment ""The input kG value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "2"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:has_kB_pvalue
+
+:has_kB_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kB"@en ;
+
+         rdfs:comment ""The input kB value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "3"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:has_kd_pvalue
+
+:has_kd_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kd"@en ;
+
+         rdfs:comment ""The input kd value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "4"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+### ###########################################
+### PTMmodel:has_ks_pvalue
+
+:has_ks_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "ks"@en ;
+
+         rdfs:comment ""The input ks value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "5"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+
+### ###########################################
+### PTMmodel:has_alpha_pvalue
+
+:has_alpha_pvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "α"@en ;
+
+         rdfs:comment ""The input α value in the PHONG model"""@en ;
+
+         knora-base:subjectClassConstraint :PHONG ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "6"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+#############################################################################################
+### ###########################################
+### PTMmodel:has_kR_wvalue
+
+:has_kR_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kR"@en ;
+
+         rdfs:comment ""The input kR value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "1"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+## ###########################################
+### PTMmodel:has_kG_wvalue
+
+:has_kG_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kG"@en ;
+
+         rdfs:comment ""The input kG value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "2"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:has_kB_wvalue
+
+:has_kB_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "kB"@en ;
+
+         rdfs:comment ""The input kB value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "3"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:has_ros_wvalue
+
+:has_ros_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "ρs"@en ;
+
+         rdfs:comment ""The input ρs value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "4"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+### ###########################################
+### PTMmodel:has_alphax_wvalue
+
+:has_alphax_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "αx"@en ;
+
+         rdfs:comment ""The input αx value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "5"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+
+### ###########################################
+### PTMmodel:has_alphay_wvalue
+
+:has_alphay_wvalue rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "αy"@en ;
+
+         rdfs:comment ""The input αy value in the WARD model"""@en ;
+
+         knora-base:subjectClassConstraint :WARD ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "6"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+
+#############################################################################################
+### ###########################################
+### PTMmodel:hasfShaderURL
+
+:hasfShaderURL rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "f Shader URL"@en ;
+
+         rdfs:comment ""The URL of the used webGL f shader"""@en ;
+
+         knora-base:subjectClassConstraint :RTIshaderRef ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "1"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### PTMmodel:hasvShaderURL
+
+:hasvShaderURL rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "v Shader URL"@en ;
+
+         rdfs:comment ""The URL of the used webGL v shader"""@en ;
+
+         knora-base:subjectClassConstraint :RTIshaderRef ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "2"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### PTMmodel:hasShaderDescript
+
+:hasShaderDescript rdf:type owl:ObjectProperty ;
+
+         rdfs:subPropertyOf knora-base:hasValue ;
+
+         rdfs:label "Shader description"@en ;
+
+         knora-base:subjectClassConstraint :RTIshaderRef ;
+
+         knora-base:objectClassConstraint knora-base:TextValue ;
+
+         salsah-gui:guiOrder "3"^^xsd:integer ;
+
+         salsah-gui:guiElement salsah-gui:SimpleText ;
+
+         salsah-gui:guiAttribute "min=4" ,
+                                 "max=8" ;
+
+         knora-base:hasDefaultViewPermission knora-base:UnknownUser ,
+                                             knora-base:KnownUser ;
+
+         knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+        knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+
+
+
+##########################################################
+#
+# RESOURCES
+#
+##########################################################
+
+##########################################################
+### ###########################################
+### PTMmodel:RTIparam
+
+:RTIparam rdf:type owl:Class ;
+
+      rdfs:subClassOf knora-base:Resource ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasGlossValue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasGlossVersion ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasLightDir ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasImgOrientation ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasImgZoom ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRTIshadingModel ;
+                         owl:maxCardinality "1"^^xsd:nonNegativeInteger                   ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRTIdescript ;
+                         owl:maxCardinality "1"^^xsd:nonNegativeInteger                   ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRTIcomment ;
+                         owl:minCardinality "0"^^xsd:nonNegativeInteger                   ] ;
+
+      knora-base:resourceIcon "RTIparam.gif" ;
+
+      rdfs:label "RTI Parameter"@de ,
+                 "RTI paramètres"@fr ,
+                 "RTI parameters"@en ;
+
+      rdfs:comment """Many RTI parameter sets can be inserted by the users and saved for future reference"""@en ,
+
+      knora-base:hasDefaultRestrictedViewPermission knora-base:UnknownUser ;
+
+      knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+      knora-base:hasDefaultModifyPermission knora-base:ProjectMember ,
+                                            knora-base:Owner .
+
+
+### ###########################################
+### PTMmodel:RTIshadingModel
+
+:RTIshadingModel rdf:type owl:Class ;
+
+          rdfs:subClassOf :RTIparam ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRTIdata ;
+                         owl:minCardinality "1"^^xsd:nonNegativeInteger                   ],
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRTIinfo ;
+                         owl:minCardinality "1"^^xsd:nonNegativeInteger                   ],
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasModelDescript ;
+                         owl:maxCardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasModelComment ;
+                         owl:minCardinality "0"^^xsd:nonNegativeInteger                   ] ;
+
+          rdfs:label "RTI xml file"@en ;
+
+          rdfs:comment """RTI data file with the images comprising the webPTM file (i.e. how it is tiled)"""@en ;
+
+          knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+          knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+          knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### PTMmodel:PHONG
+
+:PHONG rdf:type owl:Class ;
+
+          rdfs:subClassOf :RTIshadingModel ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kR_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kG_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kB_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kd_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_ks_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_alpha_pvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ;
+
+          rdfs:label "PHONG model parameters"@en ;
+
+          rdfs:comment """Parameters for the PHONG model used to reconstruct the image from the PTM"""@en ;
+
+          knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+          knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+          knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### PTMmodel:WARD
+
+:WARD rdf:type owl:Class ;
+
+          rdfs:subClassOf :RTIshadingModel ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty : has_kR_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kG_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_kB_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_ros_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_alphax_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :has_alphay_wvalue ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ;
+
+          rdfs:label "WARD model parameters"@en ;
+
+          rdfs:comment """Parameters for the WARD model used to reconstruct the image from the PTM"""@en ;
+
+          knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+          knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+          knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### PTMmodel:RTIshaderRef
+
+:RTIshaderRef rdf:type owl:Class ;
+
+      rdfs:subClassOf knora-base:Resource ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasfShaderURL ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasvShaderURL ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger                      ] ,
+                    [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasShaderDescript ;
+                         owl:maxCardinality "1"^^xsd:nonNegativeInteger                   ] ;
+
+      knora-base:resourceIcon "RTIshaderRef.gif" ;
+
+      rdfs:label "RTI Shader Reference"@en ;
+
+      rdfs:comment """The reference to the used webGL URL"""@en ,
+
+      knora-base:hasDefaultRestrictedViewPermission knora-base:UnknownUser ;
+
+      knora-base:hasDefaultViewPermission knora-base:KnownUser ;
+
+      knora-base:hasDefaultModifyPermission knora-base:ProjectMember ,
+                                            knora-base:Owner .
+

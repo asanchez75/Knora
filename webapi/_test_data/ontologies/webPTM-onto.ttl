@@ -1,0 +1,689 @@
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmln.com/foaf/0.1/> .
+@prefix dc: <http://www.knora.org/ontology/dc#> .
+@prefix knora-base: <http://www.knora.org/ontology/knora-base#> .
+@prefix salsah-gui: <http://www.knora.org/ontology/salsah-gui#> .
+@base <http://www.knora.org/ontology/webPTM> .
+
+@prefix webPTM: <http://www.knora.org/ontology/webPTM#> .
+@prefix : <http://www.knora.org/ontology/webPTM#> .
+
+<http://www.knora.org/ontology/webPTM> rdf:type owl:Ontology .
+
+##########################################################
+#
+# PROPERTIES
+#
+##########################################################
+
+
+#############################################################################################
+### ###########################################
+### webPTMproject:haswebPTMtype
+
+:haswebPTMtype rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """The type of the PTM, can be "LRGBG_PTM" with 9 scale parameters, or "LRGB_PTM" with 6 scale parameters (coefficients) """@en ;
+
+             rdfs:label "type"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "1"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTM_w_contentSize
+
+:haswebPTM_w_contentSize rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """w dimension of actual content in the Image"""@en ;
+
+             rdfs:label "w"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "2"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTM_h_contentSize
+
+:haswebPTM_h_contentSize rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """h dimension of actual content in the Image"""@en ;
+
+             rdfs:label "h"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "3"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMscale
+
+
+:haswebPTMscale rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Used in the PTM algorithm"""@en ;
+
+             rdfs:label "scale"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "4"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMbias
+
+:haswebPTMbias rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Used in the PTM algorithm"""@en ;
+
+             rdfs:label "bias"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "5"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMorientation
+
+:haswebPTMorientation rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """orientation of the content in the viewer"""@en ;
+
+             rdfs:label "orientation"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "6"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMimageFormat
+
+:haswebPTMimageFormat rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """The format in which the image is returned from SIPI"""@en ;
+
+             rdfs:label "imgFormat"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "7"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTM_w_maxRes
+
+:haswebPTM_w_maxRes rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Image w resolution"""@en ;
+
+             rdfs:label "wmax"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "8"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTM_h_maxRes
+
+:haswebPTM_h_maxRes rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Image h resolution"""@en ;
+
+             rdfs:label "hmax"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "9"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMgeometry
+
+:haswebPTMgeometry rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Geometry type of the image. Can be i.e. "PLANE", "DOME", "ARC" etc """@en ;
+
+             rdfs:label "geometry"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "10"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMmultiresType
+
+:haswebPTMmultiresType rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Strategy used for the multi-resolution creation, i.e. IIIF """@en ;
+
+             rdfs:label "multires"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "11"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTM_w_tileSz
+
+:haswebPTM_w_tileSz rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """w multiresolution tile size"""@en ;
+
+             rdfs:label "wTile"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "12"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTM_h_tileSz
+
+:haswebPTM_h_tileSz rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """h multiresolution tile size"""@en ;
+
+             rdfs:label "hTile"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:IntValue ;
+
+             salsah-gui:guiOrder "13"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMfShaderURL
+
+:haswebPTMfShaderURL rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """f Shader URL"""@en ;
+
+             rdfs:label "fShader"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "8"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMvShaderURL
+
+:haswebPTMvShaderURL rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """v Shader URL"""@en ;
+
+             rdfs:label "vShader"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "9"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMutilsShaderURL
+
+:haswebPTMutilsShaderURL rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """utils Shader URL"""@en ;
+
+             rdfs:label "utilsShader"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "10"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMsupportedGeometries
+
+:haswebPTMsupportedGeometries rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Supported model geometries """@en ;
+
+             rdfs:label "supGeometries"@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "11"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMmodelDescript
+
+:haswebPTMmodelDescript rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf knora-base:hasValue ;
+
+             rdfs:comment """Model Description"""@en ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "12"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+### ###########################################
+### webPTMproject:haswebPTMdescript
+
+:haswebPTMdescript rdf:type owl:ObjectProperty ;
+
+             rdfs:subPropertyOf dc:description ;
+
+             rdfs:label "Beschreibung (Richtext)"@en ;
+
+             rdfs:comment """Beschreibung"""@de ;
+
+             knora-base:subjectClassConstraint :webPTMdata ;
+
+             knora-base:objectClassConstraint knora-base:TextValue ;
+
+             salsah-gui:guiOrder "12"^^xsd:integer ;
+
+             salsah-gui:guiElement salsah-gui:Richtext ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+             knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+             knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+### ###########################################
+### webPTMproject:haswebPTMcomment
+
+:haswebPTMcomment rdf:type owl:ObjectProperty ;
+
+              rdfs:subPropertyOf knora-base:hasComment ;
+
+              rdfs:label "Kommentar"@de ,
+                         "Commentaire"@fr ,
+                         "Commento"@it ,
+                         "Comment"@en ;
+
+              rdfs:comment """Unstrukturierte Bemerkungen zu einem Objekt"""@en ;
+
+              knora-base:subjectClassConstraint :webPTMdata ;
+
+              knora-base:objectClassConstraint knora-base:TextValue ;
+
+              salsah-gui:guiOrder "13"^^xsd:integer ;
+
+              salsah-gui:guiElement salsah-gui:Textarea ;
+
+              salsah-gui:guiAttribute "width=95%" ,
+                                      "rows=7" ,
+                                      "wrap=soft" ;
+
+              knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                  knora-base:UnknownUser ;
+
+              knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+              knora-base:hasDefaultDeletePermission knora-base:Owner .
+
+
+
+
+##########################################################
+#
+# RESOURCES
+#
+##########################################################
+##########################################################
+### ###########################################
+### webPTMproject:webPTMdata
+
+:webPTMdata rdf:type owl:Class ;
+
+          rdfs:subClassOf knora-base:StillImageRepresentation ,
+
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMtype ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_w_contentSize ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_h_contentSize ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMscale ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMbias ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMorientation ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMimageFormat ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_w_maxRes ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_h_maxRes ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMgeometry ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMmultiresType ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_w_tileSz ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTM_h_tileSz ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMfShaderURL ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMvShaderURL ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMutilsShaderURL ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMsupportedGeometries ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                          ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMmodelDescript ;
+                             owl:cardinality "1"^^xsd:nonNegativeInteger                       ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMdescript ;
+                             owl:maxCardinality "1"^^xsd:nonNegativeInteger                       ] ,
+                          [
+                             rdf:type owl:Restriction ;
+                             owl:onProperty :haswebPTMcomment ;
+                             owl:minCardinality "0"^^xsd:nonNegativeInteger                       ] ;
+
+
+          knora-base:resourceIcon "webPTM.gif" ;
+
+          rdfs:label "webPTMfiles"@de ,
+                     "webPTMfiles"@fr ,
+                     "webPTMfiles"@en ;
+
+          rdfs:comment """webPTM data with the images comprising the webPTM file (i.e. how it is tiled)"""@en ;
+
+             knora-base:hasDefaultViewPermission knora-base:KnownUser ,
+                                                 knora-base:UnknownUser ;
+
+          knora-base:hasDefaultModifyPermission knora-base:ProjectMember ;
+
+          knora-base:hasDefaultDeletePermission knora-base:Owner .
+
