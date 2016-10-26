@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
     <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
-    <link rel="next" title="Authentication in the Knora API Server" href="authentication.html" />
+    <link rel="next" title="Consistency Checking" href="consistency-checking.html" />
     <link rel="prev" title="How to Add an API Route" href="how-to-add-a-route.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="authentication.html">Authentication in the Knora API Server</a>&#160;&#160;»
+        <a href="consistency-checking.html">Consistency Checking</a>&#160;&#160;»
         </p>
 
       </div>
@@ -48,7 +48,7 @@
         
         
   <div class="section" id="triplestore-updates">
-<h1>Triplestore Updates<a class="headerlink" href="#triplestore-updates" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Triplestore Updates<a class="headerlink" href="#triplestore-updates" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="general">
@@ -58,8 +58,8 @@
 <li>Create a new resource with its initial values.</li>
 <li>Add a new value.</li>
 <li>Change a value.</li>
-<li>Delete a value.</li>
-<li>Delete a resource.</li>
+<li>Delete a value (i.e. mark it as deleted).</li>
+<li>Delete a resource (i.e. mark it as deleted).</li>
 </ul>
 <p>Users must be able to edit the same data concurrently.</p>
 <p>Each update must be atomic and leave the database in a consistent, meaningful state, respecting
@@ -86,7 +86,7 @@ in the application and using a vendor-specific API, but we cannot require this i
 <p>To create a new version of an existing value, the user needs only to have <code class="docutils literal"><span class="pre">knora-base:hasModifyPermission</span></code>
 on the current version of the value; no permissions on the resource are needed.</p>
 <p>Since changing a link requires deleting the old link and creating a new one (as described in
-<a class="reference internal" href="#triplestore-linking-reqs"><span class="std std-ref">Linking</span></a>), a user wishing to change a link must have modify permission on both
+<a class="reference internal" href="#triplestore-linking-reqs"><span>Linking</span></a>), a user wishing to change a link must have modify permission on both
 the containing resource and the <code class="docutils literal"><span class="pre">knora-base:LinkValue</span></code> for the existing link.</p>
 <p>When a new value is created, it is given the default permissions specified in the definition of its
 property. These are subproperties of <code class="docutils literal"><span class="pre">knora-base:hasDefaultPermission</span></code>, and are converted into
@@ -124,25 +124,41 @@ trivial, is allowed.</p>
 </div>
 <div class="section" id="versioning">
 <h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
-<p>Each Knora value (i.e. something belonging to an OWL class derived from <code class="docutils literal"><span class="pre">knora-base:Value</span></code>) is versioned.
-This means that once created, a value is never modified. Instead, &#8216;changing&#8217; a value means creating a new
-version of the value &#8212; actually a new value &#8212; that points to the previous version using
-<code class="docutils literal"><span class="pre">knora-base:previousValue</span></code>. The versions of a value are a singly-linked list, pointing backwards into the
-past. When a new version of a value is made, the triple that points from the resource to the old version
-(using a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>) is deleted, and a triple is added to point from the resource
-to the new version. Thus the resource always points only to the current version of the value, and the older
-versions are available only via the current version&#8217;s <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code> predicate.</p>
-<p>&#8216;Deleting&#8217; a value means creating a new version, marked with <code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code> and pointing
-to the previous version. A triple then points from the resource to this new, deleted version of the value.
-To simplify the enforcement of ontology constraints, and for consistency with resource updates, no
-new versions of a deleted value can be made; it is not possible to undelete. Instead, if desired, a
-new value can be created by copying data from a deleted value.</p>
-<p>Unlike values, resources (which belong to OWL classes derived from <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>) are not
-versioned. The data that is attached to a resource, other than its values, can be modified. A resource
-can be deleted by marking it with <code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code> and a timestamp. Once this is done, the resource
-cannot be undeleted, because even though resources are not versioned, it is necessary to be able to find out
-when a resource was deleted. If desired, a new resource can be created by copying data from a deleted
-resource.</p>
+<p>Each Knora value (i.e. something belonging to an OWL class derived from
+<code class="docutils literal"><span class="pre">knora-base:Value</span></code>) is versioned. This means that once created, a value is
+never modified. Instead, &#8216;changing&#8217; a value means creating a new version of
+the value &#8212; actually a new value &#8212; that points to the previous version
+using <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code>. The versions of a value are a singly-
+linked list, pointing backwards into the past. When a new version of a value
+is made, the triple that points from the resource to the old version (using a
+subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>) is removed, and a triple is added to
+point from the resource to the new version. Thus the resource always points
+only to the current version of the value, and the older versions are available
+only via the current version&#8217;s <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code> predicate.</p>
+<p>Unlike values, resources (members of OWL classes derived from
+<code class="docutils literal"><span class="pre">knora-base:Resource</span></code>) are not versioned. The data that is attached to a
+resource, other than its values, can be modified.</p>
+<div class="section" id="deleting">
+<h4>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h4>
+<p>Knora does not actually delete resources or values; it only marks them as
+deleted. Deleted data is normally hidden. All resources and values must have
+the predicate <code class="docutils literal"><span class="pre">knora-</span> <span class="pre">base:isDeleted</span></code>, whose object is a boolean. If a
+resource or value has been marked as deleted, it has
+<code class="docutils literal"><span class="pre">knora-base:isDeleted</span> <span class="pre">true</span></code> and has a <code class="docutils literal"><span class="pre">knora-base:deleteDate</span></code>. An
+optional <code class="docutils literal"><span class="pre">knora-base:deleteComment</span></code> may be added to explain why the
+resource or value has been marked as deleted.</p>
+<p>Normally, a value is marked as deleted without creating a new version of it.
+However, link values must be treated as a special case. Before a <code class="docutils literal"><span class="pre">LinkValue</span></code> can be
+marked as deleted, its reference count must be decremented to 0. Therefore, a
+new version of the <code class="docutils literal"><span class="pre">LinkValue</span></code> is made, with a reference count of 0, and it
+is this new version that is marked as deleted.</p>
+<p>Since it is necessary to be able to find out when a resource was deleted, it
+is not possible to undelete a resource. Moreover, to simplify the checking
+of cardinality constraints, and for consistency with resources, it is not possible
+to undelete a value, and no new versions of a deleted value can be made.
+Instead, if desired, a new resource or value can be created by copying data from a
+deleted resource or value.</p>
+</div>
 </div>
 <div class="section" id="linking">
 <span id="triplestore-linking-reqs"></span><h3>Linking<a class="headerlink" href="#linking" title="Permalink to this headline">¶</a></h3>
@@ -214,16 +230,19 @@ a time can update a given resource. Before each update, the application
 acquires a resource lock. It then does the pre-update checks and the update,
 then releases the lock. The lock implementation (in <code class="docutils literal"><span class="pre">ResourceLocker</span></code>)
 requires each API request message to include a random UUID, which is generated
-in the <a class="reference internal" href="design-overview.html#api-routing"><span class="std std-ref">API Routing</span></a> package. Using application-level locks allows us to
+in the <a class="reference internal" href="design-overview.html#api-routing"><span>API Routing</span></a> package. Using application-level locks allows us to
 do pre-update checks in their own transactions, and finally to do the SPARQL
 update in its own transaction.</p>
 </div>
-<div class="section" id="consistency-checks">
-<h3>Consistency Checks<a class="headerlink" href="#consistency-checks" title="Permalink to this headline">¶</a></h3>
-<p>Knora enforces consistency constraints in three ways: by doing pre-update
-checks, by doing checks in the <code class="docutils literal"><span class="pre">WHERE</span></code> clauses of SPARQL updates, and
-by using GraphDB&#8217;s built-in consistency checker. We take the view that
-redundant consistency checks are a good thing.</p>
+<div class="section" id="ensuring-data-consistency">
+<h3>Ensuring Data Consistency<a class="headerlink" href="#ensuring-data-consistency" title="Permalink to this headline">¶</a></h3>
+<p>Knora enforces consistency constraints using three redundant mechanisms:</p>
+<ol class="arabic simple">
+<li>By doing pre-update checks in SPARQL SELECT queries.</li>
+<li>By doing checks in the <code class="docutils literal"><span class="pre">WHERE</span></code> clauses of SPARQL updates.</li>
+<li>By using GraphDB&#8217;s built-in consistency checker (see <a class="reference internal" href="consistency-checking.html#consistency-checking"><span>Consistency Checking</span></a>).</li>
+</ol>
+<p>We take the view that redundant consistency checks are a good thing.</p>
 <p>Pre-update checks are SPARQL <code class="docutils literal"><span class="pre">SELECT</span></code> queries that are executed while
 holding an application-level lock on the resource to be updated. These checks
 should work with any triplestore, and can return helpful, Knora-specific
@@ -256,67 +275,6 @@ poorly on Jena. Knora does not do permission checks in SPARQL, because its
 permission-checking algorithm is too complex to be implemented in SPARQL. For
 this reason, Knora&#8217;s check for duplicate values cannot be done in SPARQL
 update code, because it relies on permission checks.</p>
-<p>GraphDB&#8217;s consistency checker can be turned on to ensure that each update
-transaction respects the consistency constraints, as described in the section
-<a class="reference external" href="http://graphdb.ontotext.com/documentation/standard/reasoning.html#consistency-checks">Consistency checks</a> of the GraphDB documentation. This makes it possible to
-catch consistency constraint violations caused by bugs in Knora, and it also
-checks data that is uploaded directly into the triplestore without going
-through the Knora API. However, this feature is only partly enabled, because
-of problems described in <a class="reference external" href="https://github.com/dhlab-basel/Knora/issues/33">issue 33</a>.</p>
-<p>GraphDB&#8217;s consistency checker requires the repository to be created with
-reasoning enabled. GraphDB&#8217;s reasoning rules are defined in rule files with
-the <code class="docutils literal"><span class="pre">.pie</span></code> filename extension, as described in <a class="reference external" href="http://graphdb.ontotext.com/documentation/standard/reasoning.html">Reasoning</a> in the GraphDB
-documentation. To use consistency checking, it is necessary to modify one of
-GraphDB&#8217;s standard <code class="docutils literal"><span class="pre">.pie</span></code> files by adding consistency rules. We have added
-rules to the standard RDFS inference rules file <code class="docutils literal"><span class="pre">builtin_RdfsRules.pie</span></code>, to
-create the file <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code>. The <code class="docutils literal"><span class="pre">.ttl</span></code> configuration file that is
-used to create the repository must contain these settings:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">owlim</span><span class="p">:</span><span class="n">ruleset</span> <span class="s2">&quot;/path/to/KnoraRules.pie&quot;</span> <span class="p">;</span>
-<span class="n">owlim</span><span class="p">:</span><span class="n">check</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">inconsistencies</span> <span class="s2">&quot;true&quot;</span> <span class="p">;</span>
-</pre></div>
-</div>
-<p>The path to <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> must be an absolute path. The scripts provided
-with Knora to create test repositories set this path automatically.</p>
-<p>A GraphDB consistency rule is composed of two parts: a pattern that will match
-if corresponding triples are found in the data, and an optional pattern that
-will match if corresponding triples are not found in the data. If both
-parts match, this means that there is a consistency violation, and the
-transaction will be rolled back. A rule is written in this form:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Consistency</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">rule</span> <span class="n">name</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">pattern</span> <span class="k">for</span> <span class="n">triples</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">data</span><span class="o">&gt;</span>
-    <span class="o">-------------------------------</span>
-    <span class="o">&lt;</span><span class="n">pattern</span> <span class="k">for</span> <span class="n">triples</span> <span class="ow">not</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">data</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p>The triple patterns can contain variable names for subjects, predicates, and
-objects, as well as actual property names.</p>
-<p>The consistency rules are currently being revised, so here are just two examples.</p>
-<div class="section" id="knora-base-subjectclassconstraint">
-<h4>knora-base:subjectClassConstraint<a class="headerlink" href="#knora-base-subjectclassconstraint" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">subjectClassConstraint</span>
-<span class="n">Consistency</span><span class="p">:</span> <span class="n">subject_class_constraint</span>
-    <span class="n">p</span> <span class="o">&lt;</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">subjectClassConstraint</span><span class="o">&gt;</span> <span class="n">t</span>
-    <span class="n">i</span> <span class="n">p</span> <span class="n">j</span>
-    <span class="o">------------------------------------</span>
-    <span class="n">i</span> <span class="o">&lt;</span><span class="n">rdf</span><span class="p">:</span><span class="nb">type</span><span class="o">&gt;</span> <span class="n">t</span>
-</pre></div>
-</div>
-<p>If resource <code class="docutils literal"><span class="pre">i</span></code> has a predicate <code class="docutils literal"><span class="pre">p</span></code> that requires a subject of type <code class="docutils literal"><span class="pre">t</span></code>,
-and <code class="docutils literal"><span class="pre">i</span></code> is not a <code class="docutils literal"><span class="pre">t</span></code>, the constraint is violated.</p>
-</div>
-<div class="section" id="knora-base-objectclassconstraint">
-<h4>knora-base:objectClassConstraint<a class="headerlink" href="#knora-base-objectclassconstraint" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">objectClassConstraint</span>
-<span class="n">Consistency</span><span class="p">:</span> <span class="n">object_class_constraint</span>
-    <span class="n">p</span> <span class="o">&lt;</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">objectClassConstraint</span><span class="o">&gt;</span> <span class="n">t</span>
-    <span class="n">i</span> <span class="n">p</span> <span class="n">j</span>
-    <span class="o">------------------------------------</span>
-    <span class="n">j</span> <span class="o">&lt;</span><span class="n">rdf</span><span class="p">:</span><span class="nb">type</span><span class="o">&gt;</span> <span class="n">t</span>
-</pre></div>
-</div>
-<p>If resource <code class="docutils literal"><span class="pre">i</span></code> has a predicate <code class="docutils literal"><span class="pre">p</span></code> that requires an object of type <code class="docutils literal"><span class="pre">t</span></code>,
-and the object of <code class="docutils literal"><span class="pre">p</span></code> is not a <code class="docutils literal"><span class="pre">t</span></code>, the constraint is violated.</p>
-</div>
 </div>
 </div>
 <div class="section" id="sparql-update-examples">
@@ -328,7 +286,7 @@ illustrate the way Knora&#8217;s SPARQL updates are structured and how concurren
 <p>We will need this query below. If a value is present in a resource
 property&#8217;s version history, the query returns everything known about the
 value, or nothing otherwise:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
 
@@ -347,7 +305,7 @@ WHERE {
 </div>
 <div class="section" id="creating-the-initial-version-of-a-value">
 <h3>Creating the initial version of a value<a class="headerlink" href="#creating-the-initial-version-of-a-value" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
 
@@ -380,12 +338,12 @@ INSERT {
 </pre></div>
 </div>
 <p>To find out whether the insert succeeded, the application can use the
-query in <a class="reference internal" href="#find-value-in-version-history"><span class="std std-ref">Finding a value IRI in a value&#8217;s version history</span></a> to look for the new IRI in the
+query in <a class="reference internal" href="#find-value-in-version-history"><span>Finding a value IRI in a value&#8217;s version history</span></a> to look for the new IRI in the
 property&#8217;s version history.</p>
 </div>
 <div class="section" id="adding-a-new-version-of-a-value">
 <h3>Adding a new version of a value<a class="headerlink" href="#adding-a-new-version-of-a-value" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
 
@@ -423,7 +381,7 @@ is not in fact the most recent version (because someone else has done an
 update), this operation will do nothing (because the <code class="docutils literal"><span class="pre">WHERE</span></code> clause
 will return no rows). To find out whether the update succeeded, the
 application will then need to do a SELECT query using the
-query in <a class="reference internal" href="#find-value-in-version-history"><span class="std std-ref">Finding a value IRI in a value&#8217;s version history</span></a>. In the case of concurrent updates,
+query in <a class="reference internal" href="#find-value-in-version-history"><span>Finding a value IRI in a value&#8217;s version history</span></a>. In the case of concurrent updates,
 there are two possibilities:</p>
 <ol class="arabic simple">
 <li>Users A and B are looking at version 1. User A submits an update and
@@ -441,7 +399,7 @@ in the value&#8217;s version history.</li>
 </div>
 <div class="section" id="getting-all-versions-of-a-value">
 <h3>Getting all versions of a value<a class="headerlink" href="#getting-all-versions-of-a-value" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
 
@@ -480,14 +438,14 @@ return no rows.</p>
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="authentication.html">Authentication in the Knora API Server</a>&#160;&#160;»
+        <a href="consistency-checking.html">Consistency Checking</a>&#160;&#160;»
         </p>
 
       </div>
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

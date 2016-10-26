@@ -71,8 +71,8 @@ the <code class="docutils literal"><span class="pre">org.knora.webapi.responders
 <p>Give your responder a <code class="docutils literal"><span class="pre">receive()</span></code> method that handles each of your
 request message types by generating a <code class="docutils literal"><span class="pre">Future</span></code> containing a response
 message, and passing the <code class="docutils literal"><span class="pre">Future</span></code> to <code class="docutils literal"><span class="pre">ActorUtils.futureToMessage()</span></code>. See
-<a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span class="std std-ref">Futures with Akka</span></a> and <a class="reference internal" href="design-overview.html#error-handling"><span class="std std-ref">Error Handling</span></a> for details.</p>
-<p>See <a class="reference internal" href="design-overview.html#triplestore-access"><span class="std std-ref">Triplestore Access</span></a> for details of how to access the triplestore
+<a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a> and <a class="reference internal" href="design-overview.html#error-handling"><span>Error Handling</span></a> for details.</p>
+<p>See <a class="reference internal" href="design-overview.html#triplestore-access"><span>Triplestore Access</span></a> for details of how to access the triplestore
 in your responder.</p>
 <p>Add an actor pool for your responder to <code class="docutils literal"><span class="pre">application.conf</span></code>, under
 <code class="docutils literal"><span class="pre">actor.deployment</span></code>.</p>
@@ -85,47 +85,47 @@ to that pool.</p>
 <h2>Write a Route<a class="headerlink" href="#write-a-route" title="Permalink to this headline">¶</a></h2>
 <p>Add an object to the <code class="docutils literal"><span class="pre">org.knora.webapi.routing.v1</span></code> package for your
 route. Your object should look something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akka.actor.ActorSystem</span>
-<span class="kn">import</span> <span class="nn">akka.event.LoggingAdapter</span>
-<span class="kn">import</span> <span class="nn">org.knora.webapi.SettingsImpl</span>
-<span class="kn">import</span> <span class="nn">org.knora.webapi.messages.v1respondermessages.SampleGetRequestV1</span>
-<span class="kn">import</span> <span class="nn">org.knora.webapi.routing.RouteUtils</span>
-<span class="kn">import</span> <span class="nn">spray.routing.Directives._</span>
-<span class="kn">import</span> <span class="nn">spray.routing._</span>
-<span class="kn">import</span> <span class="nn">org.knora.webapi.util.StringConversions</span>
-<span class="kn">import</span> <span class="nn">org.knora.webapi.BadRequestException</span>
+<div class="highlight-python"><div class="highlight"><pre>import akka.actor.ActorSystem
+import akka.event.LoggingAdapter
+import org.knora.webapi.SettingsImpl
+import org.knora.webapi.messages.v1respondermessages.SampleGetRequestV1
+import org.knora.webapi.routing.RouteUtils
+import spray.routing.Directives._
+import spray.routing._
+import org.knora.webapi.util.StringConversions
+import org.knora.webapi.BadRequestException
 
-<span class="nb">object</span> <span class="n">SampleRouteV1</span> <span class="n">extends</span> <span class="n">Authenticator</span> <span class="p">{</span>
+object SampleRouteV1 extends Authenticator {
 
-    <span class="k">def</span> <span class="nf">rapierPath</span><span class="p">(</span><span class="n">_system</span><span class="p">:</span> <span class="n">ActorSystem</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">SettingsImpl</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LoggingAdapter</span><span class="p">):</span> <span class="n">Route</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">implicit</span> <span class="n">val</span> <span class="n">system</span><span class="p">:</span> <span class="n">ActorSystem</span> <span class="o">=</span> <span class="n">_system</span>
-        <span class="n">implicit</span> <span class="n">val</span> <span class="n">executionContext</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">dispatcher</span>
-        <span class="n">implicit</span> <span class="n">val</span> <span class="n">timeout</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">defaultTimeout</span>
-        <span class="n">val</span> <span class="n">responderManager</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">actorSelection</span><span class="p">(</span><span class="s2">&quot;/user/responderManager&quot;</span><span class="p">)</span>
+    def knoraApiPath(_system: ActorSystem, settings: SettingsImpl, log: LoggingAdapter): Route = {
+        implicit val system: ActorSystem = _system
+        implicit val executionContext = system.dispatcher
+        implicit val timeout = settings.defaultTimeout
+        val responderManager = system.actorSelection(&quot;/user/responderManager&quot;)
 
-        <span class="n">path</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span> <span class="o">/</span> <span class="n">Segment</span><span class="p">)</span> <span class="p">{</span> <span class="n">iri</span> <span class="o">=&gt;</span>
-            <span class="n">get</span> <span class="p">{</span> <span class="n">requestContext</span> <span class="o">=&gt;</span>
-                <span class="n">val</span> <span class="n">requestMessageTry</span> <span class="o">=</span> <span class="n">Try</span> <span class="p">{</span>
-                    <span class="n">val</span> <span class="n">userProfile</span> <span class="o">=</span> <span class="n">getUserProfileV1</span><span class="p">(</span><span class="n">requestContext</span><span class="p">)</span>
-                    <span class="n">makeRequestMessage</span><span class="p">(</span><span class="n">iri</span><span class="p">,</span> <span class="n">userProfile</span><span class="p">)</span>
-                <span class="p">}</span>
+        path(&quot;sample&quot; / Segment) { iri =&gt;
+            get { requestContext =&gt;
+                val requestMessageTry = Try {
+                    val userProfile = getUserProfileV1(requestContext)
+                    makeRequestMessage(iri, userProfile)
+                }
 
-                <span class="n">RouteUtils</span><span class="o">.</span><span class="n">runJsonRoute</span><span class="p">(</span>
-                    <span class="n">requestMessageTry</span><span class="p">,</span>
-                    <span class="n">requestContext</span><span class="p">,</span>
-                    <span class="n">settings</span><span class="p">,</span>
-                    <span class="n">responderManager</span><span class="p">,</span>
-                    <span class="n">log</span>
-                <span class="p">)</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+                RouteUtils.runJsonRoute(
+                    requestMessageTry,
+                    requestContext,
+                    settings,
+                    responderManager,
+                    log
+                )
+            }
+        }
+    }
 
-    <span class="n">private</span> <span class="k">def</span> <span class="nf">makeRequestMessage</span><span class="p">(</span><span class="n">iriStr</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">userProfile</span><span class="p">:</span> <span class="n">UserProfileV1</span><span class="p">):</span> <span class="n">SampleGetRequestV1</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">val</span> <span class="n">iri</span> <span class="o">=</span> <span class="n">StringConversions</span><span class="o">.</span><span class="n">toIri</span><span class="p">(</span><span class="n">iriStr</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="n">throw</span> <span class="n">BadRequestException</span><span class="p">(</span><span class="n">s</span><span class="s2">&quot;Invalid IRI: $iriStr&quot;</span><span class="p">))</span>
-        <span class="n">SampleGetRequestV1</span><span class="p">(</span><span class="n">iri</span><span class="p">,</span> <span class="n">userProfile</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    private def makeRequestMessage(iriStr: String, userProfile: UserProfileV1): SampleGetRequestV1 = {
+        val iri = StringConversions.toIri(iriStr, () =&gt; throw BadRequestException(s&quot;Invalid IRI: $iriStr&quot;))
+        SampleGetRequestV1(iri, userProfile)
+    }
+}
 </pre></div>
 </div>
 <p>It&#8217;s important that inside the <code class="docutils literal"><span class="pre">get</span></code> (or <code class="docutils literal"><span class="pre">post</span></code> or whatever),
@@ -153,7 +153,7 @@ variable in <code class="docutils literal"><span class="pre">KnoraHttpService</s
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

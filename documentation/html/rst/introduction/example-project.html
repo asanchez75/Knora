@@ -52,8 +52,7 @@
 <p>This section introduces some of the basic concepts involved in creating
 ontologies for Knora projects, by means of a relatively simple example
 project. Before reading this document, it will be helpful to have some
-familiarity with the basic concepts explained in
-<a class="reference download internal" href="../../_downloads/knora-base.pdf" download=""><code class="xref download docutils literal"><span class="pre">The</span> <span class="pre">Knora</span> <span class="pre">Base</span> <span class="pre">Ontology</span></code></a>.</p>
+familiarity with the basic concepts explained in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>.</p>
 <p>Knora comes with two example projects, called <code class="docutils literal"><span class="pre">incunabula</span></code> and
 <code class="docutils literal"><span class="pre">images-demo</span></code>. Here we will consider the <code class="docutils literal"><span class="pre">incunabula</span></code> example, which is
 a reduced version of a real research project on early printed books. It
@@ -75,37 +74,34 @@ We will consider some details of Turtle syntax as we go along.</p>
 ontology file typically begins by defining prefixes for the IRIs of other
 ontologies that will be referred to. First there are some prefixes for
 ontologies that are very commonly used in RDF:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@prefix</span> <span class="n">rdf</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">1999</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">22</span><span class="o">-</span><span class="n">rdf</span><span class="o">-</span><span class="n">syntax</span><span class="o">-</span><span class="n">ns</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">rdfs</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">2000</span><span class="o">/</span><span class="mi">01</span><span class="o">/</span><span class="n">rdf</span><span class="o">-</span><span class="n">schema</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">owl</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">2002</span><span class="o">/</span><span class="mi">07</span><span class="o">/</span><span class="n">owl</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">xsd</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">2001</span><span class="o">/</span><span class="n">XMLSchema</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">foaf</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">xmlns</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">foaf</span><span class="o">/</span><span class="mf">0.1</span><span class="o">/&gt;</span> <span class="o">.</span>
+<div class="highlight-python"><div class="highlight"><pre>@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">rdf</span></code>, <code class="docutils literal"><span class="pre">rdfs</span></code>, and <code class="docutils literal"><span class="pre">owl</span></code> ontologies contain basic properties that
 are used to define ontology entities. The <code class="docutils literal"><span class="pre">xsd</span></code> ontology contains
 definitions of literal data types such as <code class="docutils literal"><span class="pre">string</span></code> and <code class="docutils literal"><span class="pre">integer</span></code>. (For
-more information about these ontologies, see the references in
-<a class="reference download internal" href="../../_downloads/knora-base.pdf" download=""><code class="xref download docutils literal"><span class="pre">The</span> <span class="pre">Knora</span> <span class="pre">Base</span> <span class="pre">Ontology</span></code></a>.)
+more information about these ontologies, see the references in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>.)
 The <code class="docutils literal"><span class="pre">foaf</span></code> ontology contains classes and properties for representing people.</p>
 <p>Then we define prefixes for Knora ontologies:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@prefix</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">dc</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">dc</span><span class="c1">#&gt; .</span>
-<span class="nd">@prefix</span> <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="c1">#&gt; .</span>
+<div class="highlight-python"><div class="highlight"><pre>@prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt; .
+@prefix dc: &lt;http://www.knora.org/ontology/dc#&gt; .
+@prefix salsah-gui: &lt;http://www.knora.org/ontology/salsah-gui#&gt; .
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">knora-base</span></code> ontology contains Knora&#8217;s core abstractions, and is
-described in the document
-<a class="reference download internal" href="../../_downloads/knora-base.pdf" download=""><code class="xref download docutils literal"><span class="pre">The</span> <span class="pre">Knora</span> <span class="pre">Base</span> <span class="pre">Ontology</span></code></a>.
-The <code class="docutils literal"><span class="pre">dc</span></code> ontology is Knora&#8217;s version of <a class="reference external" href="http://dublincore.org/">Dublin
-Core</a>. It is intended to make it possible to define properties in a Knora
+described in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>. The <code class="docutils literal"><span class="pre">dc</span></code> ontology is Knora&#8217;s version of
+<a class="reference external" href="http://dublincore.org/">Dublin Core</a>. It is intended to make it possible to define properties in a Knora
 project in terms of Dublin Core abstractions, to facilitate queries that
 search for data across multiple projects. The <code class="docutils literal"><span class="pre">salsah-gui</span></code> ontology includes
 properties that Knora projects must use to enable SALSAH, Knora&#8217;s generic
 virtual research environment.</p>
 <p>For convenience, we can use the empty prefix to refer to the <code class="docutils literal"><span class="pre">incunabula</span></code>
 ontology itself:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@prefix</span> <span class="p">:</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">incunabula</span><span class="c1">#&gt; .</span>
+<div class="highlight-python"><div class="highlight"><pre>@prefix : &lt;http://www.knora.org/ontology/incunabula#&gt; .
 </pre></div>
 </div>
 <p>However, outside the ontology file, it would make more sense to define an
@@ -113,32 +109,32 @@ ontology itself:</p>
 <div class="section" id="properties">
 <h3>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
 <p>All the content produced by a Knora project must be stored in Knora resources
-(see <a class="reference internal" href="#incunabula-resource-classes"><span class="std std-ref">Resource Classes</span></a>). Resources have properties that point
+(see <a class="reference internal" href="#incunabula-resource-classes"><span>Resource Classes</span></a>). Resources have properties that point
 to different parts of their contents; for example, the <code class="docutils literal"><span class="pre">incunabula</span></code> project
 contains books, which have properties like <code class="docutils literal"><span class="pre">title</span></code>. Every property that
 poitns to a Knora value must be a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>, and
 every property that points to another Knora resource must be a subproperty of
 <code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>.</p>
 <p>Here is the definition of the <code class="docutils literal"><span class="pre">incunabula:title</span></code> property:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">title</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:title rdf:type owl:ObjectProperty ;
 
-       <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="n">dc</span><span class="p">:</span><span class="n">title</span> <span class="p">;</span>
+       rdfs:subPropertyOf dc:title ;
 
-       <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span> <span class="s2">&quot;Titel&quot;</span><span class="nd">@de</span> <span class="p">,</span>
-           <span class="s2">&quot;Titre&quot;</span><span class="nd">@fr</span> <span class="p">,</span>
-           <span class="s2">&quot;Titolo&quot;</span><span class="nd">@it</span> <span class="p">,</span>
-           <span class="s2">&quot;Title&quot;</span><span class="nd">@en</span> <span class="p">;</span>
+       rdfs:label &quot;Titel&quot;@de ,
+           &quot;Titre&quot;@fr ,
+           &quot;Titolo&quot;@it ,
+           &quot;Title&quot;@en ;
 
-       <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">book</span> <span class="p">;</span>
+       knora-base:subjectClassConstraint :book ;
 
-       <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">objectClassConstraint</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">TextValue</span> <span class="p">;</span>
+       knora-base:objectClassConstraint knora-base:TextValue ;
 
-       <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">guiOrder</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">integer</span> <span class="p">;</span>
+       salsah-gui:guiOrder &quot;1&quot;^^xsd:integer ;
 
-       <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">guiElement</span> <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">SimpleText</span> <span class="p">;</span>
+       salsah-gui:guiElement salsah-gui:SimpleText ;
 
-       <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">guiAttribute</span> <span class="s2">&quot;size=80&quot;</span> <span class="p">,</span>
-           <span class="s2">&quot;maxlength=255&quot;</span> <span class="o">.</span>
+       salsah-gui:guiAttribute &quot;size=80&quot; ,
+           &quot;maxlength=255&quot; .
 </pre></div>
 </div>
 <p>The definition of <code class="docutils literal"><span class="pre">incunabula:title</span></code> consists of a list of triples, all of
@@ -189,24 +185,24 @@ system for display.</p>
 example, in the <code class="docutils literal"><span class="pre">incunabula</span></code> ontology, there are resources representing
 pages and books, and each page is part of some book. This relationship is
 expressed using the property <code class="docutils literal"><span class="pre">incunabula:partOf</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">partOf</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:partOf rdf:type owl:ObjectProperty ;
 
-        <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isPartOf</span> <span class="p">;</span>
+        rdfs:subPropertyOf knora-base:isPartOf ;
 
-        <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span> <span class="s2">&quot;ist ein Teil von&quot;</span><span class="nd">@de</span> <span class="p">,</span>
-                   <span class="s2">&quot;est un part de&quot;</span><span class="nd">@fr</span> <span class="p">,</span>
-                   <span class="s2">&quot;e una parte di&quot;</span><span class="nd">@it</span> <span class="p">,</span>
-                   <span class="s2">&quot;is a part of&quot;</span><span class="nd">@en</span> <span class="p">;</span>
+        rdfs:label &quot;ist ein Teil von&quot;@de ,
+                   &quot;est un part de&quot;@fr ,
+                   &quot;e una parte di&quot;@it ,
+                   &quot;is a part of&quot;@en ;
 
-        <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;&quot;&quot;Diese Property bezeichnet eine Verbindung zu einer anderen Resource, in dem ausgesagt wird, dass die vorliegende Resource ein integraler Teil der anderen Resource ist. Zum Beispiel ist eine Buchseite ein integraler Bestandteil genau eines Buches.&quot;&quot;&quot;</span><span class="nd">@de</span> <span class="p">;</span>
+        rdfs:comment &quot;&quot;&quot;Diese Property bezeichnet eine Verbindung zu einer anderen Resource, in dem ausgesagt wird, dass die vorliegende Resource ein integraler Teil der anderen Resource ist. Zum Beispiel ist eine Buchseite ein integraler Bestandteil genau eines Buches.&quot;&quot;&quot;@de ;
 
-        <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">page</span> <span class="p">;</span>
+        knora-base:subjectClassConstraint :page ;
 
-        <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">objectClassConstraint</span> <span class="p">:</span><span class="n">book</span> <span class="p">;</span>
+        knora-base:objectClassConstraint :book ;
 
-        <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">guiOrder</span> <span class="s2">&quot;2&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">integer</span> <span class="p">;</span>
+        salsah-gui:guiOrder &quot;2&quot;^^xsd:integer ;
 
-        <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">guiElement</span> <span class="n">salsah</span><span class="o">-</span><span class="n">gui</span><span class="p">:</span><span class="n">Searchbox</span> <span class="o">.</span>
+        salsah-gui:guiElement salsah-gui:Searchbox .
 </pre></div>
 </div>
 <p>The key things to notice here are:</p>
@@ -238,20 +234,19 @@ query previous states of a repository is planned for Knora API version 2.)</p>
 following naming convention: to determine the name of the link value property,
 add the word <code class="docutils literal"><span class="pre">Value</span></code> to the name of the link property. Hence, the
 <code class="docutils literal"><span class="pre">incunabula</span></code> ontology defines the property <code class="docutils literal"><span class="pre">partOfValue</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">partOfValue</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:partOfValue rdf:type owl:ObjectProperty ;
 
-                 <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isPartOfValue</span> <span class="p">;</span>
+                 rdfs:subPropertyOf knora-base:isPartOfValue ;
 
-                 <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">page</span> <span class="p">;</span>
+                 knora-base:subjectClassConstraint :page ;
 
-                 <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">objectClassConstraint</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">LinkValue</span> <span class="o">.</span>
+                 knora-base:objectClassConstraint knora-base:LinkValue .
 </pre></div>
 </div>
 <p>As a link value property, <code class="docutils literal"><span class="pre">incunabula:partOfValue</span></code> must point to a
 <code class="docutils literal"><span class="pre">knora-base:LinkValue</span></code>. The <code class="docutils literal"><span class="pre">LinkValue</span></code> class is an RDF <em>reification</em> of a triple
 (in this case, the triple that links a page to a book). For more details about
-this, see
-<a class="reference download internal" href="../../_downloads/knora-base.pdf" download=""><code class="xref download docutils literal"><span class="pre">The</span> <span class="pre">Knora</span> <span class="pre">Base</span> <span class="pre">Ontology</span></code></a>.</p>
+this, see <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base-linkvalue"><span>LinkValue</span></a>.</p>
 <p>Note that the property <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code> points to a
 <code class="docutils literal"><span class="pre">knora-base:TextValue</span></code>, because the <code class="docutils literal"><span class="pre">incunabula</span></code> project repåresents
 authors simply by their names. A more complex project could represent each
@@ -262,66 +257,66 @@ a subproperty of <code class="docutils literal"><span class="pre">knora-base:has
 <span id="incunabula-resource-classes"></span><h3>Resource Classes<a class="headerlink" href="#resource-classes" title="Permalink to this headline">¶</a></h3>
 <p>The two main resource classes in the <code class="docutils literal"><span class="pre">incunabula</span></code> ontology are <code class="docutils literal"><span class="pre">book</span></code> and <code class="docutils literal"><span class="pre">page</span></code>.
 Here is <code class="docutils literal"><span class="pre">incunabula:book</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">book</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:book rdf:type owl:Class ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">Resource</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">title</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasAuthor</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">publisher</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">publoc</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">pubdate</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">location</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">url</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">description</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">physical_desc</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">note</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">citation</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">book_comment</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">;</span>
+      rdfs:subClassOf knora-base:Resource ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :title ;
+                         owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasAuthor ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :publisher ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :publoc ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :pubdate ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :location ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :url ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :description ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :physical_desc ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :note ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :citation ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :book_comment ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ;
 
-      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">resourceIcon</span> <span class="s2">&quot;book.gif&quot;</span> <span class="p">;</span>
+      knora-base:resourceIcon &quot;book.gif&quot; ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span> <span class="s2">&quot;Buch&quot;</span><span class="nd">@de</span> <span class="p">,</span>
-                 <span class="s2">&quot;Livre&quot;</span><span class="nd">@fr</span> <span class="p">,</span>
-                 <span class="s2">&quot;Libro&quot;</span><span class="nd">@it</span> <span class="p">,</span>
-                 <span class="s2">&quot;Book&quot;</span><span class="nd">@en</span> <span class="p">;</span>
+      rdfs:label &quot;Buch&quot;@de ,
+                 &quot;Livre&quot;@fr ,
+                 &quot;Libro&quot;@it ,
+                 &quot;Book&quot;@en ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;&quot;&quot;Diese Resource-Klasse beschreibt ein Buch&quot;&quot;&quot;</span><span class="nd">@de</span> <span class="o">.</span>
+      rdfs:comment &quot;&quot;&quot;Diese Resource-Klasse beschreibt ein Buch&quot;&quot;&quot;@de .
 </pre></div>
 </div>
 <p>Like every Knora resource class, <code class="docutils literal"><span class="pre">incunabula:book</span></code> is a subclass of
@@ -335,8 +330,7 @@ instances of the specified property. For example, <code class="docutils literal"
 cardinalities saying that a book must have at least one title and at most one
 publication date. In the Knora API version 1, the word &#8216;occurrence&#8217; is used
 instead of &#8216;cardinality&#8217;.</p>
-<p>As explained in
-<a class="reference download internal" href="../../_downloads/knora-base.pdf" download=""><code class="xref download docutils literal"><span class="pre">The</span> <span class="pre">Knora</span> <span class="pre">Base</span> <span class="pre">Ontology</span></code></a>, these
+<p>As explained in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base-cardinalities"><span>OWL Cardinalities</span></a>, these
 are the cardinalities supported by Knora:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">owl:cardinality</span> <span class="pre">1</span></code> A resource of this class must have exactly one
@@ -360,71 +354,71 @@ of the class, and the Knora API relies on this information. If there was no
 cardinality for <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code>, Knora would not allow a book to have
 an author.</p>
 <p>Here is the definition of <code class="docutils literal"><span class="pre">incunabula:page</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">page</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:page rdf:type owl:Class ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">StillImageRepresentation</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">pagenum</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">partOfValue</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">cardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">partOf</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">cardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">seqnum</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">description</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">citation</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">page_comment</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">origname</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">cardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasLeftSidebandValue</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasLeftSideband</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasRightSidebandValue</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasRightSideband</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">maxCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">,</span>
-                      <span class="p">[</span>
-                         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">transcription</span> <span class="p">;</span>
-                         <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;0&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="p">;</span>
+      rdfs:subClassOf knora-base:StillImageRepresentation ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :pagenum ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :partOfValue ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :partOf ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :seqnum ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :description ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :citation ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :page_comment ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :origname ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasLeftSidebandValue ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasLeftSideband ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRightSidebandValue ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRightSideband ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :transcription ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ;
 
-      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">resourceIcon</span> <span class="s2">&quot;page.gif&quot;</span> <span class="p">;</span>
+      knora-base:resourceIcon &quot;page.gif&quot; ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span> <span class="s2">&quot;Seite&quot;</span><span class="nd">@de</span> <span class="p">,</span>
-                 <span class="s2">&quot;Page&quot;</span><span class="nd">@fr</span> <span class="p">,</span>
-                 <span class="s2">&quot;Page&quot;</span><span class="nd">@en</span> <span class="p">;</span>
+      rdfs:label &quot;Seite&quot;@de ,
+                 &quot;Page&quot;@fr ,
+                 &quot;Page&quot;@en ;
 
-      <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;&quot;&quot;Eine Seite ist ein Teil eines Buchs&quot;&quot;&quot;</span><span class="nd">@de</span> <span class="p">,</span>
-                   <span class="sd">&quot;&quot;&quot;Une page est une partie d&#39;un livre&quot;&quot;&quot;</span><span class="nd">@fr</span> <span class="p">,</span>
-                   <span class="sd">&quot;&quot;&quot;A page is a part of a book&quot;&quot;&quot;</span><span class="nd">@en</span> <span class="o">.</span>
+      rdfs:comment &quot;&quot;&quot;Eine Seite ist ein Teil eines Buchs&quot;&quot;&quot;@de ,
+                   &quot;&quot;&quot;Une page est une partie d&#39;un livre&quot;&quot;&quot;@fr ,
+                   &quot;&quot;&quot;A page is a part of a book&quot;&quot;&quot;@en .
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">incunabula:page</span></code> class is a subclass of
@@ -440,52 +434,52 @@ coordinates in one file will work in the other files.</p>
 <p>In Knora, a subclass inherits the cardinalities defined in its superclasses.
 Let&#8217;s look at the class hierarchy of <code class="docutils literal"><span class="pre">incunabula:page</span></code>, starting with
 <code class="docutils literal"><span class="pre">knora-base:Representation</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">Representation</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:Representation rdf:type owl:Class ;
 
-                <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="p">:</span><span class="n">Resource</span> <span class="p">,</span>
-                                <span class="p">[</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                                  <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasFileValue</span> <span class="p">;</span>
-                                  <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span>
-                                <span class="p">]</span> <span class="p">;</span>
+                rdfs:subClassOf :Resource ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasFileValue ;
+                                  owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger
+                                ] ;
 
-                <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;A resource that can store one or more FileValues&quot;</span><span class="nd">@en</span> <span class="o">.</span>
+                rdfs:comment &quot;A resource that can store one or more FileValues&quot;@en .
 </pre></div>
 </div>
 <p>This says that a <code class="docutils literal"><span class="pre">Representation</span></code> must have at least one instance of the
 property <code class="docutils literal"><span class="pre">hasFileValue</span></code>, which is defined like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">hasFileValue</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:hasFileValue rdf:type owl:ObjectProperty ;
 
-              <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="p">:</span><span class="n">hasValue</span> <span class="p">;</span>
+              rdfs:subPropertyOf :hasValue ;
 
-              <span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">Representation</span> <span class="p">;</span>
+              :subjectClassConstraint :Representation ;
 
-              <span class="p">:</span><span class="n">objectClassConstraint</span> <span class="p">:</span><span class="n">FileValue</span> <span class="o">.</span>
+              :objectClassConstraint :FileValue .
 </pre></div>
 </div>
 <p>The subject of <code class="docutils literal"><span class="pre">hasFileValue</span></code> must be a <code class="docutils literal"><span class="pre">Representation</span></code>, and its object
 must be a <code class="docutils literal"><span class="pre">FileValue</span></code>. There are different subclasses of <code class="docutils literal"><span class="pre">FileValue</span></code> for
 different kinds of files, but we&#8217;ll skip the details here.</p>
 <p>This is the definition of <code class="docutils literal"><span class="pre">knora-base:StillImageRepresentation</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">StillImageRepresentation</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:StillImageRepresentation rdf:type owl:Class ;
 
-                          <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="p">:</span><span class="n">Representation</span>  <span class="p">,</span>
-                                <span class="p">[</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
-                                  <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">hasStillImageFileValue</span> <span class="p">;</span>
-                                  <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span>
-                                <span class="p">]</span> <span class="p">;</span>
+                          rdfs:subClassOf :Representation  ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasStillImageFileValue ;
+                                  owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger
+                                ] ;
 
-                          <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;A resource that can contain two-dimensional still image files&quot;</span><span class="nd">@en</span> <span class="o">.</span>
+                          rdfs:comment &quot;A resource that can contain two-dimensional still image files&quot;@en .
 </pre></div>
 </div>
 <p>It must have at least one instance of the property <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code>, which
 is defined as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">hasStillImageFileValue</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
+<div class="highlight-python"><div class="highlight"><pre>:hasStillImageFileValue rdf:type owl:ObjectProperty ;
 
-              <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="p">:</span><span class="n">hasFileValue</span> <span class="p">;</span>
+              rdfs:subPropertyOf :hasFileValue ;
 
-              <span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">StillImageRepresentation</span> <span class="p">;</span>
+              :subjectClassConstraint :StillImageRepresentation ;
 
-              <span class="p">:</span><span class="n">objectClassConstraint</span> <span class="p">:</span><span class="n">StillImageFileValue</span> <span class="o">.</span>
+              :objectClassConstraint :StillImageFileValue .
 </pre></div>
 </div>
 <p>Because <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> is a subproperty of <code class="docutils literal"><span class="pre">hasFileValue</span></code>, the
@@ -526,7 +520,7 @@ not allowed to have a <code class="docutils literal"><span class="pre">knora-bas
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

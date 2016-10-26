@@ -74,16 +74,16 @@ problems.&#8217; In particular, by not blocking, you can do several <code class=
 in parallel.</p>
 <p>One way to avoid blocking is to register a callback on the future, which
 will be called when it completes (perhaps by another thread), like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">future</span><span class="o">.</span><span class="n">onComplete</span> <span class="p">{</span>
-    <span class="n">case</span> <span class="n">Success</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">println</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    <span class="n">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">ex</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">()</span>
-<span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre>future.onComplete {
+    case Success(result) =&gt; println(result)
+    case Failure(ex) =&gt; ex.printStackTrace()
+}
 </pre></div>
 </div>
 <p>But this won&#8217;t work if you&#8217;re writing a method that needs return a value
 based on the result of a future. In this case, you can register a
 callback that transforms the result of a future into another future:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">val</span> <span class="n">newFuture</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>val newFuture = future.map(x =&gt; x + 1)
 </pre></div>
 </div>
 <p>However, registering callbacks explicitly gets cumbersome when you need
@@ -95,7 +95,7 @@ uses futures as if they were complete, without blocking. In reality, a
 <code class="docutils literal"><span class="pre">for</span></code>-comprehension is syntactic sugar for calling methods like
 <code class="docutils literal"><span class="pre">map</span></code>, but it&#8217;s much easier to write and to read. You can do things
 like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>val fooFuture = (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
+<div class="highlight-python"><div class="highlight"><pre>val fooFuture = (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
 val barFuture = (barActor ? GetBar(&quot;bar&quot;)).mapTo[Bar]
 
 val totalFuture = for {
@@ -132,7 +132,7 @@ asynchronously by <code class="docutils literal"><span class="pre">Future</span>
 <p>However, you need to be careful with <em>the first line</em> of the
 <code class="docutils literal"><span class="pre">for</span></code>-comprehension. For example, this code doesn&#8217;t handle exceptions
 correctly:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>private def doFooQuery(iri: IRI): Future[String] = {
+<div class="highlight-python"><div class="highlight"><pre>private def doFooQuery(iri: IRI): Future[String] = {
     for {
         queryResponse &lt;- (storeManager ? SparqlSelectRequest(queries.sparql.v1.txt.getFoo(iri).toString())).mapTo[SparqlSelectResponse]
         ...
@@ -146,7 +146,7 @@ generate SPARQL. The <code class="docutils literal"><span class="pre">?</span></
 template function <em>is not run asynchronously</em>, because it is called
 before the <code class="docutils literal"><span class="pre">Future</span></code> constructor is called. So if the template function
 throws an exception, it won&#8217;t be caught here. Instead, you can do this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>private def doFooQuery(iri: IRI): Future[String] = {
+<div class="highlight-python"><div class="highlight"><pre>private def doFooQuery(iri: IRI): Future[String] = {
     for {
         queryString &lt;- Future(queries.sparql.v1.txt.getFoo(iri).toString())
         queryResponse &lt;- (storeManager ? SparqlSelectRequest(queryString)).mapTo[SparqlSelectResponse]
@@ -201,7 +201,7 @@ the method return a future.</p>
 obtains some data in a future, but another branch can produce the data
 immediately, you can wrap the result of the latter branch in a future,
 so that both branches have the same type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>def getTotalOfFooAndBar(howToGetFoo: String): Future[Int] = {
+<div class="highlight-python"><div class="highlight"><pre>def getTotalOfFooAndBar(howToGetFoo: String): Future[Int] = {
     for {
         foo &lt;- howToGetFoo match {
             case &quot;askForIt&quot; =&gt; (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
@@ -243,7 +243,7 @@ asking you to include one, and suggesting that you could use
 <code class="docutils literal"><span class="pre">import</span> <span class="pre">scala.concurrent.ExecutionContext.Implicits.global</span></code>. Don&#8217;t do this, because
 the global Scala execution context is not the most efficient option. Instead,
 you can use the one provided by the Akka <code class="docutils literal"><span class="pre">ActorSystem</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">implicit</span> <span class="n">val</span> <span class="n">executionContext</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">dispatcher</span>
+<div class="highlight-python"><div class="highlight"><pre>implicit val executionContext = system.dispatcher
 </pre></div>
 </div>
 <p>Akka&#8217;s execution contexts can be configured (see <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/dispatchers.html">Dispatchers</a>). You can
@@ -267,7 +267,7 @@ see a <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

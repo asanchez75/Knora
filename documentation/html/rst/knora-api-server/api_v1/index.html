@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using API V1 &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="The Knora API Server" href="../index.html" />
+    <link rel="next" title="Introduction: Using API V1" href="api-general.html" />
+    <link rel="prev" title="Docker Cheat Sheet" href="../development/docker-cheat-sheet.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Using API V1</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../development/docker-cheat-sheet.html">Docker Cheat Sheet</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api-general.html">Introduction: Using API V1</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="using-api-v1">
+<h1>Using API V1<a class="headerlink" href="#using-api-v1" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api-general.html">Introduction: Using API V1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#restful-api">RESTful API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#knora-iris">Knora IRIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#different-api-operations">Different API Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#v1-path-segment">V1 Path Segment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#knora-api-response-format">Knora API Response Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#placeholder-host-in-sample-urls">Placeholder <code class="docutils literal"><span class="pre">host</span></code> in sample URLs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api-general.html#authentication">Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reading-and-searching-resources.html">Reading and Searching Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reading-and-searching-resources.html#get-the-representation-of-a-resource-by-its-iri">Get the Representation of a Resource by its IRI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-and-searching-resources.html#get-information-about-a-resource-class">Get Information about a Resource Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-and-searching-resources.html#get-all-the-vocabularies">Get all the Vocabularies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-and-searching-resources.html#search-for-resources">Search for Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-and-searching-resources.html#get-hierarchical-lists">Get hierarchical Lists</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adding-resources.html">Adding Resources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adding-resources.html#adding-resources-without-a-digital-representation">Adding Resources without a digital Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding-resources.html#adding-resources-with-a-digital-representation">Adding Resources with a digital Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding-resources.html#response-to-a-resource-creation">Response to a Resource Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding-resources.html#changing-a-resource-s-label">Changing a resource&#8217;s label</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reading-values.html">Reading Values</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reading-values.html#reading-a-value">Reading a Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-values.html#getting-a-value-s-version-history">Getting a Value&#8217;s Version History</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reading-values.html#getting-a-linking-value">Getting a Linking Value</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adding-values.html">Adding a Value</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="adding-values.html#adding-a-property-value">Adding a Property Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="adding-values.html#response-on-value-creation">Response on Value Creation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changing-values.html">Changing a Value</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changing-values.html#modifying-a-property-value">Modifying a Property Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changing-values.html#modifying-a-file-value">Modifying a File Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changing-values.html#response-on-value-change">Response on Value Change</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="delete-resources-and-values.html">Deleting Resources and Values</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="delete-resources-and-values.html#delete-a-resource">Delete a Resource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="delete-resources-and-values.html#delete-a-value">Delete a Value</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../development/docker-cheat-sheet.html">Docker Cheat Sheet</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api-general.html">Introduction: Using API V1</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

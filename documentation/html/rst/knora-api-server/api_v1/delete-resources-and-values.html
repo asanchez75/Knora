@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deleting Resources and Values &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
+    <link rel="next" title="SALSAH" href="../../salsah/index.html" />
+    <link rel="prev" title="Changing a Value" href="changing-values.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Deleting Resources and Values</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="changing-values.html">Changing a Value</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../../salsah/index.html">SALSAH</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="deleting-resources-and-values">
+<span id="delete-resources-and-values"></span><h1>Deleting Resources and Values<a class="headerlink" href="#deleting-resources-and-values" title="Permalink to this headline">¶</a></h1>
+<p>In order to delete a resource or a value, the HTTP method <code class="docutils literal"><span class="pre">DELETE</span></code> has to be used.
+Deleting resources or values requires authentication.</p>
+<div class="section" id="delete-a-resource">
+<h2>Delete a Resource<a class="headerlink" href="#delete-a-resource" title="Permalink to this headline">¶</a></h2>
+<p>The delete request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">resources</span></code> path segment.</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP DELETE to http://host/resources/resourceIRI
+</pre></div>
+</div>
+<p>Please note that the resource IRI has to be URL encoded.</p>
+</div>
+<div class="section" id="delete-a-value">
+<h2>Delete a Value<a class="headerlink" href="#delete-a-value" title="Permalink to this headline">¶</a></h2>
+<p>The delete request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">values</span></code> path segment, providing the valueIRI:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP DELETE to http://host/values/valueIRI
+</pre></div>
+</div>
+<p>Please note that the value IRI has to be URL encoded.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="changing-values.html">Changing a Value</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../../salsah/index.html">SALSAH</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

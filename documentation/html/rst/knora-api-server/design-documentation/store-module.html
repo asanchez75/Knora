@@ -139,48 +139,48 @@ running at the same time.</p>
 <div class="section" id="configuration">
 <h4>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h4>
 <p>In <code class="docutils literal"><span class="pre">application.conf</span></code> set to use the embedded triplestore:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">triplestore</span> <span class="p">{</span>
-    <span class="n">dbtype</span> <span class="o">=</span> <span class="s2">&quot;embedded-jena-tdb&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre>triplestore {
+    dbtype = &quot;embedded-jena-tdb&quot;
 
-    <span class="n">embedded</span><span class="o">-</span><span class="n">jena</span><span class="o">-</span><span class="n">tdb</span> <span class="p">{</span>
-        <span class="n">persisted</span> <span class="o">=</span> <span class="n">true</span> <span class="o">//</span> <span class="s2">&quot;false&quot;</span> <span class="o">-&gt;</span> <span class="n">memory</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span> <span class="o">-&gt;</span> <span class="n">disk</span>
-        <span class="n">loadExistingData</span> <span class="o">=</span> <span class="n">false</span> <span class="o">//</span> <span class="s2">&quot;false&quot;</span> <span class="o">-&gt;</span> <span class="n">use</span> <span class="n">data</span> <span class="k">if</span> <span class="n">exists</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span> <span class="o">-&gt;</span> <span class="n">create</span> <span class="n">a</span> <span class="n">fresh</span> <span class="n">store</span>
-        <span class="n">storage</span><span class="o">-</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;_TMP&quot;</span> <span class="o">//</span> <span class="n">ignored</span> <span class="k">if</span> <span class="s2">&quot;memory&quot;</span>
-    <span class="p">}</span>
+    embedded-jena-tdb {
+        persisted = true // &quot;false&quot; -&gt; memory, &quot;true&quot; -&gt; disk
+        loadExistingData = false // &quot;false&quot; -&gt; use data if exists, &quot;false&quot; -&gt; create a fresh store
+        storage-path = &quot;_TMP&quot; // ignored if &quot;memory&quot;
+    }
 
-    <span class="n">reload</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">start</span> <span class="o">=</span> <span class="n">false</span> <span class="o">//</span> <span class="n">ignored</span> <span class="k">if</span> <span class="s2">&quot;memory&quot;</span> <span class="k">as</span> <span class="n">it</span> <span class="n">will</span> <span class="n">always</span> <span class="n">reload</span>
+    reload-on-start = false // ignored if &quot;memory&quot; as it will always reload
 
-    <span class="n">rdf</span><span class="o">-</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../knora-ontologies/knora-base.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/ontology/knora-base&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../knora-ontologies/knora-dc.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/ontology/dc&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../knora-ontologies/salsah-gui.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/ontology/salsah-gui&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;_test_data/ontologies/incunabula-onto.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/ontology/incunabula&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;_test_data/demo_data/incunabula-demo-data.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/data/incunabula&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;_test_data/ontologies/images-demo-onto.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/ontology/dokubib&quot;</span>
-        <span class="p">}</span>
-        <span class="p">{</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;_test_data/demo_data/images-demo-data.ttl&quot;</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;http://www.knora.org/data/dokubib&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
+    rdf-data = [
+        {
+            path = &quot;../knora-ontologies/knora-base.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/knora-base&quot;
+        }
+        {
+            path = &quot;../knora-ontologies/knora-dc.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/dc&quot;
+        }
+        {
+            path = &quot;../knora-ontologies/salsah-gui.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/salsah-gui&quot;
+        }
+        {
+            path = &quot;_test_data/ontologies/incunabula-onto.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/incunabula&quot;
+        }
+        {
+            path = &quot;_test_data/demo_data/incunabula-demo-data.ttl&quot;
+            name = &quot;http://www.knora.org/data/incunabula&quot;
+        }
+        {
+            path = &quot;_test_data/ontologies/images-demo-onto.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/dokubib&quot;
+        }
+        {
+            path = &quot;_test_data/demo_data/images-demo-data.ttl&quot;
+            name = &quot;http://www.knora.org/data/dokubib&quot;
+        }
+    ]
+}
 </pre></div>
 </div>
 <p>Here the storage is set to <code class="docutils literal"><span class="pre">persistent</span></code>, meaning that a Jena TDB store
@@ -215,7 +215,7 @@ reloading of the data is finished. <code class="docutils literal"><span class="p
 class, containing the path and name (the same as <code class="docutils literal"><span class="pre">rdf-data</span></code> in the
 config file)</p>
 <p>As an example, to use it inside a test you could write something like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>val rdfDataObjects = List (
+<div class="highlight-python"><div class="highlight"><pre>val rdfDataObjects = List (
        RdfDataObject(path = &quot;../knora-ontologies/knora-base.ttl&quot;,
                      name = &quot;http://www.knora.org/ontology/knora-base&quot;),
        RdfDataObject(path = &quot;../knora-ontologies/knora-dc.ttl&quot;,
@@ -255,7 +255,7 @@ config file)</p>
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Starting Fuseki 2 &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Starting GraphDB-SE 7" href="graphdb.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Starting Fuseki 2</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="overview.html">Overview</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="graphdb.html">Starting GraphDB-SE 7</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="starting-fuseki-2">
+<span id="id1"></span><h1>Starting Fuseki 2<a class="headerlink" href="#starting-fuseki-2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="locally">
+<h2>Locally<a class="headerlink" href="#locally" title="Permalink to this headline">¶</a></h2>
+<p>Inside the Knora API server git repository, there is a folder called
+<code class="docutils literal"><span class="pre">triplestores/fuseki</span></code> containing a script named <code class="docutils literal"><span class="pre">fuseki-server</span></code>. All needed
+configuration files are in place. To start Fuseki 2, just run this
+script:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ./fuseki-server
+</pre></div>
+</div>
+</div>
+<div class="section" id="inside-docker">
+<h2>Inside Docker<a class="headerlink" href="#inside-docker" title="Permalink to this headline">¶</a></h2>
+<p>Inside the Knora API server git repository, there is a folder called <code class="docutils literal"><span class="pre">triplestores/fuseki</span></code> containing the
+<code class="docutils literal"><span class="pre">Dockerfile</span></code> we can use to create the docker image:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd triplestores/fuseki
+$ docker build -t fuseki .
+$ docker run --rm -it -p 3030:3030 fuseki
+</pre></div>
+</div>
+<p>Do not forget the &#8216;.&#8217; in the first command.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="overview.html">Overview</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="graphdb.html">Starting GraphDB-SE 7</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

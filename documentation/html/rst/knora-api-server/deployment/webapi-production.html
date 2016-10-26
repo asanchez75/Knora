@@ -61,17 +61,12 @@ small changes.</p>
 </div>
 <p>To run the Knora API server, we have two main components. First, the <code class="docutils literal"><span class="pre">jar</span></code>
 distribution of the server and second a supported triplestore.</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Add link to where the official Knora API server distributions can be
-downloaded and to the description of how to create a distribution.</p>
-</div>
 <p>The jar distribution of the server can be either run manually or as a service
 for which we will use <code class="docutils literal"><span class="pre">supervisord</span></code> as described in the
-<a class="reference internal" href="#supervisord-label"><span class="std std-ref">Supervisord</span></a> section.</p>
+<a class="reference internal" href="#supervisord-label"><span>Supervisord</span></a> section.</p>
 <p>The supported triplestore can also be run manually (as described in the
 documentation of each distribution) or it can be run under an application
-server as described in the <a class="reference internal" href="#tomcat-application-label"><span class="std std-ref">Tomcat Application Server (Fuseki 2 and GraphDB)</span></a> section.</p>
+server as described in the <a class="reference internal" href="#tomcat-application-label"><span>Tomcat Application Server (Fuseki 2 and GraphDB)</span></a> section.</p>
 <div class="section" id="supervisord">
 <span id="supervisord-label"></span><h2>Supervisord<a class="headerlink" href="#supervisord" title="Permalink to this headline">¶</a></h2>
 <p>For running Knora-API we will use supervisord, which allows us to run
@@ -84,23 +79,23 @@ our java application easily as a service.</p>
 <ul class="simple">
 <li>/etc/supervisord.d/knora-api.conf</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">program</span><span class="p">:</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="p">]</span>
-<span class="n">command</span><span class="o">=</span><span class="n">sh</span> <span class="n">run</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">directory</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">vhosts</span><span class="o">/</span><span class="n">api</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span>
-<span class="n">autostart</span><span class="o">=</span><span class="n">true</span>
-<span class="n">autorestart</span><span class="o">=</span><span class="n">true</span>
-<span class="n">startretries</span><span class="o">=</span><span class="mi">3</span>
-<span class="n">stderr_logfile</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">log</span>
-<span class="n">stdout_logfile</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">log</span>
-<span class="n">user</span><span class="o">=</span><span class="n">root</span>
-<span class="n">environment</span><span class="o">=</span>
+<div class="highlight-python"><div class="highlight"><pre>[program:knora-api]
+command=sh run.sh
+directory=/var/www/vhosts/api.knora.org
+autostart=true
+autorestart=true
+startretries=3
+stderr_logfile=/var/log/knora-api/knora-api.err.log
+stdout_logfile=/var/log/knora-api/knora-api.out.log
+user=root
+environment=
 </pre></div>
 </div>
 <p>We need to create the directory for the log files!</p>
 </div>
 <div class="section" id="controlling-processes">
 <h3>Controlling Processes<a class="headerlink" href="#controlling-processes" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ supervisorctl reread $ supervisorctl update $ supervisorctl
+<div class="highlight-python"><div class="highlight"><pre>$ supervisorctl reread $ supervisorctl update $ supervisorctl
 </pre></div>
 </div>
 </div>
@@ -181,7 +176,7 @@ e.g., Glassfish, Jetty, etc.</p>
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

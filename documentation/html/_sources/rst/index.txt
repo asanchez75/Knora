@@ -26,13 +26,16 @@
     salsah/index
     sipi/index
 
-###################
-Indices and tables
-###################
+.. ********************
+   List of TODOs
+   ********************
 
-********************
-Other Indices
-********************
-.. * :ref:`genindex`
-.. * :ref:`modindex`
+   .. todolist::
+
+##################
+Indices and tables
+##################
+
+* :ref:`genindex`
+* :ref:`modindex`
 * :ref:`search`

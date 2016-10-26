@@ -51,7 +51,6 @@
 <span id="id1"></span><h1>Responders Module<a class="headerlink" href="#responders-module" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="version-1-0-responders">
 <h2>Version 1.0 Responders<a class="headerlink" href="#version-1-0-responders" title="Permalink to this headline">¶</a></h2>
-<p>TDOO</p>
 <div class="section" id="respondermanagerv1">
 <h3>ResponderManagerV1<a class="headerlink" href="#respondermanagerv1" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -63,6 +62,17 @@
 </div>
 <div class="section" id="ontologyresponderv1">
 <h3>OntologyResponderV1<a class="headerlink" href="#ontologyresponderv1" title="Permalink to this headline">¶</a></h3>
+<p>The ontology responder provides information derived from all the ontologies in
+the repository, including Knora ontologies as well as project-specific
+ontologies. Most importantly, it provides information about resource classes
+and properties. This includes the cardinalities defined on each resource
+class, and takes into account the rules of cardinality inheritance, as
+described in the section <strong>OWL Cardinalities</strong> in <a class="reference internal" href="../../knora-ontologies/index.html#knora-ontologies"><span>The Knora Ontologies</span></a>.</p>
+<p>For performance reasons, all ontology data is loaded and cached at application
+startup. Currently, to refresh the cache, you must restart the application.
+To maximise performance, the SPARQL queries used by the ontology responder
+are very simple, and the responder calculates class hierarchies and cardinality
+inheritance in Scala.</p>
 </div>
 <div class="section" id="projectsresponderv1">
 <h3>ProjectsResponderV1<a class="headerlink" href="#projectsresponderv1" title="Permalink to this headline">¶</a></h3>
@@ -110,7 +120,7 @@
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

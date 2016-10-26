@@ -62,7 +62,7 @@ triplestores either via the <a class="reference external" href="http://www.w3.or
 <div class="section" id="design-diagram">
 <h2>Design Diagram<a class="headerlink" href="#design-diagram" title="Permalink to this headline">¶</a></h2>
 <div class="figure" id="id4">
-<a class="reference internal image-reference" href="../../../_images/design-diagram.png"><img alt="design-diagram" src="../../../_images/design-diagram.png" style="width: 319.0px; height: 424.0px;" /></a>
+<a class="reference internal image-reference" href="../../../_images/design-diagram.png"><img alt="design-diagram" src="../../../_images/design-diagram.png" /></a>
 <p class="caption"><span class="caption-text">A high-level diagram of the Knora API server.</span></p>
 </div>
 </div>
@@ -100,9 +100,9 @@ triplestores either via the <a class="reference external" href="http://www.w3.or
 <h2>Actor Supervision and Creation<a class="headerlink" href="#actor-supervision-and-creation" title="Permalink to this headline">¶</a></h2>
 <p>At system start, the supervisor actors are created in
 <code class="docutils literal"><span class="pre">CoreManagerActors.scala</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">val</span> <span class="n">httpServiceManager</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">actorOf</span><span class="p">(</span><span class="n">Props</span><span class="p">(</span><span class="n">new</span> <span class="n">KnoraHttpServiceManager</span> <span class="k">with</span> <span class="n">LiveActorMaker</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;httpServiceManager&quot;</span><span class="p">)</span>
-<span class="n">val</span> <span class="n">responderManager</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">actorOf</span><span class="p">(</span><span class="n">Props</span><span class="p">(</span><span class="n">new</span> <span class="n">ResponderManagerV1</span> <span class="k">with</span> <span class="n">LiveActorMaker</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;responderManager&quot;</span><span class="p">)</span>
-<span class="n">val</span> <span class="n">storeManager</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">actorOf</span><span class="p">(</span><span class="n">Props</span><span class="p">(</span><span class="n">new</span> <span class="n">StoreManager</span> <span class="k">with</span> <span class="n">LiveActorMaker</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;storeManager&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>val httpServiceManager = system.actorOf(Props(new KnoraHttpServiceManager with LiveActorMaker), name = &quot;httpServiceManager&quot;)
+val responderManager = system.actorOf(Props(new ResponderManagerV1 with LiveActorMaker), name = &quot;responderManager&quot;)
+val storeManager = system.actorOf(Props(new StoreManager with LiveActorMaker), name = &quot;storeManager&quot;)
 </pre></div>
 </div>
 <p>Each supervisor creates and maintains a pool of workers, with <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/routing.html">an Akka
@@ -110,39 +110,39 @@ router</a>
 that dispatches messages to the workers according to some strategy. For
 now, all the pools use the &#8216;round-robin&#8217; strategy. The pools and routers
 are configured in <code class="docutils literal"><span class="pre">application.conf</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">actor</span> <span class="p">{</span>
-    <span class="n">deployment</span> <span class="p">{</span>
-        <span class="n">user</span><span class="o">/</span><span class="n">httpServiceManager</span><span class="o">/</span><span class="n">httpServiceRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">100</span>
-        <span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre>actor {
+    deployment {
+        user/httpServiceManager/httpServiceRouter {
+            router = round-robin-pool
+            nr-of-instances = 100
+        }
 
-        <span class="n">user</span><span class="o">/</span><span class="n">storeManager</span><span class="o">/</span><span class="n">triplestoreRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">50</span>
-        <span class="p">}</span>
+        user/storeManager/triplestoreRouter {
+            router = round-robin-pool
+            nr-of-instances = 50
+        }
 
-        <span class="n">user</span><span class="o">/</span><span class="n">responderManager</span><span class="o">/</span><span class="n">resourcesRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="p">}</span>
+        user/responderManager/resourcesRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
 
-        <span class="n">user</span><span class="o">/</span><span class="n">responderManager</span><span class="o">/</span><span class="n">valuesRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="p">}</span>
+        user/responderManager/valuesRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
 
-        <span class="n">user</span><span class="o">/</span><span class="n">responderManager</span><span class="o">/</span><span class="n">representationsRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="p">}</span>
+        user/responderManager/representationsRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
 
-        <span class="n">user</span><span class="o">/</span><span class="n">responderManager</span><span class="o">/</span><span class="n">usersRouter</span> <span class="p">{</span>
-            <span class="n">router</span> <span class="o">=</span> <span class="nb">round</span><span class="o">-</span><span class="n">robin</span><span class="o">-</span><span class="n">pool</span>
-            <span class="n">nr</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">instances</span> <span class="o">=</span> <span class="mi">20</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+        user/responderManager/usersRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
+    }
+}
 </pre></div>
 </div>
 </div>
@@ -167,7 +167,7 @@ pattern, to send messages and receive responses, because this simplifies the cod
 considerably (using <code class="docutils literal"><span class="pre">tell</span></code> would require actors to maintain complex mutable state),
 with no apparent reduction in performance.</p>
 <p>To manage asynchronous communication between actors, the Knora API server uses Scala&#8217;s
-<code class="docutils literal"><span class="pre">Future</span></code> monad extensively. See <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span class="std std-ref">Futures with Akka</span></a> for details.</p>
+<code class="docutils literal"><span class="pre">Future</span></code> monad extensively. See <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a> for details.</p>
 <p>We use Akka&#8217;s asynchronous logging interface (see <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/logging.html">Akka Logging</a>).</p>
 </div>
 <div class="section" id="what-the-responders-do">
@@ -195,7 +195,7 @@ supervisor actor. The <code class="docutils literal"><span class="pre">StoreMana
 packages, which interact with the <code class="docutils literal"><span class="pre">store</span></code> package only by sending
 messages to <code class="docutils literal"><span class="pre">StoreManager</span></code>.</p>
 <p>Generation and parsing of SPARQL are handled by this module.</p>
-<p>See <a class="reference internal" href="store-module.html#store-module"><span class="std std-ref">Store Module</span></a> for a deeper discussion.</p>
+<p>See <a class="reference internal" href="store-module.html#store-module"><span>Store Module</span></a> for a deeper discussion.</p>
 </div>
 <div class="section" id="triplestore-access">
 <span id="id1"></span><h2>Triplestore Access<a class="headerlink" href="#triplestore-access" title="Permalink to this headline">¶</a></h2>
@@ -209,7 +209,7 @@ triplestore can be accessed over HTTP via the <a class="reference external" href
 the Knora API server. However, a responder is not expected to know which triplestore is being used or how the
 triplestore is accessed. To perform a SPARQL query, a responder sends a message to the <code class="docutils literal"><span class="pre">storeManager</span></code>
 actor, like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>private val storeManager = context.actorSelection(&quot;/user/storeManager&quot;)
+<div class="highlight-python"><div class="highlight"><pre>private val storeManager = context.actorSelection(&quot;/user/storeManager&quot;)
 
 // ...
 
@@ -276,7 +276,7 @@ query results are already returned in <code class="docutils literal"><span class
 <p>If you want to add a new exception class, see the comments in
 <code class="docutils literal"><span class="pre">Exceptions.scala</span></code> for instructions.</p>
 <p>We still need to add error-handling strategies in supervisor actors.</p>
-<p>See also <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span class="std std-ref">Futures with Akka</span></a>.</p>
+<p>See also <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a>.</p>
 </div>
 <div class="section" id="api-routing">
 <span id="id3"></span><h2>API Routing<a class="headerlink" href="#api-routing" title="Permalink to this headline">¶</a></h2>
@@ -302,7 +302,7 @@ being updated.</li>
 <p>The routing function then passes the <code class="docutils literal"><span class="pre">Try</span></code> to <code class="docutils literal"><span class="pre">org.knora.webapi.routing.RouteUtils.runJsonRoute()</span></code>, which takes
 care of sending the message to <code class="docutils literal"><span class="pre">ResponderManagerV1</span></code> and returning a response to the client,
 as well as handling errors.</p>
-<p>See <a class="reference internal" href="how-to-add-a-route.html#how-to-add-a-route"><span class="std std-ref">How to Add an API Route</span></a> for an example.</p>
+<p>See <a class="reference internal" href="how-to-add-a-route.html#how-to-add-a-route"><span>How to Add an API Route</span></a> for an example.</p>
 </div>
 <div class="section" id="json">
 <h2>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
@@ -341,7 +341,7 @@ only at the last moment, by the <code class="docutils literal"><span class="pre"
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

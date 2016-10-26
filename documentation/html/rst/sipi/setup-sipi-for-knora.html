@@ -54,7 +54,7 @@
 <p>In order to serve files to the client application like the Salsah GUI, Sipi must be set up and running.
 Sipi can be downloaded from its own github-repository: <a class="reference external" href="https://github.com/dhlab-basel/Sipi">https://github.com/dhlab-basel/Sipi</a>.
 Please follow the instructions given in the README to compile it on your system.</p>
-<p>Once it is compiled, you can run Sipi with the following option: <code class="docutils literal"><span class="pre">build/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-config.lua</span></code>. Please see <code class="docutils literal"><span class="pre">sipi.knora-config.lua</span></code> for the settings like URL, port number etc.
+<p>Once it is compiled, you can run Sipi with the following option: <code class="docutils literal"><span class="pre">local/bin/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-config.lua</span></code>. Please see <code class="docutils literal"><span class="pre">sipi.knora-config.lua</span></code> for the settings like URL, port number etc.
 These settings need to be set accordingly in Knora&#8217;s <code class="docutils literal"><span class="pre">application.conf</span></code>. If you use the default settings both in Sipi and Knora, there is no need to change these settings.</p>
 <p>Whenever a file is requested from Sipi (e.g. a browser trying to dereference an image link served by Knora), a preflight function is called.
 This function is defined in <code class="docutils literal"><span class="pre">sipi.init-knora.lua</span></code> present in the Sipi root directory. It takes three parameters: <code class="docutils literal"><span class="pre">prefix</span></code>, <code class="docutils literal"><span class="pre">identifier</span></code> (the name of the requested file), and <code class="docutils literal"><span class="pre">cookie</span></code>. File links created by Knora use the prefix <code class="docutils literal"><span class="pre">knora</span></code>, e.g. <code class="docutils literal"><span class="pre">http://localhost:1024/knora/incunabula_0000000002.jp2/full/2613,3505/0/default.jpg</span></code>.</p>
@@ -62,11 +62,11 @@ This function is defined in <code class="docutils literal"><span class="pre">sip
 The cookie contains the current user&#8217;s Knora session id, so Knora can match Sipi&#8217;s request with a given user profile and determine the permissions this user has on the file.
 If the Knora response grants sufficient permissions, the file is served in the requested quality. If the suer has preview rights, Sipi serves a reduced quality or integrates a watermark.
 If the user has no permissions, Sipi refuses to serve the file. However, all of this behaviour is defined in the preflight function in Sipi and not controlled by Knora. Knora only provides the permission code.</p>
-<p>See <a class="reference internal" href="sipi-and-knora.html#sharing-sessionid-with-sipi"><span class="std std-ref">Sharing the Session ID with Sipi</span></a> for more information about sharing the session id.</p>
+<p>See <a class="reference internal" href="sipi-and-knora.html#sharing-sessionid-with-sipi"><span>Sharing the Session ID with Sipi</span></a> for more information about sharing the session id.</p>
 </div>
-<div class="section" id="test-sipi">
-<h2>Test Sipi<a class="headerlink" href="#test-sipi" title="Permalink to this headline">¶</a></h2>
-<p>If you just want to test Sipi with Knora without serving the actual files, you can simply start Sipi like this: <code class="docutils literal"><span class="pre">build/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-test-config.lua</span></code>.
+<div class="section" id="using-sipi-in-test-mode">
+<h2>Using Sipi in Test Mode<a class="headerlink" href="#using-sipi-in-test-mode" title="Permalink to this headline">¶</a></h2>
+<p>If you just want to test Sipi with Knora without serving the actual files (e.g. when executing browser tests), you can simply start Sipi like this: <code class="docutils literal"><span class="pre">local/bin/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-test-config.lua</span></code>.
 Then always the same test file will be served which is included in Sipi. In test mode, Sipi will not aks Knora about the user&#8217;s permission on the requested file.</p>
 </div>
 </div>
@@ -87,7 +87,7 @@ Then always the same test file will be served which is included in Sipi. In test
 
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
     </div>
   </body>
 </html>

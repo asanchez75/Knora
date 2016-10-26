@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Starting GraphDB-SE 7 &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Build Process" href="build-process.html" />
+    <link rel="prev" title="Starting Fuseki 2" href="fuseki.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Starting GraphDB-SE 7</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="build-process.html">Build Process</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="starting-graphdb-se-7">
+<span id="id1"></span><h1>Starting GraphDB-SE 7<a class="headerlink" href="#starting-graphdb-se-7" title="Permalink to this headline">¶</a></h1>
+<p>Inside the Knora API server git repository, there is a folder called <code class="docutils literal"><span class="pre">/triplestores/graphdb-se-7</span></code> containing the
+GraphDB-SE-7 distribution archive and the dockerfile we will use to build the docker image. This docker image will then
+be used to run a docker container, inside which GraphDB will be running.</p>
+<div class="section" id="important-steps">
+<h2>Important Steps<a class="headerlink" href="#important-steps" title="Permalink to this headline">¶</a></h2>
+<p>To be able to successfully run GraphDB inside docker three important steps need to be done beforhand:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Install Docker from <a class="reference external" href="http://docker.com">http://docker.com</a>.</li>
+<li>Copy the GraphDB-SE license file into this folder and name it <code class="docutils literal"><span class="pre">GRAPHDB_SE.license</span></code>. It is already added to a
+local <code class="docutils literal"><span class="pre">.gitignore</span></code> file which can be found inside this folder. Under no circumstance should the license file be
+committed to Github.</li>
+<li>(optional) The current version of <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> from the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> needs to be copied to this folder
+each time it was changed. This file needs to be copied into the docker image, which can only be done if it is found
+inside this folder.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>From inside the <code class="docutils literal"><span class="pre">triplestores/graphdb-se-7</span></code> folder, type:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ docker build -t graphdb .
+$ docker run --rm -it -p 7200:7200 graphdb
+</pre></div>
+</div>
+<p>Do not forget the &#8216;.&#8217; in the first command.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">--rm</span></code> removes the container as soon as you stop it</li>
+<li><code class="docutils literal"><span class="pre">-p</span></code> forwards the exposed port to your host (or if you use boot2docker to this IP)</li>
+<li><code class="docutils literal"><span class="pre">-it</span></code> allows interactive mode, so you see if something get&#8217;s deployed</li>
+</ul>
+</div></blockquote>
+<p>After the GraphDB inside the docker container has started, you can find the GraphDB workbench here: <a class="reference external" href="http://localhost:7200">http://localhost:7200</a></p>
+<p>Above, we create and start a transient container (<code class="docutils literal"><span class="pre">--rm</span></code> flag). To create a container that we can stop and start again
+at a later time, follow the following steps:</p>
+<div class="highlight-python"><div class="highlight"><pre> $ docker build -t graphdb &lt;path-to-dockerfile&gt;
+ $ docker run --name graphdb -d -t -p 7200:7200 graphdb
+
+ (to see the console output, attach to the container; to detach press Ctrl-c)
+ $ docker attach graphdb
+
+ (to stop the container)
+ $ docker stop graphdb
+
+ (to start the container again)
+ $ docker start graphdb
+
+ (to remove the container; needs to be stopped)
+ $ docker rm graphdb
+
+- ``--name`` give the container a name
+- ``-d`` run container in background and print container ID
+- ``-t`` allocate a pseudo TTY, so you see the console output
+- ``-p`` forwards the exposed port to your host
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="build-process.html">Build Process</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>
