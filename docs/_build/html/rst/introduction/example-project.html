@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>An Example Project: Incunabula &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Introduction" href="index.html" />
+    <link rel="next" title="The Knora Ontologies" href="../knora-ontologies/index.html" />
+    <link rel="prev" title="What Is Knora?" href="what-is-knora.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>An Example Project: Incunabula</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="what-is-knora.html">What Is Knora?</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../knora-ontologies/index.html">The Knora Ontologies</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="an-example-project-incunabula">
+<h1>An Example Project: Incunabula<a class="headerlink" href="#an-example-project-incunabula" title="Permalink to this headline">¶</a></h1>
+<p>This section introduces some of the basic concepts involved in creating
+ontologies for Knora projects, by means of a relatively simple example
+project. Before reading this document, it will be helpful to have some
+familiarity with the basic concepts explained in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>.</p>
+<p>Knora comes with two example projects, called <code class="docutils literal"><span class="pre">incunabula</span></code> and
+<code class="docutils literal"><span class="pre">images-demo</span></code>. Here we will consider the <code class="docutils literal"><span class="pre">incunabula</span></code> example, which is
+a reduced version of a real research project on early printed books. It
+is designed to store an image of each page of each book, as well as RDF data
+about books, pages, their contents, and relationships between them. At the moment,
+only the RDF data is provided in the example project, not the images.</p>
+<p>The <code class="docutils literal"><span class="pre">incunabula</span></code> ontology is in the file <code class="docutils literal"><span class="pre">incunabula-onto.ttl</span></code>, and its
+data is in the file <code class="docutils literal"><span class="pre">incunabula-data.ttl</span></code>. Both these files are in a
+standard RDF file format called <a class="reference external" href="https://www.w3.org/TR/turtle/">Turtle</a>. The Knora distribution includes
+sample scripts (in the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> directory) for importing these files
+directly into different triplestores. If you are starting a new project from
+scratch, you can adapt these scripts to import your ontology (and any existing
+RDF data) into your triplestore for use with Knora.</p>
+<p>The syntax of Turtle is fairly simple: it is basically a sequence of triples.
+We will consider some details of Turtle syntax as we go along.</p>
+<div class="section" id="the-incunabula-ontology">
+<h2>The Incunabula Ontology<a class="headerlink" href="#the-incunabula-ontology" title="Permalink to this headline">¶</a></h2>
+<p>Here we will just focus on some of the main aspects of the ontology. An
+ontology file typically begins by defining prefixes for the IRIs of other
+ontologies that will be referred to. First there are some prefixes for
+ontologies that are very commonly used in RDF:</p>
+<div class="highlight-python"><div class="highlight"><pre>@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">rdf</span></code>, <code class="docutils literal"><span class="pre">rdfs</span></code>, and <code class="docutils literal"><span class="pre">owl</span></code> ontologies contain basic properties that
+are used to define ontology entities. The <code class="docutils literal"><span class="pre">xsd</span></code> ontology contains
+definitions of literal data types such as <code class="docutils literal"><span class="pre">string</span></code> and <code class="docutils literal"><span class="pre">integer</span></code>. (For
+more information about these ontologies, see the references in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>.)
+The <code class="docutils literal"><span class="pre">foaf</span></code> ontology contains classes and properties for representing people.</p>
+<p>Then we define prefixes for Knora ontologies:</p>
+<div class="highlight-python"><div class="highlight"><pre>@prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt; .
+@prefix dc: &lt;http://www.knora.org/ontology/dc#&gt; .
+@prefix salsah-gui: &lt;http://www.knora.org/ontology/salsah-gui#&gt; .
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">knora-base</span></code> ontology contains Knora&#8217;s core abstractions, and is
+described in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base"><span>The Knora Base Ontology</span></a>. The <code class="docutils literal"><span class="pre">dc</span></code> ontology is Knora&#8217;s version of
+<a class="reference external" href="http://dublincore.org/">Dublin Core</a>. It is intended to make it possible to define properties in a Knora
+project in terms of Dublin Core abstractions, to facilitate queries that
+search for data across multiple projects. The <code class="docutils literal"><span class="pre">salsah-gui</span></code> ontology includes
+properties that Knora projects must use to enable SALSAH, Knora&#8217;s generic
+virtual research environment.</p>
+<p>For convenience, we can use the empty prefix to refer to the <code class="docutils literal"><span class="pre">incunabula</span></code>
+ontology itself:</p>
+<div class="highlight-python"><div class="highlight"><pre>@prefix : &lt;http://www.knora.org/ontology/incunabula#&gt; .
+</pre></div>
+</div>
+<p>However, outside the ontology file, it would make more sense to define an
+<code class="docutils literal"><span class="pre">incunabula</span></code> prefix to refer to the <code class="docutils literal"><span class="pre">incunabula</span></code> ontology.</p>
+<div class="section" id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
+<p>All the content produced by a Knora project must be stored in Knora resources
+(see <a class="reference internal" href="#incunabula-resource-classes"><span>Resource Classes</span></a>). Resources have properties that point
+to different parts of their contents; for example, the <code class="docutils literal"><span class="pre">incunabula</span></code> project
+contains books, which have properties like <code class="docutils literal"><span class="pre">title</span></code>. Every property that
+poitns to a Knora value must be a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>, and
+every property that points to another Knora resource must be a subproperty of
+<code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>.</p>
+<p>Here is the definition of the <code class="docutils literal"><span class="pre">incunabula:title</span></code> property:</p>
+<div class="highlight-python"><div class="highlight"><pre>:title rdf:type owl:ObjectProperty ;
+
+       rdfs:subPropertyOf dc:title ;
+
+       rdfs:label &quot;Titel&quot;@de ,
+           &quot;Titre&quot;@fr ,
+           &quot;Titolo&quot;@it ,
+           &quot;Title&quot;@en ;
+
+       knora-base:subjectClassConstraint :book ;
+
+       knora-base:objectClassConstraint knora-base:TextValue ;
+
+       salsah-gui:guiOrder &quot;1&quot;^^xsd:integer ;
+
+       salsah-gui:guiElement salsah-gui:SimpleText ;
+
+       salsah-gui:guiAttribute &quot;size=80&quot; ,
+           &quot;maxlength=255&quot; .
+</pre></div>
+</div>
+<p>The definition of <code class="docutils literal"><span class="pre">incunabula:title</span></code> consists of a list of triples, all of
+which have <code class="docutils literal"><span class="pre">:title</span></code> as their subject. To avoid repeating <code class="docutils literal"><span class="pre">:title</span></code> for each
+triple, Turtle syntax allows us to use a semicolon (<code class="docutils literal"><span class="pre">;</span></code>) to separate triples
+that have the same subject. Moreover, some triples also have the same
+predicate; a comma (<code class="docutils literal"><span class="pre">,</span></code>) is used to avoid repeating the predicate. The
+definition of <code class="docutils literal"><span class="pre">:title</span></code> says:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">rdf:type</span> <span class="pre">owl:ObjectProperty</span></code>: It is an <code class="docutils literal"><span class="pre">owl:ObjectProperty</span></code>. There are
+two kinds of OWL properties: object properties and datatype properties.
+Object properties point to objects, which have IRIs and can have their own
+properties. Datatype properties point to literal values, such as strings and
+integers.</li>
+<li><code class="docutils literal"><span class="pre">rdfs:subPropertyOf</span> <span class="pre">dc:title</span></code>: It is a subproperty of <code class="docutils literal"><span class="pre">dc:title</span></code>, which
+is a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>. It would have been possible to
+define <code class="docutils literal"><span class="pre">incunabula:title</span></code> as a direct subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>,
+and indeed many properties in Knora projects are defined in that way. The
+advantage of using <code class="docutils literal"><span class="pre">dc:title</span></code> is that if you do a search for resources that
+have a certain <code class="docutils literal"><span class="pre">dc:title</span></code>, and there is a resource with a matching
+<code class="docutils literal"><span class="pre">incunabula:title</span></code>, the search results could include that resource. (This
+feature is planned but not yet implemented in the Knora API server.)</li>
+<li><code class="docutils literal"><span class="pre">rdfs:label</span> <span class="pre">&quot;Titel&quot;&#64;de</span></code>, etc.: It has the specified labels in various
+languages. These are needed, for example, by user interfaces, to prompt the
+user to enter a value.</li>
+<li><code class="docutils literal"><span class="pre">knora-base:subjectClassConstraint</span> <span class="pre">:book</span></code>: The subject of the property
+must be an <code class="docutils literal"><span class="pre">incunabula:book</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span> <span class="pre">knora-base:TextValue</span></code>: The object of
+this property must be a <code class="docutils literal"><span class="pre">knora-base:TextValue</span></code> (which is a subclass of
+<code class="docutils literal"><span class="pre">knora-base:Value</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">salsah-gui:guiOrder</span> <span class="pre">&quot;1&quot;^^xsd:integer</span></code>: When a resource with this and
+other properties is displayed in SALSAH, this property will be displayed
+first. The notation <code class="docutils literal"><span class="pre">&quot;1&quot;^^xsd:integer</span></code> means that the literal <code class="docutils literal"><span class="pre">&quot;1&quot;</span></code> is
+of type <code class="docutils literal"><span class="pre">xsd:integer</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">salsah-gui:guiElement</span> <span class="pre">salsah-gui:SimpleText</span></code>: When SALSAH asks a user to
+enter a value for this property, it should use a simple text field.</li>
+<li><code class="docutils literal"><span class="pre">salsah-gui:guiAttribute</span> <span class="pre">&quot;size=80&quot;</span> <span class="pre">,</span> <span class="pre">&quot;maxlength=255&quot;</span></code>: The SALSAH text
+field for entering a value for this property should be 80 characters wide,
+and should accept at most 255 characters.</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">incunabula</span></code> ontology contains several other property definitions that
+are basically similar. Note that different subclasses of <code class="docutils literal"><span class="pre">Value</span></code> are used.
+For example, <code class="docutils literal"><span class="pre">incunabula:pubdate</span></code>, which represents the publication date of
+a book, points to a <code class="docutils literal"><span class="pre">knora-base:DateValue</span></code>. The <code class="docutils literal"><span class="pre">DateValue</span></code> class stores a
+date range, with a specified degree of precision and a preferred calendar
+system for display.</p>
+<p>A property can point to a Knora resource instead of to a Knora value. For
+example, in the <code class="docutils literal"><span class="pre">incunabula</span></code> ontology, there are resources representing
+pages and books, and each page is part of some book. This relationship is
+expressed using the property <code class="docutils literal"><span class="pre">incunabula:partOf</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:partOf rdf:type owl:ObjectProperty ;
+
+        rdfs:subPropertyOf knora-base:isPartOf ;
+
+        rdfs:label &quot;ist ein Teil von&quot;@de ,
+                   &quot;est un part de&quot;@fr ,
+                   &quot;e una parte di&quot;@it ,
+                   &quot;is a part of&quot;@en ;
+
+        rdfs:comment &quot;&quot;&quot;Diese Property bezeichnet eine Verbindung zu einer anderen Resource, in dem ausgesagt wird, dass die vorliegende Resource ein integraler Teil der anderen Resource ist. Zum Beispiel ist eine Buchseite ein integraler Bestandteil genau eines Buches.&quot;&quot;&quot;@de ;
+
+        knora-base:subjectClassConstraint :page ;
+
+        knora-base:objectClassConstraint :book ;
+
+        salsah-gui:guiOrder &quot;2&quot;^^xsd:integer ;
+
+        salsah-gui:guiElement salsah-gui:Searchbox .
+</pre></div>
+</div>
+<p>The key things to notice here are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">rdfs:subPropertyOf</span> <span class="pre">knora-base:isPartOf</span></code>: The Knora base ontology provides
+a generic <code class="docutils literal"><span class="pre">isPartOf</span></code> property to express part-whole relationships. Like
+many properties defined in <code class="docutils literal"><span class="pre">knora-base</span></code>, a project cannot use
+<code class="docutils literal"><span class="pre">knora-base:isPartOf</span></code> directly, but must make a subproperty such as
+<code class="docutils literal"><span class="pre">incunabula:partOf</span></code>.  It is important to note that <code class="docutils literal"><span class="pre">knora-base:isPartOf</span></code>
+is a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>. Any property that points to a
+<code class="docutils literal"><span class="pre">knora-base:Resource</span></code> must be a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>.
+In Knora terminology, such a property is called a <em>link property</em>.</li>
+<li><code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span> <span class="pre">:book</span></code>: The object of this property must
+be a member of the class <code class="docutils literal"><span class="pre">incunabula:book</span></code>, which, as we will see below,
+is a subclass of <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">salsah-gui:guiElement</span> <span class="pre">salsah-gui:Searchbox</span></code>: When SALSAH prompts a user
+to select the book that a page is part of, it should provide a search box
+enabling the user to find the desired book.</li>
+</ul>
+<p>Because <code class="docutils literal"><span class="pre">incunabula:partOf</span></code> is a link property, it must always accompanied
+by a <em>link value property</em>, which enables Knora to store metadata about each
+link that is created with the link property. This metadata includes the date
+and time when the link was created, its owner, the permissions it grants, and
+whether it has been deleted. Storing this metadata allows Knora to authorise
+users to see or modify the link, as well as to query a previous state of a
+repository in which a deleted link had not yet been deleted. (The ability to
+query previous states of a repository is planned for Knora API version 2.)</p>
+<p>The name of a link property and its link value property must be related by the
+following naming convention: to determine the name of the link value property,
+add the word <code class="docutils literal"><span class="pre">Value</span></code> to the name of the link property. Hence, the
+<code class="docutils literal"><span class="pre">incunabula</span></code> ontology defines the property <code class="docutils literal"><span class="pre">partOfValue</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:partOfValue rdf:type owl:ObjectProperty ;
+
+                 rdfs:subPropertyOf knora-base:isPartOfValue ;
+
+                 knora-base:subjectClassConstraint :page ;
+
+                 knora-base:objectClassConstraint knora-base:LinkValue .
+</pre></div>
+</div>
+<p>As a link value property, <code class="docutils literal"><span class="pre">incunabula:partOfValue</span></code> must point to a
+<code class="docutils literal"><span class="pre">knora-base:LinkValue</span></code>. The <code class="docutils literal"><span class="pre">LinkValue</span></code> class is an RDF <em>reification</em> of a triple
+(in this case, the triple that links a page to a book). For more details about
+this, see <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base-linkvalue"><span>LinkValue</span></a>.</p>
+<p>Note that the property <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code> points to a
+<code class="docutils literal"><span class="pre">knora-base:TextValue</span></code>, because the <code class="docutils literal"><span class="pre">incunabula</span></code> project repåresents
+authors simply by their names. A more complex project could represent each
+author as a resource, in which case <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code> would need to be
+a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>.</p>
+</div>
+<div class="section" id="resource-classes">
+<span id="incunabula-resource-classes"></span><h3>Resource Classes<a class="headerlink" href="#resource-classes" title="Permalink to this headline">¶</a></h3>
+<p>The two main resource classes in the <code class="docutils literal"><span class="pre">incunabula</span></code> ontology are <code class="docutils literal"><span class="pre">book</span></code> and <code class="docutils literal"><span class="pre">page</span></code>.
+Here is <code class="docutils literal"><span class="pre">incunabula:book</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:book rdf:type owl:Class ;
+
+      rdfs:subClassOf knora-base:Resource ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :title ;
+                         owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasAuthor ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :publisher ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :publoc ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :pubdate ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :location ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :url ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :description ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :physical_desc ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :note ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :citation ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :book_comment ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ;
+
+      knora-base:resourceIcon &quot;book.gif&quot; ;
+
+      rdfs:label &quot;Buch&quot;@de ,
+                 &quot;Livre&quot;@fr ,
+                 &quot;Libro&quot;@it ,
+                 &quot;Book&quot;@en ;
+
+      rdfs:comment &quot;&quot;&quot;Diese Resource-Klasse beschreibt ein Buch&quot;&quot;&quot;@de .
+</pre></div>
+</div>
+<p>Like every Knora resource class, <code class="docutils literal"><span class="pre">incunabula:book</span></code> is a subclass of
+<code class="docutils literal"><span class="pre">knora-base:Resource</span></code>. It is also a subclass of a number of other classes of type
+<code class="docutils literal"><span class="pre">owl:Restriction</span></code>, which are defined in square brackets, using Turtle&#8217;s
+syntax for anonymous blank nodes. Each <code class="docutils literal"><span class="pre">owl:Restriction</span></code> specifies a
+cardinality for a property that is allowed in resources of type
+<code class="docutils literal"><span class="pre">incunabula:book</span></code>. A cardinality is indeed a kind of restriction: it means
+that a resource of this type may have, or must have, a certain number of
+instances of the specified property. For example, <code class="docutils literal"><span class="pre">incunabula:book</span></code> has
+cardinalities saying that a book must have at least one title and at most one
+publication date. In the Knora API version 1, the word &#8216;occurrence&#8217; is used
+instead of &#8216;cardinality&#8217;.</p>
+<p>As explained in <a class="reference internal" href="../knora-ontologies/knora-base.html#knora-base-cardinalities"><span>OWL Cardinalities</span></a>, these
+are the cardinalities supported by Knora:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">owl:cardinality</span> <span class="pre">1</span></code> A resource of this class must have exactly one
+instance of the specified property (occurrence <code class="docutils literal"><span class="pre">1</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">owl:minCardinality</span> <span class="pre">1</span></code> A resource of this class must have at least one
+instance of the specified property (occurrence <code class="docutils literal"><span class="pre">1-n</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">owl:maxCardinality</span> <span class="pre">1</span></code> A resource of this class may have zero or one
+instance of the specified property (occurrence <code class="docutils literal"><span class="pre">0-1</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">owl:minCardinality</span> <span class="pre">0</span></code> A resource of this class may have zero or more
+instances of the specified property (occurrence <code class="docutils literal"><span class="pre">0-n</span></code>).</li>
+</ul>
+<p>Note that <code class="docutils literal"><span class="pre">incunabula:book</span></code> specifies a cardinality of <code class="docutils literal"><span class="pre">owl:minCardinality</span>
+<span class="pre">0</span></code> on the property <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code>. At first glance, this might seem
+as if it serves no purpose, since it says that the property is optional and
+can have any number of instances. You may be wondering whether this
+cardinality could simply be omitted from the definition of
+<code class="docutils literal"><span class="pre">incunabula:book</span></code>. However, Knora requires every property of a resource to
+have some cardinality in the resource&#8217;s class. This is because Knora uses
+the cardinalities to determine which properties are <em>possible</em> for instances
+of the class, and the Knora API relies on this information. If there was no
+cardinality for <code class="docutils literal"><span class="pre">incunabula:hasAuthor</span></code>, Knora would not allow a book to have
+an author.</p>
+<p>Here is the definition of <code class="docutils literal"><span class="pre">incunabula:page</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:page rdf:type owl:Class ;
+
+      rdfs:subClassOf knora-base:StillImageRepresentation ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :pagenum ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :partOfValue ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :partOf ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :seqnum ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :description ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :citation ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :page_comment ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :origname ;
+                         owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasLeftSidebandValue ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasLeftSideband ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRightSidebandValue ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :hasRightSideband ;
+                         owl:maxCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+                      [
+                         rdf:type owl:Restriction ;
+                         owl:onProperty :transcription ;
+                         owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] ;
+
+      knora-base:resourceIcon &quot;page.gif&quot; ;
+
+      rdfs:label &quot;Seite&quot;@de ,
+                 &quot;Page&quot;@fr ,
+                 &quot;Page&quot;@en ;
+
+      rdfs:comment &quot;&quot;&quot;Eine Seite ist ein Teil eines Buchs&quot;&quot;&quot;@de ,
+                   &quot;&quot;&quot;Une page est une partie d&#39;un livre&quot;&quot;&quot;@fr ,
+                   &quot;&quot;&quot;A page is a part of a book&quot;&quot;&quot;@en .
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">incunabula:page</span></code> class is a subclass of
+<code class="docutils literal"><span class="pre">knora-base:StillImageRepresentation</span></code>, which is a subclass of
+<code class="docutils literal"><span class="pre">knora-base:Representation</span></code>, which is a subclass of <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>.
+The class <code class="docutils literal"><span class="pre">knora-base:Representation</span></code> is used for resources that contain
+metadata about files stored by Knora. Each It has different subclasses that can
+hold different types of files, including still images, audio, and video files.
+A given <code class="docutils literal"><span class="pre">Representation</span></code> can store metadata about several different files,
+as long as they are of the same type and are semantically equivalent, e.g.
+are different versions of the same image with different colorspaces, so that
+coordinates in one file will work in the other files.</p>
+<p>In Knora, a subclass inherits the cardinalities defined in its superclasses.
+Let&#8217;s look at the class hierarchy of <code class="docutils literal"><span class="pre">incunabula:page</span></code>, starting with
+<code class="docutils literal"><span class="pre">knora-base:Representation</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:Representation rdf:type owl:Class ;
+
+                rdfs:subClassOf :Resource ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasFileValue ;
+                                  owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger
+                                ] ;
+
+                rdfs:comment &quot;A resource that can store one or more FileValues&quot;@en .
+</pre></div>
+</div>
+<p>This says that a <code class="docutils literal"><span class="pre">Representation</span></code> must have at least one instance of the
+property <code class="docutils literal"><span class="pre">hasFileValue</span></code>, which is defined like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>:hasFileValue rdf:type owl:ObjectProperty ;
+
+              rdfs:subPropertyOf :hasValue ;
+
+              :subjectClassConstraint :Representation ;
+
+              :objectClassConstraint :FileValue .
+</pre></div>
+</div>
+<p>The subject of <code class="docutils literal"><span class="pre">hasFileValue</span></code> must be a <code class="docutils literal"><span class="pre">Representation</span></code>, and its object
+must be a <code class="docutils literal"><span class="pre">FileValue</span></code>. There are different subclasses of <code class="docutils literal"><span class="pre">FileValue</span></code> for
+different kinds of files, but we&#8217;ll skip the details here.</p>
+<p>This is the definition of <code class="docutils literal"><span class="pre">knora-base:StillImageRepresentation</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:StillImageRepresentation rdf:type owl:Class ;
+
+                          rdfs:subClassOf :Representation  ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasStillImageFileValue ;
+                                  owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger
+                                ] ;
+
+                          rdfs:comment &quot;A resource that can contain two-dimensional still image files&quot;@en .
+</pre></div>
+</div>
+<p>It must have at least one instance of the property <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code>, which
+is defined as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>:hasStillImageFileValue rdf:type owl:ObjectProperty ;
+
+              rdfs:subPropertyOf :hasFileValue ;
+
+              :subjectClassConstraint :StillImageRepresentation ;
+
+              :objectClassConstraint :StillImageFileValue .
+</pre></div>
+</div>
+<p>Because <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> is a subproperty of <code class="docutils literal"><span class="pre">hasFileValue</span></code>, the
+cardinality on <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code>, defined in the subclass
+<code class="docutils literal"><span class="pre">StillImageRepresentation</span></code>, overrides the cardinality on <code class="docutils literal"><span class="pre">hasFileValue</span></code>,
+defined in the superclass <code class="docutils literal"><span class="pre">Representation</span></code>. In other words, the more general
+cardinality in the superclass is replaced by a more specific cardinality in
+the base class. Since <code class="docutils literal"><span class="pre">incunabula:page</span></code> is a subclass of
+<code class="docutils literal"><span class="pre">StillImageRepresentation</span></code>, it inherits the cardinality on
+<code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code>. As a result, a page must have at least one image
+file attached to it.</p>
+<p>Here&#8217;s another example of cardinality inheritance. The class <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>
+has a cardinality for <code class="docutils literal"><span class="pre">knora-base:seqnum</span></code>. The idea is that resources of any
+type could be arranged in some sort of sequence. As we saw above,
+<code class="docutils literal"><span class="pre">incunabula:page</span></code> is a subclass of <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>. But
+<code class="docutils literal"><span class="pre">incunabula:page</span></code> has its own cardinality for <code class="docutils literal"><span class="pre">incunabula:seqnum</span></code>, which
+is a subproperty of <code class="docutils literal"><span class="pre">knora-base:seqnum</span></code>. Once again, the subclass&#8217;s
+cardinality on the subproperty replaces the superclass&#8217;s cardinality on the
+superproperty: a page is allowed to have an <code class="docutils literal"><span class="pre">incunabula:seqnum</span></code>, but it is
+not allowed to have a <code class="docutils literal"><span class="pre">knora-base:seqnum</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="what-is-knora.html">What Is Knora?</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../knora-ontologies/index.html">The Knora Ontologies</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

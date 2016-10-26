@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction: Using API V1 &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
+    <link rel="next" title="Reading and Searching Resources" href="reading-and-searching-resources.html" />
+    <link rel="prev" title="Using API V1" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Introduction: Using API V1</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Using API V1</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="reading-and-searching-resources.html">Reading and Searching Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="introduction-using-api-v1">
+<h1>Introduction: Using API V1<a class="headerlink" href="#introduction-using-api-v1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="restful-api">
+<h2>RESTful API<a class="headerlink" href="#restful-api" title="Permalink to this headline">¶</a></h2>
+<p>Knora API V1 is a RESTful API that allows for reading and adding of resources from and to Knora and changing their values
+using HTTP requests. The actual data is submitted as JSON (request and response format). The diverse HTTP methods are applied
+according to the widespread practice of RESTful APIs: GET for reading, POST for adding, PUT for changing resources and values, and DELETE to delete resources or values (see <a class="reference external" href="http://www.restapitutorial.com/lessons/httpmethods.html">RESTful_API</a>).</p>
+</div>
+<div class="section" id="knora-iris">
+<h2>Knora IRIs<a class="headerlink" href="#knora-iris" title="Permalink to this headline">¶</a></h2>
+<p>Every resource that is created or hosted by Knora is identified by a unique id, a so called Internationalized Resource Identifier (IRI).
+The IRI is required for every API operation to identify the resource in question. A Knora IRI has itself the format of a URL. For some API operations,
+the IRI has to be URL-encoded (HTTP GET requests).</p>
+</div>
+<div class="section" id="different-api-operations">
+<h2>Different API Operations<a class="headerlink" href="#different-api-operations" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>In the following sections, the diverse API operations are described including their request and response formats:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="reading-and-searching-resources.html#reading-and-searching-resources"><span>Reading and Searching Resources</span></a>: Get a specific resource or resource class by its IRI or search for resources</li>
+<li><a class="reference internal" href="adding-resources.html#adding-resources"><span>Adding Resources</span></a>: Create a new resource</li>
+<li><a class="reference internal" href="reading-values.html#reading-values"><span>Reading Values</span></a>: Get a specific value or its version history</li>
+<li><a class="reference internal" href="adding-values.html#adding-values"><span>Adding a Value</span></a>: Add values to a resource</li>
+<li><a class="reference internal" href="changing-values.html#changing-values"><span>Changing a Value</span></a>: Change the values of a resource</li>
+<li><a class="reference internal" href="delete-resources-and-values.html#delete-resources-and-values"><span>Deleting Resources and Values</span></a>: Delete resources and values</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="v1-path-segment">
+<h2>V1 Path Segment<a class="headerlink" href="#v1-path-segment" title="Permalink to this headline">¶</a></h2>
+<p>Every request to API V1 includes <code class="docutils literal"><span class="pre">v1</span></code> as a path segment, e.g. <code class="docutils literal"><span class="pre">http://host/v1/resources/http%3A%2F%2Fdata.knora.org%2Fc5058f3a</span></code>.
+Accordingly, requests to another version of the API will require another path segment.</p>
+</div>
+<div class="section" id="knora-api-response-format">
+<h2>Knora API Response Format<a class="headerlink" href="#knora-api-response-format" title="Permalink to this headline">¶</a></h2>
+<p>In case an API request could be handled successfully, Knora responds with a 200 HTTP status code. The actual answer from Knora (the representation of the requested resource or information about the executed API operation)
+is sent in the HTTP body, encoded as JSON (using UTF-8). In this JSON, an API specific status code is sent (member <code class="docutils literal"><span class="pre">status</span></code>).</p>
+<p>The JSON formats are formally defined as TypeScript interfaces  (located in <code class="docutils literal"><span class="pre">salsah/src/typescript_interfaces</span></code>). Build the HTML documentation of these interfaces by executing <code class="docutils literal"><span class="pre">make</span> <span class="pre">jsonformat</span></code> (see <code class="docutils literal"><span class="pre">docs/Readme.md</span></code> for further instructions).</p>
+</div>
+<div class="section" id="placeholder-host-in-sample-urls">
+<h2>Placeholder <code class="docutils literal"><span class="pre">host</span></code> in sample URLs<a class="headerlink" href="#placeholder-host-in-sample-urls" title="Permalink to this headline">¶</a></h2>
+<p>Please note that all the sample URLs used in this documentation contain <code class="docutils literal"><span class="pre">host</span></code> as a placeholder. The placeholder <code class="docutils literal"><span class="pre">host</span></code> has to be
+replaced by the actual hostname (and port) of the server the Knora instance is running on.</p>
+</div>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<p>For all API operations that target at changing resources or values, the client has to provide credentials (username and password)
+so that the API server can authenticate the user making the request. When using the SALSAH web interface, after logging in a session is established (cookie based).
+When using the API with another client application, credentials can be sent as a part of the HTTP header or as parts of the URL (see <a class="reference internal" href="../design-documentation/authentication.html#authentication"><span>Authentication in the Knora API Server</span></a>).</p>
+<p>Also when reading resources authentication my be needed as resources and their values may have restricted view permissions.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Using API V1</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="reading-and-searching-resources.html">Reading and Searching Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Knora API Server Design Overview &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="Futures with Akka" href="futures-with-akka.html" />
+    <link rel="prev" title="Knora API Server Design Documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Knora API Server Design Overview</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Knora API Server Design Documentation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="futures-with-akka.html">Futures with Akka</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="knora-api-server-design-overview">
+<h1>Knora API Server Design Overview<a class="headerlink" href="#knora-api-server-design-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The Knora API server implements Knora&#8217;s web-based Application Programming Interface (API). It is responsible
+for receiving HTTP requests from clients (which may be web browsers or other software), performing
+authentication and authorisation, querying and updating the RDF triplestore, transforming the
+results of SPARQL queries into Knora API responses, and returning these responses to the client.
+It is written in <a class="reference external" href="http://www.scala-lang.org/">Scala</a>, using the <a class="reference external" href="http://akka.io/">Akka</a> framework for message-based concurrency and the <a class="reference external" href="http://spray.io/">spray</a> framework
+for web APIs. It is designed to work with any standards-compliant triplestore. It can communicate with
+triplestores either via the <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/">SPARQL 1.1 Protocol</a> or by embedding the triplestore in the API server as a library.</p>
+</div>
+<div class="section" id="design-diagram">
+<h2>Design Diagram<a class="headerlink" href="#design-diagram" title="Permalink to this headline">¶</a></h2>
+<div class="figure" id="id4">
+<a class="reference internal image-reference" href="../../../_images/design-diagram.png"><img alt="design-diagram" src="../../../_images/design-diagram.png" /></a>
+<p class="caption"><span class="caption-text">A high-level diagram of the Knora API server.</span></p>
+</div>
+</div>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="http-module">
+<h3>HTTP Module<a class="headerlink" href="#http-module" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>org.knora.webapi.http</li>
+<li>org.knora.webapi.routes</li>
+</ul>
+</div>
+<div class="section" id="responders-module">
+<h3>Responders Module<a class="headerlink" href="#responders-module" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>org.knora.webapi.responders</li>
+</ul>
+</div>
+<div class="section" id="store-module">
+<h3>Store Module<a class="headerlink" href="#store-module" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>org.knora.store</li>
+</ul>
+</div>
+<div class="section" id="shared-between-modules">
+<h3>Shared Between Modules<a class="headerlink" href="#shared-between-modules" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>org.knora.webapi</li>
+<li>org.knora.webapi.util</li>
+<li>org.knora.webapi.messages</li>
+</ul>
+</div>
+</div>
+<div class="section" id="actor-supervision-and-creation">
+<h2>Actor Supervision and Creation<a class="headerlink" href="#actor-supervision-and-creation" title="Permalink to this headline">¶</a></h2>
+<p>At system start, the supervisor actors are created in
+<code class="docutils literal"><span class="pre">CoreManagerActors.scala</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>val httpServiceManager = system.actorOf(Props(new KnoraHttpServiceManager with LiveActorMaker), name = &quot;httpServiceManager&quot;)
+val responderManager = system.actorOf(Props(new ResponderManagerV1 with LiveActorMaker), name = &quot;responderManager&quot;)
+val storeManager = system.actorOf(Props(new StoreManager with LiveActorMaker), name = &quot;storeManager&quot;)
+</pre></div>
+</div>
+<p>Each supervisor creates and maintains a pool of workers, with <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/routing.html">an Akka
+router</a>
+that dispatches messages to the workers according to some strategy. For
+now, all the pools use the &#8216;round-robin&#8217; strategy. The pools and routers
+are configured in <code class="docutils literal"><span class="pre">application.conf</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>actor {
+    deployment {
+        user/httpServiceManager/httpServiceRouter {
+            router = round-robin-pool
+            nr-of-instances = 100
+        }
+
+        user/storeManager/triplestoreRouter {
+            router = round-robin-pool
+            nr-of-instances = 50
+        }
+
+        user/responderManager/resourcesRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
+
+        user/responderManager/valuesRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
+
+        user/responderManager/representationsRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
+
+        user/responderManager/usersRouter {
+            router = round-robin-pool
+            nr-of-instances = 20
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="concurrency">
+<h2>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h2>
+<p>Except for a bit of caching, the Knora API server is written in a purely
+functional style and has no mutable state, shared or otherwise, not even within actors.
+This makes it easier to reason about concurrency, and eliminates an important potential
+source of bugs (see <a class="reference external" href="http://shaffner.us/cs/papers/tarpit.pdf">Out of the Tar Pit</a>).</p>
+<p>There is a pool of HTTP workers that handle HTTP requests concurrently
+using the spray routes in the <code class="docutils literal"><span class="pre">routing</span></code> package. Each spray route constructs a
+request message and sends it to <code class="docutils literal"><span class="pre">ResponderManagerV1</span></code>, which forwards it to a worker actor
+in one of its pools. So the size of the HTTP worker pool sets the maximum number
+of concurrent HTTP requests, and the size of the worker pool for each
+responder sets the maximum number of concurrent messages for that
+responder. Whenever a responder needs to do a SPARQL query, it sends a
+message to the store manager, which forwards it to a triplestore actor.
+The size of the pool(s) of triplestore actors sets the
+maximum number of concurrent SPARQL queries.</p>
+<p>The routes and actors in the Knora API server uses Akka&#8217;s <code class="docutils literal"><span class="pre">ask</span></code> pattern, rather than the <code class="docutils literal"><span class="pre">tell</span></code>
+pattern, to send messages and receive responses, because this simplifies the code
+considerably (using <code class="docutils literal"><span class="pre">tell</span></code> would require actors to maintain complex mutable state),
+with no apparent reduction in performance.</p>
+<p>To manage asynchronous communication between actors, the Knora API server uses Scala&#8217;s
+<code class="docutils literal"><span class="pre">Future</span></code> monad extensively. See <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a> for details.</p>
+<p>We use Akka&#8217;s asynchronous logging interface (see <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/logging.html">Akka Logging</a>).</p>
+</div>
+<div class="section" id="what-the-responders-do">
+<h2>What the Responders Do<a class="headerlink" href="#what-the-responders-do" title="Permalink to this headline">¶</a></h2>
+<p>In the Knora API server, a &#8216;responder&#8217; is an actor that receives a request message (a
+Scala case class) in the <code class="docutils literal"><span class="pre">ask</span></code> pattern, gets data from the
+triplestore, and turns that data into a reply message (another case
+class). These reply messages are are defined in the <code class="docutils literal"><span class="pre">schemas</span></code> package.
+A responder can produce a reply representing a complete API response, or
+part of a response that will be used by another responder. If it&#8217;s a
+complete API response, it will extend <code class="docutils literal"><span class="pre">KnoraJsonResponse</span></code>, which can
+be converted directly into JSON by calling its <code class="docutils literal"><span class="pre">toJsValue</span></code> method (see
+the section on JSON below).</p>
+<p>All messages to responders go through the responder supervisor actor
+(<code class="docutils literal"><span class="pre">ResponderManagerV1</span></code>).</p>
+</div>
+<div class="section" id="store-module-org-knora-webapi-store-package">
+<h2>Store Module (org.knora.webapi.store package)<a class="headerlink" href="#store-module-org-knora-webapi-store-package" title="Permalink to this headline">¶</a></h2>
+<p>The Store module is used for accessing the triplestore and other
+external storage providers.</p>
+<p>All access to the Store module goes through the <code class="docutils literal"><span class="pre">StoreManager</span></code>
+supervisor actor. The <code class="docutils literal"><span class="pre">StoreManager</span></code> creates pools of actors, such as
+<code class="docutils literal"><span class="pre">HttpTriplestoreActor</span></code>, that interface with the storage providers.</p>
+<p>The contents of the <code class="docutils literal"><span class="pre">store</span></code> package are not used directly by other
+packages, which interact with the <code class="docutils literal"><span class="pre">store</span></code> package only by sending
+messages to <code class="docutils literal"><span class="pre">StoreManager</span></code>.</p>
+<p>Generation and parsing of SPARQL are handled by this module.</p>
+<p>See <a class="reference internal" href="store-module.html#store-module"><span>Store Module</span></a> for a deeper discussion.</p>
+</div>
+<div class="section" id="triplestore-access">
+<span id="id1"></span><h2>Triplestore Access<a class="headerlink" href="#triplestore-access" title="Permalink to this headline">¶</a></h2>
+<p>SPARQL queries are generated from templates, using the <a class="reference external" href="https://github.com/playframework/twirl">Twirl</a> template engine.
+For example, if we&#8217;re querying a resource, the template will contain a
+placeholder for the resource&#8217;s IRI. The templates can be found under
+<code class="docutils literal"><span class="pre">src/main/twirl/queries/sparql/v1</span></code>. So far we have been able to avoid generating
+different SPARQL for different triplestores.</p>
+<p>The <code class="docutils literal"><span class="pre">org.knora.webapi.store</span></code> package contains actors for communicating with triplestores in different ways: a
+triplestore can be accessed over HTTP via the <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/">SPARQL 1.1 Protocol</a>, or it can be embedded in
+the Knora API server. However, a responder is not expected to know which triplestore is being used or how the
+triplestore is accessed. To perform a SPARQL query, a responder sends a message to the <code class="docutils literal"><span class="pre">storeManager</span></code>
+actor, like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>private val storeManager = context.actorSelection(&quot;/user/storeManager&quot;)
+
+// ...
+
+private def getSomeValue(resourceIri: IRI): Future[String] = {
+    for {
+        sparqlQuery &lt;- Future(queries.sparql.v1.txt.someTemplate(resourceIri).toString())
+        queryResponse &lt;- (storeManager ? SparqlSelectRequest(sparqlQuery)).mapTo[SparqlSelectResponse]
+        someValue = // get some value from the query response
+    } yield someValue
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="error-handling">
+<span id="id2"></span><h2>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
+<p>The error-handling design has these aims:</p>
+<ol class="arabic simple">
+<li>Simplify the error-handling code in actors as much as possible.</li>
+<li>Produce error messages that clearly indicate the context in which the
+error occurred (i.e. what the application was trying to do).</li>
+<li>Ensure that clients receive an appropriate error message when an
+error occurs.</li>
+<li>Ensure that <code class="docutils literal"><span class="pre">ask</span></code> requests are properly terminated  with an <code class="docutils literal"><span class="pre">akka.actor.Status.Failure</span></code>
+message in the event of an error, without which they will simply time out
+(see <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/actors.html#Ask__Send-And-Receive-Future">Send-And-Receive-Future</a>).</li>
+<li>When a actor encounters an error that isn&#8217;t the client&#8217;s fault (e.g.
+a triplestore failure), log it and report it to the actor&#8217;s
+supervisor, but don&#8217;t do this with errors caused by bad input.</li>
+<li>When logging errors, include the full JVM stack trace.</li>
+</ol>
+<p>The design does not yet include, but could easily accommodate,
+translations of error messages into different languages.</p>
+<p>A hierarchy of exception classes is defined in <code class="docutils literal"><span class="pre">Exceptions.scala</span></code>,
+representing different sorts of errors that could occur. The hierarchy
+has two main branches:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">RequestRejectedException</span></code>, an abstract class for errors that are
+the client&#8217;s fault. These errors are not logged.</li>
+<li><code class="docutils literal"><span class="pre">InternalServerException</span></code>, an abstract class for errors that are
+not the client&#8217;s fault. These errors are logged.</li>
+</ul>
+<p>Exception classes in this hierarchy can be defined to include a wrapped
+<code class="docutils literal"><span class="pre">cause</span></code> exception. When an exception is logged, its stack trace will
+be logged along with the stack trace of its <code class="docutils literal"><span class="pre">cause</span></code>. It is therefore
+recommended that low-level code should catch low-level exceptions, and
+wrap them in one of our higher-level exceptions, in order to clarify the
+context in which the error occurred.</p>
+<p>To simplify error-handling in responders, a utility method called <code class="docutils literal"><span class="pre">future2Message</span></code> is provided
+in <code class="docutils literal"><span class="pre">ActorUtils</span></code>. It is intended to be used in an actor&#8217;s <code class="docutils literal"><span class="pre">receive</span></code> method to respond to
+messages in the <code class="docutils literal"><span class="pre">ask</span></code> pattern. If the responder&#8217;s computation is successful,
+it is sent to the requesting actor as a response to the <code class="docutils literal"><span class="pre">ask</span></code>. If the
+computation fails, the exception representing the failure is wrapped in
+a <code class="docutils literal"><span class="pre">Status.Failure</span></code>, which is sent as a response to the <code class="docutils literal"><span class="pre">ask</span></code>. If the
+error is a subclass of <code class="docutils literal"><span class="pre">RequestRejectedException</span></code>, only the sender is
+notified of the error; otherwise, the error is also logged and rethrown
+(so that the actor&#8217;s supervisor will receive it).</p>
+<p>In many cases, we transform data from the triplestore into a <code class="docutils literal"><span class="pre">Map</span></code>
+object. To simplify checking for required values in these collections,
+the class <code class="docutils literal"><span class="pre">ErrorHandlingMap</span></code> is provided. You can wrap any <code class="docutils literal"><span class="pre">Map</span></code> in
+an <code class="docutils literal"><span class="pre">ErrorHandlingMap</span></code>. You must provide a function that will generate an error message
+when a required value is missing, and
+optionally a function that throws a particular exception. Rows of SPARQL
+query results are already returned in <code class="docutils literal"><span class="pre">ErrorHandlingMap</span></code> objects.</p>
+<p>If you want to add a new exception class, see the comments in
+<code class="docutils literal"><span class="pre">Exceptions.scala</span></code> for instructions.</p>
+<p>We still need to add error-handling strategies in supervisor actors.</p>
+<p>See also <a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a>.</p>
+</div>
+<div class="section" id="api-routing">
+<span id="id3"></span><h2>API Routing<a class="headerlink" href="#api-routing" title="Permalink to this headline">¶</a></h2>
+<p>The API routes in the <code class="docutils literal"><span class="pre">routing</span></code> package are defined using the DSL
+provided by the <a class="reference external" href="http://spray.io/documentation/1.2.3/spray-routing/">spray-routing</a> library. A routing function has to do the following:</p>
+<ol class="arabic simple">
+<li>Authenticate the client.</li>
+<li>Figure out what the client is asking for.</li>
+<li>Construct an appropriate request message and send it to
+<code class="docutils literal"><span class="pre">ResponderManagerV1</span></code>, using the <code class="docutils literal"><span class="pre">ask</span></code> pattern.</li>
+<li>Return a result to the client.</li>
+</ol>
+<p>To simplify the coding of routing functions, they are contained in objects that extend
+<code class="docutils literal"><span class="pre">org.knora.webapi.routing.Authenticator</span></code>. Each routing function constructs a <code class="docutils literal"><span class="pre">Try</span></code> in which the following
+operations are performed:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">Authenticator.getUserProfileV1</span></code> is called to authenticate the user.</li>
+<li>The request parameters are interpreted and validated, and a request message is constructed to send to the responder.
+If the request is invalid, <code class="docutils literal"><span class="pre">BadRequestException</span></code> is thrown. If the request message is requesting an update operation,
+it must include a UUID generated by <code class="docutils literal"><span class="pre">UUID.randomUUID</span></code>, so the responder can obtain a write lock on the resource
+being updated.</li>
+</ol>
+<p>The routing function then passes the <code class="docutils literal"><span class="pre">Try</span></code> to <code class="docutils literal"><span class="pre">org.knora.webapi.routing.RouteUtils.runJsonRoute()</span></code>, which takes
+care of sending the message to <code class="docutils literal"><span class="pre">ResponderManagerV1</span></code> and returning a response to the client,
+as well as handling errors.</p>
+<p>See <a class="reference internal" href="how-to-add-a-route.html#how-to-add-a-route"><span>How to Add an API Route</span></a> for an example.</p>
+</div>
+<div class="section" id="json">
+<h2>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
+<p>The Knora API server parses and generate JSON using the <a class="reference external" href="https://github.com/spray/spray-json">spray-json</a> library.</p>
+<p>The triplestore returns results in JSON, and these are parsed into <code class="docutils literal"><span class="pre">SparqlSelectResponse</span></code> objects in the <code class="docutils literal"><span class="pre">store</span></code>
+package (by <code class="docutils literal"><span class="pre">SparqlUtils</span></code>, which can be used by any actor in that package). A <code class="docutils literal"><span class="pre">SparqlSelectResponse</span></code> has a
+structure that&#8217;s very close to the JSON returned by a triplestore via the <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/">SPARQL 1.1 Protocol</a>:
+it contains a header (listing the variables that were used in the query) and a body (containing rows of query
+results). Each row of query results is represented by a <code class="docutils literal"><span class="pre">VariableResultsRow</span></code>, which contains a <code class="docutils literal"><span class="pre">Map[String,</span> <span class="pre">String]</span></code>
+of variable names to values.</p>
+<p>The <code class="docutils literal"><span class="pre">Jsonable</span></code> trait marks classes that can convert themselves into
+spray-json AST objects when you call their <code class="docutils literal"><span class="pre">toJsValue</span></code> method; it
+returns a <code class="docutils literal"><span class="pre">JsValue</span></code> object, which can then be converted to text by
+calling its <code class="docutils literal"><span class="pre">prettyPrint</span></code> or <code class="docutils literal"><span class="pre">compactPrint</span></code> methods. Case classes
+representing complete API responses extend the <code class="docutils literal"><span class="pre">KnoraResponseV1</span></code>
+trait, which extends <code class="docutils literal"><span class="pre">Jsonable</span></code>. Case classes representing Knora
+values extend the <code class="docutils literal"><span class="pre">ApiValueV1</span></code> trait, which also extends <code class="docutils literal"><span class="pre">Jsonable</span></code>. To
+make the responders reusable, the JSON for API responses is generated
+only at the last moment, by the <code class="docutils literal"><span class="pre">RouteUtils.runJsonRoute()</span></code> function.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Knora API Server Design Documentation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="futures-with-akka.html">Futures with Akka</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

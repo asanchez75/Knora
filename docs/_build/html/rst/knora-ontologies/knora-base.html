@@ -1,0 +1,1466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Knora Base Ontology &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Knora Ontologies" href="index.html" />
+    <link rel="next" title="The Knora API Server" href="../knora-api-server/index.html" />
+    <link rel="prev" title="The Knora Ontologies" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>The Knora Base Ontology</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">The Knora Ontologies</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../knora-api-server/index.html">The Knora API Server</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="the-knora-base-ontology">
+<span id="knora-base"></span><h1>The Knora Base Ontology<a class="headerlink" href="#the-knora-base-ontology" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id9">Introduction</a><ul>
+<li><a class="reference internal" href="#resource-description-framework-rdf" id="id10">Resource Description Framework (RDF)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-knora-data-model" id="id11">The Knora Data Model</a><ul>
+<li><a class="reference internal" href="#projects" id="id12">Projects</a></li>
+<li><a class="reference internal" href="#resources" id="id13">Resources</a><ul>
+<li><a class="reference internal" href="#properties-of-resource" id="id14">Properties of Resource</a></li>
+<li><a class="reference internal" href="#representations" id="id15">Representations</a></li>
+<li><a class="reference internal" href="#standard-resource-classes" id="id16">Standard Resource Classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#values" id="id17">Values</a><ul>
+<li><a class="reference internal" href="#properties-of-value" id="id18">Properties of Value</a></li>
+<li><a class="reference internal" href="#subclasses-of-value" id="id19">Subclasses of Value</a><ul>
+<li><a class="reference internal" href="#textvalue" id="id20">TextValue</a></li>
+<li><a class="reference internal" href="#datevalue" id="id21">DateValue</a></li>
+<li><a class="reference internal" href="#intvalue" id="id22">IntValue</a></li>
+<li><a class="reference internal" href="#decimalvalue" id="id23">DecimalValue</a></li>
+<li><a class="reference internal" href="#urivalue" id="id24">UriValue</a></li>
+<li><a class="reference internal" href="#booleanvalue" id="id25">BooleanValue</a></li>
+<li><a class="reference internal" href="#geomvalue" id="id26">GeomValue</a></li>
+<li><a class="reference internal" href="#geonamevalue" id="id27">GeonameValue</a></li>
+<li><a class="reference internal" href="#intervalvalue" id="id28">IntervalValue</a></li>
+<li><a class="reference internal" href="#listvalue" id="id29">ListValue</a></li>
+<li><a class="reference internal" href="#filevalue" id="id30">FileValue</a></li>
+<li><a class="reference internal" href="#linkvalue" id="id31">LinkValue</a></li>
+<li><a class="reference internal" href="#externalresvalue" id="id32">ExternalResValue</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#links-between-resources" id="id33">Links Between Resources</a></li>
+<li><a class="reference internal" href="#text-with-standoff-markup" id="id34">Text with Standoff Markup</a><ul>
+<li><a class="reference internal" href="#subclasses-of-standofftag" id="id35">Subclasses of StandoffTag</a><ul>
+<li><a class="reference internal" href="#standoffvisualtag" id="id36">StandoffVisualTag</a></li>
+<li><a class="reference internal" href="#standoffstructuraltag" id="id37">StandoffStructuralTag</a></li>
+<li><a class="reference internal" href="#standoffdatatypetag" id="id38">StandoffDataTypeTag</a></li>
+<li><a class="reference internal" href="#standofflinktag" id="id39">StandoffLinkTag</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#standoff-in-digital-editions" id="id40">Standoff in Digital Editions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#authorization" id="id41">Authorization</a><ul>
+<li><a class="reference internal" href="#users-and-groups" id="id42">Users and Groups</a></li>
+<li><a class="reference internal" href="#permissions" id="id43">Permissions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#consistency-checking" id="id44">Consistency Checking</a><ul>
+<li><a class="reference internal" href="#owl-cardinalities" id="id45">OWL Cardinalities</a></li>
+<li><a class="reference internal" href="#constraints-on-the-types-of-property-subjects-and-objects" id="id46">Constraints on the Types of Property Subjects and Objects</a></li>
+<li><a class="reference internal" href="#consistency-constraint-example" id="id47">Consistency Constraint Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-questions" id="id48">Open Questions</a><ul>
+<li><a class="reference internal" href="#extending-existing-resource-definitions" id="id49">Extending Existing Resource Definitions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notes" id="id50">Notes</a></li>
+<li><a class="reference internal" href="#references" id="id51">References</a></li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id9">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="resource-description-framework-rdf">
+<h3><a class="toc-backref" href="#id10">Resource Description Framework (RDF)</a><a class="headerlink" href="#resource-description-framework-rdf" title="Permalink to this headline">¶</a></h3>
+<p>Knora uses a hierarchy of ontologies based on the Resource Description
+Framework (<a class="reference external" href="http://www.w3.org/TR/2014/NOTE-rdf11-primer-20140624/">RDF</a>), RDF Schema (<a class="reference external" href="http://www.w3.org/TR/2014/REC-rdf-schema-20140225/">RDFS</a>), and the Web Ontology Language (<a class="reference external" href="https://www.w3.org/TR/owl2-quick-reference/">OWL</a>)
+Both RDFS and OWL are expressed in RDF. RDF expresses information as a set of
+statements (called <em>triples</em>). A triple consists of a subject, a predicate,
+and an object:</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-46f467a55dc88ba86ea2c03c92c3b3b1c32cab80.png" alt="digraph {
+    rankdir = LR
+
+    node [style = filled, fontcolor = white]
+
+    subject [color = navy, fillcolor = slateblue4]
+    object [color = tomato3, fillcolor = tomato2]
+
+    subject -&gt; object [label = &quot;predicate&quot;, fontsize = 11, color = cyan4]
+}" />
+</p>
+<p>The object may be either a literal value (such as a name or number) or
+another subject. Thus it is possible to create complex graphs that
+connect many subjects, like this:</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-e5673fda25eab6dd2bdbe76a27939365da468ae5.png" alt="digraph {
+    rankdir = LR
+
+    {
+        node [color = navy, fillcolor = slateblue4, style = filled, fontcolor = white]
+
+        sub1 [label = &quot;subject no. 1&quot;]
+        sub2 [label = &quot;subject no. 2&quot;]
+        sub3 [label = &quot;subject no. 3&quot;]
+    }
+
+    {
+        node [shape = box, color = firebrick]
+
+        lit1 [label = &quot;literal no. 1&quot;]
+        lit2 [label = &quot;literal no. 2&quot;]
+        lit3 [label = &quot;literal no. 3&quot;]
+    }
+
+    edge [fontsize = 11, color = cyan4]
+
+    sub1 -&gt; lit1 [label = &quot;predicate no. 1&quot;]
+    sub1 -&gt; lit2 [label = &quot;predicate no. 2&quot;]
+    sub1 -&gt; sub2 [label = &quot;predicate no. 3&quot;]
+
+    sub2 -&gt; lit3 [label = &quot;predicate no. 4&quot;]
+    sub2 -&gt; sub3 [label = &quot;predicate no. 5&quot;]
+
+    // Add invisible edges to order the nodes from top to bottom.
+
+    {
+        rank = same
+        lit1 -&gt; lit2 -&gt; sub2 [style = invis]
+        rankdir = TB
+    }
+
+    {
+        rank = same
+        lit3 -&gt; sub3 [style = invis]
+        rankdir = TB
+    }
+}" />
+</p>
+<p>In RDF, each subject and predicate has a unique, URL-like identifier
+called an Internationalized Resource Identifier (<a class="reference external" href="http://tools.ietf.org/html/rfc3987">IRI</a>). Within a given project,
+IRIs typically differ only in their last component (the “local part”), which
+is often the fragment following a <code class="docutils literal"><span class="pre">#</span></code> character. Such IRIs share a
+long “prefix”. In <a class="reference external" href="http://www.w3.org/TR/turtle/">Turtle</a> and similar formats for
+writing RDF, a short prefix label can be defined to represent the long
+prefix. Then an IRI can be written as a prefix label and a local part,
+separated by a colon (<code class="docutils literal"><span class="pre">:</span></code>). For example, if the “example” project’s
+long prefix is <code class="docutils literal"><span class="pre">http://www.example.org/rdf#</span></code>, and it contains subjects
+with IRIs like <code class="docutils literal"><span class="pre">http://www.example.org/rdf#book</span></code>, we can define the
+prefix label <code class="docutils literal"><span class="pre">ex</span></code> to represent the prefix label, and write prefixed
+names for IRIs:</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-4bde7ecf7e6fee0179df808f79a78f44bb350eae.png" alt="digraph {
+    {
+        node [color = navy, fillcolor = slateblue4, style = filled, fontcolor = white]
+
+        book [label = &quot;ex:book1&quot;]
+        page [label = &quot;ex:page1&quot;]
+    }
+
+    {
+        node [shape = box, color = firebrick]
+
+        title [label = &quot;‘Das Narrenschiff’&quot;]
+        author [label = &quot;‘Sebastian Brant’&quot;]
+        pagename [label = &quot;‘a4r’&quot;]
+    }
+
+    edge [fontsize = 11, color = cyan4]
+
+    book -&gt; title [label = &quot;ex:title&quot;]
+    book -&gt; author [label = &quot;ex:author&quot;]
+    page -&gt; book [label = &quot;ex:pageOf&quot;]
+    page -&gt; pagename [label = &quot;ex:pagename&quot;]
+ }" />
+</p>
+<p>In this document, we use the prefix label <code class="docutils literal"><span class="pre">kb</span></code> to represent the Knora base
+ontology, <a class="footnote-reference" href="#id5" id="id1">[1]</a> but we usually omit it for brevity.</p>
+</div>
+</div>
+<div class="section" id="the-knora-data-model">
+<span id="knora-data-model"></span><h2><a class="toc-backref" href="#id11">The Knora Data Model</a><a class="headerlink" href="#the-knora-data-model" title="Permalink to this headline">¶</a></h2>
+<p>The Knora data model is based on the observation that, in the
+humanities, a value or literal is often itself structured and can be
+highly complex. Moreover, a value may have its own metadata, such as its
+creation date, information about ownership, permissions, and so on.
+Therefore, the Knora base ontology describes structured value types that
+can store this type of metadata. In the diagram below, a book (<code class="docutils literal"><span class="pre">ex:book2</span></code>)
+has a title (identified by the predicate <code class="docutils literal"><span class="pre">ex:title</span></code>) and a publication
+date (<code class="docutils literal"><span class="pre">ex:pubdate</span></code>), each of which has some metadata.</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-49e0812c35df53b25703e0954f0a778c73a38523.png" alt="digraph {
+    book [label = &quot;ex:book2&quot;, style = filled, fontcolor = white, color = navy, fillcolor = slateblue4]
+
+    {
+        node [style = filled, fontcolor = white, color = tomato3, fillcolor = tomato2]
+
+        title [label = &quot;kb:TextValue&quot;]
+        pubdate [label = &quot;kb:DateValue&quot;]
+    }
+
+    {
+        node [shape = box, color = firebrick]
+
+        titleStr [label = &quot;‘King Lear’&quot;]
+        titleCreationDate [label = &quot;2015-08-12 13:00&quot;]
+
+        startJDC [label = &quot;2364669&quot;]
+        endJDC [label = &quot;2364669&quot;]
+        pubdateCreationDate [label = &quot;2015-08-12 13:03&quot;]
+    }
+
+    edge [fontsize = 11, color = cyan4]
+
+    book -&gt; title [label = &quot;ex:title&quot;]
+    book -&gt; pubdate [label = &quot;ex:pubdate&quot;]
+
+    title -&gt; titleStr [label = &quot;kb:valueHasString&quot;]
+    title -&gt; titleCreationDate [label = &quot;kb:valueCreationDate&quot;]
+
+    pubdate -&gt; startJDC [label = &quot;kb:valueHasStartJDC&quot;]
+    pubdate -&gt; endJDC [label = &quot;kb:valueHasEndJDC&quot;]
+    pubdate -&gt; pubdateCreationDate [label = &quot;kb:valueCreationDate&quot;]
+ }" />
+</p>
+<div class="section" id="projects">
+<h3><a class="toc-backref" href="#id12">Projects</a><a class="headerlink" href="#projects" title="Permalink to this headline">¶</a></h3>
+<p>In Knora, each item of data belongs to some particular project. Each
+project using Knora must define a <code class="docutils literal"><span class="pre">kb:knoraProject</span></code>, which has these
+properties (cardinalities are indicated in parentheses after each
+property name):</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">shortname</span></code> (1)</dt>
+<dd>A short name that can be used to identify the project in
+configuration files and the like.</dd>
+<dt><code class="docutils literal"><span class="pre">basepath</span></code> (1)</dt>
+<dd>The filesystem path of the directory where the project’s files are
+stored.</dd>
+<dt><code class="docutils literal"><span class="pre">foaf:name</span></code> (0-1)</dt>
+<dd>The name of the project.</dd>
+<dt><code class="docutils literal"><span class="pre">description</span></code> (0-1)</dt>
+<dd>A description of the project.</dd>
+<dt><code class="docutils literal"><span class="pre">belongsTo</span></code> (0-1)</dt>
+<dd>The <code class="docutils literal"><span class="pre">kb:Institution</span></code> that the project belongs to.</dd>
+</dl>
+<p>Resources and values are associated with a project by means of the
+<code class="docutils literal"><span class="pre">kb:attachedToProject</span></code> property, as described in
+<a class="reference internal" href="#knora-data-model"><span>The Knora Data Model</span></a>. Users are associated with a project by means
+of the <code class="docutils literal"><span class="pre">kb:isInProject</span></code> property, as described in <a class="reference internal" href="#knora-base-users-and-groups"><span>Users and Groups</span></a>.</p>
+</div>
+<div class="section" id="resources">
+<span id="knora-base-resources"></span><h3><a class="toc-backref" href="#id13">Resources</a><a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h3>
+<p>All the content produced by a project (e.g. digitised primary source materials
+or research data) must be stored in objects that belong to subclasses of
+<code class="docutils literal"><span class="pre">kb:Resource</span></code>, so that the Knora API server can query and update that
+content. Each project using the Knora base ontology must define its own OWL
+classes, derived from <code class="docutils literal"><span class="pre">kb:Resource</span></code>, to represent the types of data it deals
+with. A subclass of <code class="docutils literal"><span class="pre">kb:Resource</span></code> may additionally be a subclass of any
+other class, e.g. an industry-standard class such as <code class="docutils literal"><span class="pre">foaf:Person</span></code>;
+this can facilitate searches across projects.</p>
+<p>Resources have properties that point to different parts of the content they
+contain. For example, a resource representing a book could have a property
+called <code class="docutils literal"><span class="pre">hasAuthor</span></code>, pointing to the author of the book. There are two
+possible kinds of content in a Knora resource: Knora values
+(see <a class="reference internal" href="#knora-base-values"><span>Values</span></a>) or links to other resources (see <a class="reference internal" href="#knora-base-links"><span>Links Between Resources</span></a>).
+Properties that point to Knora values must be subproperties of
+<code class="docutils literal"><span class="pre">kb:hasValue</span></code>, and properties that point to other resources must be
+subproperties of <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code>. Either of these two types of properties may
+also be a subproperty of any other property, e.g. an industry-standard
+property such as <code class="docutils literal"><span class="pre">foaf:name</span></code>; this can facilitate searches across projects.
+Each property definition must specify the types that its subjects and objects
+must belong to (see <a class="reference internal" href="#knora-base-property-restrictions"><span>Constraints on the Types of Property Subjects and Objects</span></a> for details).</p>
+<p>Each project-specific resource class definition must use OWL cardinality
+restrictions to specify the properties that resources of that class can
+have (see <a class="reference internal" href="#knora-base-cardinalities"><span>OWL Cardinalities</span></a> for details).</p>
+<p>Resources are not versioned; only their values are versioned (see
+<a class="reference internal" href="#knora-base-values"><span>Values</span></a>).</p>
+<p>Every resource is required to have an <code class="docutils literal"><span class="pre">rdfs:label</span></code>. The object of this
+property is an <code class="docutils literal"><span class="pre">xsd:string</span></code>, rather than a Knora value; hence it is not
+versioned. A user who has modify permission on a resource
+<a class="reference internal" href="#knora-base-authorization"><span>Authorization</span></a> can change its label.</p>
+<p>A resource can be marked as deleted; the Knora API server does this by adding
+the predicate <code class="docutils literal"><span class="pre">kb:isDeleted</span> <span class="pre">true</span></code> to the resource. An optional
+<code class="docutils literal"><span class="pre">kb:deleteComment</span></code> may be added to explain why the resource has been marked
+as deleted. Deleted resources are normally hidden. They cannot be undeleted,
+because even though resources are not versioned, it is necessary to be able to
+find out when a resource was deleted. If desired, a new resource can be
+created by copying data from a deleted resource.</p>
+<div class="section" id="properties-of-resource">
+<h4><a class="toc-backref" href="#id14">Properties of Resource</a><a class="headerlink" href="#properties-of-resource" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">creationDate</span></code> (1)</dt>
+<dd>The time when the resource was created.</dd>
+<dt><code class="docutils literal"><span class="pre">attachedToUser</span></code> (1)</dt>
+<dd>The user who owns the resource.</dd>
+<dt><code class="docutils literal"><span class="pre">attachedToProject</span></code> (1)</dt>
+<dd>The project that the resource is part of.</dd>
+<dt><code class="docutils literal"><span class="pre">lastModificationDate</span></code> (0-1)</dt>
+<dd>A timestamp indicating when the resource (or one of its values) was
+last modified.</dd>
+<dt><code class="docutils literal"><span class="pre">seqnum</span></code> (0-1)</dt>
+<dd>The sequence number of the resource, if it is part of an ordered
+group of resources, such as the pages in a book.</dd>
+<dt><code class="docutils literal"><span class="pre">isDeleted</span></code> (1)</dt>
+<dd>Indicates whether the resource has been deleted.</dd>
+<dt><code class="docutils literal"><span class="pre">deleteDate</span></code> (0-1)</dt>
+<dd>If the resource has been deleted, indicates when it was deleted.</dd>
+<dt><code class="docutils literal"><span class="pre">deleteComment</span></code> (0-1)</dt>
+<dd>If the resource has been deleted, indicates why it was deleted.</dd>
+</dl>
+<p>Resources can have properties that point to other resources; see
+<a class="reference internal" href="#knora-base-links"><span>Links Between Resources</span></a>. A resource grants permissions to groups of users;
+see <a class="reference internal" href="#knora-base-authorization"><span>Authorization</span></a>.</p>
+</div>
+<div class="section" id="representations">
+<span id="knora-base-representations"></span><h4><a class="toc-backref" href="#id15">Representations</a><a class="headerlink" href="#representations" title="Permalink to this headline">¶</a></h4>
+<p>It is not practical to store all data in RDF. In particular, RDF is not
+a good storage medium for binary data such as images. Therefore, Knora
+stores such data outside the triplestore, in ordinary files. A resource
+can have one or more files attached to it. For each file, there is a
+<code class="docutils literal"><span class="pre">kb:FileValue</span></code> in the triplestore containing metadata about the file
+(see <a class="reference internal" href="#knora-base-filevalue"><span>FileValue</span></a>). A resource that has file values
+must belong to of the subclasses of <code class="docutils literal"><span class="pre">kb:Representation</span></code>. The base
+class <code class="docutils literal"><span class="pre">Representation</span></code>, which is not intended to be used directly, has
+this property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">hasFileValue</span></code> (1-n)</dt>
+<dd>Points to one or more file values.</dd>
+</dl>
+<p>Its subclasses, which are intended to be used directly in data, include:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">StillImageRepresentation</span></code></dt>
+<dd>A representation containing still image files.</dd>
+<dt><code class="docutils literal"><span class="pre">MovingImageRepresentation</span></code></dt>
+<dd>A representation containing video files.</dd>
+<dt><code class="docutils literal"><span class="pre">AudioRepresentation</span></code></dt>
+<dd>A representation containing audio files.</dd>
+<dt><code class="docutils literal"><span class="pre">DDDrepresentation</span></code></dt>
+<dd>A representation containing 3D images.</dd>
+<dt><code class="docutils literal"><span class="pre">TextRepresentation</span></code></dt>
+<dd>A representation containing formatted text files, such as XML files.</dd>
+<dt><code class="docutils literal"><span class="pre">DocumentRepresentation</span></code></dt>
+<dd>A representation containing documents (such as PDF files) that are
+not text files.</dd>
+</dl>
+<p>There are two ways for a project to design classes for representations.
+The simpler way is to create a resource class that represents a thing in
+the world (such as <code class="docutils literal"><span class="pre">ex:Painting</span></code>) and also belongs to a subclass of
+<code class="docutils literal"><span class="pre">Representation</span></code>. This is adequate if the class can have only one type
+of file attached to it. For example, if paintings are represented only
+by still images, <code class="docutils literal"><span class="pre">ex:Painting</span></code> could be a subclass of
+<code class="docutils literal"><span class="pre">StillImageRepresentation</span></code>. This is the only approach supported in
+version 1 of the Knora API.</p>
+<p>The more flexible approach, which is allowed by the Knora base ontology
+and will be supported by version 2 of the Knora API, is for each
+<code class="docutils literal"><span class="pre">ex:Painting</span></code> to use the <code class="docutils literal"><span class="pre">kb:hasRepresentation</span></code> property to point to
+other resources containing files that represent the painting. Each of
+these other resources can extend a different subclass of
+<code class="docutils literal"><span class="pre">Representation</span></code>. For example, a painting could have a
+<code class="docutils literal"><span class="pre">StillImageRepresentation</span></code> as well as a <code class="docutils literal"><span class="pre">DDDrepresentation</span></code>.</p>
+</div>
+<div class="section" id="standard-resource-classes">
+<h4><a class="toc-backref" href="#id16">Standard Resource Classes</a><a class="headerlink" href="#standard-resource-classes" title="Permalink to this headline">¶</a></h4>
+<p>In general, each project using Knora must define its own subclasses of
+<code class="docutils literal"><span class="pre">kb:Resource</span></code>. However, the Knora base ontology provides some standard
+subclasses of <code class="docutils literal"><span class="pre">kb:Resource</span></code>, which are intended to be used by any
+project:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">Region</span></code></dt>
+<dd>Represents a region of a <code class="docutils literal"><span class="pre">Representation</span></code> (see <a class="reference internal" href="#knora-base-representations"><span>Representations</span></a>).</dd>
+<dt><code class="docutils literal"><span class="pre">Annotation</span></code></dt>
+<dd>Represents an annotation of a resource. The <code class="docutils literal"><span class="pre">hasComment</span></code> property
+points to the text of the annotation.</dd>
+<dt><code class="docutils literal"><span class="pre">LinkObj</span></code></dt>
+<dd>Represents a link that connects two or more resources. A <code class="docutils literal"><span class="pre">LinkObj</span></code>
+has a <code class="docutils literal"><span class="pre">hasLinkTo</span></code> property pointing to each resource that it
+connects, as well as a <code class="docutils literal"><span class="pre">hasLinkToValue</span></code> property pointing to a
+reification of each of these direct links (see <a class="reference internal" href="#knora-base-links"><span>Links Between Resources</span></a>).
+A <code class="docutils literal"><span class="pre">LinkObj</span></code> is more complex (and hence less convenient and
+readable) than a simple direct link, but it has the advantage that
+it can be annotated using an <code class="docutils literal"><span class="pre">Annotation</span></code>. For improved
+readability, a project can make its own subclasses of <code class="docutils literal"><span class="pre">LinkObj</span></code>
+with specific meanings.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="values">
+<span id="knora-base-values"></span><h3><a class="toc-backref" href="#id17">Values</a><a class="headerlink" href="#values" title="Permalink to this headline">¶</a></h3>
+<p>The Knora base ontology defines a set of OWL classes that are derived
+from <code class="docutils literal"><span class="pre">kb:Value</span></code> and represent different types of structured values
+found in humanities data. This set of classes may not be extended by
+project-specific ontologies.</p>
+<p>A value is always part of one particular resource, which points to it
+using some property derived from <code class="docutils literal"><span class="pre">hasValue</span></code>. For example, a
+project-specific ontology could specify a <code class="docutils literal"><span class="pre">Book</span></code> class with a property
+<code class="docutils literal"><span class="pre">hasSummary</span></code> (derived from <code class="docutils literal"><span class="pre">hasValue</span></code>), and that property could have
+a <code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code> of <code class="docutils literal"><span class="pre">TextValue</span></code>. This would mean
+that the summary of each book is represented as a <code class="docutils literal"><span class="pre">TextValue</span></code>.</p>
+<p>Knora values are versioned. Existing values are not modified. Instead, a
+new version of an existing value is created. The new version is linked
+to the old version via the <code class="docutils literal"><span class="pre">previousValue</span></code> property.</p>
+<p>“Deleting” a value means marking it with <code class="docutils literal"><span class="pre">kb:isDeleted</span></code>. An optional
+<code class="docutils literal"><span class="pre">kb:deleteComment</span></code> may be added to explain why the value has been
+marked as deleted. Deleted values are normally hidden.</p>
+<p>Most types of values are marked as deleted without creating a new
+version of the value. However, link values must be treated as a special
+case. Before a <code class="docutils literal"><span class="pre">LinkValue</span></code> can be marked as deleted, its reference
+count must be decremented to 0. Therefore, a new version of the
+<code class="docutils literal"><span class="pre">LinkValue</span></code> is made, with a reference count of 0, and it is this new
+version that is marked as deleted.</p>
+<p>To simplify the enforcement of ontology constraints, and for consistency
+with resource updates, no new versions of a deleted value can be made;
+it is not possible to undelete. Instead, if desired, a new value can be
+created by copying data from a deleted value.</p>
+<div class="section" id="properties-of-value">
+<h4><a class="toc-backref" href="#id18">Properties of Value</a><a class="headerlink" href="#properties-of-value" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueCreationDate</span></code> (1)</dt>
+<dd>The date and time when the value was created.</dd>
+<dt><code class="docutils literal"><span class="pre">attachedToUser</span></code> (1)</dt>
+<dd>The user who owns the value.</dd>
+<dt><code class="docutils literal"><span class="pre">attachedToProject</span></code> (0-1)</dt>
+<dd>The project that the value is part of. If not specified, defaults to
+the project of the containing resource.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasString</span></code> (1)</dt>
+<dd>A human-readable string representation of the value’s contents,
+which is available to Knora’s full-text search index.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasOrder</span></code> (0-1)</dt>
+<dd>A resource may have several properties of the same type with
+different values (which will be of the same class), and it may be
+necessary to indicate an order in which these values occur. For
+example, a book may have several authors which should appear in a
+defined order. Hence, <code class="docutils literal"><span class="pre">valueHasOrder</span></code>, when present, points to an
+integer literal indicating the order of a given value relative to
+the other values of the same property. These integers will not
+necessarily start at any particular number, and will not necessarily
+be consecutive.</dd>
+<dt><code class="docutils literal"><span class="pre">previousValue</span></code> (0-1)</dt>
+<dd>The previous version of the value.</dd>
+<dt><code class="docutils literal"><span class="pre">isDeleted</span></code> (1)</dt>
+<dd>Indicates whether the value has been deleted.</dd>
+<dt><code class="docutils literal"><span class="pre">deleteDate</span></code> (0-1)</dt>
+<dd>If the value has been deleted, indicates when it was deleted.</dd>
+<dt><code class="docutils literal"><span class="pre">deleteComment</span></code> (0-1)</dt>
+<dd>If the value has been deleted, indicates why it was deleted.</dd>
+</dl>
+<p>Each Knora value can grant permissions (see <a class="reference internal" href="#knora-base-authorization"><span>Authorization</span></a>).</p>
+</div>
+<div class="section" id="subclasses-of-value">
+<h4><a class="toc-backref" href="#id19">Subclasses of Value</a><a class="headerlink" href="#subclasses-of-value" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="textvalue">
+<h5><a class="toc-backref" href="#id20">TextValue</a><a class="headerlink" href="#textvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents text, possibly including markup. The text is the object of
+the <code class="docutils literal"><span class="pre">valueHasString</span></code> property. A line break is represented as a
+Unicode line feed character (<code class="docutils literal"><span class="pre">U+000A</span></code>). The non-printing Unicode
+character <code class="docutils literal"><span class="pre">INFORMATION</span> <span class="pre">SEPARATOR</span> <span class="pre">TWO</span> <span class="pre">(U+001E)</span></code> can be used to separate
+words that are separated only by standoff markup (see below), so they
+are recognised as separate in a full-text search index.</p>
+<p>Markup is stored using this property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasStandoff</span></code> (0-n)</dt>
+<dd>Points to a standoff markup tag. See <a class="reference internal" href="#knora-base-standoff"><span>Text with Standoff Markup</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="datevalue">
+<h5><a class="toc-backref" href="#id21">DateValue</a><a class="headerlink" href="#datevalue" title="Permalink to this headline">¶</a></h5>
+<p>Humanities data includes many different types of dates. In Knora, a date
+has a specified calendar, and is always represented as a period with
+start and end points (which may be equal), each of which has a precision
+(<code class="docutils literal"><span class="pre">DAY</span></code>, <code class="docutils literal"><span class="pre">MONTH</span></code>, or <code class="docutils literal"><span class="pre">YEAR</span></code>). Internally, the start and end points
+are stored as two Julian Day Numbers. This calendar-independent
+representation makes it possible to compare and search for dates
+regardless of the calendar in which they were entered. Properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasCalendar</span></code> (1)</dt>
+<dd>The name of the calendar in which the date should be displayed.
+Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></code> and <code class="docutils literal"><span class="pre">JULIAN</span></code> are supported.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasStartJDC</span></code> (1)</dt>
+<dd>The Julian Day Number of the start of the period (an
+<code class="docutils literal"><span class="pre">xsd:integer</span></code>).</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasStartPrecision</span></code> (1)</dt>
+<dd>The precision of the start of the period.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasEndJDC</span></code> (1)</dt>
+<dd>The Julian Day Number of the end of the period (an <code class="docutils literal"><span class="pre">xsd:integer</span></code>).</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasEndPrecision</span></code> (1)</dt>
+<dd>The precision of the end of the period.</dd>
+</dl>
+</div>
+<div class="section" id="intvalue">
+<h5><a class="toc-backref" href="#id22">IntValue</a><a class="headerlink" href="#intvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents an integer. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasInteger</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:integer</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="decimalvalue">
+<h5><a class="toc-backref" href="#id23">DecimalValue</a><a class="headerlink" href="#decimalvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents an arbitrary-precision decimal number. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasDecimal</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:decimal</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="urivalue">
+<h5><a class="toc-backref" href="#id24">UriValue</a><a class="headerlink" href="#urivalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a non-Knora URI. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasUri</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:anyURI</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="booleanvalue">
+<h5><a class="toc-backref" href="#id25">BooleanValue</a><a class="headerlink" href="#booleanvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a boolean value. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasBoolean</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:boolean</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="geomvalue">
+<h5><a class="toc-backref" href="#id26">GeomValue</a><a class="headerlink" href="#geomvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a geometrical object as a JSON string, using normalized
+coordinates. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasGeometry</span></code> (1)</dt>
+<dd>A JSON string.</dd>
+</dl>
+</div>
+<div class="section" id="geonamevalue">
+<h5><a class="toc-backref" href="#id27">GeonameValue</a><a class="headerlink" href="#geonamevalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a geolocation, using the numerical codes found at
+<a class="reference external" href="http://geonames.org">GeoNames</a>. Property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasGeonameCode</span></code> (1)</dt>
+<dd>the numerical code of a geographical feature from
+<a class="reference external" href="http://geonames.org">GeoNames</a>, represented as an <code class="docutils literal"><span class="pre">xsd:integer</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="intervalvalue">
+<h5><a class="toc-backref" href="#id28">IntervalValue</a><a class="headerlink" href="#intervalvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a time interval, with precise start and end times on a
+timeline, e.g. relative to the beginning of an audio or video file.
+Properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasIntervalStart</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:decimal</span></code> representing the start of the interval in
+seconds.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasIntervalEnd</span></code> (1)</dt>
+<dd>An <code class="docutils literal"><span class="pre">xsd:decimal</span></code> representing the end of the interval in seconds.</dd>
+</dl>
+</div>
+<div class="section" id="listvalue">
+<h5><a class="toc-backref" href="#id29">ListValue</a><a class="headerlink" href="#listvalue" title="Permalink to this headline">¶</a></h5>
+<p>Projects often need to define lists or hierarchies of categories that
+can be assigned to many different resources. Then, for example, a user
+interface can provide a drop-down menu to allow the user to assign a
+category to a resource. The <code class="docutils literal"><span class="pre">ListValue</span></code> class provides a way to
+represent these sorts of data structures. It can represent either a flat
+list or a tree.</p>
+<p>A <code class="docutils literal"><span class="pre">ListValue</span></code> has this property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasListNode</span></code> (1)</dt>
+<dd>Points to the root <code class="docutils literal"><span class="pre">ListNode</span></code> of the list or tree.</dd>
+</dl>
+<p>Each <code class="docutils literal"><span class="pre">ListNode</span></code> can have the following properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">hasSubListNode</span></code> (0-n)</dt>
+<dd>Points to the node’s child nodes, if any.</dd>
+<dt><code class="docutils literal"><span class="pre">listNodePosition</span></code> (1)</dt>
+<dd>An integer indicating the node’s position in the list of its
+siblings.</dd>
+<dt><code class="docutils literal"><span class="pre">isRootNode</span></code> (0-1)</dt>
+<dd>Set to <code class="docutils literal"><span class="pre">true</span></code> if this is the root node.</dd>
+<dt><code class="docutils literal"><span class="pre">listNodeName</span></code> (0-n)</dt>
+<dd>The node’s human-readable name.</dd>
+</dl>
+</div>
+<div class="section" id="filevalue">
+<span id="knora-base-filevalue"></span><h5><a class="toc-backref" href="#id30">FileValue</a><a class="headerlink" href="#filevalue" title="Permalink to this headline">¶</a></h5>
+<p>Knora stores certain kinds of data outside the triplestore, in files
+(see <a class="reference internal" href="#knora-base-representations"><span>Representations</span></a>). Each digital object that is
+stored outside the triplestore has associated metadata, which is stored
+in the triplestore in a <code class="docutils literal"><span class="pre">kb:FileValue</span></code>. The base class <code class="docutils literal"><span class="pre">FileValue</span></code>,
+which is not intended to be used directly, has these properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">internalFilename</span></code> (1)</dt>
+<dd>The name of the file as stored by the Knora API server.</dd>
+<dt><code class="docutils literal"><span class="pre">internalMimeType</span></code> (1)</dt>
+<dd>The MIME type of the file as stored by the Knora API server.</dd>
+<dt><code class="docutils literal"><span class="pre">originalFilename</span></code> (0-1)</dt>
+<dd>The original name of the file when it was uploaded to the Knora API
+server.</dd>
+<dt><code class="docutils literal"><span class="pre">originalMimeType</span></code> (0-1)</dt>
+<dd>The original MIME type of the file when it was uploaded to the Knora
+API server.</dd>
+<dt><code class="docutils literal"><span class="pre">isPreview</span></code> (0-1)</dt>
+<dd>A boolean indicating whether the file is a preview, i.e.&nbsp;a small
+image representing the contents of the file. A preview is always a
+<code class="docutils literal"><span class="pre">StillImageFileValue</span></code>, regardless of the type of the enclosing
+<code class="docutils literal"><span class="pre">Representation</span></code>.</dd>
+</dl>
+<p>The subclasses of <code class="docutils literal"><span class="pre">FileValue</span></code>, which are intended to be used directly
+in data, include:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">StillImageFileValue</span></code></dt>
+<dd>Contains metadata about a still image file.</dd>
+<dt><code class="docutils literal"><span class="pre">MovingImageFileValue</span></code></dt>
+<dd>Contains metadata about a video file.</dd>
+<dt><code class="docutils literal"><span class="pre">AudioFileValue</span></code></dt>
+<dd>Contains metadata about an audio file.</dd>
+<dt><code class="docutils literal"><span class="pre">DDDFileValue</span></code></dt>
+<dd>Contains metadata about a 3D image file.</dd>
+<dt><code class="docutils literal"><span class="pre">TextFileValue</span></code></dt>
+<dd>Contains metadata about a text file.</dd>
+<dt><code class="docutils literal"><span class="pre">DocumentFileValue</span></code></dt>
+<dd>Contains metadata about a document (such as PDF) that is not a text
+file.</dd>
+</dl>
+<p>Each of these classes contains properties that are specific to the type
+of file it describes. For example, still image files have dimensions,
+video files have frame rates, and so on.</p>
+<p>The files in a given representation must be semantically equivalent,
+meaning that coordinates that relate to one file must also be valid for
+other files in the same representation. Coordinates in Knora are
+expressed as fractions of the size of the object on some dimension; for
+example, image coordinates are expressed as fractions of its width and
+height, rather than in pixels. Therefore, the image files in a
+<code class="docutils literal"><span class="pre">StillImageRepresentation</span></code> must have the same aspect ratio, but they
+need not have the same dimensions in pixels. Similarly, the audio and
+video files in an <code class="docutils literal"><span class="pre">AudioRepresentation</span></code> or
+<code class="docutils literal"><span class="pre">MovingImageRepresentation</span></code> must have the same length in seconds, but
+may have different bitrates.</p>
+<p><code class="docutils literal"><span class="pre">FileValue</span></code> objects are versioned like other values, and the actual
+files stored by Knora are also versioned. Version 1 of the Knora API
+does not provide a way to retrieve a previous version of a file, but
+this feature will be added in a subsequent version of the API.</p>
+</div>
+<div class="section" id="linkvalue">
+<span id="knora-base-linkvalue"></span><h5><a class="toc-backref" href="#id31">LinkValue</a><a class="headerlink" href="#linkvalue" title="Permalink to this headline">¶</a></h5>
+<p>A <code class="docutils literal"><span class="pre">LinkValue</span></code> is an RDF “reification” containing metadata about a link
+between two resources. It is therefore a subclass of <code class="docutils literal"><span class="pre">rdf:Statement</span></code>
+as well as of <code class="docutils literal"><span class="pre">Value</span></code>. It has these properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">rdf:subject</span></code> (1)</dt>
+<dd>The resource that is the source of the link.</dd>
+<dt><code class="docutils literal"><span class="pre">rdf:predicate</span></code> (1)</dt>
+<dd>The link property.</dd>
+<dt><code class="docutils literal"><span class="pre">rdf:object</span></code> (1)</dt>
+<dd>The resource that is the target of the link.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasRefCount</span></code> (1)</dt>
+<dd>The reference count of the link. This is meaningful when the
+<code class="docutils literal"><span class="pre">LinkValue</span></code> describes resource references in Standoff text markup
+(see <a class="reference internal" href="#knora-base-standoff-link"><span>StandoffLinkTag</span></a>). Otherwise, the reference
+count will always be 1 (if the link exists) or 0 (if it has been
+deleted).</dd>
+</dl>
+<p>For details about how links are created in Knora, see <a class="reference internal" href="#knora-base-links"><span>Links Between Resources</span></a>.</p>
+</div>
+<div class="section" id="externalresvalue">
+<h5><a class="toc-backref" href="#id32">ExternalResValue</a><a class="headerlink" href="#externalresvalue" title="Permalink to this headline">¶</a></h5>
+<p>Represents a resource that is not stored in the RDF triplestore managed
+by the Knora API server, but instead resides in an external repository
+managed by some other software. The <code class="docutils literal"><span class="pre">ExternalResValue</span></code> contains the
+information that the Knora API server needs in order to access the
+resource, assuming that a suitable gateway plugin is installed.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">extResAccessInfo</span></code> (1)</dt>
+<dd>The location of the repository containing the external resource
+(e.g. its URL).</dd>
+<dt><code class="docutils literal"><span class="pre">extResId</span></code> (1)</dt>
+<dd>The repository-specific ID of the external resource.</dd>
+<dt><code class="docutils literal"><span class="pre">extResProvider</span></code> (1)</dt>
+<dd>The name of the external provider of the resource.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="links-between-resources">
+<span id="knora-base-links"></span><h3><a class="toc-backref" href="#id33">Links Between Resources</a><a class="headerlink" href="#links-between-resources" title="Permalink to this headline">¶</a></h3>
+<p>A link between two resources is expressed, first of all, as a triple, in
+which the subject is the resource that is the source of the link, the
+predicate is a “link property” (a subproperty of <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code>), and
+the object is the resource that is the target of the link.</p>
+<p>It is also useful to store metadata about links. For example, Knora
+needs to know who owns the link, who has permission to modify it, when
+it was created, and so on. Such metadata cannot simply describe the link
+property, because then it would refer to that property in general, not
+to any particular instance in which that property is used to connect two
+particular resources. To attach metadata to a specific link in RDF, it
+is necessary to create an RDF “reification”. A reification makes
+statements about a particular triple (subject, predicate, object), in
+this case the triple that expresses the link between the resources.
+Knora uses reifications of type <code class="docutils literal"><span class="pre">kb:LinkValue</span></code> (described in
+<a class="reference internal" href="#knora-base-linkvalue"><span>LinkValue</span></a>) to store metadata about links.</p>
+<p>For example, suppose a project describes paintings that belong to
+collections. The project can define an ontology as follows (expressed
+here in Turtle format, and simplified for the purposes of illustration):</p>
+<div class="highlight-python"><div class="highlight"><pre>@prefix kb &lt;http://www.knora.org/ontology/knora-base#&gt; .
+@prefix : &lt;http://www.knora.org/ontology/paintings#&gt; .
+
+:Painting rdf:type owl:Class ;
+    rdfs:subClassOf kb:Resource ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty :hasArtist ;
+            owl:cardinality 1 ] ,
+        [ rdf:type owl:Restriction ;
+              owl:onProperty :hasTitle ;
+              owl:cardinality 1 ] ;
+        [ rdf:type owl:Restriction ;
+              owl:onProperty :isInCollection ;
+              owl:minCardinality 1 ] ;
+        [ rdf:type owl:Restriction ;
+              owl:onProperty :isInCollectionValue ;
+              owl:minCardinality 1 ] .
+
+:Collection rdf:type owl:Class ;
+    rdfs:subClassOf kb:Resource ,
+        [ rdf:type owl:Restriction ;
+            owl:onProperty :hasCollectionName ;
+            owl:cardinality 1 ] .
+
+:hasArtist rdf:type owl:ObjectProperty ;
+    rdfs:label &quot;Name of artist&quot; ;
+    kb:subjectClassConstraint :Painting ;
+    kb:objectClassConstraint kb:TextValue .
+
+:hasTitle rdf:type owl:ObjectProperty ;
+    rdfs:label &quot;Title of painting&quot;
+    kb:subjectClassConstraint :Painting ;
+    kb:objectClassConstraint kb:TextValue .
+
+:hasCollectionName rdf:type owl:ObjectProperty ;
+    rdfs:label &quot;Name of collection&quot; ;
+    kb:subjectClassConstraint :Collection ;
+    kb:objectClassConstraint kb:TextValue .
+</pre></div>
+</div>
+<p>To link the paintings to the collection, we must add a “link property”
+to the ontology. In this case, the link property will point from a
+painting to the collection it belongs to. Every link property must be a
+subproperty of <code class="docutils literal"><span class="pre">hasLinkTo</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre>:isInCollection rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf kb:hasLinkTo ;
+    kb:subjectClassConstraint :Painting ;
+    kb:objectClassConstraint :Collection .
+</pre></div>
+</div>
+<p>We must then add a “link value property”, which will point from a
+painting to a <code class="docutils literal"><span class="pre">LinkValue</span></code> (described in
+<a class="reference internal" href="#knora-base-linkvalue"><span>LinkValue</span></a>), which will contain metadata about the
+link between the property and the collection. In particular, the link
+value specifies the owner of the link, the date when it was created, and
+the permissions that determine who can view or modify it. The name of
+the link value property is constructed using a simple naming convention:
+the word <code class="docutils literal"><span class="pre">Value</span></code> is appended to the name of the link property. In this
+case, since our link property is called <code class="docutils literal"><span class="pre">isInCollectionValue</span></code>, the
+link value property must be called <code class="docutils literal"><span class="pre">ex:isOnPageValue</span></code>. Every link
+value property must be a subproperty of <code class="docutils literal"><span class="pre">kb:hasLinkToValue</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre>:isInCollectionValue rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf kb:hasLinkToValue ;
+    kb:subjectClassConstraint :Painting ;
+    kb:objectClassConstraint kb:LinkValue .
+</pre></div>
+</div>
+<p>Given this ontology, we can create some RDF data describing a painting
+and a collection:</p>
+<div class="highlight-python"><div class="highlight"><pre>@prefix paintings &lt;http://www.knora.org/ontology/paintings#&gt; .
+@prefix data &lt;http://www.knora.org/ontology/paintings/data#&gt; .
+
+data:dali_4587 rdf:type paintings:Painting ;
+    paintings:hasTitle data:value_A ;
+    paintings:hasArtist data:value_B .
+
+data:value_A rdf:type kb:TextValue ;
+    kb:valueHasString &quot;The Persistence of Memory&quot; .
+
+data:value_B rdf:type kb:TextValue ;
+    kb:valueHasString &quot;Salvador Dali&quot; .
+
+data:pompidou rdf:type paintings:Collection ;
+    paintings:hasCollectionName data:value_C .
+
+data:value_C rdf:type kb:TextValue ;
+    kb:valueHasString &quot;Centre Pompidou, Paris&quot; .
+</pre></div>
+</div>
+<p>We can then state that the painting is in the collection:</p>
+<div class="highlight-python"><div class="highlight"><pre>data:dali_4587 paintings:isInCollection data:pompidou ;
+    paintings:isinCollectionValue data:value_D .
+
+data:value_D rdf:type kb:LinkValue ;
+    rdf:subject data:dali_4587 ;
+    rdf:predicate paintings:isInCollection ;
+    rdf:object data:pompidou ;
+    kb:valueHasRefCount 1 .
+</pre></div>
+</div>
+<p>This creates a link (<code class="docutils literal"><span class="pre">isInCollection</span></code>) between the painting and the
+collection, along with a reification containing metadata about the link.
+We can visualise the result as the following graph:</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-8b1df8db4b614a37438e0c31f4204c2749a8a28a.png" alt="digraph {
+    {
+        // Resources
+        node [style = filled, fontcolor = white, color = navy, fillcolor = slateblue4]
+
+        work [label = &quot;dali_4587&quot;]
+        collection [label = &quot;pompidou&quot;]
+    }
+
+    {
+        // Values
+        node [style = filled, fontcolor = white, color = tomato3, fillcolor = tomato2]
+
+        title [label = &quot;value_A&quot;]
+        artistName [label = &quot;value_B&quot;]
+        collectionName [label = &quot;value_C&quot;]
+        linkValue [label = &quot;value_D&quot;]
+    }
+
+    {
+        // Literals
+        node [shape = box, color = firebrick]
+
+        titleStr [label = &quot;‘The Persistence of Memory’&quot;]
+        artistNameStr [label = &quot;‘Salvador Dali’&quot;]
+        isInCollection [label = &quot;isInCollection&quot;]
+        refCount [label = &quot;1&quot;]
+        collectionNameStr [label = &quot;‘Centre Pompidou’&quot;]
+    }
+
+    edge [fontsize = 11, color = cyan4]
+
+    work -&gt; title [label = &quot;hasTitle&quot;]
+    work -&gt; artistName [label = &quot;hasArtist&quot;]
+    work -&gt; collection [label = &quot;isInCollection&quot;]
+    work -&gt; linkValue [label = &quot;isInCollectionValue&quot;]
+
+    collection -&gt; collectionName [label = &quot;hasCollectionName&quot;]
+
+    title -&gt; titleStr [label = &quot;valueHasString&quot;]
+    artistName -&gt; artistNameStr [label = &quot;valueHasString&quot;]
+    collectionName -&gt; collectionNameStr [label = &quot;valueHasString&quot;]
+    linkValue -&gt; refCount [label = &quot;valueHasRefCount&quot;]
+    linkValue -&gt; work [label = &quot;subject&quot;]
+    linkValue -&gt; isInCollection [label = &quot;predicate&quot;]
+    linkValue -&gt; collection [label = &quot;object&quot;]
+ }" />
+</p>
+</div>
+<div class="section" id="text-with-standoff-markup">
+<span id="knora-base-standoff"></span><h3><a class="toc-backref" href="#id34">Text with Standoff Markup</a><a class="headerlink" href="#text-with-standoff-markup" title="Permalink to this headline">¶</a></h3>
+<p>Knora is designed to be able to store text with markup, which can
+indicate formatting and structure, as well as the complex observations
+involved in transcribing handwritten manuscripts. One popular way of
+representing text in the humanities is to encode it in XML
+using the Text Encoding Initiative (<a class="reference external" href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/index.html">TEI</a>) guidelines. <a class="footnote-reference" href="#id6" id="id2">[2]</a> In Knora, a
+TEI/XML document can be stored as a file with attached metadata, but
+this is not recommended, because it does not allow Knora to perform
+searches across multiple documents.</p>
+<p>The recommended way to store text with markup in Knora is to use
+Knora&#8217;s built-in support for “standoff” markup, which is stored
+separately from the text. This has some advantages over embedded markup
+such as XML. <a class="footnote-reference" href="#id7" id="id3">[3]</a> While XML requires markup to have a hierarchical
+structure, and does not allow overlapping tags, standoff nodes do not
+have these limitations&nbsp;(<a class="reference internal" href="#schmidt2016">Schmidt2016</a>). A standoff tag can be attached to
+any substring in the text by giving its start and end positions. <a class="footnote-reference" href="#id8" id="id4">[4]</a>
+For example, suppose we have the following text:</p>
+<blockquote>This <i>sentence <strong>has overlapping</strong></i> <strong>visual</strong> attributes.</blockquote><p>This would require just two standoff tags: <code class="docutils literal"><span class="pre">(italic,</span> <span class="pre">start=5,</span> <span class="pre">end=29)</span></code>
+and <code class="docutils literal"><span class="pre">(bold,</span> <span class="pre">start=14,</span> <span class="pre">end=36)</span></code>.</p>
+<p>Moreover, standoff makes it possible to mark up the same text in
+different, possibly incompatible ways, allowing for different
+interpretations without making redundant copies of the text. In the
+Knora base ontology, any text value can have standoff tags.</p>
+<p>By representing standoff as RDF triples, Knora makes markup searchable
+across multiple text documents in a repository. For example, if a
+repository contains documents in which references to persons are
+indicated in standoff, it is straightforward to find all the documents
+mentioning a particular person. Knora’s standoff support is intended to
+make it possible to convert documents with embedded, hierarchical
+markup, such as TEI/XML, into RDF standoff and back again, with no data
+loss, thus bringing the benefits of RDF to existing TEI-encoded
+documents.</p>
+<p>In the Knora base ontology, a <code class="docutils literal"><span class="pre">TextValue</span></code> can have one or more
+standoff tags. Each standoff tag indicates the start and end positions
+of a substring in the text that has a particular attribute. The OWL
+class <code class="docutils literal"><span class="pre">kb:StandoffTag</span></code>, which is the base class of all standoff node
+classes, has these properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStart</span></code> (1)</dt>
+<dd>The index of the first character in the text that has the attribute.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEnd</span></code> (1)</dt>
+<dd>The index of the last character in the text that has the attribute,
+plus 1.</dd>
+</dl>
+<p>The <code class="docutils literal"><span class="pre">StandoffTag</span></code> class is not used directly in RDF data; instead, its
+subclasses are used. A few subclasses are currently provided, and more
+will be added to support TEI semantics. In a future version of the Knora
+API server, a project will be able to define its own custom standoff tag
+classes.</p>
+<div class="section" id="subclasses-of-standofftag">
+<h4><a class="toc-backref" href="#id35">Subclasses of StandoffTag</a><a class="headerlink" href="#subclasses-of-standofftag" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="standoffvisualtag">
+<h5><a class="toc-backref" href="#id36">StandoffVisualTag</a><a class="headerlink" href="#standoffvisualtag" title="Permalink to this headline">¶</a></h5>
+<p>Represents a typographical style. Subclasses:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">StandoffItalicTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffBoldTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffUnderlineTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffStrikethroughTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffSuperscriptTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffSubscriptTag</span></code></li>
+</ul>
+</div>
+<div class="section" id="standoffstructuraltag">
+<h5><a class="toc-backref" href="#id37">StandoffStructuralTag</a><a class="headerlink" href="#standoffstructuraltag" title="Permalink to this headline">¶</a></h5>
+<p>Represents an element of the structure of a text. Subclasses:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">StandoffParagraphTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader1Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader2Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader3Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader4Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader5Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffHeader6Tag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffOrderedListTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffUnorderedListTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">StandoffListElementTag</span></code></li>
+</ul>
+</div>
+<div class="section" id="standoffdatatypetag">
+<h5><a class="toc-backref" href="#id38">StandoffDataTypeTag</a><a class="headerlink" href="#standoffdatatypetag" title="Permalink to this headline">¶</a></h5>
+<p>Associates data in some Knora value type with a substring in a text.
+Subclasses:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">StandoffUriTag</span></code> Indicates that a substring is associated with a
+URI.</li>
+<li><code class="docutils literal"><span class="pre">StandoffDateValueTag</span></code> Indicates that a substring represents a
+date, which is stored in the same form that is used for
+<code class="docutils literal"><span class="pre">kb:DateValue</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="standofflinktag">
+<span id="knora-base-standoff-link"></span><h5><a class="toc-backref" href="#id39">StandoffLinkTag</a><a class="headerlink" href="#standofflinktag" title="Permalink to this headline">¶</a></h5>
+<p>A <code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> Indicates that a substring is associated with a
+Knora resource. For example, if a repository contains resources
+representing persons, a text could be marked up so that each time a
+person’s name is mentioned, a <code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> connects the name to
+the Knora resource describing that person. Property:</p>
+<dl class="docutils">
+<dt>standoffTagHasLink (1)</dt>
+<dd>The IRI of the resource that is referred to.</dd>
+</dl>
+<p>One of the design goals of the Knora ontology is to make it easy and
+efficient to find out which resources contain references to a given
+resource. Direct links are easier and more efficient to query than
+indirect links. Therefore, when a text value contains a resource
+reference in its standoff nodes, the Knora API server automatically
+creates a direct link between the containing resource and the target
+resource, along with an RDF reification (a <code class="docutils literal"><span class="pre">kb:LinkValue</span></code>) describing
+the link, as discussed in Section&nbsp;[sec:links]. In this case, the link
+property is always <code class="docutils literal"><span class="pre">kb:hasStandoffLinkTo</span></code>, and the link value property
+(which points to the <code class="docutils literal"><span class="pre">LinkValue</span></code>) is always
+<code class="docutils literal"><span class="pre">kb:hasStandoffLinkToValue</span></code>.</p>
+<p>The Knora API server automatically updates direct links and reifications
+for standoff resource references when text values are updated. To do
+this, it keeps track of the number of text values in each resource that
+contain at least one standoff reference to a given target resource. It
+stores this number as the reference count of the <code class="docutils literal"><span class="pre">LinkValue</span></code> (see
+<a class="reference internal" href="#knora-base-linkvalue"><span>LinkValue</span></a>) describing the direct link. Each time
+this number changes, it makes a new version of the <code class="docutils literal"><span class="pre">LinkValue</span></code>, with
+an updated reference count. When the reference count reaches zero, it
+removes the direct link and makes a new version of the <code class="docutils literal"><span class="pre">LinkValue</span></code>,
+marked with <code class="docutils literal"><span class="pre">kb:isDeleted</span></code>.</p>
+<p>For example, if <code class="docutils literal"><span class="pre">data:R1</span></code> is a resource with a text value in which the
+resource <code class="docutils literal"><span class="pre">data:R2</span></code> is referenced, the repository could contain the
+following triples:</p>
+<div class="highlight-python"><div class="highlight"><pre>data:R1 ex:hasComment data:V1 .
+
+data:V1 rdf:type kb:TextValue ;
+    kb:valueHasString &quot;This link is internal.&quot; ;
+    kb:valueHasStandoff data:SO1 .
+
+data:SO1 rdf:type kb:StandoffLinkTag ;
+    kb:standoffTagHasStart: 5 ;
+    kb:standoffTagHasEnd: 9 ;
+    kb:standoffTagHasLink data:R2 .
+
+data:R1 kb:hasStandoffLinkTo data:R2 .
+data:R1 kb:hasStandoffLinkToValue data:LV1 .
+
+data:LV1 rdf:type kb:LinkValue ;
+    rdf:subject data:R1 ;
+    rdf:predicate kb:hasStandoffLinkTo ;
+    rdf:object data:R2 ;
+    kb:valueHasRefCount 1 .
+</pre></div>
+</div>
+<p>The result can be visualized like this:</p>
+<p class="graphviz">
+<img src="../../_images/graphviz-c99eebfa3df0f1a0912eb663f2da22af995e630f.png" alt="digraph {
+    {
+        // Resources
+        node [style = filled, fontcolor = white, color = navy, fillcolor = slateblue4]
+
+        r1 [label = &quot;R1&quot;]
+        r2 [label = &quot;R2&quot;]
+    }
+
+    {
+        // Values
+        node [style = filled, fontcolor = white, color = tomato3, fillcolor = tomato2]
+
+        v1 [label = &quot;V1&quot;]
+        lv1 [label = &quot;LV1&quot;]
+    }
+
+    // Standoff tag
+    so1 [label = &quot;SO1&quot;, style = filled, fontcolor = white, color = darkgreen, fillcolor = forestgreen]
+
+    {
+        // Literals
+        node [shape = box, color = firebrick]
+
+        v1Str [label = &quot;‘This link is internal.’&quot;]
+        tagStart [label = &quot;5&quot;]
+        tagEnd [label = &quot;9&quot;]
+        hasStandoffLinkTo [label = &quot;hasStandoffLinkTo&quot;]
+        refCount [label = &quot;1&quot;]
+    }
+
+    edge [fontsize = 11, color = cyan4]
+
+    r1 -&gt; r2 [label = &quot;hasStandoffLinkTo&quot;]
+    r1 -&gt; v1 [label = &quot;hasComment&quot;]
+    r1 -&gt; lv1 [label = &quot;hasStandoffLinkToValue&quot;]
+
+    v1 -&gt; v1Str [label = &quot;valueHasString&quot;]
+    v1 -&gt; so1 [label = &quot;valueHasStandoff&quot;]
+
+    so1 -&gt; tagStart [label = &quot;standoffTagHasStart&quot;]
+    so1 -&gt; tagEnd [label = &quot;standoffTagHasEnd&quot;]
+    so1 -&gt; r2 [label = &quot;standoffTagHasLink&quot;]
+
+    lv1 -&gt; r1 [label = &quot;subject&quot;]
+    lv1 -&gt; hasStandoffLinkTo [label = &quot;predicate&quot;]
+    lv1 -&gt; r2 [label = &quot;object&quot;]
+    lv1 -&gt; refCount [label = &quot;valueHasrefCount&quot;]
+
+    // Add an invisible edge to order tagStart and tagEnd from left to right.
+
+    {
+        rank = same
+        tagStart -&gt; tagEnd [style = invis]
+        rankdir = LR
+    }
+ }" />
+</p>
+<p>Link values created automatically for resource references in standoff
+are automatically visible to all users, as long as they have permission
+to see the source and target resources. The owner of these link values
+is always <code class="docutils literal"><span class="pre">kb:SystemUser</span></code> (see <a class="reference internal" href="#knora-base-users-and-groups"><span>Users and Groups</span></a>).</p>
+</div>
+</div>
+<div class="section" id="standoff-in-digital-editions">
+<h4><a class="toc-backref" href="#id40">Standoff in Digital Editions</a><a class="headerlink" href="#standoff-in-digital-editions" title="Permalink to this headline">¶</a></h4>
+<p>Knora’s standoff is designed to make it possible to convert XML
+documents to standoff and back. One application for this feature is an
+editing workflow in which an editor works in an XML editor, and the
+resulting XML documents are converted to standoff and stored in Knora,
+where they can be searched and annotated.</p>
+<p>If an editor wants to correct text that has been imported from XML into
+standoff, the text can be exported as XML, edited, and imported again.
+To preserve annotations on standoff tags across edits, each tag can
+automatically be given a UUID. In a future version of the Knora base
+ontology, it will be possible to create annotations that point to UUIDs
+rather than to IRIs. When a text is exported to XML, the UUIDs can be
+included in the XML. When the edited XML is imported again, it can be
+converted to new standoff tags with the same UUIDs. Annotations that
+applied to standoff tags in the previous version of the text will
+therefore also apply to equivalent tags in the new version.</p>
+<p>When text is converted from XML into standoff, tags are also given
+indexes, which are numbered from 0 within the context of a particular
+text. This makes it possible to order tags that share the same position,
+and to preserve the hierarchy of the original XML document. An ordinary,
+hierarchical XML tag is converted to a standoff tag that has one index,
+as well as the index of its parent tag, if any. The Knora base ontology
+also supports non-hierarchical markup such as <a class="reference external" href="http://conferences.idealliance.org/extreme/html/2004/DeRose01/EML2004DeRose01.html#t6">CLIX</a>, which
+enables overlapping markup to be represented in XML. When
+non-hierarchical markup is converted to standoff, both the start
+position and the end position of the standoff tag have indexes and
+parent indexes.</p>
+<p>To support these features, a standoff tag can have these additional
+properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStartIndex</span></code> (0-1)</dt>
+<dd>The index of the start position.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEndIndex</span></code> (0-1)</dt>
+<dd>The index of the end position, if this is a non-hierarchical tag.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStartParentIndex</span></code> (0-1)</dt>
+<dd>The index of the tag, if any, that contains the start position.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEndParentIndex</span></code> (0-1)</dt>
+<dd>The index of the tag, if any, that contains the end position, if
+this is a non-hierarchical tag.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasUUID</span></code> (0-1)</dt>
+<dd>A UUID that can be used to annotate a standoff tag that may be
+present in different versions of a text, or in different layers of a
+text (such as a diplomatic transcription and an edited critical
+text).</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="authorization">
+<span id="knora-base-authorization"></span><h2><a class="toc-backref" href="#id41">Authorization</a><a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="users-and-groups">
+<span id="knora-base-users-and-groups"></span><h3><a class="toc-backref" href="#id42">Users and Groups</a><a class="headerlink" href="#users-and-groups" title="Permalink to this headline">¶</a></h3>
+<p>Each Knora user is represented by an object belonging to the class
+<code class="docutils literal"><span class="pre">kb:User</span></code>, which is a subclass of <code class="docutils literal"><span class="pre">foaf:Person</span></code>, and has the
+following properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">userid</span></code> (1)</dt>
+<dd>A unique identifier that the user must provide when logging in.</dd>
+<dt><code class="docutils literal"><span class="pre">password</span></code> (1)</dt>
+<dd>A cryptographic hash of the user’s password.</dd>
+<dt><code class="docutils literal"><span class="pre">email</span></code> (0-n)</dt>
+<dd>Email addresses belonging to the user.</dd>
+<dt><code class="docutils literal"><span class="pre">isInProject</span></code> (0-n)</dt>
+<dd>Projects that the user is a member of.</dd>
+<dt><code class="docutils literal"><span class="pre">isInGroup</span></code> (0-n)</dt>
+<dd>Project-specific groups that the user is a member of.</dd>
+<dt><code class="docutils literal"><span class="pre">foaf:familyName</span></code> (1)</dt>
+<dd>The user’s family name.</dd>
+<dt><code class="docutils literal"><span class="pre">foaf:givenName</span></code> (1)</dt>
+<dd>The user’s given name.</dd>
+</dl>
+<p>Knora’s concept of access control is that an object (a resource or
+value) can grant permissions to groups of users (but not to individual
+users). There are four built-in groups:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">UnknownUser</span></code></dt>
+<dd>Any user who has not logged into the Knora API server is
+automatically assigned to this group.</dd>
+<dt><code class="docutils literal"><span class="pre">KnownUser</span></code></dt>
+<dd>Any user who has logged into the Knora API server is automatically
+assigned to this group.</dd>
+<dt><code class="docutils literal"><span class="pre">ProjectMember</span></code></dt>
+<dd>When checking a user’s permissions on an object, the user is
+automatically assigned to this group if she is a member of the
+project that the object belongs to.</dd>
+<dt><code class="docutils literal"><span class="pre">Owner</span></code></dt>
+<dd>When checking a user’s permissions on an object, the user is
+automatically assigned to this group if he is the owner of the
+object.</dd>
+</dl>
+<p>A project-specific ontology can define additional groups, which must
+belong to the OWL class <code class="docutils literal"><span class="pre">kb:UserGroup</span></code>.</p>
+<p>There is one built-in <code class="docutils literal"><span class="pre">SystemUser</span></code>, which is the owner of link values
+created automatically for resource references in standoff markup (see
+<a class="reference internal" href="#knora-base-standoff-link"><span>StandoffLinkTag</span></a>).</p>
+</div>
+<div class="section" id="permissions">
+<h3><a class="toc-backref" href="#id43">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
+<p>The owner of an object is always allowed to perform any operation on it.
+An object can grant the following permissions, which are stored in a
+compact format in a single string, which is the object of the predicate
+<code class="docutils literal"><span class="pre">kb:hasPermissions</span></code>:</p>
+<ol class="arabic simple">
+<li><strong>Restricted view permission (RV)</strong> Allows a restricted view of
+the object, e.g.&nbsp;a view of an image with a watermark.</li>
+<li><strong>View permission (V)</strong> Allows an unrestricted view of the
+object. Having view permission on a resource only affects the user’s
+ability to view information about the resource other than its values.
+To view a value, she must have view permission on the value itself.</li>
+<li><strong>Modify permission (M)</strong> For values, this permission allows a
+new version of a value to be created. For resources, this allows the
+user to create a new value (as opposed to a new version of an
+existing value), or to change information about the resource other
+than its values. When he wants to make a new version of a value, his
+permissions on the containing resource are not relevant. However,
+when he wants to change the target of a link, the old link must be
+deleted and a new one created, so he needs modify permission on the
+resource.</li>
+<li><strong>Delete permission (D)</strong> Allows the item to be marked as
+deleted.</li>
+<li><strong>Change rights permission (CR)</strong> Allows the permissions granted
+by the object to be changed.</li>
+</ol>
+<p>Each permission in the above list implies all lower-numbered
+permissions. A user’s permission level on a particular object is
+calculated in the following way:</p>
+<ol class="arabic simple">
+<li>Make a list of the groups that the user belongs to, including
+<code class="docutils literal"><span class="pre">Owner</span></code> and/or <code class="docutils literal"><span class="pre">ProjectMember</span></code> if applicable.</li>
+<li>If the user is the owner of the object, give her the highest level of
+permissions.</li>
+<li>Otherwise, make a list of the permissions that she can obtain on the
+object, by iterating over the permissions that the object grants. For
+each permission, if she is in the specified group, add the specified
+permission to the list of permissions she can obtain.</li>
+<li>From the resulting list, select the highest-level permission.</li>
+<li>If the result is that she would have no permissions, give her
+whatever permission <code class="docutils literal"><span class="pre">UnknownUser</span></code> would have.</li>
+</ol>
+<p>To view a link between resources, a user needs permission to view the
+source and target resources. He also needs permission to view the
+<code class="docutils literal"><span class="pre">LinkValue</span></code> representing the link, unless the link property is
+<code class="docutils literal"><span class="pre">hasStandoffLinkTo</span></code> (see <a class="reference internal" href="#knora-base-standoff-link"><span>StandoffLinkTag</span></a>).</p>
+<p>The format of the object of <code class="docutils literal"><span class="pre">kb:hasPermissions</span></code> is as follows:</p>
+<ul class="simple">
+<li>Each permission is represented by the one-letter or two-letter
+abbreviation given above.</li>
+<li>Each permission abbreviation is followed by a space, then a
+comma-separated list of groups that the permission is granted to.</li>
+<li>The IRIs of built-in groups are shortened using the <code class="docutils literal"><span class="pre">knora-base</span></code>
+prefix.</li>
+<li>Multiple permissions are separated by a vertical bar (<code class="docutils literal"><span class="pre">|</span></code>).</li>
+</ul>
+<p>For example, if an object grants view permission to unknown and known
+users, and modify permission to project members, the resulting
+permission literal would be:</p>
+<div class="highlight-python"><div class="highlight"><pre>V knora-base:UnknownUser,knora-base:KnownUser|M knora-base:ProjectMember
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="consistency-checking">
+<h2><a class="toc-backref" href="#id44">Consistency Checking</a><a class="headerlink" href="#consistency-checking" title="Permalink to this headline">¶</a></h2>
+<p>Knora tries to enforce repository consistency by checking constraints
+that are specified in the Knora base ontology and in project-specific
+ontologies. Three types of consistency rules are enforced:</p>
+<ul class="simple">
+<li>Cardinalities in OWL class definitions must be satisfied.</li>
+<li>Constraints on the types of the subjects and objects of OWL object
+properties must be satisfied.</li>
+<li>A datatype property may not have an empty string as an object.</li>
+</ul>
+<p>The implementation of consistency checking is partly
+triplestore-dependent; Knora may be able to provide stricter checks with
+some triplestores than with others.</p>
+<div class="section" id="owl-cardinalities">
+<span id="knora-base-cardinalities"></span><h3><a class="toc-backref" href="#id45">OWL Cardinalities</a><a class="headerlink" href="#owl-cardinalities" title="Permalink to this headline">¶</a></h3>
+<p>As noted in <a class="reference internal" href="#knora-base-resources"><span>Resources</span></a>, each subclass of <code class="docutils literal"><span class="pre">Resource</span></code>
+must use OWL cardinality restrictions to specify the properties it can
+have. More specifically, a resource is allowed to have a property that
+is a subproperty of <code class="docutils literal"><span class="pre">kb:hasValue</span></code> or <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code> only if the
+resource’s class has some cardinality for that property. Similarly, a
+value is allowed to have a subproperty of <code class="docutils literal"><span class="pre">kb:valueHas</span></code> only if the
+value’s class has some cardinality for that property.</p>
+<p>Knora supports, and attempts to enforce, the following cardinality
+constraints:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">owl:cardinality</span> <span class="pre">1</span></code></dt>
+<dd>A resource of this class must have exactly one instance of the
+specified property.</dd>
+<dt><code class="docutils literal"><span class="pre">owl:minCardinality</span> <span class="pre">1</span></code></dt>
+<dd>A resource of this class must have at least one instance of the
+specified property.</dd>
+<dt><code class="docutils literal"><span class="pre">owl:maxCardinality</span> <span class="pre">1</span></code></dt>
+<dd>A resource of this class may have zero or one instance of the
+specified property.</dd>
+<dt><code class="docutils literal"><span class="pre">owl:minCardinality</span> <span class="pre">0</span></code></dt>
+<dd>A resource of this class may have zero or more instances of the
+specified property.</dd>
+</dl>
+<p>Knora requires cardinalities to be defined using blank nodes, as in the
+following example from <code class="docutils literal"><span class="pre">knora-base</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>:Representation rdf:type owl:Class ;
+    rdfs:subClassOf :Resource ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasFileValue ;
+          owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] .
+
+:StillImageRepresentation rdf:type owl:Class ;
+    rdfs:subClassOf :Representation ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasStillImageFileValue ;
+          owl:minCardinality &quot;1&quot;^^xsd:nonNegativeInteger ] .
+</pre></div>
+</div>
+<p>A resource class inherits cardinalities from its superclasses. Also,
+cardinalities in the subclass can override cardinalities that would
+otherwise be inherited from the superclass. Specifically, if a
+superclass has a cardinality on a property P, and a subclass has a
+cardinality on a subproperty of P, the subclass’s cardinality overrides
+the superclass’s cardinality. In the example above,
+<code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> is a subproperty of <code class="docutils literal"><span class="pre">hasFileValue</span></code>.
+Therefore, the cardinality on <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> overrides (i.e.
+replaces) the one on <code class="docutils literal"><span class="pre">hasFileValue</span></code>.</p>
+<p>For more information about OWL cardinalities, see&nbsp;the <a class="reference external" href="http://www.w3.org/TR/2012/REC-owl2-primer-20121211/">OWL 2 Primer</a>.</p>
+</div>
+<div class="section" id="constraints-on-the-types-of-property-subjects-and-objects">
+<span id="knora-base-property-restrictions"></span><h3><a class="toc-backref" href="#id46">Constraints on the Types of Property Subjects and Objects</a><a class="headerlink" href="#constraints-on-the-types-of-property-subjects-and-objects" title="Permalink to this headline">¶</a></h3>
+<p>When a project-specific ontology defines a property, it must indicate
+the types that are allowed as subjects and objects of the property. This
+is done using the following Knora-specific properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">subjectClassConstraint</span></code></dt>
+<dd>Specifies the class that subjects of the property must belong to.
+This constraint is recommended but not required. Knora will attempt
+to enforce this constraint.</dd>
+<dt><code class="docutils literal"><span class="pre">objectClassConstraint</span></code></dt>
+<dd>If the property is an object property, specifies the class that
+objects of the property must belong to. Every subproperty of
+<code class="docutils literal"><span class="pre">kb:hasValue</span></code> or a <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code> (i.e. every property of a
+resource that points to a <code class="docutils literal"><span class="pre">kb:Value</span></code> or to another resource) is
+required have this constraint, because the Knora API server relies
+on it to know what type of object to expect for the property. Knora
+will attempt to enforce this constraint.</dd>
+<dt><code class="docutils literal"><span class="pre">objectDatatypeConstraint</span></code></dt>
+<dd>If the property is a datatype property, specifies the type of
+literals that can be objects of the property. Knora will not attempt
+to enforce this constraint, but it is useful for documentation
+purposes.</dd>
+</dl>
+</div>
+<div class="section" id="consistency-constraint-example">
+<h3><a class="toc-backref" href="#id47">Consistency Constraint Example</a><a class="headerlink" href="#consistency-constraint-example" title="Permalink to this headline">¶</a></h3>
+<p>A project-specific ontology could define consistency constraints as in
+this simplified example:</p>
+<div class="highlight-python"><div class="highlight"><pre>:book rdf:type owl:Class ;
+    rdfs:subClassOf knora-base:Resource ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasTitle ;
+          owl:cardinality &quot;1&quot;^^xsd:nonNegativeInteger ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasAuthor ;
+          owl:minCardinality &quot;0&quot;^^xsd:nonNegativeInteger ] .
+
+:hasTitle rdf:type owl:ObjectProperty ;
+    knora-base:subjectClassConstraint :book ;
+    knora-base:objectClassConstraint knora-base:TextValue .
+
+:hasAuthor rdf:type owl:ObjectProperty ;
+    knora-base:subjectClassConstraint :book ;
+    knora-base:objectClassConstraint knora-base:TextValue .
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="open-questions">
+<h2><a class="toc-backref" href="#id48">Open Questions</a><a class="headerlink" href="#open-questions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="extending-existing-resource-definitions">
+<h3><a class="toc-backref" href="#id49">Extending Existing Resource Definitions</a><a class="headerlink" href="#extending-existing-resource-definitions" title="Permalink to this headline">¶</a></h3>
+<p>How should extensions of existing resources be handled? Project B
+extends a resource defined in the project A ontology, by adding new
+properties/values which are interesting for project B.</p>
+</div>
+</div>
+<div class="section" id="notes">
+<h2><a class="toc-backref" href="#id50">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><code class="docutils literal"><span class="pre">http://www.knora.org/ontology/knora-base#</span></code></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>TEI refers both to an organization and an XML-based markup language
+(or more precisely: a set of grammar modules – XML schemas – that can
+be combined to define a markup language). For reasons of clarity, we
+use the term TEI/XML to refer to the markup language.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>It is also possible to encode standoff markup using XML. For example,
+the TEI guidelines discuss standoff markup. However, standoff markup
+is not widely applied in the TEI community. TEI&#8217;s main focus is on
+encoding a hierarchy of elements.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Unlike in corpus linguistics, we do not use any tokenization
+resulting in a form of predefined segmentation that would limit the
+user’s possibility to freely annotate any ranges in the text.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="references">
+<h2><a class="toc-backref" href="#id51">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="schmidt2016" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Schmidt2016]</td><td>Schmidt, Desmond. 2016.
+“Using Standoff Properties for Marking-up Historical Documents in the Humanities.”
+<em>It – Information Technology</em> 58: 1.
+<a class="reference external" href="http://ecdosis.net/papers/schmidt.d.2016.pdf">http://ecdosis.net/papers/schmidt.d.2016.pdf</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">The Knora Ontologies</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../knora-api-server/index.html">The Knora API Server</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

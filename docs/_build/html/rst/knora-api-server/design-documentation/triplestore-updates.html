@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Triplestore Updates &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="Consistency Checking" href="consistency-checking.html" />
+    <link rel="prev" title="How to Add an API Route" href="how-to-add-a-route.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Triplestore Updates</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="how-to-add-a-route.html">How to Add an API Route</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="consistency-checking.html">Consistency Checking</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="triplestore-updates">
+<span id="id1"></span><h1>Triplestore Updates<a class="headerlink" href="#triplestore-updates" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<p>The supported update operations are:</p>
+<ul class="simple">
+<li>Create a new resource with its initial values.</li>
+<li>Add a new value.</li>
+<li>Change a value.</li>
+<li>Delete a value (i.e. mark it as deleted).</li>
+<li>Delete a resource (i.e. mark it as deleted).</li>
+</ul>
+<p>Users must be able to edit the same data concurrently.</p>
+<p>Each update must be atomic and leave the database in a consistent, meaningful state, respecting
+ontology constraints and permissions.</p>
+<p>The application must not use any sort of long-lived locks, because they tend to hinder concurrent edits,
+and it is difficult to ensure that they are released when they are no longer needed. Instead, if a user
+requests an update based on outdated information (because another user has just changed something, and
+the first user has not found out yet), the update must be not performed, and the application must notify
+the user who requested it, suggesting that the user should check the relevant data and try again if
+necessary. (We may eventually provide functionality to help users merge edits in such a situation. The
+application can also encourage users to coordinate with one another when they are working
+on the same data, and may eventually provide functionality to facilitate this coordination.)</p>
+<p>We can assume that each SPARQL update operation will run in its own database transaction
+with an isolation level of &#8216;read committed&#8217;. This is what GraphDB does when it receives a
+SPARQL update over HTTP (see <a class="reference external" href="http://graphdb.ontotext.com/documentation/free/storage.html#transaction-control">GraphDB SE Transactions</a>). We cannot assume that it is possible
+to run more than one SPARQL update in a single database transaction. (The <a class="reference external" href="http://www.w3.org/TR/sparql11-protocol/">SPARQL 1.1 Protocol</a>
+does not provide a way to do this, and currently it can be done only by embedding the triplestore
+in the application and using a vendor-specific API, but we cannot require this in Knora.)</p>
+</div>
+<div class="section" id="permissions">
+<h3>Permissions<a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
+<p>To create a new value (as opposed to a new version of an existing value), the user must have
+<code class="docutils literal"><span class="pre">knora-base:hasModifyPermission</span></code> on the containing resource.</p>
+<p>To create a new version of an existing value, the user needs only to have <code class="docutils literal"><span class="pre">knora-base:hasModifyPermission</span></code>
+on the current version of the value; no permissions on the resource are needed.</p>
+<p>Since changing a link requires deleting the old link and creating a new one (as described in
+<a class="reference internal" href="#triplestore-linking-reqs"><span>Linking</span></a>), a user wishing to change a link must have modify permission on both
+the containing resource and the <code class="docutils literal"><span class="pre">knora-base:LinkValue</span></code> for the existing link.</p>
+<p>When a new value is created, it is given the default permissions specified in the definition of its
+property. These are subproperties of <code class="docutils literal"><span class="pre">knora-base:hasDefaultPermission</span></code>, and are converted into
+the corresponding subproperties of <code class="docutils literal"><span class="pre">knora-base:hasPermission</span></code>. Similarly, when a new resource is
+created, it is given the default permissions specified in the definition of its OWL class.</p>
+</div>
+<div class="section" id="ontology-constraints">
+<h3>Ontology Constraints<a class="headerlink" href="#ontology-constraints" title="Permalink to this headline">¶</a></h3>
+<p>Knora must not allow an update that would violate an ontology constraint.</p>
+<p>When creating a new value (as opposed to adding a new version of an existing value), Knora must not
+allow the update if the containing resource&#8217;s OWL class does not contain a cardinality restriction for the
+submitted property, or if the new value would violate the cardinality restriction.</p>
+<p>It must also not allow the update if the type of the submitted value does not
+match the <code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code> of the property, or if the
+property has no <code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code>. In the case of a
+property that points to a resource, Knora must ensure that the target resource
+belongs to the OWL class specified in the property&#8217;s
+<code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code>, or to a subclass of that class.</p>
+</div>
+<div class="section" id="duplicate-and-redundant-values">
+<h3>Duplicate and Redundant Values<a class="headerlink" href="#duplicate-and-redundant-values" title="Permalink to this headline">¶</a></h3>
+<p>When creating a new value, or changing an existing value, Knora checks whether the submitted
+value would duplicate an existing value for the same property in the resource. The definition of
+&#8216;duplicate&#8217; depends on the type of value; it does not necessarily mean that the two values are
+strictly equal. For example, if two text values contain the same Unicode string, they are considered
+duplicates, even if they have different Standoff markup. If resource <code class="docutils literal"><span class="pre">R</span></code> has property <code class="docutils literal"><span class="pre">P</span></code>
+with value <code class="docutils literal"><span class="pre">V1</span></code>, and <code class="docutils literal"><span class="pre">V1</span></code> is a duplicate of <code class="docutils literal"><span class="pre">V2</span></code>, the API server must not add another instance
+of property <code class="docutils literal"><span class="pre">P</span></code> with value <code class="docutils literal"><span class="pre">V2</span></code>. However, if the requesting user does not have permission to
+see <code class="docutils literal"><span class="pre">V2</span></code>, the duplicate is allowed, because forbidding it would reveal the contents of <code class="docutils literal"><span class="pre">V2</span></code>
+to the user.</p>
+<p>When creating a new version of a value, Knora also checks whether the new version is redundant,
+given the existing value. It is possible for the definition of &#8216;redundant&#8217; can depend on the
+type of value, but in practice, it means that the values are strictly equal: any change, however
+trivial, is allowed.</p>
+</div>
+<div class="section" id="versioning">
+<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
+<p>Each Knora value (i.e. something belonging to an OWL class derived from
+<code class="docutils literal"><span class="pre">knora-base:Value</span></code>) is versioned. This means that once created, a value is
+never modified. Instead, &#8216;changing&#8217; a value means creating a new version of
+the value &#8212; actually a new value &#8212; that points to the previous version
+using <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code>. The versions of a value are a singly-
+linked list, pointing backwards into the past. When a new version of a value
+is made, the triple that points from the resource to the old version (using a
+subproperty of <code class="docutils literal"><span class="pre">knora-base:hasValue</span></code>) is removed, and a triple is added to
+point from the resource to the new version. Thus the resource always points
+only to the current version of the value, and the older versions are available
+only via the current version&#8217;s <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code> predicate.</p>
+<p>Unlike values, resources (members of OWL classes derived from
+<code class="docutils literal"><span class="pre">knora-base:Resource</span></code>) are not versioned. The data that is attached to a
+resource, other than its values, can be modified.</p>
+<div class="section" id="deleting">
+<h4>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h4>
+<p>Knora does not actually delete resources or values; it only marks them as
+deleted. Deleted data is normally hidden. All resources and values must have
+the predicate <code class="docutils literal"><span class="pre">knora-</span> <span class="pre">base:isDeleted</span></code>, whose object is a boolean. If a
+resource or value has been marked as deleted, it has
+<code class="docutils literal"><span class="pre">knora-base:isDeleted</span> <span class="pre">true</span></code> and has a <code class="docutils literal"><span class="pre">knora-base:deleteDate</span></code>. An
+optional <code class="docutils literal"><span class="pre">knora-base:deleteComment</span></code> may be added to explain why the
+resource or value has been marked as deleted.</p>
+<p>Normally, a value is marked as deleted without creating a new version of it.
+However, link values must be treated as a special case. Before a <code class="docutils literal"><span class="pre">LinkValue</span></code> can be
+marked as deleted, its reference count must be decremented to 0. Therefore, a
+new version of the <code class="docutils literal"><span class="pre">LinkValue</span></code> is made, with a reference count of 0, and it
+is this new version that is marked as deleted.</p>
+<p>Since it is necessary to be able to find out when a resource was deleted, it
+is not possible to undelete a resource. Moreover, to simplify the checking
+of cardinality constraints, and for consistency with resources, it is not possible
+to undelete a value, and no new versions of a deleted value can be made.
+Instead, if desired, a new resource or value can be created by copying data from a
+deleted resource or value.</p>
+</div>
+</div>
+<div class="section" id="linking">
+<span id="triplestore-linking-reqs"></span><h3>Linking<a class="headerlink" href="#linking" title="Permalink to this headline">¶</a></h3>
+<p>Knora API v1 treats a link between two resources as a value, but in RDF, links must be treated
+differently to other types of values. Knora needs to maintain information about the link,
+including permissions and a version history. Since the link does not have a unique IRI of its own, Knora
+uses RDF <a class="reference external" href="http://www.w3.org/TR/rdf-schema/#ch_reificationvocab">reifications</a> for this purpose. Each link between two resources has exactly one (non-deleted)
+<code class="docutils literal"><span class="pre">knora-base:LinkValue</span></code>. The resource itself has a predicate that points to the <code class="docutils literal"><span class="pre">LinkValue</span></code>, using a
+naming convention in which the word <code class="docutils literal"><span class="pre">Value</span></code> is appended to the name of the link predicate to produce
+the link value predicate. For example, if a resource representing a book has a predicate called
+<code class="docutils literal"><span class="pre">hasAuthor</span></code> that points to another resource, it must also have a predicate called <code class="docutils literal"><span class="pre">hasAuthorValue</span></code>
+that points to the <code class="docutils literal"><span class="pre">LinkValue</span></code> in which information about the link is stored. To find a particular
+<code class="docutils literal"><span class="pre">LinkValue</span></code>, one can query it either by using its IRI (if known), or by using its <code class="docutils literal"><span class="pre">rdf:subject</span></code>,
+<code class="docutils literal"><span class="pre">rdf:predicate</span></code>, and <code class="docutils literal"><span class="pre">rdf:object</span></code> (and excluding link values that are marked as deleted).</p>
+<p>Like other values, link values are versioned. The link value predicate always points from
+the resource to the current version of the link value, and previous versions are available only via
+the current version&#8217;s <code class="docutils literal"><span class="pre">knora-base:previousValue</span></code> predicate. Deleting a link means deleting the triple
+that links the two resources, and making a new version of the link value, marked with
+<code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code>. A triple then points from the resource to this new, deleted version
+(using the link value property).</p>
+<p>The API allows a link to be &#8216;changed&#8217; so that it points to a different target resource. This is
+implemented as follows: the existing triple connecting the two resources is removed, and a new triple
+is added using the same link property and pointing to the new target resource. A new version of the
+old link&#8217;s <code class="docutils literal"><span class="pre">LinkValue</span></code> is made, marked with <code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code>. A new <code class="docutils literal"><span class="pre">LinkValue</span></code> is made
+for the new link. The new <code class="docutils literal"><span class="pre">LinkValue</span></code> has no connection to the old one.</p>
+<p>When a resource contains <code class="docutils literal"><span class="pre">knora-base:TextValue</span></code> with Standoff markup that includes a reference
+to another resource, this reference is materialised as a direct link between the two resources, to
+make it easier to query. A special link property, <code class="docutils literal"><span class="pre">knora-base:hasStandoffLinkTo</span></code>, is used for this
+purpose. The corresponding link value property, <code class="docutils literal"><span class="pre">knora-base:hasStandoffLinkToValue</span></code>, points to a
+<code class="docutils literal"><span class="pre">LinkValue</span></code>. This <code class="docutils literal"><span class="pre">LinkValue</span></code> contains a reference count, indicated by
+<code class="docutils literal"><span class="pre">knora-base:valueHasRefCount</span></code>, that represents the number of text values in the containing resource
+that include one or more Standoff references to the specified target resource. Each time this number
+changes, a new version of this <code class="docutils literal"><span class="pre">LinkValue</span></code> is made. When the reference count reaches zero, the triple
+with <code class="docutils literal"><span class="pre">knora-base:hasStandoffLinkTo</span></code> is removed, and a new version of the <code class="docutils literal"><span class="pre">LinkValue</span></code> is made and
+marked with <code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code>. If the same resource reference later appears again in a text value,
+a new triple is added using <code class="docutils literal"><span class="pre">knora-base:hasStandoffLinkTo</span></code>, and a new <code class="docutils literal"><span class="pre">LinkValue</span></code> is made, with
+no connection to the old one.</p>
+<p>For consistency, every <code class="docutils literal"><span class="pre">LinkValue</span></code> contains a reference count. If the link property is not
+<code class="docutils literal"><span class="pre">knora-base:hasStandoffLinkTo</span></code>, the reference count will always be either 1 (if the link exists)
+or 0 (if it has been deleted, in which case the link value will also be marked with
+<code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code>).</p>
+<p>When a <code class="docutils literal"><span class="pre">LinkValue</span></code> is created for a standoff resource reference, it is given the same permissions
+as the text value containing the reference.</p>
+</div>
+</div>
+<div class="section" id="design">
+<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="responsibilities-of-responders">
+<h3>Responsibilities of Responders<a class="headerlink" href="#responsibilities-of-responders" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">ResourcesResponderV1</span></code> has sole responsibility for generating SPARQL to
+create and updating resources, and <code class="docutils literal"><span class="pre">ValuesResponderV1</span></code> has sole
+responsibility for generating SPARQL to create and update values. When a new
+resource is created with its values, <code class="docutils literal"><span class="pre">ValuesResponderV1</span></code> generates SPARQL
+statements that can be included in the <code class="docutils literal"><span class="pre">WHERE</span></code> and <code class="docutils literal"><span class="pre">INSERT</span></code> clauses of a
+SPARQL update to create the values, and <code class="docutils literal"><span class="pre">ResourcesResponderV1</span></code> adds these
+statements to the SPARQL update that creates the resource. This ensures that
+the resource and its values are created in a single SPARQL update operation,
+and hence in a single triplestore transaction.</p>
+</div>
+<div class="section" id="application-level-locking">
+<h3>Application-level Locking<a class="headerlink" href="#application-level-locking" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;read committed&#8217; isolation level cannot prevent a scenario where two users
+want to add the same data at the same time. It is possible that both requests
+would do pre-update checks and simultaneously find that it is OK to add the
+data, and that both updates would then succeed, inserting redundant data and
+possibly violating ontology constraints. Therefore, Knora uses short-lived,
+application-level write locks on resources, to ensure that only one request at
+a time can update a given resource. Before each update, the application
+acquires a resource lock. It then does the pre-update checks and the update,
+then releases the lock. The lock implementation (in <code class="docutils literal"><span class="pre">ResourceLocker</span></code>)
+requires each API request message to include a random UUID, which is generated
+in the <a class="reference internal" href="design-overview.html#api-routing"><span>API Routing</span></a> package. Using application-level locks allows us to
+do pre-update checks in their own transactions, and finally to do the SPARQL
+update in its own transaction.</p>
+</div>
+<div class="section" id="ensuring-data-consistency">
+<h3>Ensuring Data Consistency<a class="headerlink" href="#ensuring-data-consistency" title="Permalink to this headline">¶</a></h3>
+<p>Knora enforces consistency constraints using three redundant mechanisms:</p>
+<ol class="arabic simple">
+<li>By doing pre-update checks in SPARQL SELECT queries.</li>
+<li>By doing checks in the <code class="docutils literal"><span class="pre">WHERE</span></code> clauses of SPARQL updates.</li>
+<li>By using GraphDB&#8217;s built-in consistency checker (see <a class="reference internal" href="consistency-checking.html#consistency-checking"><span>Consistency Checking</span></a>).</li>
+</ol>
+<p>We take the view that redundant consistency checks are a good thing.</p>
+<p>Pre-update checks are SPARQL <code class="docutils literal"><span class="pre">SELECT</span></code> queries that are executed while
+holding an application-level lock on the resource to be updated. These checks
+should work with any triplestore, and can return helpful, Knora-specific
+error messages to the client if the request would violate a consistency
+constraint.</p>
+<p>However, the SPARQL update itself is our only chance to do pre-update checks
+in the same transaction that will perform the update. The design of the
+<a class="reference external" href="http://www.w3.org/TR/sparql11-update/">SPARQL 1.1 Update</a> standard makes it possible to ensure that if certain
+conditions are not met, the update will not be performed. In our SPARQL update
+code, each update contains a <code class="docutils literal"><span class="pre">WHERE</span></code> clause, possibly a <code class="docutils literal"><span class="pre">DELETE</span></code> clause,
+and an <code class="docutils literal"><span class="pre">INSERT</span></code> clause. The <code class="docutils literal"><span class="pre">WHERE</span></code> clause is executed first. It performs
+consistency checks and provides values for variables that are used in the
+<code class="docutils literal"><span class="pre">DELETE</span></code> and/or <code class="docutils literal"><span class="pre">INSERT</span></code> clauses. In our updates, if the expectations of
+the <code class="docutils literal"><span class="pre">WHERE</span></code> clause are not met (e.g. because the data to be updated does not
+exist), the <code class="docutils literal"><span class="pre">WHERE</span></code> clause should return no results; as a result, the update
+will not be performed.</p>
+<p>Regardless of whether the update succeeds or not, it returns nothing. So the
+only way to find out whether it was successful is to do a <code class="docutils literal"><span class="pre">SELECT</span></code>
+afterwards. Moreover, if the update failed, there is no straightforward way to
+find out why. This is one reason why Knora does pre-update checks by means of
+separate <code class="docutils literal"><span class="pre">SELECT</span></code> queries, <em>before</em> performing the update. This makes it
+possible to return specific error messages to the user to indicate why an
+update cannot be performed.</p>
+<p>Moreover, while some checks are easy to do in a SPARQL update, others are
+difficult, impractical, or impossible. Easy checks include checking whether a
+resource or value exists or is deleted, and checking that the
+<code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code> of a predicate matches the <code class="docutils literal"><span class="pre">rdf:type</span></code> of
+its intended object. Cardinality checks are not very difficult, but they perform
+poorly on Jena. Knora does not do permission checks in SPARQL, because its
+permission-checking algorithm is too complex to be implemented in SPARQL. For
+this reason, Knora&#8217;s check for duplicate values cannot be done in SPARQL
+update code, because it relies on permission checks.</p>
+</div>
+</div>
+<div class="section" id="sparql-update-examples">
+<h2>SPARQL Update Examples<a class="headerlink" href="#sparql-update-examples" title="Permalink to this headline">¶</a></h2>
+<p>The following sample SPARQL update code is simpler than what Knora actually does. It is included here to
+illustrate the way Knora&#8217;s SPARQL updates are structured and how concurrent updates are handled.</p>
+<div class="section" id="finding-a-value-iri-in-a-value-s-version-history">
+<span id="find-value-in-version-history"></span><h3>Finding a value IRI in a value&#8217;s version history<a class="headerlink" href="#finding-a-value-iri-in-a-value-s-version-history" title="Permalink to this headline">¶</a></h3>
+<p>We will need this query below. If a value is present in a resource
+property&#8217;s version history, the query returns everything known about the
+value, or nothing otherwise:</p>
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
+
+SELECT ?p ?o
+WHERE {
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a&quot;) as ?resource)
+    BIND(IRI(&quot;http://www.knora.org/ontology/incunabula#book_comment&quot;) as ?property)
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a/values/testComment002&quot;) as ?searchValue)
+
+    ?resource ?property ?currentValue .
+    ?currentValue knora-base:previousValue* ?searchValue .
+    ?searchValue ?p ?o .
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-initial-version-of-a-value">
+<h3>Creating the initial version of a value<a class="headerlink" href="#creating-the-initial-version-of-a-value" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
+
+WITH &lt;http://www.knora.org/ontology/incunabula&gt;
+INSERT {
+    ?newValue rdf:type ?valueType ;
+              knora-base:valueHasString &quot;&quot;&quot;Comment 1&quot;&quot;&quot; ;
+              knora-base:attachedToUser &lt;http://data.knora.org/users/91e19f1e01&gt; ;
+              knora-base:attachedToProject &lt;http://data.knora.org/projects/77275339&gt; ;
+              knora-base:hasDeletePermisson knora-admin:Owner ;
+              knora-base:hasModifyPermission knora-admin:ProjectMember ;
+              knora-base:hasViewPermission knora-admin:KnownUser ,
+                                           knora-admin:UnknownUser ;
+              knora-base:valueTimestamp ?currentTime .
+
+    ?resource ?property ?newValue .
+} WHERE {
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a&quot;) as ?resource)
+    BIND(IRI(&quot;http://www.knora.org/ontology/incunabula#book_comment&quot;) as ?property)
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a/values/testComment001&quot;) AS ?newValue)
+    BIND(IRI(&quot;http://www.knora.org/ontology/knora-base#TextValue&quot;) AS ?valueType)
+    BIND(NOW() AS ?currentTime)
+
+    # Do nothing if the resource doesn&#39;t exist.
+    ?resource rdf:type ?resourceClass .
+
+    # Do nothing if the submitted value has the wrong type.
+    ?property knora-base:objectClassConstraint ?valueType .
+}
+</pre></div>
+</div>
+<p>To find out whether the insert succeeded, the application can use the
+query in <a class="reference internal" href="#find-value-in-version-history"><span>Finding a value IRI in a value&#8217;s version history</span></a> to look for the new IRI in the
+property&#8217;s version history.</p>
+</div>
+<div class="section" id="adding-a-new-version-of-a-value">
+<h3>Adding a new version of a value<a class="headerlink" href="#adding-a-new-version-of-a-value" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
+
+WITH &lt;http://www.knora.org/ontology/incunabula&gt;
+DELETE {
+    ?resource ?property ?currentValue .
+} INSERT {
+    ?newValue rdf:type ?valueType ;
+              knora-base:valueHasString &quot;&quot;&quot;Comment 2&quot;&quot;&quot; ;
+              knora-base:previousValue ?currentValue ;
+              knora-base:attachedToUser &lt;http://data.knora.org/users/91e19f1e01&gt; ;
+              knora-base:attachedToProject &lt;http://data.knora.org/projects/77275339&gt; ;
+              knora-base:hasDeletePermisson knora-admin:Owner ;
+              knora-base:hasModifyPermission knora-admin:ProjectMember ;
+              knora-base:hasViewPermission knora-admin:KnownUser ,
+                                           knora-admin:UnknownUser ;
+              knora-base:valueTimestamp ?currentTime .
+
+    ?resource ?property ?newValue .
+} WHERE {
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a&quot;) as ?resource)
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a/values/testComment001&quot;) AS ?currentValue)
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a/values/testComment002&quot;) AS ?newValue)
+    BIND(IRI(&quot;http://www.knora.org/ontology/knora-base#TextValue&quot;) AS ?valueType)
+    BIND(NOW() AS ?currentTime)
+
+    ?resource ?property ?currentValue .
+    ?property knora-base:objectClassConstraint ?valueType .
+}
+</pre></div>
+</div>
+<p>The update request must contain the IRI of the most recent version of
+the value (<code class="docutils literal"><span class="pre">http://data.knora.org/c5058f3a/values/c3295339</span></code>). If this
+is not in fact the most recent version (because someone else has done an
+update), this operation will do nothing (because the <code class="docutils literal"><span class="pre">WHERE</span></code> clause
+will return no rows). To find out whether the update succeeded, the
+application will then need to do a SELECT query using the
+query in <a class="reference internal" href="#find-value-in-version-history"><span>Finding a value IRI in a value&#8217;s version history</span></a>. In the case of concurrent updates,
+there are two possibilities:</p>
+<ol class="arabic simple">
+<li>Users A and B are looking at version 1. User A submits an update and
+it succeeds, creating version 2, which user A verifies using a
+SELECT. User B then submits an update to version 1 but it fails,
+because version 1 is no longer the latest version. User B&#8217;s SELECT
+will find that user B&#8217;s new value IRI is absent from the value&#8217;s
+version history.</li>
+<li>Users A and B are looking at version 1. User A submits an update and
+it succeeds, creating version 2. Before User A has time to do a
+SELECT, user B reads the new value and updates it again. Both users
+then do a SELECT, and find that both their new value IRIs are present
+in the value&#8217;s version history.</li>
+</ol>
+</div>
+<div class="section" id="getting-all-versions-of-a-value">
+<h3>Getting all versions of a value<a class="headerlink" href="#getting-all-versions-of-a-value" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
+
+SELECT ?value ?valueTimestamp ?previousValue
+WHERE {
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a&quot;) as ?resource)
+    BIND(IRI(&quot;http://www.knora.org/ontology/incunabula#book_comment&quot;) as ?property)
+    BIND(IRI(&quot;http://data.knora.org/c5058f3a/values/testComment002&quot;) AS ?currentValue)
+
+    ?resource ?property ?currentValue .
+    ?currentValue knora-base:previousValue* ?value .
+
+    OPTIONAL {
+        ?value knora-base:valueTimestamp ?valueTimestamp .
+    }
+
+    OPTIONAL {
+        ?value knora-base:previousValue ?previousValue .
+    }
+}
+</pre></div>
+</div>
+<p>This assumes that we know the current version of the value. If the
+version we have is not actually the current version, this query will
+return no rows.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="how-to-add-a-route.html">How to Add an API Route</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="consistency-checking.html">Consistency Checking</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

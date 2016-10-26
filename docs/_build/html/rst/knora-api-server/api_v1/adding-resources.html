@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding Resources &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
+    <link rel="next" title="Reading Values" href="reading-values.html" />
+    <link rel="prev" title="Reading and Searching Resources" href="reading-and-searching-resources.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Adding Resources</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="reading-and-searching-resources.html">Reading and Searching Resources</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="reading-values.html">Reading Values</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="adding-resources">
+<span id="id1"></span><h1>Adding Resources<a class="headerlink" href="#adding-resources" title="Permalink to this headline">¶</a></h1>
+<p>In order to create a resource, the HTTP method <code class="docutils literal"><span class="pre">POST</span></code> has to be used.
+The request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">resources</span></code> path segment:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP POST to http://host/v1/resources
+</pre></div>
+</div>
+<p>Unlike in the case of GET requests, the request body consists of JSON describing the resource to be created.</p>
+<p>Creating resources requires authentication since only known users may add resources.</p>
+<div class="section" id="adding-resources-without-a-digital-representation">
+<span id="adding-resources-without-representation"></span><h2>Adding Resources without a digital Representation<a class="headerlink" href="#adding-resources-without-a-digital-representation" title="Permalink to this headline">¶</a></h2>
+<p>The format of the JSON used to create a resource without a digital representation is described
+in the TypeScript interface <code class="docutils literal"><span class="pre">createResourceWithoutRepresentationRequest</span></code> in module <code class="docutils literal"><span class="pre">createResourceFormats</span></code>.
+It requires the IRI of the resource class the new resource belongs to, a label describing the new resource,
+the IRI of the project the new resource belongs to, and the properties to be assigned to the new resource.</p>
+<p>The request header&#8217;s content type has to be set to <code class="docutils literal"><span class="pre">application/json</span></code>.</p>
+</div>
+<div class="section" id="adding-resources-with-a-digital-representation">
+<h2>Adding Resources with a digital Representation<a class="headerlink" href="#adding-resources-with-a-digital-representation" title="Permalink to this headline">¶</a></h2>
+<p>Certain resource classes allow for digital representations (e.g. an image). There are two ways to attach a file to a resource:
+Either by submitting directly the binaries of the file in a HTTP Multipart request or by indicating the location of the file.
+The two cases are referred to as Non GUI-case and GUI-case (see <a class="reference internal" href="../../sipi/sipi-and-knora.html#sipi-and-knora"><span>Interaction Between Sipi and Knora</span></a>).</p>
+<div class="section" id="including-the-binaries-non-gui-case">
+<h3>Including the binaries (Non GUI-case)<a class="headerlink" href="#including-the-binaries-non-gui-case" title="Permalink to this headline">¶</a></h3>
+<p>In order to include the binaries, a HTTP Multipart request has to be sent. One part contains the JSON (same format as described for <a class="reference internal" href="#adding-resources-without-representation"><span>Adding Resources without a digital Representation</span></a>) and has to be named <code class="docutils literal"><span class="pre">json</span></code>.
+The other part contains the file&#8217;s name, its binaries, and its mime type and has to be named <code class="docutils literal"><span class="pre">file</span></code>. The following example illustrates how to make this type of request using Python3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">json</span>
+
+<span class="c"># a Python dictionary that will be turned into a JSON object</span>
+<span class="n">resourceParams</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">&#39;restype_id&#39;</span><span class="p">:</span> <span class="s">&#39;http://www.knora.org/ontology/test#testType&#39;</span><span class="p">,</span>
+   <span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
+       <span class="s">&#39;http://www.knora.org/ontology/test#testtext&#39;</span><span class="p">:</span> <span class="p">[</span>
+           <span class="p">{</span><span class="s">&#39;richtext_value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;utf8str&#39;</span><span class="p">:</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="s">&#39;textattr&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({}),</span> <span class="s">&#39;resource_reference&#39;</span><span class="p">:</span> <span class="p">[]}}</span>
+       <span class="p">],</span>
+       <span class="s">&#39;http://www.knora.org/ontology/test#testnumber&#39;</span><span class="p">:</span> <span class="p">[</span>
+           <span class="p">{</span><span class="s">&#39;int_value&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+       <span class="p">]</span>
+   <span class="p">},</span>
+   <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">&quot;test resource&quot;</span><span class="p">,</span>
+   <span class="s">&#39;project_id&#39;</span><span class="p">:</span> <span class="s">&#39;http://data.knora.org/projects/testproject&#39;</span>
+<span class="p">}</span>
+
+<span class="c"># the name of the file to be submitted</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;myimage.jpg&quot;</span>
+
+<span class="c"># a tuple containing the file&#39;s name, its binaries and its mimetype</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">),</span> <span class="s">&quot;image/jpeg&quot;</span><span class="p">)}</span> <span class="c"># use name &quot;file&quot;</span>
+
+<span class="c"># do a POST request providing both the JSON and the binaries</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;http://host/v1/resources&quot;</span><span class="p">,</span>
+                  <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;json&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resourceParams</span><span class="p">)},</span> <span class="c"># use name &quot;json&quot;</span>
+                  <span class="n">files</span><span class="o">=</span><span class="nb">file</span><span class="p">,</span>
+                  <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="s">&#39;password&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Please note that the file has to be read in binary mode (by default it would be read in text mode).</p>
+</div>
+<div class="section" id="indicating-the-location-of-a-file-gui-case">
+<h3>Indicating the location of a file (GUI-case)<a class="headerlink" href="#indicating-the-location-of-a-file-gui-case" title="Permalink to this headline">¶</a></h3>
+<p>This request works similarly to <a class="reference internal" href="#adding-resources-without-representation"><span>Adding Resources without a digital Representation</span></a>. The JSON format is described in
+the TypeScript interface <code class="docutils literal"><span class="pre">createResourceWithRepresentationRequest</span></code> in module <code class="docutils literal"><span class="pre">createResourceFormats</span></code>.
+The request header&#8217;s content type has to set to <code class="docutils literal"><span class="pre">application/json</span></code>.</p>
+<p>In addition to <a class="reference internal" href="#adding-resources-without-representation"><span>Adding Resources without a digital Representation</span></a>, the (temporary) name of the file, its original name, and mime type have to be provided (see <a class="reference internal" href="../../sipi/sipi-and-knora.html#gui-case"><span>GUI-Case</span></a>).</p>
+</div>
+</div>
+<div class="section" id="response-to-a-resource-creation">
+<h2>Response to a Resource Creation<a class="headerlink" href="#response-to-a-resource-creation" title="Permalink to this headline">¶</a></h2>
+<p>When a resource has been successfully created, Knora sends back a JSON containing the new resource&#8217;s IRI (<code class="docutils literal"><span class="pre">res_id</span></code>) and its properties.
+The resource IRI identifies the resource and can be used to perform future Knora API V1 operations.</p>
+<p>The JSON format of the response is described in the TypeScript interface <code class="docutils literal"><span class="pre">createResourceResponse</span></code> in module <code class="docutils literal"><span class="pre">createResourceFormats</span></code>.</p>
+</div>
+<div class="section" id="changing-a-resource-s-label">
+<h2>Changing a resource&#8217;s label<a class="headerlink" href="#changing-a-resource-s-label" title="Permalink to this headline">¶</a></h2>
+<p>A resource&#8217;s label can be changed by making a PUT request to the path segments <code class="docutils literal"><span class="pre">resources/label</span></code>.
+The resource&#8217;s Iri has to be provided in the URL (as its last segment). The new label has to submitted as JSON in the HTTP request&#8217;s body.</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP PUT to http://host/v1/resources/label/resourceIRI
+</pre></div>
+</div>
+<p>The JSON format of the request is described in the TypeScript interface <code class="docutils literal"><span class="pre">changeResourceLabelRequest</span></code> in module <code class="docutils literal"><span class="pre">createResourceFormats</span></code>.
+The response is described in the TypeScript interface <code class="docutils literal"><span class="pre">changeResourceLabelResponse</span></code> in module <code class="docutils literal"><span class="pre">createResourceFormats</span></code>.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="reading-and-searching-resources.html">Reading and Searching Resources</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="reading-values.html">Reading Values</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

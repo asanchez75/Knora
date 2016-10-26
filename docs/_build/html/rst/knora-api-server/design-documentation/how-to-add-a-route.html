@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to Add an API Route &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="Triplestore Updates" href="triplestore-updates.html" />
+    <link rel="prev" title="Shared Packages" href="shared-packages.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>How to Add an API Route</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="shared-packages.html">Shared Packages</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="triplestore-updates.html">Triplestore Updates</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="how-to-add-an-api-route">
+<span id="how-to-add-a-route"></span><h1>How to Add an API Route<a class="headerlink" href="#how-to-add-an-api-route" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="write-sparql-templates">
+<h2>Write SPARQL templates<a class="headerlink" href="#write-sparql-templates" title="Permalink to this headline">¶</a></h2>
+<p>Add any SPARQL templates you need to <code class="docutils literal"><span class="pre">src/main/twirl/queries/sparql/v1</span></code>, using the <a class="reference external" href="https://github.com/playframework/twirl">Twirl</a> template engine.</p>
+</div>
+<div class="section" id="write-responder-request-and-response-messages">
+<h2>Write Responder Request and Response Messages<a class="headerlink" href="#write-responder-request-and-response-messages" title="Permalink to this headline">¶</a></h2>
+<p>Add a file to the <code class="docutils literal"><span class="pre">org.knora.webapi.messages.v1respondermessages</span></code>
+package, containing case classes for your responder&#8217;s request and
+response messages. Add a trait that the responder&#8217;s request messages
+extend. Each request message type should contain a <code class="docutils literal"><span class="pre">UserProfileV1</span></code>.</p>
+<p>Response message classes that represent a complete API response must
+extend <code class="docutils literal"><span class="pre">KnoraResponseV1</span></code>, and must therefore have a <code class="docutils literal"><span class="pre">toJsValue</span></code>
+method that converts the response message to a JSON AST using
+<a class="reference external" href="https://github.com/spray/spray-json">spray-json</a>.</p>
+</div>
+<div class="section" id="write-a-responder">
+<h2>Write a Responder<a class="headerlink" href="#write-a-responder" title="Permalink to this headline">¶</a></h2>
+<p>Write an Akka actor class that extends <code class="docutils literal"><span class="pre">ResponderV1</span></code>, and add it to
+the <code class="docutils literal"><span class="pre">org.knora.webapi.responders.v1</span></code> package.</p>
+<p>Give your responder a <code class="docutils literal"><span class="pre">receive()</span></code> method that handles each of your
+request message types by generating a <code class="docutils literal"><span class="pre">Future</span></code> containing a response
+message, and passing the <code class="docutils literal"><span class="pre">Future</span></code> to <code class="docutils literal"><span class="pre">ActorUtils.futureToMessage()</span></code>. See
+<a class="reference internal" href="futures-with-akka.html#futures-with-akka"><span>Futures with Akka</span></a> and <a class="reference internal" href="design-overview.html#error-handling"><span>Error Handling</span></a> for details.</p>
+<p>See <a class="reference internal" href="design-overview.html#triplestore-access"><span>Triplestore Access</span></a> for details of how to access the triplestore
+in your responder.</p>
+<p>Add an actor pool for your responder to <code class="docutils literal"><span class="pre">application.conf</span></code>, under
+<code class="docutils literal"><span class="pre">actor.deployment</span></code>.</p>
+<p>In <code class="docutils literal"><span class="pre">ResponderManagerV1</span></code>, add a reference to your actor pool. Then add
+a <code class="docutils literal"><span class="pre">case</span></code> to the <code class="docutils literal"><span class="pre">receive()</span></code> method in <code class="docutils literal"><span class="pre">ResponderManagerV1</span></code>, to
+match messages that extend your request message trait, and forward them
+to that pool.</p>
+</div>
+<div class="section" id="write-a-route">
+<h2>Write a Route<a class="headerlink" href="#write-a-route" title="Permalink to this headline">¶</a></h2>
+<p>Add an object to the <code class="docutils literal"><span class="pre">org.knora.webapi.routing.v1</span></code> package for your
+route. Your object should look something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>import akka.actor.ActorSystem
+import akka.event.LoggingAdapter
+import org.knora.webapi.SettingsImpl
+import org.knora.webapi.messages.v1respondermessages.SampleGetRequestV1
+import org.knora.webapi.routing.RouteUtils
+import spray.routing.Directives._
+import spray.routing._
+import org.knora.webapi.util.StringConversions
+import org.knora.webapi.BadRequestException
+
+object SampleRouteV1 extends Authenticator {
+
+    def knoraApiPath(_system: ActorSystem, settings: SettingsImpl, log: LoggingAdapter): Route = {
+        implicit val system: ActorSystem = _system
+        implicit val executionContext = system.dispatcher
+        implicit val timeout = settings.defaultTimeout
+        val responderManager = system.actorSelection(&quot;/user/responderManager&quot;)
+
+        path(&quot;sample&quot; / Segment) { iri =&gt;
+            get { requestContext =&gt;
+                val requestMessageTry = Try {
+                    val userProfile = getUserProfileV1(requestContext)
+                    makeRequestMessage(iri, userProfile)
+                }
+
+                RouteUtils.runJsonRoute(
+                    requestMessageTry,
+                    requestContext,
+                    settings,
+                    responderManager,
+                    log
+                )
+            }
+        }
+    }
+
+    private def makeRequestMessage(iriStr: String, userProfile: UserProfileV1): SampleGetRequestV1 = {
+        val iri = StringConversions.toIri(iriStr, () =&gt; throw BadRequestException(s&quot;Invalid IRI: $iriStr&quot;))
+        SampleGetRequestV1(iri, userProfile)
+    }
+}
+</pre></div>
+</div>
+<p>It&#8217;s important that inside the <code class="docutils literal"><span class="pre">get</span></code> (or <code class="docutils literal"><span class="pre">post</span></code> or whatever),
+everything before the call to <code class="docutils literal"><span class="pre">RouteUtils.runJsonRoute</span></code> is wrapped in a
+<code class="docutils literal"><span class="pre">Try</span></code> constructor. This allows <code class="docutils literal"><span class="pre">RouteUtils.runJsonRoute</span></code> to handle input
+validation errors.</p>
+<p>Finally, add your <code class="docutils literal"><span class="pre">rapierPath()</span></code> function to the <code class="docutils literal"><span class="pre">routes</span></code> member
+variable in <code class="docutils literal"><span class="pre">KnoraHttpService</span></code>.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="shared-packages.html">Shared Packages</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="triplestore-updates.html">Triplestore Updates</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

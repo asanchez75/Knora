@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Docker Cheat Sheet &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Using API V1" href="../api_v1/index.html" />
+    <link rel="prev" title="Testing with Fuseki 2" href="testing-with-fuseki.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Docker Cheat Sheet</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="testing-with-fuseki.html">Testing with Fuseki 2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../api_v1/index.html">Using API V1</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="docker-cheat-sheet">
+<h1>Docker Cheat Sheet<a class="headerlink" href="#docker-cheat-sheet" title="Permalink to this headline">¶</a></h1>
+<p>A complete cheat sheet can be found <a class="reference external" href="https://github.com/wsargent/docker-cheat-sheet">here</a></p>
+<div class="section" id="lifecycle">
+<h2>Lifecycle<a class="headerlink" href="#lifecycle" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[<cite>docker create</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/create">https://docs.docker.com/reference/commandline/create</a>) creates a container but does not start it.</li>
+<li>[<cite>docker run</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/run">https://docs.docker.com/reference/commandline/run</a>) creates and starts a container in one operation.</li>
+<li>[<cite>docker rename</cite>](<a class="reference external" href="https://docs.docker.com/engine/reference/commandline/rename/">https://docs.docker.com/engine/reference/commandline/rename/</a>) allows the container to be renamed.</li>
+<li>[<cite>docker rm</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/rm">https://docs.docker.com/reference/commandline/rm</a>) deletes a container.</li>
+<li>[<cite>docker update</cite>](<a class="reference external" href="https://docs.docker.com/engine/reference/commandline/update/">https://docs.docker.com/engine/reference/commandline/update/</a>) updates a container&#8217;s resource limits.</li>
+</ul>
+<p>If you want a transient container, <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span></code> will remove the container after it stops.</p>
+<p>If you want to map a directory on the host to a docker container, <code class="docutils literal"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-v</span> <span class="pre">$HOSTDIR:$DOCKERDIR</span></code>.</p>
+</div>
+<div class="section" id="starting-and-stopping">
+<h2>Starting and Stopping<a class="headerlink" href="#starting-and-stopping" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[<cite>docker start</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/start">https://docs.docker.com/reference/commandline/start</a>) starts a container so it is running.</li>
+<li>[<cite>docker stop</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/stop">https://docs.docker.com/reference/commandline/stop</a>) stops a running container.</li>
+<li>[<cite>docker restart</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/restart">https://docs.docker.com/reference/commandline/restart</a>) stops and starts a container.</li>
+<li>[<cite>docker pause</cite>](<a class="reference external" href="https://docs.docker.com/engine/reference/commandline/pause/">https://docs.docker.com/engine/reference/commandline/pause/</a>) pauses a running container, &#8220;freezing&#8221; it in place.</li>
+<li>[<cite>docker attach</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/attach">https://docs.docker.com/reference/commandline/attach</a>) will connect to a running container.</li>
+</ul>
+</div>
+<div class="section" id="info">
+<h2>Info<a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[<cite>docker ps</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/ps">https://docs.docker.com/reference/commandline/ps</a>) shows running containers.</li>
+<li>[<cite>docker logs</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/logs">https://docs.docker.com/reference/commandline/logs</a>) gets logs from container.  (You can use a custom log driver, but logs is only available for <cite>json-file</cite> and <cite>journald</cite> in 1.10)</li>
+<li>[<cite>docker inspect</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/inspect">https://docs.docker.com/reference/commandline/inspect</a>) looks at all the info on a container (including IP address).</li>
+<li>[<cite>docker events</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/events">https://docs.docker.com/reference/commandline/events</a>) gets events from container.</li>
+<li>[<cite>docker port</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/port">https://docs.docker.com/reference/commandline/port</a>) shows public facing port of container.</li>
+<li>[<cite>docker top</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/top">https://docs.docker.com/reference/commandline/top</a>) shows running processes in container.</li>
+<li>[<cite>docker stats</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/stats">https://docs.docker.com/reference/commandline/stats</a>) shows containers&#8217; resource usage statistics.</li>
+<li>[<cite>docker diff</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/diff">https://docs.docker.com/reference/commandline/diff</a>) shows changed files in the container&#8217;s FS.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows running and stopped containers.</p>
+<p><code class="docutils literal"><span class="pre">docker</span> <span class="pre">stats</span> <span class="pre">--all</span></code> shows a running list of containers.</p>
+</div>
+<div class="section" id="executing-commands">
+<h2>Executing Commands<a class="headerlink" href="#executing-commands" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[<cite>docker exec</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/exec">https://docs.docker.com/reference/commandline/exec</a>) to execute a command in container.</li>
+</ul>
+<p>To enter a running container, attach a new shell process to a running container called foo, use: <code class="docutils literal"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">foo</span> <span class="pre">/bin/bash</span></code>.</p>
+</div>
+<div class="section" id="images">
+<h2>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h2>
+<p>Images are just [templates for docker containers](<a class="reference external" href="https://docs.docker.com/engine/understanding-docker/#how-does-a-docker-image-work">https://docs.docker.com/engine/understanding-docker/#how-does-a-docker-image-work</a>).</p>
+<ul class="simple">
+<li>[<cite>docker images</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/images">https://docs.docker.com/reference/commandline/images</a>) shows all images.</li>
+<li>[<cite>docker build</cite>](<a class="reference external" href="https://docs.docker.com/reference/commandline/build">https://docs.docker.com/reference/commandline/build</a>) creates image from Dockerfile.</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="testing-with-fuseki.html">Testing with Fuseki 2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../api_v1/index.html">Using API V1</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

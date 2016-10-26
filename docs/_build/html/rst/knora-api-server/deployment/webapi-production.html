@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running the Knora API Server on a Production System &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Deploying the Knora API Server" href="index.html" />
+    <link rel="next" title="Knora API Server Design Documentation" href="../design-documentation/index.html" />
+    <link rel="prev" title="Getting Started with the Knora API Server" href="webapi-getting-started.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Running the Knora API Server on a Production System</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="webapi-getting-started.html">Getting Started with the Knora API Server</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../design-documentation/index.html">Knora API Server Design Documentation</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="running-the-knora-api-server-on-a-production-system">
+<h1>Running the Knora API Server on a Production System<a class="headerlink" href="#running-the-knora-api-server-on-a-production-system" title="Permalink to this headline">¶</a></h1>
+<p>This section describes possible ways of running the Knora API server in
+an production environment. The description should only be taken as a first
+short introduction to this topic. Further reading of the referenced materials
+is advised.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Our platform of choice is Linux CentOS 7 and is thus assumed in the
+description. The generall idea should be usable on all platforms with
+small changes.</p>
+</div>
+<p>To run the Knora API server, we have two main components. First, the <code class="docutils literal"><span class="pre">jar</span></code>
+distribution of the server and second a supported triplestore.</p>
+<p>The jar distribution of the server can be either run manually or as a service
+for which we will use <code class="docutils literal"><span class="pre">supervisord</span></code> as described in the
+<a class="reference internal" href="#supervisord-label"><span>Supervisord</span></a> section.</p>
+<p>The supported triplestore can also be run manually (as described in the
+documentation of each distribution) or it can be run under an application
+server as described in the <a class="reference internal" href="#tomcat-application-label"><span>Tomcat Application Server (Fuseki 2 and GraphDB)</span></a> section.</p>
+<div class="section" id="supervisord">
+<span id="supervisord-label"></span><h2>Supervisord<a class="headerlink" href="#supervisord" title="Permalink to this headline">¶</a></h2>
+<p>For running Knora-API we will use supervisord, which allows us to run
+our java application easily as a service.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://serversforhackers.com/monitoring-processes-with-supervisord">https://serversforhackers.com/monitoring-processes-with-supervisord</a></li>
+</ul>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>/etc/supervisord.d/knora-api.conf</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre>[program:knora-api]
+command=sh run.sh
+directory=/var/www/vhosts/api.knora.org
+autostart=true
+autorestart=true
+startretries=3
+stderr_logfile=/var/log/knora-api/knora-api.err.log
+stdout_logfile=/var/log/knora-api/knora-api.out.log
+user=root
+environment=
+</pre></div>
+</div>
+<p>We need to create the directory for the log files!</p>
+</div>
+<div class="section" id="controlling-processes">
+<h3>Controlling Processes<a class="headerlink" href="#controlling-processes" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>$ supervisorctl reread $ supervisorctl update $ supervisorctl
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="tomcat-application-server-fuseki-2-and-graphdb">
+<span id="tomcat-application-label"></span><h2>Tomcat Application Server (Fuseki 2 and GraphDB)<a class="headerlink" href="#tomcat-application-server-fuseki-2-and-graphdb" title="Permalink to this headline">¶</a></h2>
+<p>The supported triplestores for the Knora API server are Fuseki 2 and GraphDB.
+Both come with a <code class="docutils literal"><span class="pre">.war</span></code> packaged distribution, which alows a deployment under
+an application server. We chose Tomcat, but there are other options available,
+e.g., Glassfish, Jetty, etc.</p>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>We use yum to install Tomcat:</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>$ yum install tomcat</dd>
+</dl>
+</div>
+<div class="section" id="id1">
+<h3>Configuration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Fuseki 2 and GraphDB are deployed using tomcat.</p>
+<p>The relevant directories are as follows:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Tomcat Webapps folder, where both the Fuseki 2 and GraphDB <code class="docutils literal"><span class="pre">.war</span></code> file is</dt>
+<dd><p class="first last">dropped in: <code class="docutils literal"><span class="pre">/var/lib/tomcat/webapps</span></code></p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Fuseki configuration folder: <code class="docutils literal"><span class="pre">/etc/fuseki</span></code></p>
+</li>
+<li><dl class="first docutils">
+<dt>Data folder: <code class="docutils literal"><span class="pre">/usr/share/tomcat</span></code></dt>
+<dd><ul class="first last simple">
+<li>for GraphDB: <code class="docutils literal"><span class="pre">/usr/share/tomcat/.aduna</span></code> and <code class="docutils literal"><span class="pre">/usr/share/tomcat/.graphdb-workbench</span></code></li>
+<li>for Fuseki: <code class="docutils literal"><span class="pre">usr/share/tomcat/.fuseki</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="administration">
+<h3>Administration<a class="headerlink" href="#administration" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">tomcat</span></code></li>
+<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">tomcat</span></code></li>
+<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">tomcat</span></code></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>If someting is wrong, first check the log files:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">/var/log/tomcat/</span></code></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="webapi-getting-started.html">Getting Started with the Knora API Server</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../design-documentation/index.html">Knora API Server Design Documentation</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started with the Knora API Server &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Deploying the Knora API Server" href="index.html" />
+    <link rel="next" title="Running the Knora API Server on a Production System" href="webapi-production.html" />
+    <link rel="prev" title="Deploying the Knora API Server" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Getting Started with the Knora API Server</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Deploying the Knora API Server</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="webapi-production.html">Running the Knora API Server on a Production System</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="getting-started-with-the-knora-api-server">
+<h1>Getting Started with the Knora API Server<a class="headerlink" href="#getting-started-with-the-knora-api-server" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="choosing-and-setting-up-a-triplestore">
+<h2>Choosing and Setting Up a Triplestore<a class="headerlink" href="#choosing-and-setting-up-a-triplestore" title="Permalink to this headline">¶</a></h2>
+<p>The Knora API server requires a standards-compliant <a class="reference external" href="https://www.w3.org/TR/rdf11-primer/">RDF</a> triplestore. A number
+of triplestore implementations are available, including <a class="reference external" href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a> as
+well as proprietary options. The Knora API server is tested and configured to
+work out of the box with the following triplestores:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://ontotext.com/products/graphdb/">Ontotext GraphDB</a>, a high-performance, proprietary triplestore. The Knora
+API server is tested with GraphDB Standard Edition and GraphDB Free (which
+is proprietary but available free of charge).</li>
+<li><a class="reference external" href="https://jena.apache.org/">Apache Jena</a>, which is <a class="reference external" href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a>. Knora comes bundled with Jena and with
+its standalone SPARQL server, Fuseki.</li>
+</ul>
+<p>TODO: explain how to get started with these.</p>
+<p>See the chapters on <a class="reference internal" href="../development/fuseki.html#starting-fuseki-2"><span>Starting Fuseki 2</span></a> and <a class="reference internal" href="../development/graphdb.html#starting-graphdb-se-7"><span>Starting GraphDB-SE 7</span></a> for more details.</p>
+<div class="section" id="load-test-data">
+<h3>Load Test Data<a class="headerlink" href="#load-test-data" title="Permalink to this headline">¶</a></h3>
+<p>In order to load the test data, go to <code class="docutils literal"><span class="pre">webapi/scripts</span></code> and run the script for the triplestore you have chosen. In case of Fuseki, run <code class="docutils literal"><span class="pre">fuseki-load-test-data.sh</span></code>,
+in case of GraphDB <code class="docutils literal"><span class="pre">graphdb-se-load-test-data.sh</span></code></p>
+<p>When working with GraphDB, you may encounter an error when loading the test data that says that there are multiple IDs for the same repository <code class="docutils literal"><span class="pre">knora-test</span></code>.
+In that case something went wrong when dropping and recreating the repository. Please delete all the data and start over:</p>
+<ul class="simple">
+<li>shutdown Tomcat: <code class="docutils literal"><span class="pre">$CATALINA_HOME/bin/shutdown.sh</span></code></li>
+<li>go to <a class="reference external" href="http://localhost:8080/openrdf-sesame/system/overview.view">http://localhost:8080/openrdf-sesame/system/overview.view</a> and look for the field <code class="docutils literal"><span class="pre">Data</span> <span class="pre">directory</span></code> which indicates the location of the directory <code class="docutils literal"><span class="pre">.aduna</span></code>.</li>
+<li>Then remove this directory an restart tomcat. Now you should be able to load the test data correctly.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="creating-a-test-installation">
+<h2>Creating a Test Installation<a class="headerlink" href="#creating-a-test-installation" title="Permalink to this headline">¶</a></h2>
+<p>TODO: write subsections like this:</p>
+<ul class="simple">
+<li>Download the Knora API Server and Sipi from GitHub</li>
+<li>Configure</li>
+<li>Run</li>
+</ul>
+</div>
+<div class="section" id="transforming-data-when-ontologies-change">
+<h2>Transforming Data When Ontologies Change<a class="headerlink" href="#transforming-data-when-ontologies-change" title="Permalink to this headline">¶</a></h2>
+<p>When there is a change in Knora&#8217;s ontologies or in a project-specific ontology, it may be necessary to update existing
+data to conform to the new ontology. This can be done directly in SPARQL, but for simple transformations, Knora
+includes a command-line program that works on RDF data files in <a class="reference external" href="https://www.w3.org/TR/turtle/">Turtle</a> format. You can run it from SBT:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; run-main org.knora.webapi.util.TransformData --help
+[info] Running org.knora.webapi.util.TransformData --help
+[info]
+[info] Updates the structure of Knora repository data to accommodate changes in Knora.
+[info]
+[info] Usage: org.knora.webapi.util.TransformData -t [deleted|permissions|strings|standoff|all] input output
+[info]
+[info]   -t, --transform  &lt;arg&gt;   Selects a transformation. Available transformations:
+[info]                            &#39;deleted&#39; (adds missing &#39;knora-base:isDeleted&#39;
+[info]                            statements), &#39;permissions&#39; (combines old-style
+[info]                            multiple permission statements into single permission
+[info]                            statements), &#39;strings&#39; (adds missing valueHasString),
+[info]                            &#39;standoff&#39; (transforms old-style standoff into
+[info]                            new-style standoff), &#39;all&#39; (all of the above)
+[info]       --help               Show help message
+[info]
+[info]  trailing arguments:
+[info]   input (required)    Input Turtle file
+[info]   output (required)   Output Turtle file
+</pre></div>
+</div>
+<p>The currently available transformations are:</p>
+<dl class="docutils">
+<dt>deleted</dt>
+<dd>Adds <code class="docutils literal"><span class="pre">knora-base:isDeleted</span> <span class="pre">false</span></code> to resources and values that don&#8217;t have a <code class="docutils literal"><span class="pre">knora-base:isDeleted</span></code>
+predicate.</dd>
+<dt>permissions</dt>
+<dd>Combines old-style permission statements (<code class="docutils literal"><span class="pre">hasViewPermission</span></code>, <code class="docutils literal"><span class="pre">hasModifyPermission</span></code>, etc.) into
+one <code class="docutils literal"><span class="pre">hasPermissions</span></code> statement per resource or value, as described in the section <strong>Permissions</strong> in
+<a class="reference internal" href="../../knora-ontologies/index.html#knora-ontologies"><span>The Knora Ontologies</span></a>.</dd>
+<dt>strings</dt>
+<dd>Adds missing <code class="docutils literal"><span class="pre">valueHasString</span></code> statements to Knora value objects.</dd>
+<dt>standoff</dt>
+<dd>Transforms old-style standoff markup (containing tag names as strings) to new-style standoff markup
+(using different OWL class names for different tags).</dd>
+<dt>all</dt>
+<dd>Runs all of the above transformations.</dd>
+</dl>
+<p>Transformations that are not needed have no effect.</p>
+<p>The program uses the Turtle parsing and formatting library from <a class="reference external" href="http://rdf4j.org/">RDF4J</a>. Additional transformations can
+be implemented as subclasses of <code class="docutils literal"><span class="pre">org.eclipse.rdf4j.rio.RDFHandler</span></code>.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Deploying the Knora API Server</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="webapi-production.html">Running the Knora API Server on a Production System</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

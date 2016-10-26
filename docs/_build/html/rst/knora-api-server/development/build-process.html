@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Build Process &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Setup IntelliJ for development of Knora" href="intellij-config.html" />
+    <link rel="prev" title="Starting GraphDB-SE 7" href="graphdb.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Build Process</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="graphdb.html">Starting GraphDB-SE 7</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="intellij-config.html">Setup IntelliJ for development of Knora</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="build-process">
+<span id="webapi-build-process"></span><h1>Build Process<a class="headerlink" href="#build-process" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>TODO: complete this file.</dt>
+<dd><ul class="first last simple">
+<li>SBT</li>
+<li>Using GraphDB for development and how to initializing the &#8216;knora-test-unit&#8217; repository</li>
+<li>Using Fuseki for development</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="building-and-running">
+<h2>Building and Running<a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-fuseki">
+<h3>Using Fuseki<a class="headerlink" href="#using-fuseki" title="Permalink to this headline">¶</a></h3>
+<p>Start the provided Fuseki triplestore:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd KNORA_PROJECT_DIRECTORY/triplestores/fuseki
+$ ./fuseki-server
+</pre></div>
+</div>
+<p>Then in another terminal, load some test data into the triplestore:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd KNORA_PROJECT_DIRECTORY/webapi/scripts
+$ ./fuseki-load-test-data.sh
+</pre></div>
+</div>
+<p>Then go back to the webapi root directory and use SBT to start the API server:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd KNORA_PROJECT_DIRECTORY/webapi
+$ sbt
+&gt; compile
+&gt; re-start
+</pre></div>
+</div>
+<p>To shut down the Knora API server:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; re-stop
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-graphdb">
+<h3>Using GraphDB<a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
+<p>The archive with the newest supported version of the GraphDB-SE triplestore is provided under
+<code class="docutils literal"><span class="pre">`triplestores/graphdb-se-7`</span></code>. Please keep in mind, that GraphDB-SE must be licensed separately by the user, and that
+no license file is provided in the repository. GraphDB-SE will not run without a license file.</p>
+<p>To be able to successfully run GraphDB inside docker three important steps need to be done beforhand:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Install Docker from <a class="reference external" href="http://docker.com">http://docker.com</a>.</li>
+<li>Copy the GraphDB-SE license file into this folder and name it <code class="docutils literal"><span class="pre">GRAPHDB_SE.license</span></code>. It is already added to a
+local <code class="docutils literal"><span class="pre">.gitignore</span></code> file which can be found inside this folder. Under no circumstance should the license file be
+committed to Github.</li>
+<li>(optional) The current version of <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> from the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> needs to be copied to this folder
+each time it was changed. This file needs to be copied into the docker image, which can only be done if it is found
+inside this folder.</li>
+</ol>
+</div></blockquote>
+<p>From inside this folder, type:</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">$</span> <span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-t</span> <span class="pre">graphdb</span> <span class="pre">.</span>
+<span class="pre">$</span> <span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">-it</span> <span class="pre">-p</span> <span class="pre">7200:7200</span> <span class="pre">graphdb</span>
+<span class="pre">`</span></code></p>
+<p>Do not forget the &#8216;.&#8217; in the first command.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">`--rm`</span></code> removes the container as soon as you stop it</li>
+<li><code class="docutils literal"><span class="pre">`-p`</span></code> forwards the exposed port to your host (or if you use boot2docker to this IP)</li>
+<li><code class="docutils literal"><span class="pre">`-it`</span></code> allows interactive mode, so you see if something get&#8217;s deployed</li>
+</ul>
+</div></blockquote>
+<p>After the GraphDB inside the docker container has started, you can find the GraphDB workbench here: <a class="reference external" href="http://localhost:7200">http://localhost:7200</a></p>
+</div>
+</div>
+<div class="section" id="run-the-automated-tests">
+<h2>Run the automated tests<a class="headerlink" href="#run-the-automated-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Using Fuseki<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Make sure you&#8217;ve started Fuseki as shown above. Then at the SBT prompt:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; fuseki:test
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="continuous-integration">
+<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
+<p>For continuous integration testing, we use Travis-CI. Every commit pushed to the git repository or every
+pull request, triggers the build. Additionaly, in Github there is a litle checkmark beside every commit, signaling the
+status of the build (successful, unsucessful, ongoing).</p>
+<p>The build that is executed on Travis-CI is defined in <code class="docutils literal"><span class="pre">.travis.yml</span></code> situated in the root folder of the project, and
+looks like this:</p>
+<div class="highlight-yaml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">required</span>
+<span class="l-Scalar-Plain">git</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
+<span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">scala</span>
+<span class="l-Scalar-Plain">scala</span><span class="p-Indicator">:</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">2.11.7</span>
+<span class="l-Scalar-Plain">jdk</span><span class="p-Indicator">:</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">oraclejdk8</span>
+<span class="l-Scalar-Plain">cache</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">directories</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">$HOME/.ivy2</span>
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd webapi/ &amp;&amp; sbt test</span>
+<span class="l-Scalar-Plain">notifications</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">slack</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">secure</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AJZARDC7P6bwjFwk6gpe+p2ozLj+bH3h83PapfCTL0xi7frHd4y6/jXOs9ac+m7ia5FlnzgBxrf0lmaE+IkqlRzxo5dPNYkDIbMC3nrf48kS+uQjf87X1Pn6bDVBLL56L1xIeaEXAqLLWNZ8m1UQ3ykVHgUbUbimjm43eCMpUiretgOqQgreZuLGVxPDU4KrGYZ93FvT2Nzp1Iagld0KXJ1up/uKlpSZAIpJPhgWYIhSGwj9hYG50iENvtsOX/zTe2hjhKWaPmVxHWo8qNyyHfX/+3ODQhvKu3LQsFXbW8WQ1r86EUDrGWeT6mlCYbjR1Wk/7wEKvGts/7vnTNJ8H2xDG9ADc4zIzIpnz0+gndIXuguxuMZEdm1H9okcDqraa4OV01bobr43RVC4hTZCiEBt7wCd/c+C1lJahAQUQoKsbmp5idKrjUyESJ0ZbU6hgkKeOvEvUqv0msYJGWW/C5BlUlro08AgZ9h6nOfu8jJQ49x9QbSWLjTVDg8CEq3w8FDATGA6FKdDqgmsi/3ROjgdewPgyxE3XZ2UpAbAdMPeuGvFoU91X8gScm6ys6abLy0vdCL3LyqmBu/Vzdg1RzU7oqUqSbR5LSMh8pwAwy26j6Awp+pDEzBtyL59yN6r6wgxmbJ5KT+XJReEH6Ao0C6ay23E8T/3YmI3qbjX8xE=</span>
+</pre></div>
+</td></tr></table></div>
+<p>It basically means:</p>
+<blockquote>
+<div><ul class="simple">
+<li>use the virtual machine based environment (line 1)</li>
+<li>checkout git with a shorter history (lines 2-3)</li>
+<li>add scala libraries (lines 4-6)</li>
+<li>add oracle jdk version 8 (lines 7-8)</li>
+<li>cache some directories between builds to make it faster (line 9-11)</li>
+<li>start fuseki and afterwards start all tests (lines 12-14)</li>
+<li>send notification to our slack channel (lines 15-17)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="sbt-build-configuration">
+<h2>SBT Build Configuration<a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>import sbt._
+import sbt.Keys._
+import spray.revolver.RevolverPlugin._
+import com.typesafe.sbt.SbtNativePackager.autoImport._
+
+
+// Bring the sbt-aspectj settings into this build
+//aspectjSettings
+
+lazy val webapi = (project in file(&quot;.&quot;)).
+        configs(
+            FusekiTest,
+            FusekiTomcatTest,
+            GraphDBTest,
+            GraphDBFreeTest,
+            SesameTest,
+            EmbeddedJenaTDBTest
+        ).
+        settings(webApiCommonSettings:  _*).
+        settings(inConfig(FusekiTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaFusekiTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(inConfig(FusekiTomcatTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaFusekiTomcatTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(inConfig(GraphDBTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaGraphDBTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(inConfig(GraphDBFreeTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaGraphDBFreeTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(inConfig(SesameTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaSesameTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(inConfig(EmbeddedJenaTDBTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaEmbeddedJenaTDBTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;)
+            )
+        ): _*).
+        settings(
+            //javaOptions in FusekiTest ++= javaFusekiTestOptions,
+            //javaOptions in FusekiTomcatTest ++= javaFusekiTomcatTestOptions,
+            //javaOptions in GraphDBTest ++= javaGraphDBTestOptions,
+            //javaOptions in EmbeddedJenaTDBTest ++= javaEmbeddedJenaTDBTestOptions,
+            //fork in FusekiTest := true,
+            //parallelExecution in FusekiTest := false,
+            //testOptions in FusekiTest += Tests.Argument(&quot;-oDF&quot;)
+        ).
+        settings(
+            libraryDependencies ++= webApiLibs,
+            scalacOptions ++= Seq(&quot;-feature&quot;, &quot;-deprecation&quot;, &quot;-Yresolve-term-conflict:package&quot;),
+            logLevel := Level.Info,
+            fork in run := true,
+            javaOptions in run ++= javaRunOptions,
+            //javaOptions in run &lt;++= AspectjKeys.weaverOptions in Aspectj,
+            //javaOptions in Revolver.reStart &lt;++= AspectjKeys.weaverOptions in Aspectj,
+            mainClass in (Compile, run) := Some(&quot;org.knora.webapi.Main&quot;),
+            fork in Test := true,
+            javaOptions in Test ++= javaTestOptions,
+            parallelExecution in Test := false,
+            testOptions in Test += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+        ).
+        settings(Revolver.settings: _*).
+        enablePlugins(SbtTwirl) // Enable the SbtTwirl plugin
+
+lazy val webApiCommonSettings = Seq(
+    organization := &quot;org.knora&quot;,
+    name := &quot;webapi&quot;,
+    version := &quot;0.1.0&quot;,
+    ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) },
+    scalaVersion := &quot;2.11.7&quot;
+)
+
+lazy val webApiLibs = Seq(
+    // akka
+    &quot;com.typesafe.akka&quot; % &quot;akka-actor_2.11&quot; % &quot;2.4.0&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-agent&quot; % &quot;2.4.0&quot;,
+    // &quot;com.typesafe.akka&quot; % &quot;akka-stream-experimental_2.11&quot; % &quot;1.0-M3&quot;,
+    // &quot;com.typesafe.akka&quot; % &quot;akka-http-experimental_2.11&quot; % &quot;1.0-M3&quot;,
+    // &quot;com.typesafe.akka&quot; % &quot;akka-http-core-experimental_2.11&quot; % &quot;1.0-M3&quot;,
+    // spray
+    &quot;io.spray&quot; %% &quot;spray-http&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-httpx&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-util&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-io&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-can&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-caching&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-routing&quot; % &quot;1.3.3&quot;,
+    &quot;io.spray&quot; %% &quot;spray-json&quot; % &quot;1.3.2&quot;,
+    &quot;io.spray&quot; %% &quot;spray-client&quot; % &quot;1.3.2&quot;,
+    // jena
+    &quot;org.apache.jena&quot; % &quot;apache-jena-libs&quot; % &quot;3.0.0&quot; exclude(&quot;org.slf4j&quot;, &quot;slf4j-log4j12&quot;),
+    &quot;org.apache.jena&quot; % &quot;jena-text&quot; % &quot;3.0.0&quot; exclude(&quot;org.slf4j&quot;, &quot;slf4j-log4j12&quot;),
+    // http client
+    &quot;net.databinder.dispatch&quot; %% &quot;dispatch-core&quot; % &quot;0.11.2&quot;,
+    // logging
+    &quot;org.slf4j&quot; % &quot;slf4j-api&quot; % &quot;1.7.12&quot;,
+    &quot;org.slf4j&quot; % &quot;jcl-over-slf4j&quot; % &quot;1.7.12&quot;,
+    &quot;ch.qos.logback&quot; % &quot;logback-core&quot; % &quot;1.1.3&quot;,
+    &quot;ch.qos.logback&quot; % &quot;logback-classic&quot; % &quot;1.1.3&quot;,
+    &quot;com.typesafe.akka&quot; % &quot;akka-slf4j_2.11&quot; % &quot;2.4.0&quot;,
+    &quot;com.typesafe.scala-logging&quot; %% &quot;scala-logging&quot; % &quot;3.1.0&quot;,
+    // input validation
+    &quot;commons-validator&quot; % &quot;commons-validator&quot; % &quot;1.4.1&quot;,
+    // pretty printing
+    &quot;com.googlecode.kiama&quot; % &quot;kiama_2.11&quot; % &quot;1.8.0&quot;,
+    // authentication
+    &quot;com.github.t3hnar&quot; %% &quot;scala-bcrypt&quot; % &quot;2.4&quot;,
+    // caching
+    &quot;net.sf.ehcache&quot; % &quot;ehcache&quot; % &quot;2.10.0&quot;,
+    // monitoring
+    //&quot;org.aspectj&quot; % &quot;aspectjweaver&quot; % &quot;1.8.7&quot;,
+    //&quot;org.aspectj&quot; % &quot;aspectjrt&quot; % &quot;1.8.7&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-core&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-spray&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-statsd&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-log-reporter&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-system-metrics&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-newrelic&quot; % &quot;0.5.2&quot;,
+    // other
+    //&quot;javax.transaction&quot; % &quot;transaction-api&quot; % &quot;1.1-rev-1&quot;,
+    &quot;org.apache.commons&quot; % &quot;commons-lang3&quot; % &quot;3.4&quot;,
+    &quot;commons-io&quot; % &quot;commons-io&quot; % &quot;2.4&quot;,
+    &quot;commons-beanutils&quot; % &quot;commons-beanutils&quot; % &quot;1.9.2&quot;, // not used by us, but need newest version to prevent this problem: http://stackoverflow.com/questions/14402745/duplicate-classes-in-commons-collections-and-commons-beanutils
+    &quot;org.jodd&quot; % &quot;jodd&quot; % &quot;3.2.6&quot;,
+    &quot;joda-time&quot; % &quot;joda-time&quot; % &quot;2.9.1&quot;,
+    &quot;org.joda&quot; % &quot;joda-convert&quot; % &quot;1.8&quot;,
+    &quot;com.sksamuel.diff&quot; % &quot;diff&quot; % &quot;1.1.11&quot;,
+    &quot;org.xmlunit&quot; % &quot;xmlunit-core&quot; % &quot;2.1.1&quot;,
+    // testing
+    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % &quot;2.4.0&quot; % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;,
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;2.2.6&quot; % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;,
+    &quot;io.spray&quot; %% &quot;spray-testkit&quot; % &quot;1.3.3&quot; % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;,
+    &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-rio-turtle&quot; % &quot;2.0M3&quot;,
+    &quot;org.rogach&quot; %% &quot;scallop&quot; % &quot;2.0.1&quot;
+)
+
+lazy val javaRunOptions = Seq(
+    // &quot;-showversion&quot;,
+    &quot;-Xms2048m&quot;,
+    &quot;-Xmx4096m&quot;
+    // &quot;-verbose:gc&quot;,
+    //&quot;-XX:+UseG1GC&quot;,
+    //&quot;-XX:MaxGCPauseMillis=500&quot;
+)
+
+lazy val javaTestOptions = Seq(
+    // &quot;-showversion&quot;,
+    &quot;-Xms2048m&quot;,
+    &quot;-Xmx4096m&quot;
+    // &quot;-verbose:gc&quot;,
+    //&quot;-XX:+UseG1GC&quot;,
+    //&quot;-XX:MaxGCPauseMillis=500&quot;,
+    //&quot;-XX:MaxMetaspaceSize=4096m&quot;
+)
+
+lazy val FusekiTest = config(&quot;fuseki&quot;) extend(Test)
+lazy val javaFusekiTestOptions = Seq(
+    &quot;-Dconfig.resource=fuseki.conf&quot;
+) ++ javaTestOptions
+
+lazy val FusekiTomcatTest = config(&quot;fuseki-tomcat&quot;) extend(Test)
+lazy val javaFusekiTomcatTestOptions = Seq(
+    &quot;-Dconfig.resource=fuseki-tomcat.conf&quot;
+) ++ javaTestOptions
+
+lazy val GraphDBTest = config(&quot;graphdb&quot;) extend(Test)
+lazy val javaGraphDBTestOptions = Seq(
+    &quot;-Dconfig.resource=graphdb.conf&quot;
+) ++ javaTestOptions
+
+lazy val GraphDBFreeTest = config(&quot;graphdb-free&quot;) extend(Test)
+lazy val javaGraphDBFreeTestOptions = Seq(
+    &quot;-Dconfig.resource=graphdb-free.conf&quot;
+) ++ javaTestOptions
+
+lazy val SesameTest = config(&quot;sesame&quot;) extend(Test)
+lazy val javaSesameTestOptions = Seq(
+    &quot;-Dconfig.resource=sesame.conf&quot;
+) ++ javaTestOptions
+
+
+lazy val EmbeddedJenaTDBTest = config(&quot;tdb&quot;) extend(Test)
+lazy val javaEmbeddedJenaTDBTestOptions = Seq(
+    &quot;-Dconfig.resource=jenatdb.conf&quot;
+) ++ javaTestOptions
+
+// skip test before creating fat-jar
+test in assembly := {}
+
+// set fat-jar main class
+mainClass in assembly := Some(&quot;org.knora.webapi.Main&quot;)
+
+// change merge strategy for fat-jar
+assemblyMergeStrategy in assembly := {
+    case PathList(&quot;org&quot;, &quot;apache&quot;, &quot;commons&quot;, &quot;logging&quot;, xs @ _*)   =&gt; MergeStrategy.first
+    case PathList(&quot;META-INF&quot;, xs @ _*) =&gt;
+    xs.map(_.toLowerCase) match {
+        case (&quot;manifest.mf&quot; :: Nil) | (&quot;index.list&quot; :: Nil) | (&quot;dependencies&quot; :: Nil) =&gt;
+        MergeStrategy.discard
+        case ps @ (x :: xs) if ps.last.endsWith(&quot;.sf&quot;) || ps.last.endsWith(&quot;.dsa&quot;) || ps.last.endsWith(&quot;license&quot;) || ps.last.endsWith(&quot;license.txt&quot;) || ps.last.endsWith(&quot;notice&quot;) || ps.last.endsWith(&quot;notice.txt&quot;) =&gt;
+        MergeStrategy.discard
+        case &quot;plexus&quot; :: xs =&gt;
+        MergeStrategy.discard
+        case &quot;services&quot; :: xs =&gt;
+        MergeStrategy.filterDistinctLines
+        case (&quot;spring.schemas&quot; :: Nil) | (&quot;spring.handlers&quot; :: Nil) =&gt;
+        MergeStrategy.filterDistinctLines
+        case ps@(x :: xs) if ps.last.endsWith(&quot;aop.xml&quot;) =&gt; MergeStrategy.first
+        case _ =&gt; MergeStrategy.deduplicate
+    }
+    case x =&gt;
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
+
+// Custom run task
+//lazy val generateFakeTriplestore = taskKey[Unit](&quot;Generate fake triplestore from a list of requests&quot;)
+
+//fullRunTask(generateFakeTriplestore, Test, &quot;org.knora.webapi.GenFakeTripleStore&quot;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="webapi-server-startup-flags">
+<span id="id2"></span><h2>Webapi Server Startup-Flags<a class="headerlink" href="#webapi-server-startup-flags" title="Permalink to this headline">¶</a></h2>
+<p>The Webapi-Server can be started with a number of flags. These flags can be supplied either to the <code class="docutils literal"><span class="pre">reStart</span></code> or the
+<code class="docutils literal"><span class="pre">run</span></code> command in sbt, e.g.,:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sbt
+&gt; reStart flag
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python"><div class="highlight"><pre>$sbt
+&gt; run flag
+</pre></div>
+</div>
+<div class="section" id="loaddemodata-flag">
+<h3><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag<a class="headerlink" href="#loaddemodata-flag" title="Permalink to this headline">¶</a></h3>
+<p>When the webapi-server is started with the <code class="docutils literal"><span class="pre">loadDemoData</span></code> flag, then at startup, the data which is configured in
+<code class="docutils literal"><span class="pre">application.conf</span></code> under the <code class="docutils literal"><span class="pre">app.triplestore.rdf-data</span></code> key is loaded into the triplestore, and any data in the
+triplestore is removed beforehand.</p>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sbt
+&gt; reStart loadDemoData
+</pre></div>
+</div>
+</div>
+<div class="section" id="allowresettriplestorecontentoperationoverhttp-flag">
+<h3><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag<a class="headerlink" href="#allowresettriplestorecontentoperationoverhttp-flag" title="Permalink to this headline">¶</a></h3>
+<p>When the webapi.server is started with the <code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> flag, then the
+<code class="docutils literal"><span class="pre">v1/store/ResetTriplestoreContent</span></code> route is activated. This route accepts a <code class="docutils literal"><span class="pre">POST</span></code> request, with a json payload
+consisting of the following exemplary content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;../knora-ontologies/knora-base.ttl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;http://www.knora.org/ontology/knora-base&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;../knora-ontologies/knora-dc.ttl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;http://www.knora.org/ontology/dc&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;../knora-ontologies/salsah-gui.ttl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;http://www.knora.org/ontology/salsah-gui&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;_test_data/ontologies/incunabula-onto.ttl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;http://www.knora.org/ontology/incunabula&quot;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;_test_data/all_data/incunabula-data.ttl&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;http://www.knora.org/data/incunabula&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>This content corresponds to the payload sent with the <code class="docutils literal"><span class="pre">ResetTriplestoreContent</span></code> message, defined inside the
+<code class="docutils literal"><span class="pre">org.knora.webapi.messages.v1.store.triplestoremessages</span></code> package. The <code class="docutils literal"><span class="pre">path</span></code> being the relative path to the <code class="docutils literal"><span class="pre">ttl</span></code>
+file which will be loaded into a named graph by the name of <code class="docutils literal"><span class="pre">name</span></code>.</p>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sbt
+&gt; reStart allowResetTriplestoreContentOperationOverHTTP
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="graphdb.html">Starting GraphDB-SE 7</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="intellij-config.html">Setup IntelliJ for development of Knora</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

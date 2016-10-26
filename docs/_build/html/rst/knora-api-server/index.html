@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Knora API Server &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
+    <link rel="next" title="Deploying the Knora API Server" href="deployment/index.html" />
+    <link rel="prev" title="The Knora Base Ontology" href="../knora-ontologies/knora-base.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>The Knora API Server</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../knora-ontologies/knora-base.html">The Knora Base Ontology</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="deployment/index.html">Deploying the Knora API Server</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="the-knora-api-server">
+<span id="knora-api-server"></span><h1>The Knora API Server<a class="headerlink" href="#the-knora-api-server" title="Permalink to this headline">¶</a></h1>
+<p>The Knora API server implements Knora&#8217;s HTTP-based API, and manages data
+stored in an RDF triplestore and in files. It is designed to work with any
+standards-compliant RDF triplestore, and is configured to work out of the box
+with <a class="reference external" href="http://ontotext.com/products/graphdb/">Ontotext GraphDB</a> and <a class="reference external" href="https://jena.apache.org/">Apache Jena</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/index.html">Deploying the Knora API Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment/webapi-getting-started.html">Getting Started with the Knora API Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/webapi-production.html">Running the Knora API Server on a Production System</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design-documentation/index.html">Knora API Server Design Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/design-overview.html">Knora API Server Design Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/futures-with-akka.html">Futures with Akka</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/http-module.html">HTTP Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/responders-module.html">Responders Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/store-module.html">Store Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/shared-packages.html">Shared Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/how-to-add-a-route.html">How to Add an API Route</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/triplestore-updates.html">Triplestore Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/consistency-checking.html">Consistency Checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/authentication.html">Authentication in the Knora API Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-documentation/plans-for-api-v2.html">Plans for Knora API v2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Developing the Knora API Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/fuseki.html">Starting Fuseki 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/graphdb.html">Starting GraphDB-SE 7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/build-process.html">Build Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/intellij-config.html">Setup IntelliJ for development of Knora</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/documentation.html">Documentation Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/test-tags.html">Test Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/testing-with-fuseki.html">Testing with Fuseki 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/docker-cheat-sheet.html">Docker Cheat Sheet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_v1/index.html">Using API V1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/api-general.html">Introduction: Using API V1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/reading-and-searching-resources.html">Reading and Searching Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/adding-resources.html">Adding Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/reading-values.html">Reading Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/adding-values.html">Adding a Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/changing-values.html">Changing a Value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_v1/delete-resources-and-values.html">Deleting Resources and Values</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../knora-ontologies/knora-base.html">The Knora Base Ontology</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="deployment/index.html">Deploying the Knora API Server</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

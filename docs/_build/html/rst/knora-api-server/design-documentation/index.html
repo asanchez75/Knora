@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Knora API Server Design Documentation &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="The Knora API Server" href="../index.html" />
+    <link rel="next" title="Knora API Server Design Overview" href="design-overview.html" />
+    <link rel="prev" title="Running the Knora API Server on a Production System" href="../deployment/webapi-production.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Knora API Server Design Documentation</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../deployment/webapi-production.html">Running the Knora API Server on a Production System</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="design-overview.html">Knora API Server Design Overview</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="knora-api-server-design-documentation">
+<h1>Knora API Server Design Documentation<a class="headerlink" href="#knora-api-server-design-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design-overview.html">Knora API Server Design Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#design-diagram">Design Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#modules">Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#actor-supervision-and-creation">Actor Supervision and Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#concurrency">Concurrency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#what-the-responders-do">What the Responders Do</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#store-module-org-knora-webapi-store-package">Store Module (org.knora.webapi.store package)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#triplestore-access">Triplestore Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#api-routing">API Routing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design-overview.html#json">JSON</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="futures-with-akka.html">Futures with Akka</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#handling-errors-with-futures">Handling Errors with Futures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#designing-with-futures">Designing with Futures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#mixing-futures-with-non-futures">Mixing Futures with non-Futures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#how-to-write-for-comprehensions">How to Write For-Comprehensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="futures-with-akka.html#execution-contexts">Execution Contexts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http-module.html">HTTP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="responders-module.html">Responders Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="responders-module.html#version-1-0-responders">Version 1.0 Responders</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="store-module.html">Store Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="store-module.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store-module.html#lifecycle">Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store-module.html#http-based-triplestores">HTTP-based Triplestores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store-module.html#embedded-triplestores">Embedded Triplestores</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shared-packages.html">Shared Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to-add-a-route.html">How to Add an API Route</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-to-add-a-route.html#write-sparql-templates">Write SPARQL templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to-add-a-route.html#write-responder-request-and-response-messages">Write Responder Request and Response Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to-add-a-route.html#write-a-responder">Write a Responder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to-add-a-route.html#write-a-route">Write a Route</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="triplestore-updates.html">Triplestore Updates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="triplestore-updates.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triplestore-updates.html#design">Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triplestore-updates.html#sparql-update-examples">SPARQL Update Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="consistency-checking.html">Consistency Checking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="consistency-checking.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="consistency-checking.html#design">Design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication in the Knora API Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authentication.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plans-for-api-v2.html">Plans for Knora API v2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#naming">Naming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#redundancy">Redundancy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#efficiency">Efficiency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#suitability-for-non-gui-applications">Suitability for non-GUI applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#working-with-multiple-projects">Working with multiple projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#annotating-values">Annotating values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#typing">Typing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plans-for-api-v2.html#json-ld">JSON-LD</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../deployment/webapi-production.html">Running the Knora API Server on a Production System</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="design-overview.html">Knora API Server Design Overview</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

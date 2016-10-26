@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Store Module &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="Shared Packages" href="shared-packages.html" />
+    <link rel="prev" title="Responders Module" href="responders-module.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Store Module</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="responders-module.html">Responders Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="shared-packages.html">Shared Packages</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="store-module">
+<span id="id1"></span><h1>Store Module<a class="headerlink" href="#store-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The store module houses the different types of data stores supported by
+the Knora API server. At the moment, only triplestores are supported. The triplestore
+support is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.store.triplestore</span></code>
+package.</p>
+</div>
+<div class="section" id="lifecycle">
+<h2>Lifecycle<a class="headerlink" href="#lifecycle" title="Permalink to this headline">¶</a></h2>
+<p>At the top level, the store package houses  the <code class="docutils literal"><span class="pre">StoreManager</span></code>-Actor
+which is started when the Knora API server starts. The <code class="docutils literal"><span class="pre">StoreManager</span></code> then starts
+the <code class="docutils literal"><span class="pre">TripleStoreManagerActor</span></code> which in turn starts the correct actor
+implementation (e.g., GraphDB, Fuseki, embedded Jena, etc.).</p>
+</div>
+<div class="section" id="http-based-triplestores">
+<h2>HTTP-based Triplestores<a class="headerlink" href="#http-based-triplestores" title="Permalink to this headline">¶</a></h2>
+<p>HTTP-based triplestore support is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.triplestore.http</span></code> package.</p>
+<p>An HTTP-based triplestore is one that is accessed remotly over the HTTP protocol. We have implemented support for
+the following triplestores:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Ontotext GraphDB</li>
+<li>Fuseki 2</li>
+</ul>
+</div></blockquote>
+<div class="section" id="graphdb">
+<h3>GraphDB<a class="headerlink" href="#graphdb" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="fuseki-2">
+<h3>Fuseki 2<a class="headerlink" href="#fuseki-2" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="embedded-triplestores">
+<h2>Embedded Triplestores<a class="headerlink" href="#embedded-triplestores" title="Permalink to this headline">¶</a></h2>
+<p>Embedded triplestores is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.triplestore.embedded</span></code> package.</p>
+<p>An embedded triplestore is one that runs in the same JVM as the Knora API server.</p>
+<div class="section" id="apache-jena-tdb">
+<h3>Apache Jena TDB<a class="headerlink" href="#apache-jena-tdb" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The support for embedded Jena TDB is currently dropped.
+The documentation and the code will remain in the repository. You can use it at your own risk.</p>
+</div>
+<p>The support for the embedded Jena-TDB triplestore is implemented in <code class="docutils literal"><span class="pre">org.knora.webapi.triplestore.embedded.JenaTDBActor</span></code>.</p>
+<p>The relevant Jena libraries that are used are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Jena API - The library used to work programmatically with RDF data</li>
+<li>Jena TDB - Their implementation of a triple store</li>
+</ul>
+</div></blockquote>
+<div class="section" id="concurrency">
+<h4>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h4>
+<p>Jena provides concurrency on different levels.</p>
+<p>On the Jena TDB level there is the <code class="docutils literal"><span class="pre">Dataset</span></code> object, representing the
+triple store. On every access, a transaction (read or write) can be
+started.</p>
+<p>On the Jena API level there is a <code class="docutils literal"><span class="pre">Model</span></code> object, which is equivalent
+to an RDF <code class="docutils literal"><span class="pre">Graph</span></code>. Here we can lock the model, so that MRSW (Multiple
+Reader Single Writer) access is allowed.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://jena.apache.org/documentation/tdb/tdb_transactions.html">https://jena.apache.org/documentation/tdb/tdb_transactions.html</a></li>
+<li><a class="reference external" href="https://jena.apache.org/documentation/notes/concurrency-howto.html">https://jena.apache.org/documentation/notes/concurrency-howto.html</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="implementation">
+<h4>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h4>
+<p>We employ transactions on the <code class="docutils literal"><span class="pre">Dataset</span></code> level. This means that every
+thread that accesses the triplestore, starts a read or write enabled
+transaction.</p>
+<p>The transaction mechanism in TDB is based on write-ahead-logging. All
+changes made inside a write-transaction are written to journals, then
+propagated to the main database at a suitable moment. This design allows
+for read-transactions to proceed without locking or other overhead over
+the base database.</p>
+<p>Transactional TDB supports one active write transaction, and multiple
+read transactions at the same time. Read-transactions started before a
+write-transaction commits see the database in a state without any
+changes visible. Any transaction starting after a write-transaction
+commits sees the database with the changes visible, whether fully
+propagates back to the database or not. There can be active read
+transactions seeing the state of the database before the updates, and
+read transactions seeing the state of the database after the updates
+running at the same time.</p>
+</div>
+<div class="section" id="configuration">
+<h4>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h4>
+<p>In <code class="docutils literal"><span class="pre">application.conf</span></code> set to use the embedded triplestore:</p>
+<div class="highlight-python"><div class="highlight"><pre>triplestore {
+    dbtype = &quot;embedded-jena-tdb&quot;
+
+    embedded-jena-tdb {
+        persisted = true // &quot;false&quot; -&gt; memory, &quot;true&quot; -&gt; disk
+        loadExistingData = false // &quot;false&quot; -&gt; use data if exists, &quot;false&quot; -&gt; create a fresh store
+        storage-path = &quot;_TMP&quot; // ignored if &quot;memory&quot;
+    }
+
+    reload-on-start = false // ignored if &quot;memory&quot; as it will always reload
+
+    rdf-data = [
+        {
+            path = &quot;../knora-ontologies/knora-base.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/knora-base&quot;
+        }
+        {
+            path = &quot;../knora-ontologies/knora-dc.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/dc&quot;
+        }
+        {
+            path = &quot;../knora-ontologies/salsah-gui.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/salsah-gui&quot;
+        }
+        {
+            path = &quot;_test_data/ontologies/incunabula-onto.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/incunabula&quot;
+        }
+        {
+            path = &quot;_test_data/demo_data/incunabula-demo-data.ttl&quot;
+            name = &quot;http://www.knora.org/data/incunabula&quot;
+        }
+        {
+            path = &quot;_test_data/ontologies/images-demo-onto.ttl&quot;
+            name = &quot;http://www.knora.org/ontology/dokubib&quot;
+        }
+        {
+            path = &quot;_test_data/demo_data/images-demo-data.ttl&quot;
+            name = &quot;http://www.knora.org/data/dokubib&quot;
+        }
+    ]
+}
+</pre></div>
+</div>
+<p>Here the storage is set to <code class="docutils literal"><span class="pre">persistent</span></code>, meaning that a Jena TDB store
+will be created under the defined <code class="docutils literal"><span class="pre">tdb-storage-path</span></code>. The
+<code class="docutils literal"><span class="pre">reload-on-start</span></code> flag, if set to <code class="docutils literal"><span class="pre">true</span></code> would reload the triplestore
+with the data referenced in <code class="docutils literal"><span class="pre">rdf-data</span></code>.</p>
+</div>
+<div class="section" id="tdb-disk-persisted-store">
+<h4>TDB Disk Persisted Store<a class="headerlink" href="#tdb-disk-persisted-store" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure to set <code class="docutils literal"><span class="pre">reload-on-start</span></code> to <code class="docutils literal"><span class="pre">true</span></code> if run for
+the first time. This will create a TDB store and load the data.</p>
+</div>
+<p>If only <em>read access</em> is performed, then Knora can be run once with
+reloading enabled. After that, reloading can be turned off, and the
+persisted TDB store can be reused, as any data found under the
+<code class="docutils literal"><span class="pre">tdb-storage-path</span></code> will be reused.</p>
+<p>If the TDB storage files get corrupted, then just delete the folder and
+reload the data anew.</p>
+</div>
+<div class="section" id="actor-messages">
+<h4>Actor Messages<a class="headerlink" href="#actor-messages" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ResetTripleStoreContent(rdfDataObjects:</span> <span class="pre">List[RdfDataObject])</span></code></li>
+<li><code class="docutils literal"><span class="pre">ResetTripleStoreContentACK()</span></code></li>
+</ul>
+</div></blockquote>
+<p>The embedded Jena TDB can receive reset messages, and will ACK when
+reloading of the data is finished. <code class="docutils literal"><span class="pre">RdfDataObject</span></code> is a simple case
+class, containing the path and name (the same as <code class="docutils literal"><span class="pre">rdf-data</span></code> in the
+config file)</p>
+<p>As an example, to use it inside a test you could write something like:</p>
+<div class="highlight-python"><div class="highlight"><pre>val rdfDataObjects = List (
+       RdfDataObject(path = &quot;../knora-ontologies/knora-base.ttl&quot;,
+                     name = &quot;http://www.knora.org/ontology/knora-base&quot;),
+       RdfDataObject(path = &quot;../knora-ontologies/knora-dc.ttl&quot;,
+                     name = &quot;http://www.knora.org/ontology/dc&quot;),
+       RdfDataObject(path = &quot;../knora-ontologies/salsah-gui.ttl&quot;,
+                     name = &quot;http://www.knora.org/ontology/salsah-gui&quot;),
+       RdfDataObject(path = &quot;_test_data/ontologies/incunabula-onto.ttl&quot;,
+                     name = &quot;http://www.knora.org/ontology/incunabula&quot;),
+       RdfDataObject(path = &quot;_test_data/all_data/incunabula-data.ttl&quot;,
+                     name = &quot;http://www.knora.org/data/incunabula&quot;)
+)
+
+&quot;Reload data &quot; in {
+    storeManager ! ResetTripleStoreContent(rdfDataObjects)
+    expectMsg(300.seconds, ResetTripleStoreContentACK())
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="responders-module.html">Responders Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="shared-packages.html">Shared Packages</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

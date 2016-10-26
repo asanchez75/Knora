@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Testing with Fuseki 2 &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Docker Cheat Sheet" href="docker-cheat-sheet.html" />
+    <link rel="prev" title="Test Tags" href="test-tags.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Testing with Fuseki 2</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="test-tags.html">Test Tags</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="docker-cheat-sheet.html">Docker Cheat Sheet</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="testing-with-fuseki-2">
+<h1>Testing with Fuseki 2<a class="headerlink" href="#testing-with-fuseki-2" title="Permalink to this headline">¶</a></h1>
+<p>Inside the Knora API server git repository, there is a folder called
+<code class="docutils literal"><span class="pre">_fuseki</span></code> containing a script named <code class="docutils literal"><span class="pre">fuseki-server</span></code>. All needed
+configuration files are in place. To start Fuseki 2, just run this
+script.</p>
+<div class="section" id="how-to-write-your-test">
+<h2>How to Write Your Test<a class="headerlink" href="#how-to-write-your-test" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Inside a test, at the beginning, add the following (change the paths
+to the test data as needed):</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>val rdfDataObjects = List (
+       RdfDataObject(path = &quot;_test_data/ontologies/knora-base.ttl&quot;, name = &quot;http://www.knora.org/ontology/knora-base&quot;),
+       RdfDataObject(path = &quot;_test_data/ontologies/knora-dc.ttl&quot;, name = &quot;http://www.knora.org/ontology/dc&quot;),
+       RdfDataObject(path = &quot;_test_data/ontologies/salsah-gui.ttl&quot;, name = &quot;http://www.knora.org/ontology/salsah-gui&quot;),
+       RdfDataObject(path = &quot;_test_data/ontologies/incunabula-onto.ttl&quot;, name = &quot;http://www.knora.org/ontology/incunabula&quot;),
+       RdfDataObject(path = &quot;_test_data/responders.v1.ValuesResponderV1Spec/incunabula-data.ttl&quot;, name = &quot;http://www.knora.org/data/incunabula&quot;)
+)
+
+&quot;Reload data &quot; in {
+    storeManager ! ResetTripleStoreContent(rdfDataObjects)
+    expectMsg(15.seconds, ResetTripleStoreContentACK())
+}
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>In the config section add <code class="docutils literal"><span class="pre">fuseki</span></code> as the <code class="docutils literal"><span class="pre">dbtype</span></code>:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>app {
+     triplestore {
+         //dbtype = &quot;embedded-jena-tdb&quot;
+         dbtype = &quot;fuseki&quot;
+     ...
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="important">
+<h2>Important<a class="headerlink" href="#important" title="Permalink to this headline">¶</a></h2>
+<p>The reloading of the test data should be always done at the
+beginning of the test, because when using Fuseki in combination with
+<code class="docutils literal"><span class="pre">reload-on-start</span></code>, the data is not loaded in time (when the actor
+starts), so that the tests already run without all the data inside the
+triple store.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="test-tags.html">Test Tags</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="docker-cheat-sheet.html">Docker Cheat Sheet</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

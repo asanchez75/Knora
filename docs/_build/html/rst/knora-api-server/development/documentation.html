@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation Guidelines &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
+    <link rel="next" title="Test Tags" href="test-tags.html" />
+    <link rel="prev" title="Setup IntelliJ for development of Knora" href="intellij-config.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Documentation Guidelines</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="intellij-config.html">Setup IntelliJ for development of Knora</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="test-tags.html">Test Tags</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="documentation-guidelines">
+<span id="documentation"></span><h1>Documentation Guidelines<a class="headerlink" href="#documentation-guidelines" title="Permalink to this headline">¶</a></h1>
+<p>The Knora documentation uses <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> as its markup language and is
+built using <a class="reference external" href="http://sphinx.pocoo.org">Sphinx</a>.</p>
+<p>For more details, see <a class="reference external" href="http://sphinx.pocoo.org/contents.html">The Sphinx Documentation</a>
+and <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Quick reStructuredText</a>.</p>
+<div class="section" id="sections">
+<h2>Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h2>
+<p>Section headings are very flexible in reST. We use the following convention in
+the Knora documentation based on the <a class="reference external" href="https://docs.python.org/devguide/documenting.html">Python Documentation Conventions</a>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">#</span></code> (over and under) for parts</li>
+<li><code class="docutils literal"><span class="pre">*</span></code> (over and under) for chapters</li>
+<li><code class="docutils literal"><span class="pre">=</span></code> for sections</li>
+<li><code class="docutils literal"><span class="pre">-</span></code> for subsections</li>
+<li><code class="docutils literal"><span class="pre">^</span></code> for subsubsections</li>
+<li><code class="docutils literal"><span class="pre">~</span></code> for subsubsubsections</li>
+</ul>
+</div>
+<div class="section" id="cross-referencing">
+<h2>Cross-referencing<a class="headerlink" href="#cross-referencing" title="Permalink to this headline">¶</a></h2>
+<p>Sections that may be cross-referenced across the documentation should be marked
+with a reference. To mark a section use <code class="docutils literal"><span class="pre">..</span> <span class="pre">_ref-name:</span></code> before the section
+heading. The section can then be linked with <code class="docutils literal"><span class="pre">:ref:`ref-name`</span></code>. These are
+unique references across the entire documentation.</p>
+<p>For example:</p>
+<div class="highlight-rest"><div class="highlight"><pre><span class="p">..</span> <span class="ow">_knora_part</span><span class="p">::</span>
+
+<span class="gh">##########</span>
+<span class="gh">Knora Part</span>
+<span class="gh">##########</span>
+
+<span class="p">..</span> <span class="nt">_knora-chapter:</span>
+
+<span class="gh">*************</span>
+<span class="gh">Knora Chapter</span>
+<span class="gh">*************</span>
+
+This is the chapter documentation.
+
+<span class="p">..</span> <span class="nt">_knora-section:</span>
+
+<span class="gh">Knora Section</span>
+<span class="gh">=============</span>
+
+<span class="gh">Knora Subsection</span>
+<span class="gh">----------------</span>
+
+Here is a reference to &quot;knora section&quot;: <span class="na">:ref:</span><span class="nv">`knora-section`</span> which will have the
+name &quot;Knora Section&quot;.
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-the-documentation">
+<h2>Build the documentation<a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>First install <a class="reference external" href="http://sphinx.pocoo.org">Sphinx</a>. See below.</p>
+<p>For the html version of the docs:</p>
+<div class="highlight-rest"><div class="highlight"><pre>sbt sphinx:generateHtml
+
+open &lt;project-dir&gt;/akka-docs/target/sphinx/html/index.html
+</pre></div>
+</div>
+<p>For the pdf version of the docs:</p>
+<div class="highlight-rest"><div class="highlight"><pre>sbt sphinx:generatePdf
+
+open &lt;project-dir&gt;/akka-docs/target/sphinx/latex/AkkaJava.pdf
+or
+open &lt;project-dir&gt;/akka-docs/target/sphinx/latex/AkkaScala.pdf
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-sphinx-on-os-x">
+<h2>Installing Sphinx on OS X<a class="headerlink" href="#installing-sphinx-on-os-x" title="Permalink to this headline">¶</a></h2>
+<p>Install <a class="reference external" href="https://github.com/mxcl/homebrew">Homebrew</a>.</p>
+<p>Install Python with Homebrew:</p>
+<div class="highlight-rest"><div class="highlight"><pre>brew install python
+</pre></div>
+</div>
+<p>Homebrew will automatically add Python executable to your $PATH and pip is a part of the default Python installation with Homebrew.</p>
+<p>More information in case of trouble: <a class="reference external" href="https://github.com/mxcl/homebrew/wiki/Homebrew-and-Python">Homebrew and Python</a>.</p>
+<p>Install sphinx:</p>
+<div class="highlight-rest"><div class="highlight"><pre>pip install sphinx
+</pre></div>
+</div>
+<p>Install the <a class="reference external" href="http://www.tug.org/mactex/morepackages.html">BasicTeX package</a>.</p>
+<p>Add texlive bin to $PATH:</p>
+<div class="highlight-rest"><div class="highlight"><pre>export TEXLIVE_PATH=/usr/local/texlive/2015basic/bin/universal-darwin
+export PATH=$TEXLIVE_PATH:$PATH
+</pre></div>
+</div>
+<p>Add missing tex packages:</p>
+<div class="highlight-rest"><div class="highlight"><pre>sudo tlmgr update --self
+sudo tlmgr install titlesec
+sudo tlmgr install framed
+sudo tlmgr install threeparttable
+sudo tlmgr install wrapfig
+sudo tlmgr install helvetic
+sudo tlmgr install courier
+sudo tlmgr install multirow
+</pre></div>
+</div>
+<p>If you get the error <code class="docutils literal"><span class="pre">unknown</span> <span class="pre">locale:</span> <span class="pre">UTF-8</span></code> when generating the documentation, the solution is to define the following environment variables:</p>
+<div class="highlight-rest"><div class="highlight"><pre>export LANG=en_GB.UTF-8
+export LC_ALL=en_GB.UTF-8
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="intellij-config.html">Setup IntelliJ for development of Knora</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="test-tags.html">Test Tags</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

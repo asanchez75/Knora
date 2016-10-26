@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Futures with Akka &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="HTTP Module" href="http-module.html" />
+    <link rel="prev" title="Knora API Server Design Overview" href="design-overview.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Futures with Akka</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="design-overview.html">Knora API Server Design Overview</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="http-module.html">HTTP Module</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="futures-with-akka">
+<span id="id1"></span><h1>Futures with Akka<a class="headerlink" href="#futures-with-akka" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.scala-lang.org/overviews/core/futures.html">Scala&#8217;s documentation on futures</a> introduces them in this way:</p>
+<blockquote>
+<div>Futures provide a nice way to reason about performing many operations in
+parallel – in an efficient and non-blocking way. The idea is simple, a
+Future is a sort of a placeholder object that you can create for a result
+that does not yet exist. Generally, the result of the Future is computed
+concurrently and can be later collected. Composing concurrent tasks in
+this way tends to result in faster, asynchronous, non-blocking parallel
+code.</div></blockquote>
+<p>The rest of that page is well worth reading to get an overview of how
+futures work and what you can do with them.</p>
+<p>In <a class="reference external" href="http://akka.io/">Akka</a>, one of the standard patterns for communication between actors is the
+<a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/actors.html#Ask__Send-And-Receive-Future">ask pattern</a>, in which you send a message to an actor and you expect a
+reply. When you call the <code class="docutils literal"><span class="pre">ask</span></code> function (which can be written as a question
+mark, <code class="docutils literal"><span class="pre">?</span></code>, which acts as an infix operator), it immediately returns a
+<code class="docutils literal"><span class="pre">Future</span></code>, which will complete when the reply is sent. As the Akka
+documentation explains in <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/futures.html#Use_With_Actors">Use with Actors</a>, it is possible to block the
+calling thread until the future completes, using <code class="docutils literal"><span class="pre">Await.result</span></code>. However,
+they say: &#8216;Blocking is discouraged though as it will cause performance
+problems.&#8217; In particular, by not blocking, you can do several <code class="docutils literal"><span class="pre">ask</span></code> requests
+in parallel.</p>
+<p>One way to avoid blocking is to register a callback on the future, which
+will be called when it completes (perhaps by another thread), like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>future.onComplete {
+    case Success(result) =&gt; println(result)
+    case Failure(ex) =&gt; ex.printStackTrace()
+}
+</pre></div>
+</div>
+<p>But this won&#8217;t work if you&#8217;re writing a method that needs return a value
+based on the result of a future. In this case, you can register a
+callback that transforms the result of a future into another future:</p>
+<div class="highlight-python"><div class="highlight"><pre>val newFuture = future.map(x =&gt; x + 1)
+</pre></div>
+</div>
+<p>However, registering callbacks explicitly gets cumbersome when you need
+to work with several futures together. In this case, the most convenient
+alternative to blocking is to use <code class="docutils literal"><span class="pre">Future</span></code> as a monad. The links above
+explain what this means in detail, but the basic idea is that a special
+syntax, called a <code class="docutils literal"><span class="pre">for</span></code>-comprehension, allows you to write code that
+uses futures as if they were complete, without blocking. In reality, a
+<code class="docutils literal"><span class="pre">for</span></code>-comprehension is syntactic sugar for calling methods like
+<code class="docutils literal"><span class="pre">map</span></code>, but it&#8217;s much easier to write and to read. You can do things
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>val fooFuture = (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
+val barFuture = (barActor ? GetBar(&quot;bar&quot;)).mapTo[Bar]
+
+val totalFuture = for {
+    foo: Foo &lt;- fooFuture
+    bar: Bar &lt;- barFuture
+
+    total = foo.getCount + bar.getCount
+} yield total
+</pre></div>
+</div>
+<p>Here the messages to <code class="docutils literal"><span class="pre">fooActor</span></code> and <code class="docutils literal"><span class="pre">barActor</span></code> are sent and processed in
+parallel, but you&#8217;re guaranteed that <code class="docutils literal"><span class="pre">total</span></code> won&#8217;t be calculated until the
+values it needs are available. Note that if you construct <code class="docutils literal"><span class="pre">fooFuture</span></code> and
+<code class="docutils literal"><span class="pre">barFuture</span></code> inside the <code class="docutils literal"><span class="pre">for</span></code> comprehension, they won&#8217;t be run in parallel
+(see <a class="reference external" href="http://buransky.com/scala/scala-for-comprehension-with-concurrently-running-futures/">Scala for-comprehension with concurrently running futures</a>).</p>
+<p>With one line of code, you can even make a list of messages to be sent
+to actors, send them all in parallel, get back a list of futures, and
+convert it to a single future which will complete when all the results
+are available; see <code class="docutils literal"><span class="pre">org.knora.webapi.util.ActorUtils.parallelAsk</span></code>.</p>
+</div>
+<div class="section" id="handling-errors-with-futures">
+<span id="id2"></span><h2>Handling Errors with Futures<a class="headerlink" href="#handling-errors-with-futures" title="Permalink to this headline">¶</a></h2>
+<p>The constructors and methods of <code class="docutils literal"><span class="pre">Future</span></code> (like those of <code class="docutils literal"><span class="pre">Try</span></code>) catch
+exceptions, which cause the future to fail. This very useful property of
+futures means that you usually don&#8217;t need <code class="docutils literal"><span class="pre">try</span></code>-<code class="docutils literal"><span class="pre">catch</span></code> blocks when
+using the <code class="docutils literal"><span class="pre">Future</span></code> monad (although it is sometimes helpful to include
+them, in order to catch low-level exceptions and wrap them in
+higher-level ones). Any exception thrown in code that&#8217;s being run
+asynchronously by <code class="docutils literal"><span class="pre">Future</span></code> (including in the <code class="docutils literal"><span class="pre">yield</span></code> expression of a
+<code class="docutils literal"><span class="pre">for</span></code> comprehension) will be caught, and the result will be a
+<code class="docutils literal"><span class="pre">Future</span></code> containing a <code class="docutils literal"><span class="pre">Failure</span></code>. Also, in the previous example, if
+<code class="docutils literal"><span class="pre">fooActor</span></code> or <code class="docutils literal"><span class="pre">barActor</span></code> returns a <code class="docutils literal"><span class="pre">Status.Failure</span></code> message, the
+<code class="docutils literal"><span class="pre">for</span></code>-comprehension will also yield a failed future.</p>
+<p>However, you need to be careful with <em>the first line</em> of the
+<code class="docutils literal"><span class="pre">for</span></code>-comprehension. For example, this code doesn&#8217;t handle exceptions
+correctly:</p>
+<div class="highlight-python"><div class="highlight"><pre>private def doFooQuery(iri: IRI): Future[String] = {
+    for {
+        queryResponse &lt;- (storeManager ? SparqlSelectRequest(queries.sparql.v1.txt.getFoo(iri).toString())).mapTo[SparqlSelectResponse]
+        ...
+   } yield ...
+}
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">getFoo()</span></code> method calls a
+<a class="reference external" href="https://github.com/playframework/twirl">Twirl</a> template function to
+generate SPARQL. The <code class="docutils literal"><span class="pre">?</span></code> operator returns a <code class="docutils literal"><span class="pre">Future</span></code>. However, the
+template function <em>is not run asynchronously</em>, because it is called
+before the <code class="docutils literal"><span class="pre">Future</span></code> constructor is called. So if the template function
+throws an exception, it won&#8217;t be caught here. Instead, you can do this:</p>
+<div class="highlight-python"><div class="highlight"><pre>private def doFooQuery(iri: IRI): Future[String] = {
+    for {
+        queryString &lt;- Future(queries.sparql.v1.txt.getFoo(iri).toString())
+        queryResponse &lt;- (storeManager ? SparqlSelectRequest(queryString)).mapTo[SparqlSelectResponse]
+        ...
+   } yield ...
+}
+</pre></div>
+</div>
+<p>Here the <code class="docutils literal"><span class="pre">Future</span></code> constructor will call the template function
+asynchronously, and catch any exceptions it throws. This is only
+necessary if you need to call the template function at the <em>very
+beginning</em> of a <code class="docutils literal"><span class="pre">for</span></code>-comprehension. In the rest of the <code class="docutils literal"><span class="pre">for</span></code>
+comprehension, you&#8217;ll already implicitly have a <code class="docutils literal"><span class="pre">Future</span></code> object.</p>
+</div>
+<div class="section" id="designing-with-futures">
+<h2>Designing with Futures<a class="headerlink" href="#designing-with-futures" title="Permalink to this headline">¶</a></h2>
+<p>In the current design, the Knora API Server almost never blocks to wait for a
+future to complete. The normal flow of control works like this:</p>
+<ol class="arabic simple">
+<li>Incoming HTTP requests are handled by an actor called <code class="docutils literal"><span class="pre">KnoraHttpService</span></code>,
+which delegates them to routing functions (in the <code class="docutils literal"><span class="pre">routing</span></code> package).</li>
+<li>For each request, a routing function gets a <code class="docutils literal"><span class="pre">spray-http</span></code>
+<code class="docutils literal"><span class="pre">RequestContext</span></code>, and calls <code class="docutils literal"><span class="pre">RouteUtils.runJsonRoute</span></code> to send a message
+to a supervisor actor to fulfil the request. Having sent the message, the
+<code class="docutils literal"><span class="pre">runJsonRoute</span></code> gets a future in return. It does not block to wait for the
+future to complete, but instead registers a callback to process the result
+of the future when it becomes available.</li>
+<li>The supervisor forwards the message to be handled by the next available
+actor in a pool of responder actors that are able to handle that type of
+message.</li>
+<li>The responder&#8217;s <code class="docutils literal"><span class="pre">receive</span></code> method receives the message, and calls some
+private method that produces a reply message inside a future. This usually
+involves sending messages to other actors using <code class="docutils literal"><span class="pre">ask</span></code>, getting futures
+back, and combining them into a single future containing the reply message.</li>
+<li>The responder passes that future to <code class="docutils literal"><span class="pre">ActorUtils.future2Message</span></code>, which
+registers a callback on it. When the future completes (perhaps in another
+thread), the callback sends the reply message. In the meantime, the
+responder doesn&#8217;t block, so it can start handling the next request.</li>
+<li>When the responder&#8217;s reply becomes available (causing the future created by
+<code class="docutils literal"><span class="pre">RouteUtils.runJsonRoute</span></code> to complete), the callback registered in (2)
+calls <code class="docutils literal"><span class="pre">complete</span></code> on the <code class="docutils literal"><span class="pre">RequestContext</span></code>, which sends an HTTP response
+to the client.</li>
+</ol>
+<p>The basic rule of thumb is this: if you&#8217;re writing a method in an actor,
+and anything in the method needs to come from a future (e.g. because you
+need to use <code class="docutils literal"><span class="pre">ask</span></code> to get some information from another actor), have
+the method return a future.</p>
+</div>
+<div class="section" id="mixing-futures-with-non-futures">
+<h2>Mixing Futures with non-Futures<a class="headerlink" href="#mixing-futures-with-non-futures" title="Permalink to this headline">¶</a></h2>
+<p>If you have a <code class="docutils literal"><span class="pre">match</span> <span class="pre">...</span> <span class="pre">case</span></code> or <code class="docutils literal"><span class="pre">if</span></code> expression, and one branch
+obtains some data in a future, but another branch can produce the data
+immediately, you can wrap the result of the latter branch in a future,
+so that both branches have the same type:</p>
+<div class="highlight-python"><div class="highlight"><pre>def getTotalOfFooAndBar(howToGetFoo: String): Future[Int] = {
+    for {
+        foo &lt;- howToGetFoo match {
+            case &quot;askForIt&quot; =&gt; (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
+            case &quot;createIt&quot; =&gt; Future(new Foo())
+        }
+
+        bar &lt;- (barActor ? GetBar(&quot;bar&quot;)).mapTo[Bar]
+
+        total = foo.getCount + bar.getCount
+    } yield total
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-write-for-comprehensions">
+<h2>How to Write For-Comprehensions<a class="headerlink" href="#how-to-write-for-comprehensions" title="Permalink to this headline">¶</a></h2>
+<p>Here are some basic rules for writing <code class="docutils literal"><span class="pre">for</span></code>-comprehensions:</p>
+<ol class="arabic simple">
+<li>The first line of a <code class="docutils literal"><span class="pre">for</span></code>-comprehension has to be a &#8220;generator&#8221;,
+i.e. it has to use the <code class="docutils literal"><span class="pre">&lt;-</span></code> operator. If you want to write an
+assignment (using <code class="docutils literal"><span class="pre">=</span></code>) as the first line, the workaround is to wrap
+the right-hand side in a monad (like <code class="docutils literal"><span class="pre">Future</span></code>) and use <code class="docutils literal"><span class="pre">&lt;-</span></code>
+instead.</li>
+<li>Assignments (using <code class="docutils literal"><span class="pre">=</span></code>) are written without <code class="docutils literal"><span class="pre">val</span></code>.</li>
+<li>You&#8217;re not allowed to write statements that throw away their return
+values, so if you want to call something like <code class="docutils literal"><span class="pre">println</span></code> that
+returns <code class="docutils literal"><span class="pre">Unit</span></code>, you have to assign its return value to <code class="docutils literal"><span class="pre">_</span></code>.</li>
+</ol>
+<p>The <code class="docutils literal"><span class="pre">yield</span></code> returns an object of the same type as the generators,
+which all have to produce the same type (e.g. <code class="docutils literal"><span class="pre">Future</span></code>).</p>
+</div>
+<div class="section" id="execution-contexts">
+<h2>Execution Contexts<a class="headerlink" href="#execution-contexts" title="Permalink to this headline">¶</a></h2>
+<p>Whenever you use a future, there has to be an implicit &#8216;execution context&#8217; in
+scope. <a class="reference external" href="http://docs.scala-lang.org/overviews/core/futures.html">Scala&#8217;s documentation on futures</a> says, &#8216;you can think of execution
+contexts as thread pools&#8217;.</p>
+<p>If you don&#8217;t have an execution context in scope, you&#8217;ll get a compile error
+asking you to include one, and suggesting that you could use
+<code class="docutils literal"><span class="pre">import</span> <span class="pre">scala.concurrent.ExecutionContext.Implicits.global</span></code>. Don&#8217;t do this, because
+the global Scala execution context is not the most efficient option. Instead,
+you can use the one provided by the Akka <code class="docutils literal"><span class="pre">ActorSystem</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>implicit val executionContext = system.dispatcher
+</pre></div>
+</div>
+<p>Akka&#8217;s execution contexts can be configured (see <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/scala/dispatchers.html">Dispatchers</a>). You can
+see a <a class="reference external" href="http://doc.akka.io/docs/akka/snapshot/general/configuration.html#Listing_of_the_Reference_Configuration">Listing of the Reference Configuration</a>.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="design-overview.html">Knora API Server Design Overview</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="http-module.html">HTTP Module</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

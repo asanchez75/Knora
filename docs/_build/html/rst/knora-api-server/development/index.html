@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing the Knora API Server &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="The Knora API Server" href="../index.html" />
+    <link rel="next" title="Overview" href="overview.html" />
+    <link rel="prev" title="Plans for Knora API v2" href="../design-documentation/plans-for-api-v2.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Developing the Knora API Server</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../design-documentation/plans-for-api-v2.html">Plans for Knora API v2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="overview.html">Overview</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="developing-the-knora-api-server">
+<h1>Developing the Knora API Server<a class="headerlink" href="#developing-the-knora-api-server" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#knora-github-repository">Knora Github Repository</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#triple-store">Triple Store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#sipi">SIPI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fuseki.html">Starting Fuseki 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fuseki.html#locally">Locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fuseki.html#inside-docker">Inside Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphdb.html">Starting GraphDB-SE 7</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphdb.html#important-steps">Important Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphdb.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build-process.html">Build Process</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build-process.html#building-and-running">Building and Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-process.html#run-the-automated-tests">Run the automated tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-process.html#continuous-integration">Continuous Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-process.html#sbt-build-configuration">SBT Build Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-process.html#webapi-server-startup-flags">Webapi Server Startup-Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="intellij-config.html">Setup IntelliJ for development of Knora</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intellij-config.html#twirl">Twirl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intellij-config.html#how-use-intellij-idea-s-debugger-with-the-knora-api-server">How Use IntelliJ IDEA&#8217;s Debugger with the Knora API Server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#sections">Sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#cross-referencing">Cross-referencing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#build-the-documentation">Build the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#installing-sphinx-on-os-x">Installing Sphinx on OS X</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="test-tags.html">Test Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing-with-fuseki.html">Testing with Fuseki 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing-with-fuseki.html#how-to-write-your-test">How to Write Your Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing-with-fuseki.html#important">Important</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docker-cheat-sheet.html">Docker Cheat Sheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docker-cheat-sheet.html#lifecycle">Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker-cheat-sheet.html#starting-and-stopping">Starting and Stopping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker-cheat-sheet.html#info">Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker-cheat-sheet.html#executing-commands">Executing Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docker-cheat-sheet.html#images">Images</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../design-documentation/plans-for-api-v2.html">Plans for Knora API v2</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="overview.html">Overview</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

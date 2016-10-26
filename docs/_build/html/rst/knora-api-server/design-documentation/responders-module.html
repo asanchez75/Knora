@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Responders Module &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
+    <link rel="next" title="Store Module" href="store-module.html" />
+    <link rel="prev" title="HTTP Module" href="http-module.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Responders Module</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="http-module.html">HTTP Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="store-module.html">Store Module</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="responders-module">
+<span id="id1"></span><h1>Responders Module<a class="headerlink" href="#responders-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-1-0-responders">
+<h2>Version 1.0 Responders<a class="headerlink" href="#version-1-0-responders" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="respondermanagerv1">
+<h3>ResponderManagerV1<a class="headerlink" href="#respondermanagerv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ckanresponderv1">
+<h3>CkanResponderV1<a class="headerlink" href="#ckanresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hierarchicallistsresponderv1">
+<h3>HierarchicalListsResponderV1<a class="headerlink" href="#hierarchicallistsresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ontologyresponderv1">
+<h3>OntologyResponderV1<a class="headerlink" href="#ontologyresponderv1" title="Permalink to this headline">¶</a></h3>
+<p>The ontology responder provides information derived from all the ontologies in
+the repository, including Knora ontologies as well as project-specific
+ontologies. Most importantly, it provides information about resource classes
+and properties. This includes the cardinalities defined on each resource
+class, and takes into account the rules of cardinality inheritance, as
+described in the section <strong>OWL Cardinalities</strong> in <a class="reference internal" href="../../knora-ontologies/index.html#knora-ontologies"><span>The Knora Ontologies</span></a>.</p>
+<p>For performance reasons, all ontology data is loaded and cached at application
+startup. Currently, to refresh the cache, you must restart the application.
+To maximise performance, the SPARQL queries used by the ontology responder
+are very simple, and the responder calculates class hierarchies and cardinality
+inheritance in Scala.</p>
+</div>
+<div class="section" id="projectsresponderv1">
+<h3>ProjectsResponderV1<a class="headerlink" href="#projectsresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="representationsresponderv1">
+<h3>RepresentationsResponderV1<a class="headerlink" href="#representationsresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="resourcesresponderv1">
+<h3>ResourcesResponderV1<a class="headerlink" href="#resourcesresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="searchresponderv1">
+<h3>SearchResponderV1<a class="headerlink" href="#searchresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="usersresponderv1">
+<h3>UsersResponderV1<a class="headerlink" href="#usersresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="valuesresponderv1">
+<h3>ValuesResponderV1<a class="headerlink" href="#valuesresponderv1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="shared">
+<h3>Shared<a class="headerlink" href="#shared" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>ResponderV1</li>
+<li>ValueUtilV1</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="http-module.html">HTTP Module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="store-module.html">Store Module</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

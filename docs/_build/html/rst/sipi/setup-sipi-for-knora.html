@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setup Sipi for Knora &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Sipi" href="index.html" />
+    <link rel="next" title="Interaction Between Sipi and Knora" href="sipi-and-knora.html" />
+    <link rel="prev" title="Sipi" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Setup Sipi for Knora</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Sipi</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="sipi-and-knora.html">Interaction Between Sipi and Knora</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="setup-sipi-for-knora">
+<h1>Setup Sipi for Knora<a class="headerlink" href="#setup-sipi-for-knora" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setup-and-execution">
+<h2>Setup and Execution<a class="headerlink" href="#setup-and-execution" title="Permalink to this headline">¶</a></h2>
+<p>In order to serve files to the client application like the Salsah GUI, Sipi must be set up and running.
+Sipi can be downloaded from its own github-repository: <a class="reference external" href="https://github.com/dhlab-basel/Sipi">https://github.com/dhlab-basel/Sipi</a>.
+Please follow the instructions given in the README to compile it on your system.</p>
+<p>Once it is compiled, you can run Sipi with the following option: <code class="docutils literal"><span class="pre">local/bin/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-config.lua</span></code>. Please see <code class="docutils literal"><span class="pre">sipi.knora-config.lua</span></code> for the settings like URL, port number etc.
+These settings need to be set accordingly in Knora&#8217;s <code class="docutils literal"><span class="pre">application.conf</span></code>. If you use the default settings both in Sipi and Knora, there is no need to change these settings.</p>
+<p>Whenever a file is requested from Sipi (e.g. a browser trying to dereference an image link served by Knora), a preflight function is called.
+This function is defined in <code class="docutils literal"><span class="pre">sipi.init-knora.lua</span></code> present in the Sipi root directory. It takes three parameters: <code class="docutils literal"><span class="pre">prefix</span></code>, <code class="docutils literal"><span class="pre">identifier</span></code> (the name of the requested file), and <code class="docutils literal"><span class="pre">cookie</span></code>. File links created by Knora use the prefix <code class="docutils literal"><span class="pre">knora</span></code>, e.g. <code class="docutils literal"><span class="pre">http://localhost:1024/knora/incunabula_0000000002.jp2/full/2613,3505/0/default.jpg</span></code>.</p>
+<p>Given these information, Sipi asks Knora about the current&#8217;s users permissions on the given file.
+The cookie contains the current user&#8217;s Knora session id, so Knora can match Sipi&#8217;s request with a given user profile and determine the permissions this user has on the file.
+If the Knora response grants sufficient permissions, the file is served in the requested quality. If the suer has preview rights, Sipi serves a reduced quality or integrates a watermark.
+If the user has no permissions, Sipi refuses to serve the file. However, all of this behaviour is defined in the preflight function in Sipi and not controlled by Knora. Knora only provides the permission code.</p>
+<p>See <a class="reference internal" href="sipi-and-knora.html#sharing-sessionid-with-sipi"><span>Sharing the Session ID with Sipi</span></a> for more information about sharing the session id.</p>
+</div>
+<div class="section" id="using-sipi-in-test-mode">
+<h2>Using Sipi in Test Mode<a class="headerlink" href="#using-sipi-in-test-mode" title="Permalink to this headline">¶</a></h2>
+<p>If you just want to test Sipi with Knora without serving the actual files (e.g. when executing browser tests), you can simply start Sipi like this: <code class="docutils literal"><span class="pre">local/bin/sipi</span> <span class="pre">-config</span> <span class="pre">sipi.knora-test-config.lua</span></code>.
+Then always the same test file will be served which is included in Sipi. In test mode, Sipi will not aks Knora about the user&#8217;s permission on the requested file.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Sipi</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="sipi-and-knora.html">Interaction Between Sipi and Knora</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reading and Searching Resources &mdash; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
+    <link rel="next" title="Adding Resources" href="adding-resources.html" />
+    <link rel="prev" title="Introduction: Using API V1" href="api-general.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Reading and Searching Resources</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="api-general.html">Introduction: Using API V1</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="adding-resources.html">Adding Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="reading-and-searching-resources">
+<span id="id1"></span><h1>Reading and Searching Resources<a class="headerlink" href="#reading-and-searching-resources" title="Permalink to this headline">¶</a></h1>
+<p>In order to get an existing resource, the HTTP method <code class="docutils literal"><span class="pre">GET</span></code> has to be used.
+The request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">resources</span></code> path segment (depending on the type of request, this segment has to be exchanged, see below).
+Reading resources may require authentication since some resources may have restricted viewing permissions.</p>
+<div class="section" id="get-the-representation-of-a-resource-by-its-iri">
+<h2>Get the Representation of a Resource by its IRI<a class="headerlink" href="#get-the-representation-of-a-resource-by-its-iri" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="simple-request-of-a-resource-full-resource-request">
+<h3>Simple Request of a Resource (full Resource Request)<a class="headerlink" href="#simple-request-of-a-resource-full-resource-request" title="Permalink to this headline">¶</a></h3>
+<p>A resource can be obtained by making a GET request to the API providing its IRI. Because a Knora IRI has the format of a URL, its IRI has to be URL encoded.</p>
+<p>In order to get the resource with the IRI <code class="docutils literal"><span class="pre">http://data.knora.org/c5058f3a</span></code> (an incunabula book contained in the test data), make a HTTP GET request to the resources route
+(path segment <code class="docutils literal"><span class="pre">resources</span></code> in the API call) and append the URL encoded IRI:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resources/http%3A%2F%2Fdata.knora.org%2Fc5058f3a
+</pre></div>
+</div>
+<p>More formalized, the URL looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resources/resourceIRI
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>As an answer, the client receives a JSON that represents the requested resource. It has the following members:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">status</span></code>: The Knora status code, <code class="docutils literal"><span class="pre">0</span></code> if everything went well</li>
+<li><code class="docutils literal"><span class="pre">userdata</span></code>: Data about the user that made the request</li>
+<li><code class="docutils literal"><span class="pre">resinfo</span></code>: Data describing the requested resource and its class</li>
+<li><code class="docutils literal"><span class="pre">resdata</span></code>: Short information about the resource and its class (including information about the given user&#8217;s permissions on the resource)</li>
+<li><code class="docutils literal"><span class="pre">incoming</span></code>: Resources pointing to the requested resource</li>
+<li><code class="docutils literal"><span class="pre">props</span></code>: Properties of the requested resource.</li>
+</ul>
+</dd>
+</dl>
+<p>For a complete and more formalized description of a full resource request, look  at the TypeScript interface <code class="docutils literal"><span class="pre">resourceFullResponse</span></code> in the module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
+<div class="section" id="provide-request-parameters">
+<h4>Provide Request Parameters<a class="headerlink" href="#provide-request-parameters" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>To make a request more specific, the following parameters can be appended to the URL (<code class="docutils literal"><span class="pre">http://www.knora.org/resources/resourceIRI?param1=value1&amp;param2=value2</span></code>):</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">reqtype=info|context|rights</span></code>: Specifies the type of request.</dt>
+<dd><ul class="first last simple">
+<li>Setting the parameter&#8217;s to value <code class="docutils literal"><span class="pre">info</span></code> returns short information about the requested resource (contains only <code class="docutils literal"><span class="pre">resinfo</span></code> and no properties, see TypeScript interface <code class="docutils literal"><span class="pre">resourceInfoResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</li>
+<li>Settings the parameter&#8217;s value to <code class="docutils literal"><span class="pre">context</span></code> returns context information (<code class="docutils literal"><span class="pre">resource_context</span></code>) about the requested resource: Either the dependent parts of a compound resource (e.g. pages of a book) or the parent resource of a dependent resource (e.g. the book a pages belongs to). By default, a context query does not return information about the requested resource itself, but only about its context (see TypeScript interface <code class="docutils literal"><span class="pre">resourceContextResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>). See below how to get additional information about the resource.</li>
+<li>The parameter <code class="docutils literal"><span class="pre">rights</span></code> returns only the given user&#8217;s permissions on the requested resource (see TypeScript interface <code class="docutils literal"><span class="pre">resourceRightsResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">resinfo=true</span></code>: Can be used in combination with <code class="docutils literal"><span class="pre">reqtype=context</span></code>: If set, <code class="docutils literal"><span class="pre">resinfo</span></code> is added to the response representing information about
+the requested resource (complementary to its context), see TypeScript interface <code class="docutils literal"><span class="pre">resourceContextResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="obtain-an-html-representation-of-a-resource">
+<h3>Obtain an HTML Representation of a Resource<a class="headerlink" href="#obtain-an-html-representation-of-a-resource" title="Permalink to this headline">¶</a></h3>
+<p>In order to get an HTML representation of a resource (not a JSON), the path segment <code class="docutils literal"><span class="pre">resources.html</span></code> can be used:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resources.html/resourceIRI?reqtype=properties
+</pre></div>
+</div>
+<p>The request returns the properties of the requested resource as an HTML document.</p>
+</div>
+<div class="section" id="get-only-the-properties-belonging-to-a-resource">
+<h3>Get only the Properties belonging to a Resource<a class="headerlink" href="#get-only-the-properties-belonging-to-a-resource" title="Permalink to this headline">¶</a></h3>
+<p>In order to get only the properties of a resource without any other information, the path segment <code class="docutils literal"><span class="pre">properties</span></code> can be used:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/properties/resourceIRI
+</pre></div>
+</div>
+<p>The JSON contains just the member <code class="docutils literal"><span class="pre">properties</span></code> representing the requested resource&#8217;s properties (see TypeScript interface <code class="docutils literal"><span class="pre">resourcePropertiesResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</p>
+</div>
+</div>
+<div class="section" id="get-information-about-a-resource-class">
+<h2>Get Information about a Resource Class<a class="headerlink" href="#get-information-about-a-resource-class" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-a-resource-class-by-its-iri">
+<h3>Get a Resource Class by its IRI<a class="headerlink" href="#get-a-resource-class-by-its-iri" title="Permalink to this headline">¶</a></h3>
+<p>In order to get information about a resource class, the path segment <code class="docutils literal"><span class="pre">resourcetypes</span></code> can be used. Append the IRI of the resource class to the URL (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/incunabula#book</span></code>).</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resourcetypes/resourceClassIRI
+</pre></div>
+</div>
+<p>In the JSON, the information about the resource class and all the property types that it may have are returned.
+Please note that none of these are actual instances of a property, but only only types (see TypeScript interface <code class="docutils literal"><span class="pre">resourceTypeResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</p>
+</div>
+<div class="section" id="get-all-the-property-types-of-a-resource-class-or-a-vocabulary">
+<h3>Get all the Property Types of a Resource Class or a Vocabulary<a class="headerlink" href="#get-all-the-property-types-of-a-resource-class-or-a-vocabulary" title="Permalink to this headline">¶</a></h3>
+<p>To get a list of all the available property types, the path segment <code class="docutils literal"><span class="pre">propertylists</span></code> can be used. It can be restricted to a certain vocbulary using the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code>
+or to a certain resource class using the parameter <code class="docutils literal"><span class="pre">restype</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre># returns all the property types for incunabula:page
+HTTP GET to http://host/v1/propertylists?restype=resourceClassIRI
+
+# returns all the property types for the incunabula vocabulary
+HTTP GET to http://host/v1/propertylists?vocabulary=vocabularyIRI
+</pre></div>
+</div>
+<p>Both of these queries return a list of property types. The default value for the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code> is <code class="docutils literal"><span class="pre">0</span></code>
+and means that the resource classes from all the available vocabularies are returned. See TypeScript interface <code class="docutils literal"><span class="pre">propertyTypesInResourceClassResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
+</div>
+<div class="section" id="get-the-resource-classes-of-a-vocabulary">
+<h3>Get the Resource Classes of a Vocabulary<a class="headerlink" href="#get-the-resource-classes-of-a-vocabulary" title="Permalink to this headline">¶</a></h3>
+<p>Resource classes and property types are organized in (project specific) name spaces, so called vocabularies.
+In order to get all the resource classes defined for a specific vocabulary (e.g. <code class="docutils literal"><span class="pre">incunabula</span></code>), the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code> has to be used and assigned the vocabulary&#8217;s IRI:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resourcetypes?vocabulary=vocabularyIRI
+</pre></div>
+</div>
+<p>This returns all the resource classes defined for the specified vocabulary and their property types. The default value for the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code> is <code class="docutils literal"><span class="pre">0</span></code>
+and means that the resource classes from all the available vocabularies are returned. See TypeScript interface <code class="docutils literal"><span class="pre">resourceTypesInVocabularyResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
+</div>
+</div>
+<div class="section" id="get-all-the-vocabularies">
+<h2>Get all the Vocabularies<a class="headerlink" href="#get-all-the-vocabularies" title="Permalink to this headline">¶</a></h2>
+<p>To get a list of all available vocabularies, the path segment <code class="docutils literal"><span class="pre">vocabularies</span></code> can be used:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/vocabularies
+</pre></div>
+</div>
+<p>The response will list all the available vocabularies. See TypeScript interface <code class="docutils literal"><span class="pre">vocabularyResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
+</div>
+<div class="section" id="search-for-resources">
+<h2>Search for Resources<a class="headerlink" href="#search-for-resources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="search-for-resources-by-their-label">
+<h3>Search for Resources by their Label<a class="headerlink" href="#search-for-resources-by-their-label" title="Permalink to this headline">¶</a></h3>
+<p>This is a simplified way for searching for resources just by their label. It is a simple string-based method:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/resources?searchstr=searchValue
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Additionally, the following parameters can be appended to the URL (search value is <code class="docutils literal"><span class="pre">Zeitglöcklein</span></code>):</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">restype_id=resourceClassIRI</span></code>: This restricts the search to resources of the specified class. <code class="docutils literal"><span class="pre">-1</span></code> is the default value and means no restriction to a specific class. If a resource class IRI is specified, it has to be URL encoded (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;restype_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23book</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">numprops=Integer</span></code>: Specifies the number of properties returned for each resource that was found (sorted by GUI order), e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;numprops=4</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">limit=Integer</span></code>: Lmits the amount of results returned (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;limit=1</span></code>).</li>
+</ul>
+</dd>
+</dl>
+<p>The response lists the resources that matched the search criteria (see TypeScript interface <code class="docutils literal"><span class="pre">resourceLabelSearchResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</p>
+</div>
+<div class="section" id="fulltext-search">
+<h3>Fulltext Search<a class="headerlink" href="#fulltext-search" title="Permalink to this headline">¶</a></h3>
+<p>Knora offers a fulltext search that searches through all textual representations of values. You can separate search terms by a white space and they will be combined using the Boolean <code class="docutils literal"><span class="pre">AND</span></code> operator.
+Please note that the search terms have to be URL encoded.</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/search/searchValue?searchtype=fulltext[&amp;filter_by_restype=resourceClassIRI]
+[&amp;filter_by_project=projectIRI][&amp;show_nrows=Integer]{[&amp;start_at=Integer]
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>The parameter <code class="docutils literal"><span class="pre">searchtype</span></code> is required and has to be set to <code class="docutils literal"><span class="pre">fulltext</span></code>. Additionally, these parameters can be set:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class.</li>
+<li><code class="docutils literal"><span class="pre">filter_by_project=projectIRI</span></code>: restricts the search to resources of the specified project.</li>
+<li><code class="docutils literal"><span class="pre">show_nrows=Integer</span></code>: Indicates how many reults should be presented on one page. If omitted, the default value <code class="docutils literal"><span class="pre">25</span></code> is used.</li>
+<li><code class="docutils literal"><span class="pre">start_at=Integer</span></code>: Used to enable paging and go through all the results request by request.</li>
+</ul>
+</dd>
+</dl>
+<p>The response presents the retrieved resources (according to <code class="docutils literal"><span class="pre">show_nrows</span></code> and <code class="docutils literal"><span class="pre">start_at</span></code>) and information about paging.
+If not all resources could be presented on one page (<code class="docutils literal"><span class="pre">nhits</span></code> is greater than <code class="docutils literal"><span class="pre">shown_nrows</span></code>), the next page can be requested (by increasing <code class="docutils literal"><span class="pre">start_at</span></code> by the number of <code class="docutils literal"><span class="pre">show_nrows</span></code>).
+You can simply go through the elements of <code class="docutils literal"><span class="pre">paging</span></code> to request the single pages one by one.
+See TypeScript interface <code class="docutils literal"><span class="pre">searchResponse</span></code> in module <code class="docutils literal"><span class="pre">searchResponseFormats</span></code>.</p>
+</div>
+<div class="section" id="extended-search-for-resources">
+<h3>Extended Search for Resources<a class="headerlink" href="#extended-search-for-resources" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/search/?searchtype=extended
+[&amp;filter_by_restype=resourceClassIRI][&amp;filter_by_project=projectIRI][&amp;filter_by_owner=userIRI]
+(&amp;property_id=propertyTypeIRI&amp;compop=comparisonOperator&amp;searchval=searchValue)+
+[&amp;show_nrows=Integer][&amp;start_at=Integer]
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>The parameter <code class="docutils literal"><span class="pre">searchtype</span></code> is required and has to be set to <code class="docutils literal"><span class="pre">extended</span></code>. An extended search requires at least one set of parameters consisting of:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">property_id=propertyTypeIRI</span></code>: the type of property the resource has to have</li>
+<li><code class="docutils literal"><span class="pre">compop=comparisonOperator</span></code>: the comparison operator to be used to match between the resource&#8217;s property value and the search term.</li>
+<li><code class="docutils literal"><span class="pre">searchval=searchTerm</span></code>: the search value to look for.</li>
+</ul>
+</dd>
+</dl>
+<p>You can also provide several of these sets to make your query more specific.</p>
+<p>The following table indicates the possible combinations of value types and comparison operators:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Value Type</th>
+<th class="head">Comparison Operator</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Date Value</td>
+<td>EQ, !EQ, GT, GT_EQ, LT, LT_EQ, EXISTS</td>
+</tr>
+<tr class="row-odd"><td>Integer Value</td>
+<td>EQ, !EQ, GT, GT_EQ, LT, LT_EQ, EXISTS</td>
+</tr>
+<tr class="row-even"><td>Float Value</td>
+<td>EQ, !EQ, GT, GT_EQ, LT, LT_EQ, EXISTS</td>
+</tr>
+<tr class="row-odd"><td>Text Value</td>
+<td>MATCH_BOOLEAN, MATCH, EQ, !EQ, LIKE, !LIKE, EXISTS</td>
+</tr>
+<tr class="row-even"><td>Geometry Value</td>
+<td>EXISTS</td>
+</tr>
+<tr class="row-odd"><td>Resource Pointer</td>
+<td>EQ, EXISTS</td>
+</tr>
+<tr class="row-even"><td>Color Value</td>
+<td>EQ, EXISTS</td>
+</tr>
+<tr class="row-odd"><td>List Value</td>
+<td>EQ, EXISTS</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Explanation of the comparison operators:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">EQ</span></code>: checks if a resource&#8217;s value <em>equals</em> the search value. In case of a text value type, it checks for identity of the strings compared. In case of a date value type, it checks if the dates are equal or if the specified date encompasses it (internally, dates are always treated as periods).</li>
+<li><code class="docutils literal"><span class="pre">!EQ</span></code>: checks if a resource&#8217;s value <em>does not equal</em> the search value. In case of a text value type, it checks if the compared strings are different. In case of a date value type, it checks if the dates are not equal or if the specified date does not encompass it (internally, dates are always treated as periods).</li>
+<li><code class="docutils literal"><span class="pre">GT</span></code>: checks if a resource&#8217;s value is <em>greater than</em> the search value. In case of a date value type, it checks if the resource&#8217;s period begins after the indicated date.</li>
+<li><code class="docutils literal"><span class="pre">GT_EQ</span></code>: checks if a resource&#8217;s value <em>equals or is greater than</em> the search value. In case of a date value type, it checks if the resource&#8217;s period equals the end of the indicated period or begins after the indicated period.</li>
+<li><code class="docutils literal"><span class="pre">LT</span></code>: checks if a resource&#8217;s value is <em>lower than</em> the search value. In case of a date value type, it checks if the resource&#8217;s period begins before the indicated date.</li>
+<li><code class="docutils literal"><span class="pre">LT_EQ</span></code>: checks if a resource&#8217;s value <em>equals or is lower than</em> the search value. In case of a date value type, it checks if the resource&#8217;s period equals the begin of the indicated period or begins before the indicated period.</li>
+<li><code class="docutils literal"><span class="pre">EXISTS</span></code>: checks if an instance of the indicated property type <em>exists</em> for a resource. <strong>Please always provide an empty search value when using EXISTS: &#8220;searchval=&#8221;</strong>. Otherwise, the query syntax rules would be violated.</li>
+<li><code class="docutils literal"><span class="pre">MATCH</span></code>: checks if a resource&#8217;s text value <em>matches</em> the search value. The behaviour depends on the used triplestore&#8217;s full text index.</li>
+<li><code class="docutils literal"><span class="pre">LIKE</span></code>: checks if the search value is contained in a resource&#8217;s text value.</li>
+<li><code class="docutils literal"><span class="pre">!LIKE</span></code>: checks if the search value is not contained in a resource&#8217;s text value.</li>
+<li><code class="docutils literal"><span class="pre">MATCH_BOOLEAN</span></code>: checks if a resource&#8217;s text value <em>matches</em> the provided list of positive (exist) and negative (do not exist) terms. The list takes this form: <code class="docutils literal"><span class="pre">([+-]term\s)+</span></code>.</li>
+</ul>
+</dd>
+<dt>Additionally, these parameters can be set:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class.</li>
+<li><code class="docutils literal"><span class="pre">filter_by_project=projectIRI</span></code>: restricts the search to resources of the specified project.</li>
+<li><code class="docutils literal"><span class="pre">filter_by_owner</span></code>: restricts the search to resources owned by the specified user.</li>
+<li><code class="docutils literal"><span class="pre">show_nrows=Integer</span></code>: Indicates how many reults should be presented on one page. If omitted, the default value <code class="docutils literal"><span class="pre">25</span></code> is used.</li>
+<li><code class="docutils literal"><span class="pre">start_at=Integer</span></code>: Used to enable paging and go through all the results request by request.</li>
+</ul>
+</dd>
+<dt>Some sample searches:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">http://localhost:3333/v1/search/?searchtype=extended&amp;filter_by_restype=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23book&amp;property_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23title&amp;compop=!EQ&amp;searchval=Zeitgl%C3%B6cklein%20des%20Lebens%20und%20Leidens%20Christi</span></code>: searches for books that have a title that does not equal &#8220;Zeitglöcklein des Lebens und Leidens Christi&#8221;.</li>
+<li><code class="docutils literal"><span class="pre">http://www.knora.org/v1/search/?searchtype=extended&amp;filter_by_restype=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23book&amp;property_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23title&amp;compop=MATCH&amp;searchval=Zeitgl%C3%B6cklein&amp;property_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23pubdate&amp;compop=EQ&amp;searchval=JULIAN:1490</span></code>: searches for resources of type <code class="docutils literal"><span class="pre">incunabula:book</span></code> whose titles match &#8220;Zeitglöcklein&#8221; and were published in the year 1490 (according to the Julian calendar).</li>
+</ul>
+</dd>
+</dl>
+<p>The response presents the retrieved resources (according to <code class="docutils literal"><span class="pre">show_nrows</span></code> and <code class="docutils literal"><span class="pre">start_at</span></code>) and information about paging.
+If not all resources could be presented on one page (<code class="docutils literal"><span class="pre">nhits</span></code> is greater than <code class="docutils literal"><span class="pre">shown_nrows</span></code>), the next page can be requested (by increasing <code class="docutils literal"><span class="pre">start_at</span></code> by the number of <code class="docutils literal"><span class="pre">show_nrows</span></code>).
+You can simply go through the elements of <code class="docutils literal"><span class="pre">paging</span></code> to request the single pages one by one.
+See TypeScript interface <code class="docutils literal"><span class="pre">searchResponse</span></code> in module <code class="docutils literal"><span class="pre">searchResponseFormats</span></code>.</p>
+</div>
+</div>
+<div class="section" id="get-hierarchical-lists">
+<h2>Get hierarchical Lists<a class="headerlink" href="#get-hierarchical-lists" title="Permalink to this headline">¶</a></h2>
+<p>The knora-base ontology allows for the definition of hierarchical lists. These can be queried by providing the IRI of the root node.
+Selections are hierarchical list that are just one level deep. Internally, they are represented as hierarchical lists.</p>
+<p>You can get a hierarchical by using the path segment <code class="docutils literal"><span class="pre">hlists</span></code> and appending the hierarchical list&#8217;s IRI (URL encoded):</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/hlists/rootNodeIRI
+</pre></div>
+</div>
+<p>The response shows all of the list nodes that are element of the requested hierarchical list as a tree structure. See TypeScript interface <code class="docutils literal"><span class="pre">hierarchicalListResponse</span></code> in module <code class="docutils literal"><span class="pre">hierarchicalListResponseFormats</span></code>.</p>
+<p>For each node, the full path leading to it from the top level can be requested by making a query providing the node&#8217;s IRI and setting the param <code class="docutils literal"><span class="pre">reqtype=node</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>HTTP GET to http://host/v1/hlists/nodeIri?reqtype=node
+</pre></div>
+</div>
+<p>The response presents the full path to the current node. See TypeScript interface <code class="docutils literal"><span class="pre">nodePathResponse</span></code> in module <code class="docutils literal"><span class="pre">hierarchicalListResponseFormats</span></code>.</p>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="api-general.html">Introduction: Using API V1</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="adding-resources.html">Adding Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.3.
+    </div>
+  </body>
+</html>
