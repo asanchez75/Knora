@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Build Process &#8212; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing SALSAH" href="index.html" />
+    <link rel="next" title="SALSAH Design Documentation" href="../design-documentation/index.html" />
+    <link rel="prev" title="Developing SALSAH" href="index.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Build Process</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Developing SALSAH</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../design-documentation/index.html">SALSAH Design Documentation</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="build-process">
+<span id="salsah-build-process"></span><h1>Build Process<a class="headerlink" href="#build-process" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>TODO: complete this file.</dt>
+<dd><ul class="first last simple">
+<li>SBT</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="building-and-running">
+<h2>Building and Running<a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
+<p>Start the provided Fuseki triplestore:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/triplestores/fuseki
+$ ./fuseki-server
+</pre></div>
+</div>
+<p>Then in another terminal, load some test data into the triplestore:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/webapi/scripts
+$ ./fuseki-load-test-data.sh
+</pre></div>
+</div>
+<p>Then go back to the webapi root directory and use SBT to start the API server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/webapi
+$ sbt
+&gt; compile
+&gt; re-start allowResetTriplestoreContentOperationOverHTTP
+</pre></div>
+</div>
+<p>Then in another terminal, go to the SALSAH root directory and start the server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/salsah
+$ sbt
+&gt; compile
+&gt; re-start
+</pre></div>
+</div>
+<p>To shut down the SALSAH server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">re</span><span class="o">-</span><span class="n">stop</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-the-automated-tests">
+<h2>Run the automated tests<a class="headerlink" href="#run-the-automated-tests" title="Permalink to this headline">¶</a></h2>
+<p>Make sure you&#8217;ve started Fuseki and the API server as shown above.
+In order to run the tests, the Selenium driver for Chrome has to be installed.
+Please download it from <a class="reference external" href="https://sites.google.com/a/chromium.org/chromedriver/downloads">here</a> and save it
+as <code class="docutils literal"><span class="pre">salsah/lib/chromedriver</span></code>. Also, please make sure to start the API server with the
+<code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> flag. For more information about this flag, see <a class="reference internal" href="../../knora-api-server/development/build-process.html#webapi-server-startup-flags"><span class="std std-ref">Webapi Server Startup-Flags</span></a></p>
+<p>Then at the SBT prompt:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">test</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sbt-build-configuration">
+<h2>SBT Build Configuration<a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sbt._</span>
+<span class="kn">import</span> <span class="nn">sbt.Keys._</span>
+<span class="kn">import</span> <span class="nn">spray.revolver.RevolverPlugin._</span>
+<span class="kn">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager.autoImport._</span>
+
+<span class="n">lazy</span> <span class="n">val</span> <span class="n">salsah</span> <span class="o">=</span> <span class="p">(</span><span class="n">project</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span><span class="o">.</span>
+        <span class="n">settings</span><span class="p">(</span><span class="n">salsahCommonSettings</span><span class="p">:</span>  <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
+        <span class="n">settings</span><span class="p">(</span>
+            <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="n">salsahLibs</span><span class="p">,</span>
+            <span class="n">logLevel</span> <span class="p">:</span><span class="o">=</span> <span class="n">Level</span><span class="o">.</span><span class="n">Info</span><span class="p">,</span>
+            <span class="n">fork</span> <span class="ow">in</span> <span class="n">run</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
+            <span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">run</span> <span class="o">++=</span> <span class="n">javaRunOptions</span><span class="p">,</span>
+            <span class="n">mainClass</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Compile</span><span class="p">,</span> <span class="n">run</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">Some</span><span class="p">(</span><span class="s2">&quot;org.knora.salsah.Main&quot;</span><span class="p">),</span>
+            <span class="n">fork</span> <span class="ow">in</span> <span class="n">Test</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
+            <span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">Test</span> <span class="o">++=</span> <span class="n">javaTestOptions</span><span class="p">,</span>
+            <span class="n">parallelExecution</span> <span class="ow">in</span> <span class="n">Test</span> <span class="p">:</span><span class="o">=</span> <span class="n">false</span><span class="p">,</span>
+            <span class="o">/*</span> <span class="n">show</span> <span class="n">full</span> <span class="n">stack</span> <span class="n">traces</span> <span class="ow">and</span> <span class="n">test</span> <span class="n">case</span> <span class="n">durations</span> <span class="o">*/</span>
+            <span class="n">testOptions</span> <span class="ow">in</span> <span class="n">Test</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span>
+        <span class="n">settings</span><span class="p">(</span><span class="n">Revolver</span><span class="o">.</span><span class="n">settings</span><span class="p">:</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span>
+
+<span class="n">lazy</span> <span class="n">val</span> <span class="n">salsahCommonSettings</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
+    <span class="n">organization</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;org.knora&quot;</span><span class="p">,</span>
+    <span class="n">name</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;salsah&quot;</span><span class="p">,</span>
+    <span class="n">version</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
+    <span class="n">scalaVersion</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;2.11.7&quot;</span>
+<span class="p">)</span>
+
+<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaRunOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
+    <span class="o">//</span> <span class="s2">&quot;-showversion&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;-Xms2048m&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;-Xmx4096m&quot;</span>
+    <span class="o">//</span> <span class="s2">&quot;-verbose:gc&quot;</span><span class="p">,</span>
+    <span class="o">//</span><span class="s2">&quot;-XX:+UseG1GC&quot;</span><span class="p">,</span>
+    <span class="o">//</span><span class="s2">&quot;-XX:MaxGCPauseMillis=500&quot;</span>
+<span class="p">)</span>
+
+<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
+    <span class="o">//</span> <span class="s2">&quot;-showversion&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;-Xms2048m&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;-Xmx4096m&quot;</span>
+    <span class="o">//</span> <span class="s2">&quot;-verbose:gc&quot;</span><span class="p">,</span>
+    <span class="o">//</span><span class="s2">&quot;-XX:+UseG1GC&quot;</span><span class="p">,</span>
+    <span class="o">//</span><span class="s2">&quot;-XX:MaxGCPauseMillis=500&quot;</span><span class="p">,</span>
+    <span class="o">//</span><span class="s2">&quot;-XX:MaxMetaspaceSize=4096m&quot;</span>
+<span class="p">)</span>
+
+<span class="n">lazy</span> <span class="n">val</span> <span class="n">salsahLibs</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
+    <span class="o">//</span> <span class="n">akka</span>
+    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%</span> <span class="s2">&quot;akka-http-core-experimental_2.11&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0-M2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%</span> <span class="s2">&quot;akka-http-experimental_2.11&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0-M2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%</span> <span class="s2">&quot;akka-http-spray-json-experimental_2.11&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0-M2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%</span> <span class="s2">&quot;akka-http-xml-experimental_2.11&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0-M2&quot;</span><span class="p">,</span>
+    <span class="o">//</span> <span class="n">testing</span>
+    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-testkit-experimental&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0-M2&quot;</span> <span class="o">%</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;org.scalatest&quot;</span> <span class="o">%%</span> <span class="s2">&quot;scalatest&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.2.5&quot;</span> <span class="o">%</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;org.seleniumhq.selenium&quot;</span> <span class="o">%</span> <span class="s2">&quot;selenium-java&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.35.0&quot;</span> <span class="o">%</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-http&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-httpx&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-util&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-io&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-can&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-caching&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-routing&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-json&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;io.spray&quot;</span> <span class="o">%%</span> <span class="s2">&quot;spray-client&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.3.2&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">Developing SALSAH</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../design-documentation/index.html">SALSAH Design Documentation</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>
