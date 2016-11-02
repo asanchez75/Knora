@@ -16,5 +16,9 @@ load ../_test_data/ontologies/webPTM-onto.ttl into http://www.knora.org/ontology
 load ../_test_data/demo_data/webPTM-demo-data.ttl into http://www.knora.org/data/webPTM .
 load ../_test_data/ontologies/biblio-onto.ttl into http://www.knora.org/ontology/biblio .
 load ../_test_data/all_data/biblio-data.ttl into http://www.knora.org/data/biblio .
+load ../_test_data/ontologies/PTM-onto.ttl into http://www.knora.org/ontology/PTM .
+load ../_test_data/demo_data/PTM-demo-data.ttl into http://www.knora.org/data/PTM .
+load ../_test_data/ontologies/webPTM-onto.ttl into http://www.knora.org/ontology/webPTM .
+load ../_test_data/demo_data/webPTM-demo-data.ttl into http://www.knora.org/data/webPTM .
 close .
 exit .
