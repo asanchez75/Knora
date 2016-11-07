@@ -176,9 +176,9 @@ and means that the resource classes from all the available vocabularies are retu
 <dl class="docutils">
 <dt>Additionally, the following parameters can be appended to the URL (search value is <code class="docutils literal"><span class="pre">Zeitglöcklein</span></code>):</dt>
 <dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">restype_id=resourceClassIRI</span></code>: This restricts the search to resources of the specified class. <code class="docutils literal"><span class="pre">-1</span></code> is the default value and means no restriction to a specific class. If a resource class IRI is specified, it has to be URL encoded (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;restype_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23book</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">restype_id=resourceClassIRI</span></code>: This restricts the search to resources of the specified class (subclasses of that class will also match). <code class="docutils literal"><span class="pre">-1</span></code> is the default value and means no restriction to a specific class. If a resource class IRI is specified, it has to be URL encoded (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;restype_id=http%3A%2F%2Fwww.knora.org%2Fontology%2Fincunabula%23book</span></code>).</li>
 <li><code class="docutils literal"><span class="pre">numprops=Integer</span></code>: Specifies the number of properties returned for each resource that was found (sorted by GUI order), e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;numprops=4</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">limit=Integer</span></code>: Lmits the amount of results returned (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;limit=1</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">limit=Integer</span></code>: Limits the amount of results returned (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/v1/resources?searchstr=Zeitgl%C3%B6cklein&amp;limit=1</span></code>).</li>
 </ul>
 </dd>
 </dl>
@@ -195,7 +195,7 @@ Please note that the search terms have to be URL encoded.</p>
 <dl class="docutils">
 <dt>The parameter <code class="docutils literal"><span class="pre">searchtype</span></code> is required and has to be set to <code class="docutils literal"><span class="pre">fulltext</span></code>. Additionally, these parameters can be set:</dt>
 <dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class.</li>
+<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class (subclasses of that class will also match).</li>
 <li><code class="docutils literal"><span class="pre">filter_by_project=projectIRI</span></code>: restricts the search to resources of the specified project.</li>
 <li><code class="docutils literal"><span class="pre">show_nrows=Integer</span></code>: Indicates how many reults should be presented on one page. If omitted, the default value <code class="docutils literal"><span class="pre">25</span></code> is used.</li>
 <li><code class="docutils literal"><span class="pre">start_at=Integer</span></code>: Used to enable paging and go through all the results request by request.</li>
@@ -218,7 +218,7 @@ See TypeScript interface <code class="docutils literal"><span class="pre">search
 <dl class="docutils">
 <dt>The parameter <code class="docutils literal"><span class="pre">searchtype</span></code> is required and has to be set to <code class="docutils literal"><span class="pre">extended</span></code>. An extended search requires at least one set of parameters consisting of:</dt>
 <dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">property_id=propertyTypeIRI</span></code>: the type of property the resource has to have</li>
+<li><code class="docutils literal"><span class="pre">property_id=propertyTypeIRI</span></code>: the property the resource has to have (subproperties of that property will also match).</li>
 <li><code class="docutils literal"><span class="pre">compop=comparisonOperator</span></code>: the comparison operator to be used to match between the resource&#8217;s property value and the search term.</li>
 <li><code class="docutils literal"><span class="pre">searchval=searchTerm</span></code>: the search value to look for.</li>
 </ul>
@@ -281,7 +281,7 @@ See TypeScript interface <code class="docutils literal"><span class="pre">search
 </dd>
 <dt>Additionally, these parameters can be set:</dt>
 <dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class.</li>
+<li><code class="docutils literal"><span class="pre">filter_by_restype=resourceClassIRI</span></code>: restricts the search to resources of the specified resource class (subclasses of that class will also match).</li>
 <li><code class="docutils literal"><span class="pre">filter_by_project=projectIRI</span></code>: restricts the search to resources of the specified project.</li>
 <li><code class="docutils literal"><span class="pre">filter_by_owner</span></code>: restricts the search to resources owned by the specified user.</li>
 <li><code class="docutils literal"><span class="pre">show_nrows=Integer</span></code>: Indicates how many reults should be presented on one page. If omitted, the default value <code class="docutils literal"><span class="pre">25</span></code> is used.</li>
