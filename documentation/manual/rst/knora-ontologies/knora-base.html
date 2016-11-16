@@ -123,7 +123,7 @@
 <div class="section" id="resource-description-framework-rdf">
 <h3><a class="toc-backref" href="#id10">Resource Description Framework (RDF)</a><a class="headerlink" href="#resource-description-framework-rdf" title="Permalink to this headline">¶</a></h3>
 <p>Knora uses a hierarchy of ontologies based on the Resource Description
-Framework (<a class="reference external" href="http://www.w3.org/TR/2014/NOTE-rdf11-primer-20140624/">RDF</a>), RDF Schema (<a class="reference external" href="http://www.w3.org/TR/2014/REC-rdf-schema-20140225/">RDFS</a>), and the Web Ontology Language (<a class="reference external" href="https://www.w3.org/TR/owl2-quick-reference/">OWL</a>)
+Framework (<a class="reference external" href="http://www.w3.org/TR/2014/NOTE-rdf11-primer-20140624/">RDF</a>), RDF Schema (<a class="reference external" href="http://www.w3.org/TR/2014/REC-rdf-schema-20140225/">RDFS</a>), and the Web Ontology Language (<a class="reference external" href="https://www.w3.org/TR/owl2-quick-reference/">OWL</a>).
 Both RDFS and OWL are expressed in RDF. RDF expresses information as a set of
 statements (called <em>triples</em>). A triple consists of a subject, a predicate,
 and an object:</p>
@@ -602,19 +602,21 @@ list or a tree.</p>
 <p>A <code class="docutils literal"><span class="pre">ListValue</span></code> has this property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasListNode</span></code> (1)</dt>
-<dd>Points to the root <code class="docutils literal"><span class="pre">ListNode</span></code> of the list or tree.</dd>
+<dd>Points to a <code class="docutils literal"><span class="pre">ListNode</span></code>.</dd>
 </dl>
 <p>Each <code class="docutils literal"><span class="pre">ListNode</span></code> can have the following properties:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">hasSubListNode</span></code> (0-n)</dt>
-<dd>Points to the node’s child nodes, if any.</dd>
-<dt><code class="docutils literal"><span class="pre">listNodePosition</span></code> (1)</dt>
-<dd>An integer indicating the node’s position in the list of its
-siblings.</dd>
 <dt><code class="docutils literal"><span class="pre">isRootNode</span></code> (0-1)</dt>
 <dd>Set to <code class="docutils literal"><span class="pre">true</span></code> if this is the root node.</dd>
-<dt><code class="docutils literal"><span class="pre">listNodeName</span></code> (0-n)</dt>
-<dd>The node’s human-readable name.</dd>
+<dt><code class="docutils literal"><span class="pre">hasSubListNode</span></code> (0-n)</dt>
+<dd>Points to the node’s child nodes, if any.</dd>
+<dt><code class="docutils literal"><span class="pre">hasRootNode</span></code> (0-1)</dt>
+<dd>Points to the root node of the list (absent if <code class="docutils literal"><span class="pre">isRootNode</span></code> is <code class="docutils literal"><span class="pre">true</span></code>).</dd>
+<dt><code class="docutils literal"><span class="pre">listNodePosition</span></code> (0-1)</dt>
+<dd>An integer indicating the node’s position in the list of its
+siblings (absent if <code class="docutils literal"><span class="pre">isRootNode</span></code> is <code class="docutils literal"><span class="pre">true</span></code>).</dd>
+<dt><code class="docutils literal"><span class="pre">listNodeName</span></code> (0-1)</dt>
+<dd>The node’s human-readable name (absent if <code class="docutils literal"><span class="pre">isRootNode</span></code> is <code class="docutils literal"><span class="pre">true</span></code>).</dd>
 </dl>
 </div>
 <div class="section" id="filevalue">
@@ -780,7 +782,7 @@ here in Turtle format, and simplified for the purposes of illustration):</p>
 <p>To link the paintings to the collection, we must add a “link property”
 to the ontology. In this case, the link property will point from a
 painting to the collection it belongs to. Every link property must be a
-subproperty of <code class="docutils literal"><span class="pre">hasLinkTo</span></code>.</p>
+subproperty of <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">isInCollection</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
     <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="n">kb</span><span class="p">:</span><span class="n">hasLinkTo</span> <span class="p">;</span>
     <span class="n">kb</span><span class="p">:</span><span class="n">subjectClassConstraint</span> <span class="p">:</span><span class="n">Painting</span> <span class="p">;</span>
@@ -788,15 +790,15 @@ subproperty of <code class="docutils literal"><span class="pre">hasLinkTo</span>
 </pre></div>
 </div>
 <p>We must then add a “link value property”, which will point from a
-painting to a <code class="docutils literal"><span class="pre">LinkValue</span></code> (described in
+painting to a <code class="docutils literal"><span class="pre">kb:LinkValue</span></code> (described in
 <a class="reference internal" href="#knora-base-linkvalue"><span class="std std-ref">LinkValue</span></a>), which will contain metadata about the
 link between the property and the collection. In particular, the link
 value specifies the owner of the link, the date when it was created, and
 the permissions that determine who can view or modify it. The name of
 the link value property is constructed using a simple naming convention:
 the word <code class="docutils literal"><span class="pre">Value</span></code> is appended to the name of the link property. In this
-case, since our link property is called <code class="docutils literal"><span class="pre">isInCollectionValue</span></code>, the
-link value property must be called <code class="docutils literal"><span class="pre">ex:isOnPageValue</span></code>. Every link
+case, since our link property is called <code class="docutils literal"><span class="pre">:isInCollection</span></code>, the
+link value property must be called <code class="docutils literal"><span class="pre">:isInCollectionValue</span></code>. Every link
 value property must be a subproperty of <code class="docutils literal"><span class="pre">kb:hasLinkToValue</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">isInCollectionValue</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">ObjectProperty</span> <span class="p">;</span>
     <span class="n">rdfs</span><span class="p">:</span><span class="n">subPropertyOf</span> <span class="n">kb</span><span class="p">:</span><span class="n">hasLinkToValue</span> <span class="p">;</span>
@@ -837,7 +839,7 @@ and a collection:</p>
     <span class="n">kb</span><span class="p">:</span><span class="n">valueHasRefCount</span> <span class="mi">1</span> <span class="o">.</span>
 </pre></div>
 </div>
-<p>This creates a link (<code class="docutils literal"><span class="pre">isInCollection</span></code>) between the painting and the
+<p>This creates a link (<code class="docutils literal"><span class="pre">paintings:isInCollection</span></code>) between the painting and the
 collection, along with a reification containing metadata about the link.
 We can visualise the result as the following graph:</p>
 <img src="../../_images/graphviz-8a95eb2742f9bb6207a3a96e47998535a351ecef.png" alt="digraph {
@@ -1316,15 +1318,22 @@ following example from <code class="docutils literal"><span class="pre">knora-ba
           <span class="n">owl</span><span class="p">:</span><span class="n">minCardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span> <span class="p">]</span> <span class="o">.</span>
 </pre></div>
 </div>
-<p>A resource class inherits cardinalities from its superclasses. Also,
-cardinalities in the subclass can override cardinalities that would
-otherwise be inherited from the superclass. Specifically, if a
-superclass has a cardinality on a property P, and a subclass has a
-cardinality on a subproperty of P, the subclass’s cardinality overrides
-the superclass’s cardinality. In the example above,
-<code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> is a subproperty of <code class="docutils literal"><span class="pre">hasFileValue</span></code>.
-Therefore, the cardinality on <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> overrides (i.e.
-replaces) the one on <code class="docutils literal"><span class="pre">hasFileValue</span></code>.</p>
+<p>A resource class inherits cardinalities from its superclasses. This follows
+from the rules of <a class="reference external" href="http://www.w3.org/TR/2014/REC-rdf-schema-20140225/">RDFS</a> inference. Also, in Knora, cardinalities in the
+subclass can override cardinalities that would otherwise be inherited from the
+superclass. Specifically, if a superclass has a cardinality on a property P,
+and a subclass has a cardinality on a subproperty of P, the subclass’s
+cardinality overrides the superclass’s cardinality. In the example above,
+<code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> is a subproperty of <code class="docutils literal"><span class="pre">hasFileValue</span></code>. Therefore,
+the cardinality on <code class="docutils literal"><span class="pre">hasStillImageFileValue</span></code> overrides (i.e. replaces) the
+one on <code class="docutils literal"><span class="pre">hasFileValue</span></code>.</p>
+<p>Note that, unlike cardinalities, predicates of properties are not inherited.
+If <code class="docutils literal"><span class="pre">:foo</span> <span class="pre">rdfs:subPropertyOf</span> <span class="pre">:bar</span></code>, this does not mean that <code class="docutils literal"><span class="pre">:foo</span></code> inherits
+anything from <code class="docutils literal"><span class="pre">:bar</span></code>. Any predicates of <code class="docutils literal"><span class="pre">:foo</span></code> that are also needed by
+<code class="docutils literal"><span class="pre">:bar</span></code> must be defined explicitly on <code class="docutils literal"><span class="pre">:bar</span></code>. This design decision was made
+because property predicate inheritance is not provided by RDFS inference,
+and would make it more difficult to check the correctness of ontologies, while
+providing little practical benefit.</p>
 <p>For more information about OWL cardinalities, see&nbsp;the <a class="reference external" href="http://www.w3.org/TR/2012/REC-owl2-primer-20121211/">OWL 2 Primer</a>.</p>
 </div>
 <div class="section" id="constraints-on-the-types-of-property-subjects-and-objects">
@@ -1342,7 +1351,7 @@ to enforce this constraint.</dd>
 objects of the property must belong to. Every subproperty of
 <code class="docutils literal"><span class="pre">kb:hasValue</span></code> or a <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code> (i.e. every property of a
 resource that points to a <code class="docutils literal"><span class="pre">kb:Value</span></code> or to another resource) is
-required have this constraint, because the Knora API server relies
+required to have this constraint, because the Knora API server relies
 on it to know what type of object to expect for the property. Knora
 will attempt to enforce this constraint.</dd>
 <dt><code class="docutils literal"><span class="pre">objectDatatypeConstraint</span></code></dt>
