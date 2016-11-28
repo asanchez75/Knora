@@ -51,22 +51,44 @@
         
   <div class="section" id="store-module">
 <span id="id1"></span><h1>Store Module<a class="headerlink" href="#store-module" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#overview" id="id2">Overview</a></li>
+<li><a class="reference internal" href="#lifecycle" id="id3">Lifecycle</a></li>
+<li><a class="reference internal" href="#http-based-triplestores" id="id4">HTTP-based Triplestores</a><ul>
+<li><a class="reference internal" href="#graphdb" id="id5">GraphDB</a></li>
+<li><a class="reference internal" href="#fuseki-2" id="id6">Fuseki 2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#embedded-triplestores" id="id7">Embedded Triplestores</a><ul>
+<li><a class="reference internal" href="#apache-jena-tdb" id="id8">Apache Jena TDB</a><ul>
+<li><a class="reference internal" href="#concurrency" id="id9">Concurrency</a></li>
+<li><a class="reference internal" href="#implementation" id="id10">Implementation</a></li>
+<li><a class="reference internal" href="#configuration" id="id11">Configuration</a></li>
+<li><a class="reference internal" href="#tdb-disk-persisted-store" id="id12">TDB Disk Persisted Store</a></li>
+<li><a class="reference internal" href="#actor-messages" id="id13">Actor Messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The store module houses the different types of data stores supported by
 the Knora API server. At the moment, only triplestores are supported. The triplestore
 support is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.store.triplestore</span></code>
 package.</p>
 </div>
 <div class="section" id="lifecycle">
-<h2>Lifecycle<a class="headerlink" href="#lifecycle" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Lifecycle</a><a class="headerlink" href="#lifecycle" title="Permalink to this headline">¶</a></h2>
 <p>At the top level, the store package houses  the <code class="docutils literal"><span class="pre">StoreManager</span></code>-Actor
 which is started when the Knora API server starts. The <code class="docutils literal"><span class="pre">StoreManager</span></code> then starts
 the <code class="docutils literal"><span class="pre">TripleStoreManagerActor</span></code> which in turn starts the correct actor
 implementation (e.g., GraphDB, Fuseki, embedded Jena, etc.).</p>
 </div>
 <div class="section" id="http-based-triplestores">
-<h2>HTTP-based Triplestores<a class="headerlink" href="#http-based-triplestores" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">HTTP-based Triplestores</a><a class="headerlink" href="#http-based-triplestores" title="Permalink to this headline">¶</a></h2>
 <p>HTTP-based triplestore support is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.triplestore.http</span></code> package.</p>
 <p>An HTTP-based triplestore is one that is accessed remotly over the HTTP protocol. We have implemented support for
 the following triplestores:</p>
@@ -77,18 +99,18 @@ the following triplestores:</p>
 </ul>
 </div></blockquote>
 <div class="section" id="graphdb">
-<h3>GraphDB<a class="headerlink" href="#graphdb" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">GraphDB</a><a class="headerlink" href="#graphdb" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="fuseki-2">
-<h3>Fuseki 2<a class="headerlink" href="#fuseki-2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Fuseki 2</a><a class="headerlink" href="#fuseki-2" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="embedded-triplestores">
-<h2>Embedded Triplestores<a class="headerlink" href="#embedded-triplestores" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Embedded Triplestores</a><a class="headerlink" href="#embedded-triplestores" title="Permalink to this headline">¶</a></h2>
 <p>Embedded triplestores is implemented in the <code class="docutils literal"><span class="pre">org.knora.webapi.triplestore.embedded</span></code> package.</p>
 <p>An embedded triplestore is one that runs in the same JVM as the Knora API server.</p>
 <div class="section" id="apache-jena-tdb">
-<h3>Apache Jena TDB<a class="headerlink" href="#apache-jena-tdb" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Apache Jena TDB</a><a class="headerlink" href="#apache-jena-tdb" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The support for embedded Jena TDB is currently dropped.
@@ -103,7 +125,7 @@ The documentation and the code will remain in the repository. You can use it at 
 </ul>
 </div></blockquote>
 <div class="section" id="concurrency">
-<h4>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id9">Concurrency</a><a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h4>
 <p>Jena provides concurrency on different levels.</p>
 <p>On the Jena TDB level there is the <code class="docutils literal"><span class="pre">Dataset</span></code> object, representing the
 triple store. On every access, a transaction (read or write) can be
@@ -119,7 +141,7 @@ Reader Single Writer) access is allowed.</p>
 </div></blockquote>
 </div>
 <div class="section" id="implementation">
-<h4>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id10">Implementation</a><a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h4>
 <p>We employ transactions on the <code class="docutils literal"><span class="pre">Dataset</span></code> level. This means that every
 thread that accesses the triplestore, starts a read or write enabled
 transaction.</p>
@@ -139,7 +161,7 @@ read transactions seeing the state of the database after the updates
 running at the same time.</p>
 </div>
 <div class="section" id="configuration">
-<h4>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id11">Configuration</a><a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h4>
 <p>In <code class="docutils literal"><span class="pre">application.conf</span></code> set to use the embedded triplestore:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">triplestore</span> <span class="p">{</span>
     <span class="n">dbtype</span> <span class="o">=</span> <span class="s2">&quot;embedded-jena-tdb&quot;</span>
@@ -191,7 +213,7 @@ will be created under the defined <code class="docutils literal"><span class="pr
 with the data referenced in <code class="docutils literal"><span class="pre">rdf-data</span></code>.</p>
 </div>
 <div class="section" id="tdb-disk-persisted-store">
-<h4>TDB Disk Persisted Store<a class="headerlink" href="#tdb-disk-persisted-store" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id12">TDB Disk Persisted Store</a><a class="headerlink" href="#tdb-disk-persisted-store" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Make sure to set <code class="docutils literal"><span class="pre">reload-on-start</span></code> to <code class="docutils literal"><span class="pre">true</span></code> if run for
@@ -205,7 +227,7 @@ persisted TDB store can be reused, as any data found under the
 reload the data anew.</p>
 </div>
 <div class="section" id="actor-messages">
-<h4>Actor Messages<a class="headerlink" href="#actor-messages" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id13">Actor Messages</a><a class="headerlink" href="#actor-messages" title="Permalink to this headline">¶</a></h4>
 <blockquote>
 <div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">ResetTripleStoreContent(rdfDataObjects:</span> <span class="pre">List[RdfDataObject])</span></code></li>

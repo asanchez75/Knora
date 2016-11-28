@@ -51,10 +51,21 @@
         
   <div class="section" id="changing-a-value">
 <span id="changing-values"></span><h1>Changing a Value<a class="headerlink" href="#changing-a-value" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#modifying-a-property-value" id="id1">Modifying a Property Value</a></li>
+<li><a class="reference internal" href="#modifying-a-file-value" id="id2">Modifying a File Value</a><ul>
+<li><a class="reference internal" href="#including-the-binaries-non-gui-case" id="id3">Including the binaries (Non GUI-case)</a></li>
+<li><a class="reference internal" href="#indicating-the-location-of-a-file-gui-case" id="id4">Indicating the location of a file (GUI-case)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#response-on-value-change" id="id5">Response on Value Change</a></li>
+</ul>
+</div>
 <p>In order to add values to an existing resource, the HTTP method <code class="docutils literal"><span class="pre">PUT</span></code> has to be used.
 Changing values requires authentication since only known users may change values.</p>
 <div class="section" id="modifying-a-property-value">
-<h2>Modifying a Property Value<a class="headerlink" href="#modifying-a-property-value" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Modifying a Property Value</a><a class="headerlink" href="#modifying-a-property-value" title="Permalink to this headline">¶</a></h2>
 <p>The request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">values</span></code> path segment followed by the value&#8217;s IRI:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">PUT</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">values</span><span class="o">/</span><span class="n">valueIRI</span>
 </pre></div>
@@ -81,7 +92,7 @@ Changing values requires authentication since only known users may change values
 </dl>
 </div>
 <div class="section" id="modifying-a-file-value">
-<h2>Modifying a File Value<a class="headerlink" href="#modifying-a-file-value" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Modifying a File Value</a><a class="headerlink" href="#modifying-a-file-value" title="Permalink to this headline">¶</a></h2>
 <p>In order to exchange a file value (digital representation of a resource), the path segment <code class="docutils literal"><span class="pre">filevalue</span></code> has to be used.
 The IRI of the resource whose file value is to be exchanged has to be appended:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">PUT</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">filevalue</span><span class="o">/</span><span class="n">resourceIRI</span>
@@ -92,7 +103,7 @@ The IRI of the resource whose file value is to be exchanged has to be appended:<
 Either by submitting directly the binaries of the file in a HTTP Multipart request or by indicating the location of the file.
 The two cases are referred to as Non GUI-case and GUI-case (see <a class="reference internal" href="../../sipi/sipi-and-knora.html#sipi-and-knora"><span class="std std-ref">Interaction Between Sipi and Knora</span></a>).</p>
 <div class="section" id="including-the-binaries-non-gui-case">
-<h3>Including the binaries (Non GUI-case)<a class="headerlink" href="#including-the-binaries-non-gui-case" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">Including the binaries (Non GUI-case)</a><a class="headerlink" href="#including-the-binaries-non-gui-case" title="Permalink to this headline">¶</a></h3>
 <p>Here, a HTTP MULTIPART request has to be made simply providing the binaries (without JSON):</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 
@@ -113,14 +124,14 @@ The two cases are referred to as Non GUI-case and GUI-case (see <a class="refere
 <p>Please note that the file has to be read in binary mode (by default it would be read in text mode).</p>
 </div>
 <div class="section" id="indicating-the-location-of-a-file-gui-case">
-<h3>Indicating the location of a file (GUI-case)<a class="headerlink" href="#indicating-the-location-of-a-file-gui-case" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Indicating the location of a file (GUI-case)</a><a class="headerlink" href="#indicating-the-location-of-a-file-gui-case" title="Permalink to this headline">¶</a></h3>
 <p>Here, simply the location of the new file has to be submitted as JSON.
 The JSON format is described in the TypeScript interface <code class="docutils literal"><span class="pre">changeFileValueRequest</span></code> in module <code class="docutils literal"><span class="pre">changeValueFormats</span></code>.
 The request header&#8217;s content type has to set to <code class="docutils literal"><span class="pre">application/json</span></code>.</p>
 </div>
 </div>
 <div class="section" id="response-on-value-change">
-<h2>Response on Value Change<a class="headerlink" href="#response-on-value-change" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Response on Value Change</a><a class="headerlink" href="#response-on-value-change" title="Permalink to this headline">¶</a></h2>
 <p>When a value has been successfully changed, Knora sends back a JSON with the new value&#8217;s IRI.
 The value IRI identifies the value and can be used to perform future Knora API V1 operations.</p>
 <p>The JSON format of the response is described in the TypeScript interface <code class="docutils literal"><span class="pre">changeValueResponse</span></code> in module <code class="docutils literal"><span class="pre">changeValueFormats</span></code>.</p>

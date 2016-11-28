@@ -51,13 +51,41 @@
         
   <div class="section" id="reading-and-searching-resources">
 <span id="id1"></span><h1>Reading and Searching Resources<a class="headerlink" href="#reading-and-searching-resources" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#get-the-representation-of-a-resource-by-its-iri" id="id2">Get the Representation of a Resource by its IRI</a><ul>
+<li><a class="reference internal" href="#simple-request-of-a-resource-full-resource-request" id="id3">Simple Request of a Resource (full Resource Request)</a><ul>
+<li><a class="reference internal" href="#provide-request-parameters" id="id4">Provide Request Parameters</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#obtain-an-html-representation-of-a-resource" id="id5">Obtain an HTML Representation of a Resource</a></li>
+<li><a class="reference internal" href="#get-only-the-properties-belonging-to-a-resource" id="id6">Get only the Properties belonging to a Resource</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-information-about-a-resource-class" id="id7">Get Information about a Resource Class</a><ul>
+<li><a class="reference internal" href="#get-a-resource-class-by-its-iri" id="id8">Get a Resource Class by its IRI</a></li>
+<li><a class="reference internal" href="#get-all-the-property-types-of-a-resource-class-or-a-vocabulary" id="id9">Get all the Property Types of a Resource Class or a Vocabulary</a></li>
+<li><a class="reference internal" href="#get-the-resource-classes-of-a-vocabulary" id="id10">Get the Resource Classes of a Vocabulary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-all-the-vocabularies" id="id11">Get all the Vocabularies</a></li>
+<li><a class="reference internal" href="#search-for-resources" id="id12">Search for Resources</a><ul>
+<li><a class="reference internal" href="#search-for-resources-by-their-label" id="id13">Search for Resources by their Label</a></li>
+<li><a class="reference internal" href="#fulltext-search" id="id14">Fulltext Search</a></li>
+<li><a class="reference internal" href="#extended-search-for-resources" id="id15">Extended Search for Resources</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-a-graph-of-resources" id="id16">Get a Graph of Resources</a></li>
+<li><a class="reference internal" href="#get-hierarchical-lists" id="id17">Get Hierarchical Lists</a></li>
+</ul>
+</div>
 <p>In order to get an existing resource, the HTTP method <code class="docutils literal"><span class="pre">GET</span></code> has to be used.
 The request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">resources</span></code> path segment (depending on the type of request, this segment has to be exchanged, see below).
 Reading resources may require authentication since some resources may have restricted viewing permissions.</p>
 <div class="section" id="get-the-representation-of-a-resource-by-its-iri">
-<h2>Get the Representation of a Resource by its IRI<a class="headerlink" href="#get-the-representation-of-a-resource-by-its-iri" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Get the Representation of a Resource by its IRI</a><a class="headerlink" href="#get-the-representation-of-a-resource-by-its-iri" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="simple-request-of-a-resource-full-resource-request">
-<h3>Simple Request of a Resource (full Resource Request)<a class="headerlink" href="#simple-request-of-a-resource-full-resource-request" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">Simple Request of a Resource (full Resource Request)</a><a class="headerlink" href="#simple-request-of-a-resource-full-resource-request" title="Permalink to this headline">¶</a></h3>
 <p>A resource can be obtained by making a GET request to the API providing its IRI. Because a Knora IRI has the format of a URL, its IRI has to be URL encoded.</p>
 <p>In order to get the resource with the IRI <code class="docutils literal"><span class="pre">http://data.knora.org/c5058f3a</span></code> (an incunabula book contained in the test data), make a HTTP GET request to the resources route
 (path segment <code class="docutils literal"><span class="pre">resources</span></code> in the API call) and append the URL encoded IRI:</p>
@@ -82,7 +110,7 @@ Reading resources may require authentication since some resources may have restr
 </dl>
 <p>For a complete and more formalized description of a full resource request, look  at the TypeScript interface <code class="docutils literal"><span class="pre">resourceFullResponse</span></code> in the module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
 <div class="section" id="provide-request-parameters">
-<h4>Provide Request Parameters<a class="headerlink" href="#provide-request-parameters" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id4">Provide Request Parameters</a><a class="headerlink" href="#provide-request-parameters" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt>To make a request more specific, the following parameters can be appended to the URL (<code class="docutils literal"><span class="pre">http://www.knora.org/resources/resourceIRI?param1=value1&amp;param2=value2</span></code>):</dt>
 <dd><ul class="first last">
@@ -105,7 +133,7 @@ the requested resource (complementary to its context), see TypeScript interface 
 </div>
 </div>
 <div class="section" id="obtain-an-html-representation-of-a-resource">
-<h3>Obtain an HTML Representation of a Resource<a class="headerlink" href="#obtain-an-html-representation-of-a-resource" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Obtain an HTML Representation of a Resource</a><a class="headerlink" href="#obtain-an-html-representation-of-a-resource" title="Permalink to this headline">¶</a></h3>
 <p>In order to get an HTML representation of a resource (not a JSON), the path segment <code class="docutils literal"><span class="pre">resources.html</span></code> can be used:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/resources.html/resourceIRI?reqtype=properties
 </pre></div>
@@ -113,7 +141,7 @@ the requested resource (complementary to its context), see TypeScript interface 
 <p>The request returns the properties of the requested resource as an HTML document.</p>
 </div>
 <div class="section" id="get-only-the-properties-belonging-to-a-resource">
-<h3>Get only the Properties belonging to a Resource<a class="headerlink" href="#get-only-the-properties-belonging-to-a-resource" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Get only the Properties belonging to a Resource</a><a class="headerlink" href="#get-only-the-properties-belonging-to-a-resource" title="Permalink to this headline">¶</a></h3>
 <p>In order to get only the properties of a resource without any other information, the path segment <code class="docutils literal"><span class="pre">properties</span></code> can be used:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">GET</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">properties</span><span class="o">/</span><span class="n">resourceIRI</span>
 </pre></div>
@@ -122,9 +150,9 @@ the requested resource (complementary to its context), see TypeScript interface 
 </div>
 </div>
 <div class="section" id="get-information-about-a-resource-class">
-<h2>Get Information about a Resource Class<a class="headerlink" href="#get-information-about-a-resource-class" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Get Information about a Resource Class</a><a class="headerlink" href="#get-information-about-a-resource-class" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="get-a-resource-class-by-its-iri">
-<h3>Get a Resource Class by its IRI<a class="headerlink" href="#get-a-resource-class-by-its-iri" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Get a Resource Class by its IRI</a><a class="headerlink" href="#get-a-resource-class-by-its-iri" title="Permalink to this headline">¶</a></h3>
 <p>In order to get information about a resource class, the path segment <code class="docutils literal"><span class="pre">resourcetypes</span></code> can be used. Append the IRI of the resource class to the URL (e.g. <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/incunabula#book</span></code>).</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">GET</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">resourcetypes</span><span class="o">/</span><span class="n">resourceClassIRI</span>
 </pre></div>
@@ -133,7 +161,7 @@ the requested resource (complementary to its context), see TypeScript interface 
 Please note that none of these are actual instances of a property, but only only types (see TypeScript interface <code class="docutils literal"><span class="pre">resourceTypeResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</p>
 </div>
 <div class="section" id="get-all-the-property-types-of-a-resource-class-or-a-vocabulary">
-<h3>Get all the Property Types of a Resource Class or a Vocabulary<a class="headerlink" href="#get-all-the-property-types-of-a-resource-class-or-a-vocabulary" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Get all the Property Types of a Resource Class or a Vocabulary</a><a class="headerlink" href="#get-all-the-property-types-of-a-resource-class-or-a-vocabulary" title="Permalink to this headline">¶</a></h3>
 <p>To get a list of all the available property types, the path segment <code class="docutils literal"><span class="pre">propertylists</span></code> can be used. It can be restricted to a certain vocbulary using the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code>
 or to a certain resource class using the parameter <code class="docutils literal"><span class="pre">restype</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span># returns all the property types for incunabula:page
@@ -147,7 +175,7 @@ HTTP GET to http://host/v1/propertylists?vocabulary=vocabularyIRI
 and means that the resource classes from all the available vocabularies are returned. See TypeScript interface <code class="docutils literal"><span class="pre">propertyTypesInResourceClassResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
 </div>
 <div class="section" id="get-the-resource-classes-of-a-vocabulary">
-<h3>Get the Resource Classes of a Vocabulary<a class="headerlink" href="#get-the-resource-classes-of-a-vocabulary" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Get the Resource Classes of a Vocabulary</a><a class="headerlink" href="#get-the-resource-classes-of-a-vocabulary" title="Permalink to this headline">¶</a></h3>
 <p>Resource classes and property types are organized in (project specific) name spaces, so called vocabularies.
 In order to get all the resource classes defined for a specific vocabulary (e.g. <code class="docutils literal"><span class="pre">incunabula</span></code>), the parameter <code class="docutils literal"><span class="pre">vocabulary</span></code> has to be used and assigned the vocabulary&#8217;s IRI:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/resourcetypes?vocabulary=vocabularyIRI
@@ -158,7 +186,7 @@ and means that the resource classes from all the available vocabularies are retu
 </div>
 </div>
 <div class="section" id="get-all-the-vocabularies">
-<h2>Get all the Vocabularies<a class="headerlink" href="#get-all-the-vocabularies" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Get all the Vocabularies</a><a class="headerlink" href="#get-all-the-vocabularies" title="Permalink to this headline">¶</a></h2>
 <p>To get a list of all available vocabularies, the path segment <code class="docutils literal"><span class="pre">vocabularies</span></code> can be used:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">GET</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">vocabularies</span>
 </pre></div>
@@ -166,9 +194,9 @@ and means that the resource classes from all the available vocabularies are retu
 <p>The response will list all the available vocabularies. See TypeScript interface <code class="docutils literal"><span class="pre">vocabularyResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>.</p>
 </div>
 <div class="section" id="search-for-resources">
-<h2>Search for Resources<a class="headerlink" href="#search-for-resources" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">Search for Resources</a><a class="headerlink" href="#search-for-resources" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="search-for-resources-by-their-label">
-<h3>Search for Resources by their Label<a class="headerlink" href="#search-for-resources-by-their-label" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id13">Search for Resources by their Label</a><a class="headerlink" href="#search-for-resources-by-their-label" title="Permalink to this headline">¶</a></h3>
 <p>This is a simplified way for searching for resources just by their label. It is a simple string-based method:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/resources?searchstr=searchValue
 </pre></div>
@@ -185,7 +213,7 @@ and means that the resource classes from all the available vocabularies are retu
 <p>The response lists the resources that matched the search criteria (see TypeScript interface <code class="docutils literal"><span class="pre">resourceLabelSearchResponse</span></code> in module <code class="docutils literal"><span class="pre">resourceResponseFormats</span></code>).</p>
 </div>
 <div class="section" id="fulltext-search">
-<h3>Fulltext Search<a class="headerlink" href="#fulltext-search" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">Fulltext Search</a><a class="headerlink" href="#fulltext-search" title="Permalink to this headline">¶</a></h3>
 <p>Knora offers a fulltext search that searches through all textual representations of values. You can separate search terms by a white space and they will be combined using the Boolean <code class="docutils literal"><span class="pre">AND</span></code> operator.
 Please note that the search terms have to be URL encoded.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/search/searchValue?searchtype=fulltext[&amp;filter_by_restype=resourceClassIRI]
@@ -208,7 +236,7 @@ You can simply go through the elements of <code class="docutils literal"><span c
 See TypeScript interface <code class="docutils literal"><span class="pre">searchResponse</span></code> in module <code class="docutils literal"><span class="pre">searchResponseFormats</span></code>.</p>
 </div>
 <div class="section" id="extended-search-for-resources">
-<h3>Extended Search for Resources<a class="headerlink" href="#extended-search-for-resources" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Extended Search for Resources</a><a class="headerlink" href="#extended-search-for-resources" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/search/?searchtype=extended
 [&amp;filter_by_restype=resourceClassIRI][&amp;filter_by_project=projectIRI][&amp;filter_by_owner=userIRI]
 (&amp;property_id=propertyTypeIRI&amp;compop=comparisonOperator&amp;searchval=searchValue)+
@@ -298,11 +326,21 @@ See TypeScript interface <code class="docutils literal"><span class="pre">search
 <p>The response presents the retrieved resources (according to <code class="docutils literal"><span class="pre">show_nrows</span></code> and <code class="docutils literal"><span class="pre">start_at</span></code>) and information about paging.
 If not all resources could be presented on one page (<code class="docutils literal"><span class="pre">nhits</span></code> is greater than <code class="docutils literal"><span class="pre">shown_nrows</span></code>), the next page can be requested (by increasing <code class="docutils literal"><span class="pre">start_at</span></code> by the number of <code class="docutils literal"><span class="pre">show_nrows</span></code>).
 You can simply go through the elements of <code class="docutils literal"><span class="pre">paging</span></code> to request the single pages one by one.
-See TypeScript interface <code class="docutils literal"><span class="pre">searchResponse</span></code> in module <code class="docutils literal"><span class="pre">searchResponseFormats</span></code>.</p>
+See the TypeScript interface <code class="docutils literal"><span class="pre">searchResponse</span></code> in module <code class="docutils literal"><span class="pre">searchResponseFormats</span></code>.</p>
 </div>
+</div>
+<div class="section" id="get-a-graph-of-resources">
+<h2><a class="toc-backref" href="#id16">Get a Graph of Resources</a><a class="headerlink" href="#get-a-graph-of-resources" title="Permalink to this headline">¶</a></h2>
+<p>The path segment <code class="docutils literal"><span class="pre">graphdata</span></code> returns a graph of resources that are reachable via links to or from an initial resource.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>HTTP GET to http://host/v1/search/graphdata/resourceIRI?depth=Integer
+</pre></div>
+</div>
+<p>The parameter <code class="docutils literal"><span class="pre">depth</span></code> specifies the maximum depth of the graph, and defaults to 4. If <code class="docutils literal"><span class="pre">depth</span></code> is 1, the operation will return only the initial resource and any resources that are directly linked to or from it.</p>
+<p>The graph includes any link that is a subproperty of <code class="docutils literal"><span class="pre">knora-base:hasLinkTo</span></code>, except for links that are subproperties of <code class="docutils literal"><span class="pre">knora-base:isPartOf</span></code>. Specifically, if resource <code class="docutils literal"><span class="pre">R1</span></code> has a link that is a subproperty of <code class="docutils literal"><span class="pre">knora-base:isPartOf</span></code> pointing to resource <code class="docutils literal"><span class="pre">R2</span></code>, no link from <code class="docutils literal"><span class="pre">R1</span></code> to <code class="docutils literal"><span class="pre">R2</span></code> is included in the graph.</p>
+<p>The response represents the graph as a list of nodes (resources) and a list of edges (links). For details, see the TypeScript interface <code class="docutils literal"><span class="pre">graphDataResponse</span></code> in module <code class="docutils literal"><span class="pre">graphDataResponseFormats</span></code>.</p>
 </div>
 <div class="section" id="get-hierarchical-lists">
-<h2>Get hierarchical Lists<a class="headerlink" href="#get-hierarchical-lists" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Get Hierarchical Lists</a><a class="headerlink" href="#get-hierarchical-lists" title="Permalink to this headline">¶</a></h2>
 <p>The knora-base ontology allows for the definition of hierarchical lists. These can be queried by providing the IRI of the root node.
 Selections are hierarchical list that are just one level deep. Internally, they are represented as hierarchical lists.</p>
 <p>You can get a hierarchical by using the path segment <code class="docutils literal"><span class="pre">hlists</span></code> and appending the hierarchical list&#8217;s IRI (URL encoded):</p>

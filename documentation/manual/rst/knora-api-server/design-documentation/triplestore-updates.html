@@ -51,10 +51,39 @@
         
   <div class="section" id="triplestore-updates">
 <span id="id1"></span><h1>Triplestore Updates<a class="headerlink" href="#triplestore-updates" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#requirements" id="id2">Requirements</a><ul>
+<li><a class="reference internal" href="#general" id="id3">General</a></li>
+<li><a class="reference internal" href="#permissions" id="id4">Permissions</a></li>
+<li><a class="reference internal" href="#ontology-constraints" id="id5">Ontology Constraints</a></li>
+<li><a class="reference internal" href="#duplicate-and-redundant-values" id="id6">Duplicate and Redundant Values</a></li>
+<li><a class="reference internal" href="#versioning" id="id7">Versioning</a><ul>
+<li><a class="reference internal" href="#deleting" id="id8">Deleting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linking" id="id9">Linking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#design" id="id10">Design</a><ul>
+<li><a class="reference internal" href="#responsibilities-of-responders" id="id11">Responsibilities of Responders</a></li>
+<li><a class="reference internal" href="#application-level-locking" id="id12">Application-level Locking</a></li>
+<li><a class="reference internal" href="#ensuring-data-consistency" id="id13">Ensuring Data Consistency</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sparql-update-examples" id="id14">SPARQL Update Examples</a><ul>
+<li><a class="reference internal" href="#finding-a-value-iri-in-a-value-s-version-history" id="id15">Finding a value IRI in a value&#8217;s version history</a></li>
+<li><a class="reference internal" href="#creating-the-initial-version-of-a-value" id="id16">Creating the initial version of a value</a></li>
+<li><a class="reference internal" href="#adding-a-new-version-of-a-value" id="id17">Adding a new version of a value</a></li>
+<li><a class="reference internal" href="#getting-all-versions-of-a-value" id="id18">Getting all versions of a value</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="general">
-<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">General</a><a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
 <p>The supported update operations are:</p>
 <ul class="simple">
 <li>Create a new resource with its initial values.</li>
@@ -82,7 +111,7 @@ does not provide a way to do this, and currently it can be done only by embeddin
 in the application and using a vendor-specific API, but we cannot require this in Knora.)</p>
 </div>
 <div class="section" id="permissions">
-<h3>Permissions<a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
 <p>To create a new value (as opposed to a new version of an existing value), the user must have
 <code class="docutils literal"><span class="pre">knora-base:hasModifyPermission</span></code> on the containing resource.</p>
 <p>To create a new version of an existing value, the user needs only to have <code class="docutils literal"><span class="pre">knora-base:hasModifyPermission</span></code>
@@ -96,7 +125,7 @@ the corresponding subproperties of <code class="docutils literal"><span class="p
 created, it is given the default permissions specified in the definition of its OWL class.</p>
 </div>
 <div class="section" id="ontology-constraints">
-<h3>Ontology Constraints<a class="headerlink" href="#ontology-constraints" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Ontology Constraints</a><a class="headerlink" href="#ontology-constraints" title="Permalink to this headline">¶</a></h3>
 <p>Knora must not allow an update that would violate an ontology constraint.</p>
 <p>When creating a new value (as opposed to adding a new version of an existing value), Knora must not
 allow the update if the containing resource&#8217;s OWL class does not contain a cardinality restriction for the
@@ -109,7 +138,7 @@ belongs to the OWL class specified in the property&#8217;s
 <code class="docutils literal"><span class="pre">knora-base:objectClassConstraint</span></code>, or to a subclass of that class.</p>
 </div>
 <div class="section" id="duplicate-and-redundant-values">
-<h3>Duplicate and Redundant Values<a class="headerlink" href="#duplicate-and-redundant-values" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Duplicate and Redundant Values</a><a class="headerlink" href="#duplicate-and-redundant-values" title="Permalink to this headline">¶</a></h3>
 <p>When creating a new value, or changing an existing value, Knora checks whether the submitted
 value would duplicate an existing value for the same property in the resource. The definition of
 &#8216;duplicate&#8217; depends on the type of value; it does not necessarily mean that the two values are
@@ -125,7 +154,7 @@ type of value, but in practice, it means that the values are strictly equal: any
 trivial, is allowed.</p>
 </div>
 <div class="section" id="versioning">
-<h3>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Versioning</a><a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h3>
 <p>Each Knora value (i.e. something belonging to an OWL class derived from
 <code class="docutils literal"><span class="pre">knora-base:Value</span></code>) is versioned. This means that once created, a value is
 never modified. Instead, &#8216;changing&#8217; a value means creating a new version of
@@ -141,7 +170,7 @@ only via the current version&#8217;s <code class="docutils literal"><span class=
 <code class="docutils literal"><span class="pre">knora-base:Resource</span></code>) are not versioned. The data that is attached to a
 resource, other than its values, can be modified.</p>
 <div class="section" id="deleting">
-<h4>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id8">Deleting</a><a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h4>
 <p>Knora does not actually delete resources or values; it only marks them as
 deleted. Deleted data is normally hidden. All resources and values must have
 the predicate <code class="docutils literal"><span class="pre">knora-</span> <span class="pre">base:isDeleted</span></code>, whose object is a boolean. If a
@@ -163,7 +192,7 @@ deleted resource or value.</p>
 </div>
 </div>
 <div class="section" id="linking">
-<span id="triplestore-linking-reqs"></span><h3>Linking<a class="headerlink" href="#linking" title="Permalink to this headline">¶</a></h3>
+<span id="triplestore-linking-reqs"></span><h3><a class="toc-backref" href="#id9">Linking</a><a class="headerlink" href="#linking" title="Permalink to this headline">¶</a></h3>
 <p>Knora API v1 treats a link between two resources as a value, but in RDF, links must be treated
 differently to other types of values. Knora needs to maintain information about the link,
 including permissions and a version history. Since the link does not have a unique IRI of its own, Knora
@@ -207,9 +236,9 @@ as the text value containing the reference.</p>
 </div>
 </div>
 <div class="section" id="design">
-<h2>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">Design</a><a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="responsibilities-of-responders">
-<h3>Responsibilities of Responders<a class="headerlink" href="#responsibilities-of-responders" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Responsibilities of Responders</a><a class="headerlink" href="#responsibilities-of-responders" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">ResourcesResponderV1</span></code> has sole responsibility for generating SPARQL to
 create and updating resources, and <code class="docutils literal"><span class="pre">ValuesResponderV1</span></code> has sole
 responsibility for generating SPARQL to create and update values. When a new
@@ -221,7 +250,7 @@ the resource and its values are created in a single SPARQL update operation,
 and hence in a single triplestore transaction.</p>
 </div>
 <div class="section" id="application-level-locking">
-<h3>Application-level Locking<a class="headerlink" href="#application-level-locking" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Application-level Locking</a><a class="headerlink" href="#application-level-locking" title="Permalink to this headline">¶</a></h3>
 <p>The &#8216;read committed&#8217; isolation level cannot prevent a scenario where two users
 want to add the same data at the same time. It is possible that both requests
 would do pre-update checks and simultaneously find that it is OK to add the
@@ -237,7 +266,7 @@ do pre-update checks in their own transactions, and finally to do the SPARQL
 update in its own transaction.</p>
 </div>
 <div class="section" id="ensuring-data-consistency">
-<h3>Ensuring Data Consistency<a class="headerlink" href="#ensuring-data-consistency" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id13">Ensuring Data Consistency</a><a class="headerlink" href="#ensuring-data-consistency" title="Permalink to this headline">¶</a></h3>
 <p>Knora enforces consistency constraints using three redundant mechanisms:</p>
 <ol class="arabic simple">
 <li>By doing pre-update checks in SPARQL SELECT queries.</li>
@@ -280,11 +309,11 @@ update code, because it relies on permission checks.</p>
 </div>
 </div>
 <div class="section" id="sparql-update-examples">
-<h2>SPARQL Update Examples<a class="headerlink" href="#sparql-update-examples" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">SPARQL Update Examples</a><a class="headerlink" href="#sparql-update-examples" title="Permalink to this headline">¶</a></h2>
 <p>The following sample SPARQL update code is simpler than what Knora actually does. It is included here to
 illustrate the way Knora&#8217;s SPARQL updates are structured and how concurrent updates are handled.</p>
 <div class="section" id="finding-a-value-iri-in-a-value-s-version-history">
-<span id="find-value-in-version-history"></span><h3>Finding a value IRI in a value&#8217;s version history<a class="headerlink" href="#finding-a-value-iri-in-a-value-s-version-history" title="Permalink to this headline">¶</a></h3>
+<span id="find-value-in-version-history"></span><h3><a class="toc-backref" href="#id15">Finding a value IRI in a value&#8217;s version history</a><a class="headerlink" href="#finding-a-value-iri-in-a-value-s-version-history" title="Permalink to this headline">¶</a></h3>
 <p>We will need this query below. If a value is present in a resource
 property&#8217;s version history, the query returns everything known about the
 value, or nothing otherwise:</p>
@@ -306,7 +335,7 @@ WHERE {
 </div>
 </div>
 <div class="section" id="creating-the-initial-version-of-a-value">
-<h3>Creating the initial version of a value<a class="headerlink" href="#creating-the-initial-version-of-a-value" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Creating the initial version of a value</a><a class="headerlink" href="#creating-the-initial-version-of-a-value" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
@@ -317,10 +346,7 @@ INSERT {
               knora-base:valueHasString &quot;&quot;&quot;Comment 1&quot;&quot;&quot; ;
               knora-base:attachedToUser &lt;http://data.knora.org/users/91e19f1e01&gt; ;
               knora-base:attachedToProject &lt;http://data.knora.org/projects/77275339&gt; ;
-              knora-base:hasDeletePermisson knora-admin:Owner ;
-              knora-base:hasModifyPermission knora-admin:ProjectMember ;
-              knora-base:hasViewPermission knora-admin:KnownUser ,
-                                           knora-admin:UnknownUser ;
+              knora-base:hasPermissions &quot;V knora-admin:KnownUser,knora-admin:UnknownUser|M knora-admin:ProjectMember&quot;  ;
               knora-base:valueTimestamp ?currentTime .
 
     ?resource ?property ?newValue .
@@ -344,7 +370,7 @@ query in <a class="reference internal" href="#find-value-in-version-history"><sp
 property&#8217;s version history.</p>
 </div>
 <div class="section" id="adding-a-new-version-of-a-value">
-<h3>Adding a new version of a value<a class="headerlink" href="#adding-a-new-version-of-a-value" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Adding a new version of a value</a><a class="headerlink" href="#adding-a-new-version-of-a-value" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
@@ -358,10 +384,7 @@ DELETE {
               knora-base:previousValue ?currentValue ;
               knora-base:attachedToUser &lt;http://data.knora.org/users/91e19f1e01&gt; ;
               knora-base:attachedToProject &lt;http://data.knora.org/projects/77275339&gt; ;
-              knora-base:hasDeletePermisson knora-admin:Owner ;
-              knora-base:hasModifyPermission knora-admin:ProjectMember ;
-              knora-base:hasViewPermission knora-admin:KnownUser ,
-                                           knora-admin:UnknownUser ;
+              knora-base:hasPermissions &quot;V knora-admin:KnownUser,knora-admin:UnknownUser|M knora-admin:ProjectMember&quot;  ;
               knora-base:valueTimestamp ?currentTime .
 
     ?resource ?property ?newValue .
@@ -400,7 +423,7 @@ in the value&#8217;s version history.</li>
 </ol>
 </div>
 <div class="section" id="getting-all-versions-of-a-value">
-<h3>Getting all versions of a value<a class="headerlink" href="#getting-all-versions-of-a-value" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Getting all versions of a value</a><a class="headerlink" href="#getting-all-versions-of-a-value" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 prefix knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;

@@ -51,8 +51,24 @@
         
   <div class="section" id="authentication-in-the-knora-api-server">
 <span id="authentication"></span><h1>Authentication in the Knora API Server<a class="headerlink" href="#authentication-in-the-knora-api-server" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#scope" id="id1">Scope</a></li>
+<li><a class="reference internal" href="#implementation" id="id2">Implementation</a></li>
+<li><a class="reference internal" href="#usage" id="id3">Usage</a><ul>
+<li><a class="reference internal" href="#checking-credentials" id="id4">Checking Credentials</a></li>
+<li><a class="reference internal" href="#web-client-login-logout" id="id5">Web client (Login/Logout)</a></li>
+<li><a class="reference internal" href="#submitting-credentials-in-the-url-or-in-the-http-authentication-header" id="id6">Submitting Credentials in the URL or in the HTTP Authentication Header</a></li>
+<li><a class="reference internal" href="#workflow" id="id7">Workflow</a></li>
+<li><a class="reference internal" href="#skipping-authentication" id="id8">Skipping Authentication</a></li>
+<li><a class="reference internal" href="#sipi-media-server" id="id9">Sipi (Media Server)</a></li>
+<li><a class="reference internal" href="#improving-security" id="id10">Improving Security</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Scope</a><a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
 <p>Authentication is the process of making sure that if someone is
 accessing something that then this someone is actually also the someone
 he pretends to be. The process of making sure that someone is
@@ -61,7 +77,7 @@ described in the section on authorization in the Knora base ontology
 document. TODO: add a link to this.</p>
 </div>
 <div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Implementation</a><a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 <p>The authentication in Knora is based on Basic Auth
 <a class="reference external" href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP basic authentication</a>, URL parameters, and cookies. This means that
 on every request (to any of the routes), an authentication header, URL
@@ -74,9 +90,9 @@ containing an expired session id. In this case, the default user is
 assumed.</p>
 </div>
 <div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Usage</a><a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="checking-credentials">
-<h3>Checking Credentials<a class="headerlink" href="#checking-credentials" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Checking Credentials</a><a class="headerlink" href="#checking-credentials" title="Permalink to this headline">¶</a></h3>
 <p>To check the credentials and create a &#8216;session&#8217;, e.g., by a login window
 in the client, there is a special route called <strong>/v1/authentication</strong>,
 which returns following for each case:</p>
@@ -116,7 +132,7 @@ user is deemed authenticated.</p>
 </div>
 </div>
 <div class="section" id="web-client-login-logout">
-<h3>Web client (Login/Logout)<a class="headerlink" href="#web-client-login-logout" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Web client (Login/Logout)</a><a class="headerlink" href="#web-client-login-logout" title="Permalink to this headline">¶</a></h3>
 <p>When a web client accesses the <strong>/v1/authentication</strong> route
 successfully, it gets back a cookie. To <strong>logout</strong> the client can call
 the same route and provide the logout parameter
@@ -124,7 +140,7 @@ the same route and provide the logout parameter
 the session id from the cookie on the client.</p>
 </div>
 <div class="section" id="submitting-credentials-in-the-url-or-in-the-http-authentication-header">
-<h3>Submitting Credentials in the URL or in the HTTP Authentication Header<a class="headerlink" href="#submitting-credentials-in-the-url-or-in-the-http-authentication-header" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Submitting Credentials in the URL or in the HTTP Authentication Header</a><a class="headerlink" href="#submitting-credentials-in-the-url-or-in-the-http-authentication-header" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt>As an alternative to creating a session, the client may also submit the credentials:</dt>
 <dd><ul class="first last simple">
@@ -136,7 +152,7 @@ the credentials can simply be submitted as a tuple with each request using the p
 </dl>
 </div>
 <div class="section" id="workflow">
-<h3>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Workflow</a><a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>The login form on the client can use <em>/v1/authentication</em> to check if
 the username/password combination provided by the user is correct. The
@@ -152,14 +168,14 @@ credentials is not needed. Naturally, this won&#8217;t work for a web client
 using cookies for authentication.</p>
 </div>
 <div class="section" id="skipping-authentication">
-<h3>Skipping Authentication<a class="headerlink" href="#skipping-authentication" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Skipping Authentication</a><a class="headerlink" href="#skipping-authentication" title="Permalink to this headline">¶</a></h3>
 <p>There is the possibility to turn skipping authentication on and use a hardcoded
 user (Test User). In <strong>application.conf</strong> set the
 <code class="docutils literal"><span class="pre">skip-authentication</span> <span class="pre">=</span> <span class="pre">true</span></code> and Test User will be always
 assumed.</p>
 </div>
 <div class="section" id="sipi-media-server">
-<h3>Sipi (Media Server)<a class="headerlink" href="#sipi-media-server" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Sipi (Media Server)</a><a class="headerlink" href="#sipi-media-server" title="Permalink to this headline">¶</a></h3>
 <p>For authentication to work with the media server, we need to add support
 for cookies. At the moment the SALSAH-App would set BasicAuth heathers,
 but this only works for AJAX requests using <code class="docutils literal"><span class="pre">SALSAH.ApiGet</span></code> (<code class="docutils literal"><span class="pre">Put</span></code>, etc.).
@@ -173,7 +189,7 @@ RepresentationResponderV1 should have all the information it needs to
 filter the result based on the users permissions.</p>
 </div>
 <div class="section" id="improving-security">
-<h3>Improving Security<a class="headerlink" href="#improving-security" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Improving Security</a><a class="headerlink" href="#improving-security" title="Permalink to this headline">¶</a></h3>
 <p>In the first iteration, the username/password would be sent in clear
 text. Since we will use HTTPS this shouldn&#8217;t be a problem. The second
 iteration, could encrypt the username/password.</p>

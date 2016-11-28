@@ -51,12 +51,20 @@
         
   <div class="section" id="how-to-add-an-api-route">
 <span id="how-to-add-a-route"></span><h1>How to Add an API Route<a class="headerlink" href="#how-to-add-an-api-route" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#write-sparql-templates" id="id1">Write SPARQL templates</a></li>
+<li><a class="reference internal" href="#write-responder-request-and-response-messages" id="id2">Write Responder Request and Response Messages</a></li>
+<li><a class="reference internal" href="#write-a-responder" id="id3">Write a Responder</a></li>
+<li><a class="reference internal" href="#write-a-route" id="id4">Write a Route</a></li>
+</ul>
+</div>
 <div class="section" id="write-sparql-templates">
-<h2>Write SPARQL templates<a class="headerlink" href="#write-sparql-templates" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Write SPARQL templates</a><a class="headerlink" href="#write-sparql-templates" title="Permalink to this headline">¶</a></h2>
 <p>Add any SPARQL templates you need to <code class="docutils literal"><span class="pre">src/main/twirl/queries/sparql/v1</span></code>, using the <a class="reference external" href="https://github.com/playframework/twirl">Twirl</a> template engine.</p>
 </div>
 <div class="section" id="write-responder-request-and-response-messages">
-<h2>Write Responder Request and Response Messages<a class="headerlink" href="#write-responder-request-and-response-messages" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Write Responder Request and Response Messages</a><a class="headerlink" href="#write-responder-request-and-response-messages" title="Permalink to this headline">¶</a></h2>
 <p>Add a file to the <code class="docutils literal"><span class="pre">org.knora.webapi.messages.v1respondermessages</span></code>
 package, containing case classes for your responder&#8217;s request and
 response messages. Add a trait that the responder&#8217;s request messages
@@ -67,7 +75,7 @@ method that converts the response message to a JSON AST using
 <a class="reference external" href="https://github.com/spray/spray-json">spray-json</a>.</p>
 </div>
 <div class="section" id="write-a-responder">
-<h2>Write a Responder<a class="headerlink" href="#write-a-responder" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Write a Responder</a><a class="headerlink" href="#write-a-responder" title="Permalink to this headline">¶</a></h2>
 <p>Write an Akka actor class that extends <code class="docutils literal"><span class="pre">ResponderV1</span></code>, and add it to
 the <code class="docutils literal"><span class="pre">org.knora.webapi.responders.v1</span></code> package.</p>
 <p>Give your responder a <code class="docutils literal"><span class="pre">receive()</span></code> method that handles each of your
@@ -84,7 +92,7 @@ match messages that extend your request message trait, and forward them
 to that pool.</p>
 </div>
 <div class="section" id="write-a-route">
-<h2>Write a Route<a class="headerlink" href="#write-a-route" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Write a Route</a><a class="headerlink" href="#write-a-route" title="Permalink to this headline">¶</a></h2>
 <p>Add an object to the <code class="docutils literal"><span class="pre">org.knora.webapi.routing.v1</span></code> package for your
 route. Your object should look something like this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">akka.actor.ActorSystem</span>

@@ -51,6 +51,26 @@
         
   <div class="section" id="build-process">
 <span id="webapi-build-process"></span><h1>Build Process<a class="headerlink" href="#build-process" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#building-and-running" id="id3">Building and Running</a><ul>
+<li><a class="reference internal" href="#using-fuseki" id="id4">Using Fuseki</a></li>
+<li><a class="reference internal" href="#using-graphdb" id="id5">Using GraphDB</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#run-the-automated-tests" id="id6">Run the automated tests</a><ul>
+<li><a class="reference internal" href="#id1" id="id7">Using Fuseki</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#continuous-integration" id="id8">Continuous Integration</a></li>
+<li><a class="reference internal" href="#sbt-build-configuration" id="id9">SBT Build Configuration</a></li>
+<li><a class="reference internal" href="#webapi-server-startup-flags" id="id10">Webapi Server Startup-Flags</a><ul>
+<li><a class="reference internal" href="#loaddemodata-flag" id="id11"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a></li>
+<li><a class="reference internal" href="#allowresettriplestorecontentoperationoverhttp-flag" id="id12"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <dl class="docutils">
 <dt>TODO: complete this file.</dt>
 <dd><ul class="first last simple">
@@ -61,9 +81,9 @@
 </dd>
 </dl>
 <div class="section" id="building-and-running">
-<h2>Building and Running<a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Building and Running</a><a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="using-fuseki">
-<h3>Using Fuseki<a class="headerlink" href="#using-fuseki" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Using Fuseki</a><a class="headerlink" href="#using-fuseki" title="Permalink to this headline">¶</a></h3>
 <p>Start the provided Fuseki triplestore:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/triplestores/fuseki
 $ ./fuseki-server
@@ -87,7 +107,7 @@ $ sbt
 </div>
 </div>
 <div class="section" id="using-graphdb">
-<h3>Using GraphDB<a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Using GraphDB</a><a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
 <p>The archive with the newest supported version of the GraphDB-SE triplestore is provided under
 <code class="docutils literal"><span class="pre">`triplestores/graphdb-se-7`</span></code>. Please keep in mind, that GraphDB-SE must be licensed separately by the user, and that
 no license file is provided in the repository. GraphDB-SE will not run without a license file.</p>
@@ -120,9 +140,9 @@ inside this folder.</li>
 </div>
 </div>
 <div class="section" id="run-the-automated-tests">
-<h2>Run the automated tests<a class="headerlink" href="#run-the-automated-tests" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Run the automated tests</a><a class="headerlink" href="#run-the-automated-tests" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>Using Fuseki<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Using Fuseki</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Make sure you&#8217;ve started Fuseki as shown above. Then at the SBT prompt:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">fuseki</span><span class="p">:</span><span class="n">test</span>
 </pre></div>
@@ -130,7 +150,7 @@ inside this folder.</li>
 </div>
 </div>
 <div class="section" id="continuous-integration">
-<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Continuous Integration</a><a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
 <p>For continuous integration testing, we use Travis-CI. Every commit pushed to the git repository or every
 pull request, triggers the build. Additionaly, in Github there is a litle checkmark beside every commit, signaling the
 status of the build (successful, unsucessful, ongoing).</p>
@@ -185,7 +205,7 @@ looks like this:</p>
 </div></blockquote>
 </div>
 <div class="section" id="sbt-build-configuration">
-<h2>SBT Build Configuration<a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">SBT Build Configuration</a><a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sbt._</span>
 <span class="kn">import</span> <span class="nn">sbt.Keys._</span>
 <span class="kn">import</span> <span class="nn">spray.revolver.RevolverPlugin._</span>
@@ -421,7 +441,7 @@ looks like this:</p>
 </div>
 </div>
 <div class="section" id="webapi-server-startup-flags">
-<span id="id2"></span><h2>Webapi Server Startup-Flags<a class="headerlink" href="#webapi-server-startup-flags" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id10">Webapi Server Startup-Flags</a><a class="headerlink" href="#webapi-server-startup-flags" title="Permalink to this headline">¶</a></h2>
 <p>The Webapi-Server can be started with a number of flags. These flags can be supplied either to the <code class="docutils literal"><span class="pre">reStart</span></code> or the
 <code class="docutils literal"><span class="pre">run</span></code> command in sbt, e.g.,:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ sbt
@@ -434,7 +454,7 @@ looks like this:</p>
 </pre></div>
 </div>
 <div class="section" id="loaddemodata-flag">
-<h3><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag<a class="headerlink" href="#loaddemodata-flag" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a><a class="headerlink" href="#loaddemodata-flag" title="Permalink to this headline">¶</a></h3>
 <p>When the webapi-server is started with the <code class="docutils literal"><span class="pre">loadDemoData</span></code> flag, then at startup, the data which is configured in
 <code class="docutils literal"><span class="pre">application.conf</span></code> under the <code class="docutils literal"><span class="pre">app.triplestore.rdf-data</span></code> key is loaded into the triplestore, and any data in the
 triplestore is removed beforehand.</p>
@@ -445,7 +465,7 @@ triplestore is removed beforehand.</p>
 </div>
 </div>
 <div class="section" id="allowresettriplestorecontentoperationoverhttp-flag">
-<h3><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag<a class="headerlink" href="#allowresettriplestorecontentoperationoverhttp-flag" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a><a class="headerlink" href="#allowresettriplestorecontentoperationoverhttp-flag" title="Permalink to this headline">¶</a></h3>
 <p>When the webapi.server is started with the <code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> flag, then the
 <code class="docutils literal"><span class="pre">v1/store/ResetTriplestoreContent</span></code> route is activated. This route accepts a <code class="docutils literal"><span class="pre">POST</span></code> request, with a json payload
 consisting of the following exemplary content:</p>

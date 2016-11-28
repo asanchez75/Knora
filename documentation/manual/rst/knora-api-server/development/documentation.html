@@ -51,12 +51,20 @@
         
   <div class="section" id="documentation-guidelines">
 <span id="documentation"></span><h1>Documentation Guidelines<a class="headerlink" href="#documentation-guidelines" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#sections" id="id1">Sections</a></li>
+<li><a class="reference internal" href="#cross-referencing" id="id2">Cross-referencing</a></li>
+<li><a class="reference internal" href="#build-the-documentation" id="id3">Build the documentation</a></li>
+<li><a class="reference internal" href="#installing-sphinx-on-os-x" id="id4">Installing Sphinx on OS X</a></li>
+</ul>
+</div>
 <p>The Knora documentation uses <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> as its markup language and is
 built using <a class="reference external" href="http://sphinx.pocoo.org">Sphinx</a>.</p>
 <p>For more details, see <a class="reference external" href="http://sphinx.pocoo.org/contents.html">The Sphinx Documentation</a>
 and <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Quick reStructuredText</a>.</p>
 <div class="section" id="sections">
-<h2>Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Sections</a><a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h2>
 <p>Section headings are very flexible in reST. We use the following convention in
 the Knora documentation based on the <a class="reference external" href="https://docs.python.org/devguide/documenting.html">Python Documentation Conventions</a>:</p>
 <ul class="simple">
@@ -69,7 +77,7 @@ the Knora documentation based on the <a class="reference external" href="https:/
 </ul>
 </div>
 <div class="section" id="cross-referencing">
-<h2>Cross-referencing<a class="headerlink" href="#cross-referencing" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Cross-referencing</a><a class="headerlink" href="#cross-referencing" title="Permalink to this headline">¶</a></h2>
 <p>Sections that may be cross-referenced across the documentation should be marked
 with a reference. To mark a section use <code class="docutils literal"><span class="pre">..</span> <span class="pre">_ref-name:</span></code> before the section
 heading. The section can then be linked with <code class="docutils literal"><span class="pre">:ref:`ref-name`</span></code>. These are
@@ -103,7 +111,7 @@ name &quot;Knora Section&quot;.
 </div>
 </div>
 <div class="section" id="build-the-documentation">
-<h2>Build the documentation<a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Build the documentation</a><a class="headerlink" href="#build-the-documentation" title="Permalink to this headline">¶</a></h2>
 <p>First install <a class="reference external" href="http://sphinx.pocoo.org">Sphinx</a>. See below.</p>
 <p>For the html version of the docs:</p>
 <div class="highlight-rest"><div class="highlight"><pre><span></span>sbt sphinx:generateHtml
@@ -121,7 +129,7 @@ open &lt;project-dir&gt;/akka-docs/target/sphinx/latex/AkkaScala.pdf
 </div>
 </div>
 <div class="section" id="installing-sphinx-on-os-x">
-<h2>Installing Sphinx on OS X<a class="headerlink" href="#installing-sphinx-on-os-x" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Installing Sphinx on OS X</a><a class="headerlink" href="#installing-sphinx-on-os-x" title="Permalink to this headline">¶</a></h2>
 <p>Install <a class="reference external" href="https://github.com/mxcl/homebrew">Homebrew</a>.</p>
 <p>Install Python with Homebrew:</p>
 <div class="highlight-rest"><div class="highlight"><pre><span></span>brew install python

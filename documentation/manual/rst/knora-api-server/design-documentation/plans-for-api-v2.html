@@ -51,26 +51,39 @@
         
   <div class="section" id="plans-for-knora-api-v2">
 <h1>Plans for Knora API v2<a class="headerlink" href="#plans-for-knora-api-v2" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#naming" id="id2">Naming</a></li>
+<li><a class="reference internal" href="#structure" id="id3">Structure</a></li>
+<li><a class="reference internal" href="#redundancy" id="id4">Redundancy</a></li>
+<li><a class="reference internal" href="#efficiency" id="id5">Efficiency</a></li>
+<li><a class="reference internal" href="#suitability-for-non-gui-applications" id="id6">Suitability for non-GUI applications</a></li>
+<li><a class="reference internal" href="#working-with-multiple-projects" id="id7">Working with multiple projects</a></li>
+<li><a class="reference internal" href="#annotating-values" id="id8">Annotating values</a></li>
+<li><a class="reference internal" href="#typing" id="id9">Typing</a></li>
+<li><a class="reference internal" href="#json-ld" id="id10">JSON-LD</a></li>
+</ul>
+</div>
 <div class="section" id="naming">
-<h2>Naming<a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Naming</a><a class="headerlink" href="#naming" title="Permalink to this headline">¶</a></h2>
 <p>In API v1, the same data types are named inconsistently (<code class="docutils literal"><span class="pre">resinfo</span></code>,
 <code class="docutils literal"><span class="pre">res_info</span></code>) or unclearly (<code class="docutils literal"><span class="pre">value_restype</span></code> is actually a label).
 Version 2 should adopt a clear, consistent naming convention.</p>
 </div>
 <div class="section" id="structure">
-<h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Structure</a><a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
 <p>API v1 sometimes uses parallel array structures to represent multiple
 complex objects, e.g. the values of resource properties or the items in
 a resource&#8217;s context. Version 2 should use nested structures instead.</p>
 </div>
 <div class="section" id="redundancy">
-<h2>Redundancy<a class="headerlink" href="#redundancy" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Redundancy</a><a class="headerlink" href="#redundancy" title="Permalink to this headline">¶</a></h2>
 <p>Some information in API v1 is presented redundantly, e.g. <code class="docutils literal"><span class="pre">resinfo</span></code>
 and <code class="docutils literal"><span class="pre">resdata</span></code>, and the <code class="docutils literal"><span class="pre">__location__</span></code> property. This should be
 cleaned up.</p>
 </div>
 <div class="section" id="efficiency">
-<h2>Efficiency<a class="headerlink" href="#efficiency" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Efficiency</a><a class="headerlink" href="#efficiency" title="Permalink to this headline">¶</a></h2>
 <p>Some queries, like the resource context query, produce so much data that
 they cannot be made efficient. We should consider breaking up these API
 calls into smaller chunks.</p>
@@ -82,7 +95,7 @@ clients to request only the information they actually need, improving
 performance and reducing server load.</p>
 </div>
 <div class="section" id="suitability-for-non-gui-applications">
-<h2>Suitability for non-GUI applications<a class="headerlink" href="#suitability-for-non-gui-applications" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Suitability for non-GUI applications</a><a class="headerlink" href="#suitability-for-non-gui-applications" title="Permalink to this headline">¶</a></h2>
 <p>When returning the &#8216;full&#8217; information about a resource, the API currently
 includes valueless properties to reflect the possible properties in the
 resource type (if a property has no value, or only has values that the user
@@ -100,7 +113,7 @@ separate <em>displaying</em> a resource from indicating which properties a
 particular user can add.</p>
 </div>
 <div class="section" id="working-with-multiple-projects">
-<h2>Working with multiple projects<a class="headerlink" href="#working-with-multiple-projects" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Working with multiple projects</a><a class="headerlink" href="#working-with-multiple-projects" title="Permalink to this headline">¶</a></h2>
 <p>The user will be able to choose which project to use for an update.</p>
 <p>We will handle the case where Project A defines a resource class X, and
 Project B declares a resource class Y with additional properties,
@@ -114,18 +127,18 @@ user can choose to see just what&#8217;s defined in their own project or to
 include definitions from elsewhere.</p>
 </div>
 <div class="section" id="annotating-values">
-<h2>Annotating values<a class="headerlink" href="#annotating-values" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Annotating values</a><a class="headerlink" href="#annotating-values" title="Permalink to this headline">¶</a></h2>
 <p>In API v1, only resources can be annotated. In v2, it will also be
 possible to annotate values.</p>
 </div>
 <div class="section" id="typing">
-<h2>Typing<a class="headerlink" href="#typing" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">Typing</a><a class="headerlink" href="#typing" title="Permalink to this headline">¶</a></h2>
 <p>Each data item should have a consistent data type. In an JSON object,
 the same name should always contain a value of the same type. Numbers
 should be represented as numbers rather than as strings.</p>
 </div>
 <div class="section" id="json-ld">
-<h2>JSON-LD<a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">JSON-LD</a><a class="headerlink" href="#json-ld" title="Permalink to this headline">¶</a></h2>
 <p>Consider using <a class="reference external" href="http://json-ld.org/">JSON-LD</a> to specify data types
 and semantics within API responses, instead of providing separate JSON
 schemas.</p>
