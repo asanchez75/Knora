@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
-    <link rel="up" title="The Knora Ontologies" href="index.html" />
     <link rel="next" title="The Knora API Server" href="../knora-api-server/index.html" />
     <link rel="prev" title="The Knora Ontologies" href="index.html" /> 
   </head>
@@ -231,7 +230,7 @@ Therefore, the Knora base ontology describes structured value types that
 can store this type of metadata. In the diagram below, a book (<code class="docutils literal"><span class="pre">ex:book2</span></code>)
 has a title (identified by the predicate <code class="docutils literal"><span class="pre">ex:title</span></code>) and a publication
 date (<code class="docutils literal"><span class="pre">ex:pubdate</span></code>), each of which has some metadata.</p>
-<img src="../../_images/graphviz-6a4db3b234efc2abf46d0edb436f5d8af0fff746.png" alt="digraph {
+<img src="../../_images/graphviz-8a45903275953068bc70f1708fcf6176b6eb34b7.png" alt="digraph {
     book [label = &quot;ex:book2&quot;, style = filled, fontcolor = white, color = navy, fillcolor = slateblue4]
 
     {
@@ -247,8 +246,8 @@ date (<code class="docutils literal"><span class="pre">ex:pubdate</span></code>)
         titleStr [label = &quot;‘King Lear’&quot;]
         titleCreationDate [label = &quot;2015-08-12 13:00&quot;]
 
-        startJDC [label = &quot;2364669&quot;]
-        endJDC [label = &quot;2364669&quot;]
+        startJDN [label = &quot;2364669&quot;]
+        endJDN [label = &quot;2364669&quot;]
         pubdateCreationDate [label = &quot;2015-08-12 13:03&quot;]
     }
 
@@ -260,8 +259,8 @@ date (<code class="docutils literal"><span class="pre">ex:pubdate</span></code>)
     title -&gt; titleStr [label = &quot;kb:valueHasString&quot;]
     title -&gt; titleCreationDate [label = &quot;kb:valueCreationDate&quot;]
 
-    pubdate -&gt; startJDC [label = &quot;kb:valueHasStartJDC&quot;]
-    pubdate -&gt; endJDC [label = &quot;kb:valueHasEndJDC&quot;]
+    pubdate -&gt; startJDN [label = &quot;kb:valueHasStartJDN&quot;]
+    pubdate -&gt; endJDN [label = &quot;kb:valueHasEndJDN&quot;]
     pubdate -&gt; pubdateCreationDate [label = &quot;kb:valueCreationDate&quot;]
  }" />
 <div class="section" id="projects">
@@ -361,7 +360,7 @@ stores such data outside the triplestore, in ordinary files. A resource
 can have one or more files attached to it. For each file, there is a
 <code class="docutils literal"><span class="pre">kb:FileValue</span></code> in the triplestore containing metadata about the file
 (see <a class="reference internal" href="#knora-base-filevalue"><span class="std std-ref">FileValue</span></a>). A resource that has file values
-must belong to of the subclasses of <code class="docutils literal"><span class="pre">kb:Representation</span></code>. The base
+must belong to one of the subclasses of <code class="docutils literal"><span class="pre">kb:Representation</span></code>. The base
 class <code class="docutils literal"><span class="pre">Representation</span></code>, which is not intended to be used directly, has
 this property:</p>
 <dl class="docutils">
@@ -411,7 +410,8 @@ project:</p>
 <dd>Represents a region of a <code class="docutils literal"><span class="pre">Representation</span></code> (see <a class="reference internal" href="#knora-base-representations"><span class="std std-ref">Representations</span></a>).</dd>
 <dt><code class="docutils literal"><span class="pre">Annotation</span></code></dt>
 <dd>Represents an annotation of a resource. The <code class="docutils literal"><span class="pre">hasComment</span></code> property
-points to the text of the annotation.</dd>
+points to the text of the annotation, represented as a
+<code class="docutils literal"><span class="pre">kb:TextValue</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">LinkObj</span></code></dt>
 <dd>Represents a link that connects two or more resources. A <code class="docutils literal"><span class="pre">LinkObj</span></code>
 has a <code class="docutils literal"><span class="pre">hasLinkTo</span></code> property pointing to each resource that it
@@ -516,12 +516,12 @@ regardless of the calendar in which they were entered. Properties:</p>
 <dt><code class="docutils literal"><span class="pre">valueHasCalendar</span></code> (1)</dt>
 <dd>The name of the calendar in which the date should be displayed.
 Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></code> and <code class="docutils literal"><span class="pre">JULIAN</span></code> are supported.</dd>
-<dt><code class="docutils literal"><span class="pre">valueHasStartJDC</span></code> (1)</dt>
+<dt><code class="docutils literal"><span class="pre">valueHasStartJDN</span></code> (1)</dt>
 <dd>The Julian Day Number of the start of the period (an
 <code class="docutils literal"><span class="pre">xsd:integer</span></code>).</dd>
 <dt><code class="docutils literal"><span class="pre">valueHasStartPrecision</span></code> (1)</dt>
 <dd>The precision of the start of the period.</dd>
-<dt><code class="docutils literal"><span class="pre">valueHasEndJDC</span></code> (1)</dt>
+<dt><code class="docutils literal"><span class="pre">valueHasEndJDN</span></code> (1)</dt>
 <dd>The Julian Day Number of the end of the period (an <code class="docutils literal"><span class="pre">xsd:integer</span></code>).</dd>
 <dt><code class="docutils literal"><span class="pre">valueHasEndPrecision</span></code> (1)</dt>
 <dd>The precision of the end of the period.</dd>
@@ -570,12 +570,12 @@ coordinates. Property:</p>
 </div>
 <div class="section" id="geonamevalue">
 <h5><a class="toc-backref" href="#id27">GeonameValue</a><a class="headerlink" href="#geonamevalue" title="Permalink to this headline">¶</a></h5>
-<p>Represents a geolocation, using the numerical codes found at
+<p>Represents a geolocation, using the identifiers found at
 <a class="reference external" href="http://geonames.org">GeoNames</a>. Property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasGeonameCode</span></code> (1)</dt>
-<dd>the numerical code of a geographical feature from
-<a class="reference external" href="http://geonames.org">GeoNames</a>, represented as an <code class="docutils literal"><span class="pre">xsd:integer</span></code>.</dd>
+<dd>the identifier of a geographical feature from
+<a class="reference external" href="http://geonames.org">GeoNames</a>, represented as an <code class="docutils literal"><span class="pre">xsd:string</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="intervalvalue">
@@ -990,7 +990,7 @@ representing persons, a text could be marked up so that each time a
 person’s name is mentioned, a <code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> connects the name to
 the Knora resource describing that person. Property:</p>
 <dl class="docutils">
-<dt>standoffTagHasLink (1)</dt>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasLink</span></code> (1)</dt>
 <dd>The IRI of the resource that is referred to.</dd>
 </dl>
 <p>One of the design goals of the Knora ontology is to make it easy and
@@ -1459,7 +1459,7 @@ user’s possibility to freely annotate any ranges in the text.</td></tr>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

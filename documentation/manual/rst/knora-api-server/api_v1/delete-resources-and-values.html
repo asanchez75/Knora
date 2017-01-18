@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Using API V1" href="index.html" />
     <link rel="next" title="SALSAH" href="../../salsah/index.html" />
     <link rel="prev" title="Changing a Value" href="changing-values.html" /> 
   </head>
@@ -51,23 +50,26 @@
         
   <div class="section" id="deleting-resources-and-values">
 <span id="delete-resources-and-values"></span><h1>Deleting Resources and Values<a class="headerlink" href="#deleting-resources-and-values" title="Permalink to this headline">¶</a></h1>
-<p>In order to delete a resource or a value, the HTTP method <code class="docutils literal"><span class="pre">DELETE</span></code> has to be used.
-Deleting resources or values requires authentication.</p>
-<div class="section" id="delete-a-resource">
-<h2>Delete a Resource<a class="headerlink" href="#delete-a-resource" title="Permalink to this headline">¶</a></h2>
+<p>Knora does not actually delete resources or values; it just marks them as deleted. To mark a resource or value
+as deleted, you must use the HTTP method <code class="docutils literal"><span class="pre">DELETE</span></code> has to be used. This requires authentication.</p>
+<div class="section" id="mark-a-resource-as-deleted">
+<h2>Mark a Resource as Deleted<a class="headerlink" href="#mark-a-resource-as-deleted" title="Permalink to this headline">¶</a></h2>
 <p>The delete request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">resources</span></code> path segment.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">DELETE</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">resources</span><span class="o">/</span><span class="n">resourceIRI</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>HTTP DELETE to http://host/resources/resourceIRI?deleteComment=String
 </pre></div>
 </div>
-<p>Please note that the resource IRI has to be URL encoded.</p>
+<p>The resource IRI must be URL-encoded. The <code class="docutils literal"><span class="pre">deleteComment</span></code> is an optional comment explaining why the resource
+is being marked as deleted.</p>
 </div>
-<div class="section" id="delete-a-value">
-<h2>Delete a Value<a class="headerlink" href="#delete-a-value" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mark-a-value-as-deleted">
+<h2>Mark a Value as Deleted<a class="headerlink" href="#mark-a-value-as-deleted" title="Permalink to this headline">¶</a></h2>
 <p>The delete request has to be sent to the Knora server using the <code class="docutils literal"><span class="pre">values</span></code> path segment, providing the valueIRI:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">DELETE</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">values</span><span class="o">/</span><span class="n">valueIRI</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>HTTP DELETE to http://host/values/valueIRI?deleteComment=String
 </pre></div>
 </div>
-<p>Please note that the value IRI has to be URL encoded.</p>
+<p>The value IRI must be URL-encoded. The <code class="docutils literal"><span class="pre">deleteComment</span></code> is an optional comment explaining why the value is
+being marked as deleted.</p>
+<p>Once a value has been marked as deleted, no new versions of it can be made.</p>
 </div>
 </div>
 
@@ -87,7 +89,7 @@ Deleting resources or values requires authentication.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

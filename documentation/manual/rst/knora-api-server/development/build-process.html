@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Developing the Knora API Server" href="index.html" />
     <link rel="next" title="Setup IntelliJ for development of Knora" href="intellij-config.html" />
     <link rel="prev" title="Starting GraphDB-SE 7" href="graphdb.html" /> 
   </head>
@@ -53,20 +52,22 @@
 <span id="webapi-build-process"></span><h1>Build Process<a class="headerlink" href="#build-process" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#building-and-running" id="id3">Building and Running</a><ul>
-<li><a class="reference internal" href="#using-fuseki" id="id4">Using Fuseki</a></li>
-<li><a class="reference internal" href="#using-graphdb" id="id5">Using GraphDB</a></li>
+<li><a class="reference internal" href="#building-and-running" id="id2">Building and Running</a><ul>
+<li><a class="reference internal" href="#using-fuseki" id="id3">Using Fuseki</a></li>
+<li><a class="reference internal" href="#using-graphdb" id="id4">Using GraphDB</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#run-the-automated-tests" id="id6">Run the automated tests</a><ul>
-<li><a class="reference internal" href="#id1" id="id7">Using Fuseki</a></li>
+<li><a class="reference internal" href="#running-the-automated-tests" id="id5">Running the automated tests</a><ul>
+<li><a class="reference internal" href="#running-tests-with-fuseki" id="id6">Running Tests with Fuseki</a></li>
+<li><a class="reference internal" href="#running-tests-with-graphdb" id="id7">Running Tests with GraphDB</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#continuous-integration" id="id8">Continuous Integration</a></li>
-<li><a class="reference internal" href="#sbt-build-configuration" id="id9">SBT Build Configuration</a></li>
-<li><a class="reference internal" href="#webapi-server-startup-flags" id="id10">Webapi Server Startup-Flags</a><ul>
-<li><a class="reference internal" href="#loaddemodata-flag" id="id11"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a></li>
-<li><a class="reference internal" href="#allowresettriplestorecontentoperationoverhttp-flag" id="id12"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a></li>
+<li><a class="reference internal" href="#load-testing-on-mac-os-x" id="id8">Load Testing on Mac OS X</a></li>
+<li><a class="reference internal" href="#continuous-integration" id="id9">Continuous Integration</a></li>
+<li><a class="reference internal" href="#sbt-build-configuration" id="id10">SBT Build Configuration</a></li>
+<li><a class="reference internal" href="#webapi-server-startup-flags" id="id11">Webapi Server Startup-Flags</a><ul>
+<li><a class="reference internal" href="#loaddemodata-flag" id="id12"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a></li>
+<li><a class="reference internal" href="#allowresettriplestorecontentoperationoverhttp-flag" id="id13"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a></li>
 </ul>
 </li>
 </ul>
@@ -81,9 +82,9 @@
 </dd>
 </dl>
 <div class="section" id="building-and-running">
-<h2><a class="toc-backref" href="#id3">Building and Running</a><a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Building and Running</a><a class="headerlink" href="#building-and-running" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="using-fuseki">
-<h3><a class="toc-backref" href="#id4">Using Fuseki</a><a class="headerlink" href="#using-fuseki" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">Using Fuseki</a><a class="headerlink" href="#using-fuseki" title="Permalink to this headline">¶</a></h3>
 <p>Start the provided Fuseki triplestore:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/triplestores/fuseki
 $ ./fuseki-server
@@ -107,7 +108,7 @@ $ sbt
 </div>
 </div>
 <div class="section" id="using-graphdb">
-<h3><a class="toc-backref" href="#id5">Using GraphDB</a><a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Using GraphDB</a><a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
 <p>The archive with the newest supported version of the GraphDB-SE triplestore is provided under
 <code class="docutils literal"><span class="pre">`triplestores/graphdb-se-7`</span></code>. Please keep in mind, that GraphDB-SE must be licensed separately by the user, and that
 no license file is provided in the repository. GraphDB-SE will not run without a license file.</p>
@@ -139,18 +140,33 @@ inside this folder.</li>
 <p>After the GraphDB inside the docker container has started, you can find the GraphDB workbench here: <a class="reference external" href="http://localhost:7200">http://localhost:7200</a></p>
 </div>
 </div>
-<div class="section" id="run-the-automated-tests">
-<h2><a class="toc-backref" href="#id6">Run the automated tests</a><a class="headerlink" href="#run-the-automated-tests" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3><a class="toc-backref" href="#id7">Using Fuseki</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="running-the-automated-tests">
+<h2><a class="toc-backref" href="#id5">Running the automated tests</a><a class="headerlink" href="#running-the-automated-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="running-tests-with-fuseki">
+<h3><a class="toc-backref" href="#id6">Running Tests with Fuseki</a><a class="headerlink" href="#running-tests-with-fuseki" title="Permalink to this headline">¶</a></h3>
 <p>Make sure you&#8217;ve started Fuseki as shown above. Then at the SBT prompt:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">fuseki</span><span class="p">:</span><span class="n">test</span>
 </pre></div>
 </div>
 </div>
+<div class="section" id="running-tests-with-graphdb">
+<h3><a class="toc-backref" href="#id7">Running Tests with GraphDB</a><a class="headerlink" href="#running-tests-with-graphdb" title="Permalink to this headline">¶</a></h3>
+<p>Make sure GraphDB is running. Then at the SBT prompt:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">graphdb</span><span class="p">:</span><span class="n">test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="load-testing-on-mac-os-x">
+<h2><a class="toc-backref" href="#id8">Load Testing on Mac OS X</a><a class="headerlink" href="#load-testing-on-mac-os-x" title="Permalink to this headline">¶</a></h2>
+<p>To test the Knora API server with many concurrent connections on Mac OS X, you
+will need to adjust some kernel parameters to allow more open connections, to
+recycle ephemeral ports more quickly, and to use a wider range of ephemeral
+port numbers. The script <code class="docutils literal"><span class="pre">webapi/scripts/os-x-kernel-test-config.sh</span></code> will do
+this.</p>
 </div>
 <div class="section" id="continuous-integration">
-<h2><a class="toc-backref" href="#id8">Continuous Integration</a><a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">Continuous Integration</a><a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h2>
 <p>For continuous integration testing, we use Travis-CI. Every commit pushed to the git repository or every
 pull request, triggers the build. Additionaly, in Github there is a litle checkmark beside every commit, signaling the
 status of the build (successful, unsucessful, ongoing).</p>
@@ -205,243 +221,256 @@ looks like this:</p>
 </div></blockquote>
 </div>
 <div class="section" id="sbt-build-configuration">
-<h2><a class="toc-backref" href="#id9">SBT Build Configuration</a><a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sbt._</span>
-<span class="kn">import</span> <span class="nn">sbt.Keys._</span>
-<span class="kn">import</span> <span class="nn">spray.revolver.RevolverPlugin._</span>
-<span class="kn">import</span> <span class="nn">com.typesafe.sbt.SbtNativePackager.autoImport._</span>
+<h2><a class="toc-backref" href="#id10">SBT Build Configuration</a><a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span>import sbt._
+import sbt.Keys._
+import spray.revolver.RevolverPlugin._
+import com.typesafe.sbt.SbtNativePackager.autoImport._
 
+connectInput in run := true
 
-<span class="o">//</span> <span class="n">Bring</span> <span class="n">the</span> <span class="n">sbt</span><span class="o">-</span><span class="n">aspectj</span> <span class="n">settings</span> <span class="n">into</span> <span class="n">this</span> <span class="n">build</span>
-<span class="o">//</span><span class="n">aspectjSettings</span>
+// Bring the sbt-aspectj settings into this build
+//aspectjSettings
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">webapi</span> <span class="o">=</span> <span class="p">(</span><span class="n">project</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span><span class="o">.</span>
-        <span class="n">configs</span><span class="p">(</span>
-            <span class="n">FusekiTest</span><span class="p">,</span>
-            <span class="n">FusekiTomcatTest</span><span class="p">,</span>
-            <span class="n">GraphDBTest</span><span class="p">,</span>
-            <span class="n">GraphDBFreeTest</span><span class="p">,</span>
-            <span class="n">SesameTest</span><span class="p">,</span>
-            <span class="n">EmbeddedJenaTDBTest</span>
-        <span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">webApiCommonSettings</span><span class="p">:</span>  <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">FusekiTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaFusekiTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">FusekiTomcatTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaFusekiTomcatTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">GraphDBTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaGraphDBTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">GraphDBFreeTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaGraphDBFreeTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">SesameTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaSesameTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">inConfig</span><span class="p">(</span><span class="n">EmbeddedJenaTDBTest</span><span class="p">)(</span>
-            <span class="n">Defaults</span><span class="o">.</span><span class="n">testTasks</span> <span class="o">++</span> <span class="n">Seq</span><span class="p">(</span>
-                <span class="n">fork</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-                <span class="n">javaOptions</span> <span class="o">++=</span> <span class="n">javaEmbeddedJenaTDBTestOptions</span><span class="p">,</span>
-                <span class="n">testOptions</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">):</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">FusekiTest</span> <span class="o">++=</span> <span class="n">javaFusekiTestOptions</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">FusekiTomcatTest</span> <span class="o">++=</span> <span class="n">javaFusekiTomcatTestOptions</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">GraphDBTest</span> <span class="o">++=</span> <span class="n">javaGraphDBTestOptions</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">EmbeddedJenaTDBTest</span> <span class="o">++=</span> <span class="n">javaEmbeddedJenaTDBTestOptions</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">fork</span> <span class="ow">in</span> <span class="n">FusekiTest</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">parallelExecution</span> <span class="ow">in</span> <span class="n">FusekiTest</span> <span class="p">:</span><span class="o">=</span> <span class="n">false</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">testOptions</span> <span class="ow">in</span> <span class="n">FusekiTest</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span>
-        <span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span>
-            <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="n">webApiLibs</span><span class="p">,</span>
-            <span class="n">scalacOptions</span> <span class="o">++=</span> <span class="n">Seq</span><span class="p">(</span><span class="s2">&quot;-feature&quot;</span><span class="p">,</span> <span class="s2">&quot;-deprecation&quot;</span><span class="p">,</span> <span class="s2">&quot;-Yresolve-term-conflict:package&quot;</span><span class="p">),</span>
-            <span class="n">logLevel</span> <span class="p">:</span><span class="o">=</span> <span class="n">Level</span><span class="o">.</span><span class="n">Info</span><span class="p">,</span>
-            <span class="n">fork</span> <span class="ow">in</span> <span class="n">run</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-            <span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">run</span> <span class="o">++=</span> <span class="n">javaRunOptions</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">run</span> <span class="o">&lt;++=</span> <span class="n">AspectjKeys</span><span class="o">.</span><span class="n">weaverOptions</span> <span class="ow">in</span> <span class="n">Aspectj</span><span class="p">,</span>
-            <span class="o">//</span><span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">Revolver</span><span class="o">.</span><span class="n">reStart</span> <span class="o">&lt;++=</span> <span class="n">AspectjKeys</span><span class="o">.</span><span class="n">weaverOptions</span> <span class="ow">in</span> <span class="n">Aspectj</span><span class="p">,</span>
-            <span class="n">mainClass</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Compile</span><span class="p">,</span> <span class="n">run</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">Some</span><span class="p">(</span><span class="s2">&quot;org.knora.webapi.Main&quot;</span><span class="p">),</span>
-            <span class="n">fork</span> <span class="ow">in</span> <span class="n">Test</span> <span class="p">:</span><span class="o">=</span> <span class="n">true</span><span class="p">,</span>
-            <span class="n">javaOptions</span> <span class="ow">in</span> <span class="n">Test</span> <span class="o">++=</span> <span class="n">javaTestOptions</span><span class="p">,</span>
-            <span class="n">parallelExecution</span> <span class="ow">in</span> <span class="n">Test</span> <span class="p">:</span><span class="o">=</span> <span class="n">false</span><span class="p">,</span>
-            <span class="n">testOptions</span> <span class="ow">in</span> <span class="n">Test</span> <span class="o">+=</span> <span class="n">Tests</span><span class="o">.</span><span class="n">Argument</span><span class="p">(</span><span class="s2">&quot;-oDF&quot;</span><span class="p">)</span> <span class="o">//</span> <span class="n">show</span> <span class="n">full</span> <span class="n">stack</span> <span class="n">traces</span> <span class="ow">and</span> <span class="n">test</span> <span class="n">case</span> <span class="n">durations</span>
-        <span class="p">)</span><span class="o">.</span>
-        <span class="n">settings</span><span class="p">(</span><span class="n">Revolver</span><span class="o">.</span><span class="n">settings</span><span class="p">:</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span><span class="o">.</span>
-        <span class="n">enablePlugins</span><span class="p">(</span><span class="n">SbtTwirl</span><span class="p">)</span> <span class="o">//</span> <span class="n">Enable</span> <span class="n">the</span> <span class="n">SbtTwirl</span> <span class="n">plugin</span>
+lazy val webapi = (project in file(&quot;.&quot;)).
+        configs(
+            FusekiTest,
+            FusekiTomcatTest,
+            GraphDBTest,
+            GraphDBFreeTest,
+            SesameTest,
+            EmbeddedJenaTDBTest,
+            IntegrationTest
+        ).
+        settings(webApiCommonSettings:  _*).
+        settings(inConfig(FusekiTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaFusekiTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(FusekiTomcatTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaFusekiTomcatTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(GraphDBTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaGraphDBTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(GraphDBFreeTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaGraphDBFreeTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(SesameTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaSesameTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(EmbeddedJenaTDBTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaEmbeddedJenaTDBTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(inConfig(IntegrationTest)(
+            Defaults.itSettings ++ Seq(
+                fork := true,
+                javaOptions ++= javaIntegrationTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
+        settings(
+            //javaOptions in FusekiTest ++= javaFusekiTestOptions,
+            //javaOptions in FusekiTomcatTest ++= javaFusekiTomcatTestOptions,
+            //javaOptions in GraphDBTest ++= javaGraphDBTestOptions,
+            //javaOptions in EmbeddedJenaTDBTest ++= javaEmbeddedJenaTDBTestOptions,
+            //fork in FusekiTest := true,
+            //parallelExecution in FusekiTest := false,
+            //testOptions in FusekiTest += Tests.Argument(&quot;-oDF&quot;)
+        ).
+        settings(
+            libraryDependencies ++= webApiLibs,
+            scalacOptions ++= Seq(&quot;-feature&quot;, &quot;-unchecked&quot;, &quot;-deprecation&quot;, &quot;-Yresolve-term-conflict:package&quot;),
+            logLevel := Level.Info,
+            fork in run := true,
+            javaOptions in run ++= javaRunOptions,
+            //javaOptions in run &lt;++= AspectjKeys.weaverOptions in Aspectj,
+            //javaOptions in Revolver.reStart &lt;++= AspectjKeys.weaverOptions in Aspectj,
+            mainClass in (Compile, run) := Some(&quot;org.knora.webapi.Main&quot;),
+            fork in Test := true,
+            javaOptions in Test ++= javaTestOptions,
+            parallelExecution in Test := false
+        ).
+        settings(Revolver.settings: _*).
+        enablePlugins(SbtTwirl) // Enable the SbtTwirl plugin
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">webApiCommonSettings</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="n">organization</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;org.knora&quot;</span><span class="p">,</span>
-    <span class="n">name</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;webapi&quot;</span><span class="p">,</span>
-    <span class="n">version</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
-    <span class="n">ivyScala</span> <span class="p">:</span><span class="o">=</span> <span class="n">ivyScala</span><span class="o">.</span><span class="n">value</span> <span class="nb">map</span> <span class="p">{</span> <span class="n">_</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">overrideScalaVersion</span> <span class="o">=</span> <span class="n">true</span><span class="p">)</span> <span class="p">},</span>
-    <span class="n">scalaVersion</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;2.11.8&quot;</span>
-<span class="p">)</span>
+lazy val webApiCommonSettings = Seq(
+    organization := &quot;org.knora&quot;,
+    name := &quot;webapi&quot;,
+    version := &quot;0.1.0&quot;,
+    ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) },
+    scalaVersion := &quot;2.12.1&quot;
+)
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">akkaVersion</span> <span class="o">=</span> <span class="s2">&quot;2.4.11&quot;</span>
+lazy val akkaVersion = &quot;2.4.14&quot;
+lazy val akkaHttpVersion = &quot;10.0.0&quot;
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">webApiLibs</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="o">//</span> <span class="n">akka</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-actor&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-agent&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-core&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-experimental&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-spray-json-experimental&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-xml-experimental&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-stream&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-slf4j&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span><span class="p">,</span>
-    <span class="o">//</span><span class="n">CORS</span> <span class="n">support</span>
-    <span class="s2">&quot;ch.megard&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-cors&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.1.7&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">jena</span>
-    <span class="s2">&quot;org.apache.jena&quot;</span> <span class="o">%</span> <span class="s2">&quot;apache-jena-libs&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.0.0&quot;</span> <span class="n">exclude</span><span class="p">(</span><span class="s2">&quot;org.slf4j&quot;</span><span class="p">,</span> <span class="s2">&quot;slf4j-log4j12&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;org.apache.jena&quot;</span> <span class="o">%</span> <span class="s2">&quot;jena-text&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.0.0&quot;</span> <span class="n">exclude</span><span class="p">(</span><span class="s2">&quot;org.slf4j&quot;</span><span class="p">,</span> <span class="s2">&quot;slf4j-log4j12&quot;</span><span class="p">),</span>
-    <span class="o">//</span> <span class="n">http</span> <span class="n">client</span>
-    <span class="s2">&quot;net.databinder.dispatch&quot;</span> <span class="o">%%</span> <span class="s2">&quot;dispatch-core&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.11.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">logging</span>
-    <span class="s2">&quot;com.typesafe.scala-logging&quot;</span> <span class="o">%%</span> <span class="s2">&quot;scala-logging&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.5.0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ch.qos.logback&quot;</span> <span class="o">%</span> <span class="s2">&quot;logback-classic&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.1.7&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="nb">input</span> <span class="n">validation</span>
-    <span class="s2">&quot;commons-validator&quot;</span> <span class="o">%</span> <span class="s2">&quot;commons-validator&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.4.1&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">pretty</span> <span class="n">printing</span>
-    <span class="s2">&quot;com.googlecode.kiama&quot;</span> <span class="o">%</span> <span class="s2">&quot;kiama_2.11&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.8.0&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">authentication</span>
-    <span class="s2">&quot;com.github.t3hnar&quot;</span> <span class="o">%%</span> <span class="s2">&quot;scala-bcrypt&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.4&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">caching</span>
-    <span class="s2">&quot;net.sf.ehcache&quot;</span> <span class="o">%</span> <span class="s2">&quot;ehcache&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.10.0&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">monitoring</span> <span class="o">-</span> <span class="n">disabled</span> <span class="k">for</span> <span class="n">now</span>
-    <span class="o">//</span><span class="s2">&quot;org.aspectj&quot;</span> <span class="o">%</span> <span class="s2">&quot;aspectjweaver&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.8.7&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;org.aspectj&quot;</span> <span class="o">%</span> <span class="s2">&quot;aspectjrt&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.8.7&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-core&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-spray&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-statsd&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-log-reporter&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-system-metrics&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;io.kamon&quot;</span> <span class="o">%%</span> <span class="s2">&quot;kamon-newrelic&quot;</span> <span class="o">%</span> <span class="s2">&quot;0.5.2&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">other</span>
-    <span class="o">//</span><span class="s2">&quot;javax.transaction&quot;</span> <span class="o">%</span> <span class="s2">&quot;transaction-api&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.1-rev-1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.apache.commons&quot;</span> <span class="o">%</span> <span class="s2">&quot;commons-lang3&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;commons-io&quot;</span> <span class="o">%</span> <span class="s2">&quot;commons-io&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;commons-beanutils&quot;</span> <span class="o">%</span> <span class="s2">&quot;commons-beanutils&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.9.2&quot;</span><span class="p">,</span> <span class="o">//</span> <span class="ow">not</span> <span class="n">used</span> <span class="n">by</span> <span class="n">us</span><span class="p">,</span> <span class="n">but</span> <span class="n">need</span> <span class="n">newest</span> <span class="n">version</span> <span class="n">to</span> <span class="n">prevent</span> <span class="n">this</span> <span class="n">problem</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">stackoverflow</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">questions</span><span class="o">/</span><span class="mi">14402745</span><span class="o">/</span><span class="n">duplicate</span><span class="o">-</span><span class="n">classes</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">commons</span><span class="o">-</span><span class="n">collections</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">commons</span><span class="o">-</span><span class="n">beanutils</span>
-    <span class="s2">&quot;org.jodd&quot;</span> <span class="o">%</span> <span class="s2">&quot;jodd&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.2.6&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s2">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.9.1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.joda&quot;</span> <span class="o">%</span> <span class="s2">&quot;joda-convert&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.8&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;com.sksamuel.diff&quot;</span> <span class="o">%</span> <span class="s2">&quot;diff&quot;</span> <span class="o">%</span> <span class="s2">&quot;1.1.11&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.xmlunit&quot;</span> <span class="o">%</span> <span class="s2">&quot;xmlunit-core&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.1.1&quot;</span><span class="p">,</span>
-    <span class="o">//</span> <span class="n">testing</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-testkit&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span> <span class="o">%</span> <span class="s2">&quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-http-testkit&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span> <span class="o">%</span> <span class="s2">&quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;com.typesafe.akka&quot;</span> <span class="o">%%</span> <span class="s2">&quot;akka-stream-testkit&quot;</span> <span class="o">%</span> <span class="n">akkaVersion</span> <span class="o">%</span> <span class="s2">&quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.scalatest&quot;</span> <span class="o">%%</span> <span class="s2">&quot;scalatest&quot;</span> <span class="o">%</span> <span class="s2">&quot;3.0.0&quot;</span> <span class="o">%</span> <span class="s2">&quot;test, fuseki, fuseki-tomcat, graphdb, tdb&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.eclipse.rdf4j&quot;</span> <span class="o">%</span> <span class="s2">&quot;rdf4j-rio-turtle&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0M3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;org.rogach&quot;</span> <span class="o">%%</span> <span class="s2">&quot;scallop&quot;</span> <span class="o">%</span> <span class="s2">&quot;2.0.3&quot;</span>
-<span class="p">)</span>
+lazy val webApiLibs = Seq(
+    // akka
+    &quot;com.typesafe.akka&quot; %% &quot;akka-actor&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-agent&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-slf4j&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % akkaHttpVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-spray-json&quot; % akkaHttpVersion,
+    // testing
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test&quot;,
+    //CORS support
+    &quot;ch.megard&quot; %% &quot;akka-http-cors&quot; % &quot;0.1.10&quot;,
+    // jena
+    &quot;org.apache.jena&quot; % &quot;apache-jena-libs&quot; % &quot;3.0.0&quot; exclude(&quot;org.slf4j&quot;, &quot;slf4j-log4j12&quot;),
+    &quot;org.apache.jena&quot; % &quot;jena-text&quot; % &quot;3.0.0&quot; exclude(&quot;org.slf4j&quot;, &quot;slf4j-log4j12&quot;),
+    // http client
+    // &quot;net.databinder.dispatch&quot; %% &quot;dispatch-core&quot; % &quot;0.11.2&quot;,
+    // logging
+    &quot;com.typesafe.scala-logging&quot; %% &quot;scala-logging&quot; % &quot;3.5.0&quot;,
+    &quot;ch.qos.logback&quot; % &quot;logback-classic&quot; % &quot;1.1.7&quot;,
+    // input validation
+    &quot;commons-validator&quot; % &quot;commons-validator&quot; % &quot;1.4.1&quot;,
+    // authentication
+    &quot;com.github.t3hnar&quot; %% &quot;scala-bcrypt&quot; % &quot;3.0&quot;,
+    // caching
+    &quot;net.sf.ehcache&quot; % &quot;ehcache&quot; % &quot;2.10.0&quot;,
+    // monitoring - disabled for now
+    //&quot;org.aspectj&quot; % &quot;aspectjweaver&quot; % &quot;1.8.7&quot;,
+    //&quot;org.aspectj&quot; % &quot;aspectjrt&quot; % &quot;1.8.7&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-core&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-spray&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-statsd&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-log-reporter&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-system-metrics&quot; % &quot;0.5.2&quot;,
+    //&quot;io.kamon&quot; %% &quot;kamon-newrelic&quot; % &quot;0.5.2&quot;,
+    // other
+    //&quot;javax.transaction&quot; % &quot;transaction-api&quot; % &quot;1.1-rev-1&quot;,
+    &quot;org.apache.commons&quot; % &quot;commons-lang3&quot; % &quot;3.4&quot;,
+    &quot;commons-io&quot; % &quot;commons-io&quot; % &quot;2.4&quot;,
+    &quot;commons-beanutils&quot; % &quot;commons-beanutils&quot; % &quot;1.9.2&quot;, // not used by us, but need newest version to prevent this problem: http://stackoverflow.com/questions/14402745/duplicate-classes-in-commons-collections-and-commons-beanutils
+    &quot;org.jodd&quot; % &quot;jodd&quot; % &quot;3.2.6&quot;,
+    &quot;joda-time&quot; % &quot;joda-time&quot; % &quot;2.9.1&quot;,
+    &quot;org.joda&quot; % &quot;joda-convert&quot; % &quot;1.8&quot;,
+    &quot;com.sksamuel.diff&quot; % &quot;diff&quot; % &quot;1.1.11&quot;,
+    &quot;org.xmlunit&quot; % &quot;xmlunit-core&quot; % &quot;2.1.1&quot;,
+    // testing
+    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
+    &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-rio-turtle&quot; % &quot;2.0M3&quot;,
+    &quot;org.rogach&quot; %% &quot;scallop&quot; % &quot;2.0.5&quot;
+)
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaRunOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="o">//</span> <span class="s2">&quot;-showversion&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;-Xms2048m&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;-Xmx4096m&quot;</span>
-    <span class="o">//</span> <span class="s2">&quot;-verbose:gc&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;-XX:+UseG1GC&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;-XX:MaxGCPauseMillis=500&quot;</span>
-<span class="p">)</span>
+lazy val javaRunOptions = Seq(
+    // &quot;-showversion&quot;,
+    &quot;-Xms2048m&quot;,
+    &quot;-Xmx4096m&quot;
+    // &quot;-verbose:gc&quot;,
+    //&quot;-XX:+UseG1GC&quot;,
+    //&quot;-XX:MaxGCPauseMillis=500&quot;
+)
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="o">//</span> <span class="s2">&quot;-showversion&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;-Xms2048m&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;-Xmx4096m&quot;</span>
-    <span class="o">//</span> <span class="s2">&quot;-verbose:gc&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;-XX:+UseG1GC&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;-XX:MaxGCPauseMillis=500&quot;</span><span class="p">,</span>
-    <span class="o">//</span><span class="s2">&quot;-XX:MaxMetaspaceSize=4096m&quot;</span>
-<span class="p">)</span>
+lazy val javaTestOptions = Seq(
+    // &quot;-showversion&quot;,
+    &quot;-Xms2048m&quot;,
+    &quot;-Xmx4096m&quot;
+    // &quot;-verbose:gc&quot;,
+    //&quot;-XX:+UseG1GC&quot;,
+    //&quot;-XX:MaxGCPauseMillis=500&quot;,
+    //&quot;-XX:MaxMetaspaceSize=4096m&quot;
+)
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">FusekiTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;fuseki&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaFusekiTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=fuseki.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+lazy val FusekiTest = config(&quot;fuseki&quot;) extend(Test)
+lazy val javaFusekiTestOptions = Seq(
+    &quot;-Dconfig.resource=fuseki.conf&quot;
+) ++ javaTestOptions
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">FusekiTomcatTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;fuseki-tomcat&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaFusekiTomcatTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=fuseki-tomcat.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+lazy val FusekiTomcatTest = config(&quot;fuseki-tomcat&quot;) extend(Test)
+lazy val javaFusekiTomcatTestOptions = Seq(
+    &quot;-Dconfig.resource=fuseki-tomcat.conf&quot;
+) ++ javaTestOptions
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">GraphDBTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;graphdb&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaGraphDBTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=graphdb.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+lazy val GraphDBTest = config(&quot;graphdb&quot;) extend(Test)
+lazy val javaGraphDBTestOptions = Seq(
+    &quot;-Dconfig.resource=graphdb.conf&quot;
+) ++ javaTestOptions
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">GraphDBFreeTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;graphdb-free&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaGraphDBFreeTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=graphdb-free.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+lazy val GraphDBFreeTest = config(&quot;graphdb-free&quot;) extend(Test)
+lazy val javaGraphDBFreeTestOptions = Seq(
+    &quot;-Dconfig.resource=graphdb-free.conf&quot;
+) ++ javaTestOptions
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">SesameTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;sesame&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaSesameTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=sesame.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+lazy val SesameTest = config(&quot;sesame&quot;) extend(Test)
+lazy val javaSesameTestOptions = Seq(
+    &quot;-Dconfig.resource=sesame.conf&quot;
+) ++ javaTestOptions
 
+lazy val EmbeddedJenaTDBTest = config(&quot;tdb&quot;) extend(Test)
+lazy val javaEmbeddedJenaTDBTestOptions = Seq(
+    &quot;-Dconfig.resource=jenatdb.conf&quot;
+) ++ javaTestOptions
 
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">EmbeddedJenaTDBTest</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="s2">&quot;tdb&quot;</span><span class="p">)</span> <span class="n">extend</span><span class="p">(</span><span class="n">Test</span><span class="p">)</span>
-<span class="n">lazy</span> <span class="n">val</span> <span class="n">javaEmbeddedJenaTDBTestOptions</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span>
-    <span class="s2">&quot;-Dconfig.resource=jenatdb.conf&quot;</span>
-<span class="p">)</span> <span class="o">++</span> <span class="n">javaTestOptions</span>
+// The &#39;IntegrationTest&#39; config does not need to be created here, as it is a built-in config!
+// The standard testing tasks are available, but must be prefixed with &#39;it:&#39;, e.g., &#39;it:test&#39;
+// The test need to be stored in the &#39;it&#39; (and not &#39;test&#39;) folder. The standard source hierarchy is used, e.g., &#39;src/it/scala&#39;
+lazy val javaIntegrationTestOptions = Seq(
+    &quot;-Dconfig.resource=graphdb.conf&quot;
+) ++ javaTestOptions
 
-<span class="o">//</span> <span class="n">skip</span> <span class="n">test</span> <span class="n">before</span> <span class="n">creating</span> <span class="n">fat</span><span class="o">-</span><span class="n">jar</span>
-<span class="n">test</span> <span class="ow">in</span> <span class="n">assembly</span> <span class="p">:</span><span class="o">=</span> <span class="p">{}</span>
+// skip test before creating fat-jar
+test in assembly := {}
 
-<span class="o">//</span> <span class="nb">set</span> <span class="n">fat</span><span class="o">-</span><span class="n">jar</span> <span class="n">main</span> <span class="k">class</span>
-<span class="nc">mainClass</span> <span class="ow">in</span> <span class="n">assembly</span> <span class="p">:</span><span class="o">=</span> <span class="n">Some</span><span class="p">(</span><span class="s2">&quot;org.knora.webapi.Main&quot;</span><span class="p">)</span>
+// set fat-jar main class
+mainClass in assembly := Some(&quot;org.knora.webapi.Main&quot;)
 
-<span class="o">//</span> <span class="n">change</span> <span class="n">merge</span> <span class="n">strategy</span> <span class="k">for</span> <span class="n">fat</span><span class="o">-</span><span class="n">jar</span>
-<span class="n">assemblyMergeStrategy</span> <span class="ow">in</span> <span class="n">assembly</span> <span class="p">:</span><span class="o">=</span> <span class="p">{</span>
-    <span class="n">case</span> <span class="n">PathList</span><span class="p">(</span><span class="s2">&quot;org&quot;</span><span class="p">,</span> <span class="s2">&quot;apache&quot;</span><span class="p">,</span> <span class="s2">&quot;commons&quot;</span><span class="p">,</span> <span class="s2">&quot;logging&quot;</span><span class="p">,</span> <span class="n">xs</span> <span class="o">@</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span>   <span class="o">=&gt;</span> <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
-    <span class="n">case</span> <span class="n">PathList</span><span class="p">(</span><span class="s2">&quot;META-INF&quot;</span><span class="p">,</span> <span class="n">xs</span> <span class="o">@</span> <span class="n">_</span><span class="o">*</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="n">xs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">toLowerCase</span><span class="p">)</span> <span class="n">match</span> <span class="p">{</span>
-        <span class="n">case</span> <span class="p">(</span><span class="s2">&quot;manifest.mf&quot;</span> <span class="p">::</span> <span class="n">Nil</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;index.list&quot;</span> <span class="p">::</span> <span class="n">Nil</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;dependencies&quot;</span> <span class="p">::</span> <span class="n">Nil</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">discard</span>
-        <span class="n">case</span> <span class="n">ps</span> <span class="o">@</span> <span class="p">(</span><span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="p">)</span> <span class="k">if</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;.sf&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;.dsa&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;license&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;license.txt&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;notice&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;notice.txt&quot;</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">discard</span>
-        <span class="n">case</span> <span class="s2">&quot;plexus&quot;</span> <span class="p">::</span> <span class="n">xs</span> <span class="o">=&gt;</span>
-        <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">discard</span>
-        <span class="n">case</span> <span class="s2">&quot;services&quot;</span> <span class="p">::</span> <span class="n">xs</span> <span class="o">=&gt;</span>
-        <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">filterDistinctLines</span>
-        <span class="n">case</span> <span class="p">(</span><span class="s2">&quot;spring.schemas&quot;</span> <span class="p">::</span> <span class="n">Nil</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;spring.handlers&quot;</span> <span class="p">::</span> <span class="n">Nil</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">filterDistinctLines</span>
-        <span class="n">case</span> <span class="n">ps</span><span class="o">@</span><span class="p">(</span><span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="p">)</span> <span class="k">if</span> <span class="n">ps</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;aop.xml&quot;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
-        <span class="n">case</span> <span class="n">_</span> <span class="o">=&gt;</span> <span class="n">MergeStrategy</span><span class="o">.</span><span class="n">deduplicate</span>
-    <span class="p">}</span>
-    <span class="n">case</span> <span class="n">x</span> <span class="o">=&gt;</span>
-    <span class="n">val</span> <span class="n">oldStrategy</span> <span class="o">=</span> <span class="p">(</span><span class="n">assemblyMergeStrategy</span> <span class="ow">in</span> <span class="n">assembly</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-    <span class="n">oldStrategy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="p">}</span>
+// change merge strategy for fat-jar
+assemblyMergeStrategy in assembly := {
+    case PathList(&quot;org&quot;, &quot;apache&quot;, &quot;commons&quot;, &quot;logging&quot;, xs @ _*)   =&gt; MergeStrategy.first
+    case PathList(&quot;META-INF&quot;, xs @ _*) =&gt;
+    xs.map(_.toLowerCase) match {
+        case (&quot;manifest.mf&quot; :: Nil) | (&quot;index.list&quot; :: Nil) | (&quot;dependencies&quot; :: Nil) =&gt;
+        MergeStrategy.discard
+        case ps @ (x :: xs) if ps.last.endsWith(&quot;.sf&quot;) || ps.last.endsWith(&quot;.dsa&quot;) || ps.last.endsWith(&quot;license&quot;) || ps.last.endsWith(&quot;license.txt&quot;) || ps.last.endsWith(&quot;notice&quot;) || ps.last.endsWith(&quot;notice.txt&quot;) =&gt;
+        MergeStrategy.discard
+        case &quot;plexus&quot; :: xs =&gt;
+        MergeStrategy.discard
+        case &quot;services&quot; :: xs =&gt;
+        MergeStrategy.filterDistinctLines
+        case (&quot;spring.schemas&quot; :: Nil) | (&quot;spring.handlers&quot; :: Nil) =&gt;
+        MergeStrategy.filterDistinctLines
+        case ps@(x :: xs) if ps.last.endsWith(&quot;aop.xml&quot;) =&gt; MergeStrategy.first
+        case _ =&gt; MergeStrategy.deduplicate
+    }
+    case x =&gt;
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
 </pre></div>
 </div>
 </div>
 <div class="section" id="webapi-server-startup-flags">
-<span id="id2"></span><h2><a class="toc-backref" href="#id10">Webapi Server Startup-Flags</a><a class="headerlink" href="#webapi-server-startup-flags" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id11">Webapi Server Startup-Flags</a><a class="headerlink" href="#webapi-server-startup-flags" title="Permalink to this headline">¶</a></h2>
 <p>The Webapi-Server can be started with a number of flags. These flags can be supplied either to the <code class="docutils literal"><span class="pre">reStart</span></code> or the
 <code class="docutils literal"><span class="pre">run</span></code> command in sbt, e.g.,:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ sbt
@@ -454,7 +483,7 @@ looks like this:</p>
 </pre></div>
 </div>
 <div class="section" id="loaddemodata-flag">
-<h3><a class="toc-backref" href="#id11"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a><a class="headerlink" href="#loaddemodata-flag" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12"><code class="docutils literal"><span class="pre">loadDemoData</span></code> - Flag</a><a class="headerlink" href="#loaddemodata-flag" title="Permalink to this headline">¶</a></h3>
 <p>When the webapi-server is started with the <code class="docutils literal"><span class="pre">loadDemoData</span></code> flag, then at startup, the data which is configured in
 <code class="docutils literal"><span class="pre">application.conf</span></code> under the <code class="docutils literal"><span class="pre">app.triplestore.rdf-data</span></code> key is loaded into the triplestore, and any data in the
 triplestore is removed beforehand.</p>
@@ -465,7 +494,7 @@ triplestore is removed beforehand.</p>
 </div>
 </div>
 <div class="section" id="allowresettriplestorecontentoperationoverhttp-flag">
-<h3><a class="toc-backref" href="#id12"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a><a class="headerlink" href="#allowresettriplestorecontentoperationoverhttp-flag" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id13"><code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> - Flag</a><a class="headerlink" href="#allowresettriplestorecontentoperationoverhttp-flag" title="Permalink to this headline">¶</a></h3>
 <p>When the webapi.server is started with the <code class="docutils literal"><span class="pre">allowResetTriplestoreContentOperationOverHTTP</span></code> flag, then the
 <code class="docutils literal"><span class="pre">v1/store/ResetTriplestoreContent</span></code> route is activated. This route accepts a <code class="docutils literal"><span class="pre">POST</span></code> request, with a json payload
 consisting of the following exemplary content:</p>
@@ -521,7 +550,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

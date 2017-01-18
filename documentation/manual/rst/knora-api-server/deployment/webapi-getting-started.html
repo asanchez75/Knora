@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,9 +26,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Deploying the Knora API Server" href="index.html" />
-    <link rel="next" title="Running the Knora API Server on a Production System" href="webapi-production.html" />
+    <link rel="next" title="Using HTTPS in the Knora API Server" href="webapi-https.html" />
     <link rel="prev" title="Deploying the Knora API Server" href="index.html" /> 
   </head>
   <body role="document">
@@ -42,7 +41,7 @@
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="webapi-production.html">Running the Knora API Server on a Production System</a>&#160;&#160;»
+        <a href="webapi-https.html">Using HTTPS in the Knora API Server</a>&#160;&#160;»
         </p>
 
       </div>
@@ -65,17 +64,39 @@ is proprietary but available free of charge).</li>
 its standalone SPARQL server, Fuseki.</li>
 </ul>
 <p>See the chapters on <a class="reference internal" href="../development/fuseki.html#starting-fuseki-2"><span class="std std-ref">Starting Fuseki 2</span></a> and <a class="reference internal" href="../development/graphdb.html#starting-graphdb-se-7"><span class="std std-ref">Starting GraphDB-SE 7</span></a> for more details.</p>
-<div class="section" id="load-test-data">
-<h3>Load Test Data<a class="headerlink" href="#load-test-data" title="Permalink to this headline">¶</a></h3>
-<p>In order to load the test data, go to <code class="docutils literal"><span class="pre">webapi/scripts</span></code> and run the script for the triplestore you have chosen. In case of Fuseki, run <code class="docutils literal"><span class="pre">fuseki-load-test-data.sh</span></code>,
-in case of GraphDB <code class="docutils literal"><span class="pre">graphdb-se-load-test-data.sh</span></code></p>
-<p>When working with GraphDB, you may encounter an error when loading the test data that says that there are multiple IDs for the same repository <code class="docutils literal"><span class="pre">knora-test</span></code>.
-In that case something went wrong when dropping and recreating the repository. Please delete all the data and start over:</p>
+<div class="section" id="creating-repositories-and-loading-test-data">
+<h3>Creating Repositories and Loading Test Data<a class="headerlink" href="#creating-repositories-and-loading-test-data" title="Permalink to this headline">¶</a></h3>
+<p>To create a test repository called <code class="docutils literal"><span class="pre">knora-test</span></code> and load test data into it,
+go to <code class="docutils literal"><span class="pre">webapi/scripts</span></code> and run the script for the triplestore you have
+chosen.</p>
 <ul class="simple">
-<li>shutdown Tomcat: <code class="docutils literal"><span class="pre">$CATALINA_HOME/bin/shutdown.sh</span></code></li>
-<li>go to <a class="reference external" href="http://localhost:8080/openrdf-sesame/system/overview.view">http://localhost:8080/openrdf-sesame/system/overview.view</a> and look for the field <code class="docutils literal"><span class="pre">Data</span> <span class="pre">directory</span></code> which indicates the location of the directory <code class="docutils literal"><span class="pre">.aduna</span></code>.</li>
-<li>Then remove this directory an restart tomcat. Now you should be able to load the test data correctly.</li>
+<li>For Fuseki, run <code class="docutils literal"><span class="pre">fuseki-load-test-data.sh</span></code>.</li>
+<li><dl class="first docutils">
+<dt>For GraphDB:</dt>
+<dd><ul class="first last">
+<li>If you are running GraphDB directly from its installation directory (using its <code class="docutils literal"><span class="pre">graphdb</span></code> script), run <code class="docutils literal"><span class="pre">graphdb-se-local-load-test-data.sh</span></code>.</li>
+<li>If you are running GraphDB from a Docker image, run <code class="docutils literal"><span class="pre">graphdb-se-docker-load-test-data.sh</span></code>.</li>
 </ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>You can create your own scripts based on these scripts, to create new
+repositories and optionally to load existing Knora-compliant RDF data into
+them.</p>
+<p>If you are using GraphDB, you must create your repository using a repository
+configuration file that specifies the file <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> as its
+<code class="docutils literal"><span class="pre">owlim:ruleset</span></code>. This enables RDFS inference and Knora-specific consistency
+rules. When using GraphDB, the Knora API server uses RDFS inference to improve
+query performance. The Knora-specific consistency rules help ensure that your
+data is internally consistent and conforms to the Knora ontologies.</p>
+<p>When testing with GraphDB, you may sometimes get an error when loading the
+test data that says that there are multiple IDs for the same repository
+<code class="docutils literal"><span class="pre">knora-test</span></code>. In that case, something went wrong when dropping and
+recreating the repository. You can solve this by deleting the repository
+manually and starting over. <strong>Make sure you don&#8217;t delete important data.</strong> To
+delete the repository, stop GraphDB, delete the <code class="docutils literal"><span class="pre">data</span></code> directory in your
+GraphDB installation, and restart GraphDB.</p>
 </div>
 </div>
 <div class="section" id="creating-a-test-installation">
@@ -105,7 +126,13 @@ includes a command-line program that works on RDF data files in <a class="refere
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">multiple</span> <span class="n">permission</span> <span class="n">statements</span> <span class="n">into</span> <span class="n">single</span> <span class="n">permission</span>
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">statements</span><span class="p">),</span> <span class="s1">&#39;strings&#39;</span> <span class="p">(</span><span class="n">adds</span> <span class="n">missing</span> <span class="n">valueHasString</span><span class="p">),</span>
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="s1">&#39;standoff&#39;</span> <span class="p">(</span><span class="n">transforms</span> <span class="n">old</span><span class="o">-</span><span class="n">style</span> <span class="n">standoff</span> <span class="n">into</span>
-<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">new</span><span class="o">-</span><span class="n">style</span> <span class="n">standoff</span><span class="p">),</span> <span class="s1">&#39;all&#39;</span> <span class="p">(</span><span class="nb">all</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span><span class="p">)</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">new</span><span class="o">-</span><span class="n">style</span> <span class="n">standoff</span><span class="p">),</span> <span class="s1">&#39;creator&#39;</span> <span class="p">(</span><span class="n">transforms</span> <span class="n">existing</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="s1">&#39;knora-base:Owner&#39;</span> <span class="n">group</span> <span class="n">inside</span> <span class="n">permissions</span> <span class="n">to</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="s1">&#39;knora-base:Creator&#39;</span><span class="p">),</span> <span class="s1">&#39;owner&#39;</span> <span class="p">(</span><span class="n">gives</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="s1">&#39;knora-base:Creator&#39;</span> <span class="n">CR</span> <span class="n">permissions</span> <span class="n">to</span> <span class="n">correspond</span> <span class="n">to</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">the</span> <span class="n">previous</span> <span class="n">behaviour</span> <span class="k">for</span> <span class="n">owners</span> <span class="o">-</span> <span class="n">use</span> <span class="k">with</span> <span class="n">care</span> <span class="k">as</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="n">it</span> <span class="n">will</span> <span class="n">add</span> <span class="n">permissions</span> <span class="n">that</span> <span class="n">where</span> <span class="ow">not</span> <span class="n">there</span> <span class="n">before</span><span class="p">),</span>
+<span class="p">[</span><span class="n">info</span><span class="p">]</span>                            <span class="s1">&#39;all&#39;</span> <span class="p">(</span><span class="nb">all</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">minus</span> <span class="s1">&#39;owner&#39;</span><span class="p">)</span>
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>       <span class="o">--</span><span class="n">help</span>               <span class="n">Show</span> <span class="n">help</span> <span class="n">message</span>
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>
 <span class="p">[</span><span class="n">info</span><span class="p">]</span>  <span class="n">trailing</span> <span class="n">arguments</span><span class="p">:</span>
@@ -127,10 +154,15 @@ one <code class="docutils literal"><span class="pre">hasPermissions</span></code
 <dt>standoff</dt>
 <dd>Transforms old-style standoff markup (containing tag names as strings) to new-style standoff markup
 (using different OWL class names for different tags).</dd>
+<dt>creator</dt>
+<dd>Transforms existing <code class="docutils literal"><span class="pre">knora-base:Owner</span></code> group inside permissions to <code class="docutils literal"><span class="pre">knora-base:Creator</span></code>.</dd>
+<dt>owner</dt>
+<dd>Gives <code class="docutils literal"><span class="pre">knora-base:Creator</span></code> <strong>CR permissions</strong> to correspond to the previous behaviour for owners.
+Use with care as it will add permissions that where not there before.</dd>
 <dt>all</dt>
 <dd>Runs all of the above transformations.</dd>
 </dl>
-<p>Transformations that are not needed have no effect.</p>
+<p>Transformations that are not needed have no effect, so it is safe to use <code class="docutils literal"><span class="pre">-t</span> <span class="pre">all</span></code>.</p>
 <p>The program uses the Turtle parsing and formatting library from <a class="reference external" href="http://rdf4j.org/">RDF4J</a>. Additional transformations can
 be implemented as subclasses of <code class="docutils literal"><span class="pre">org.eclipse.rdf4j.rio.RDFHandler</span></code>.</p>
 </div>
@@ -145,14 +177,14 @@ be implemented as subclasses of <code class="docutils literal"><span class="pre"
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="webapi-production.html">Running the Knora API Server on a Production System</a>&#160;&#160;»
+        <a href="webapi-https.html">Using HTTPS in the Knora API Server</a>&#160;&#160;»
         </p>
 
       </div>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>
