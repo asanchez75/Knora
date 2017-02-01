@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Knora Ontologies" href="index.html" />
     <link rel="next" title="The Knora API Server" href="../knora-api-server/index.html" />
     <link rel="prev" title="The Knora Ontologies" href="index.html" /> 
   </head>
@@ -70,51 +71,53 @@
 <li><a class="reference internal" href="#textvalue" id="id20">TextValue</a></li>
 <li><a class="reference internal" href="#datevalue" id="id21">DateValue</a></li>
 <li><a class="reference internal" href="#intvalue" id="id22">IntValue</a></li>
-<li><a class="reference internal" href="#decimalvalue" id="id23">DecimalValue</a></li>
-<li><a class="reference internal" href="#urivalue" id="id24">UriValue</a></li>
-<li><a class="reference internal" href="#booleanvalue" id="id25">BooleanValue</a></li>
-<li><a class="reference internal" href="#geomvalue" id="id26">GeomValue</a></li>
-<li><a class="reference internal" href="#geonamevalue" id="id27">GeonameValue</a></li>
-<li><a class="reference internal" href="#intervalvalue" id="id28">IntervalValue</a></li>
-<li><a class="reference internal" href="#listvalue" id="id29">ListValue</a></li>
-<li><a class="reference internal" href="#filevalue" id="id30">FileValue</a></li>
-<li><a class="reference internal" href="#linkvalue" id="id31">LinkValue</a></li>
-<li><a class="reference internal" href="#externalresvalue" id="id32">ExternalResValue</a></li>
+<li><a class="reference internal" href="#colorvalue" id="id23">ColorValue</a></li>
+<li><a class="reference internal" href="#decimalvalue" id="id24">DecimalValue</a></li>
+<li><a class="reference internal" href="#urivalue" id="id25">UriValue</a></li>
+<li><a class="reference internal" href="#booleanvalue" id="id26">BooleanValue</a></li>
+<li><a class="reference internal" href="#geomvalue" id="id27">GeomValue</a></li>
+<li><a class="reference internal" href="#geonamevalue" id="id28">GeonameValue</a></li>
+<li><a class="reference internal" href="#intervalvalue" id="id29">IntervalValue</a></li>
+<li><a class="reference internal" href="#listvalue" id="id30">ListValue</a></li>
+<li><a class="reference internal" href="#filevalue" id="id31">FileValue</a></li>
+<li><a class="reference internal" href="#linkvalue" id="id32">LinkValue</a></li>
+<li><a class="reference internal" href="#externalresvalue" id="id33">ExternalResValue</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#links-between-resources" id="id33">Links Between Resources</a></li>
-<li><a class="reference internal" href="#text-with-standoff-markup" id="id34">Text with Standoff Markup</a><ul>
-<li><a class="reference internal" href="#subclasses-of-standofftag" id="id35">Subclasses of StandoffTag</a><ul>
-<li><a class="reference internal" href="#standoffvisualtag" id="id36">StandoffVisualTag</a></li>
-<li><a class="reference internal" href="#standoffstructuraltag" id="id37">StandoffStructuralTag</a></li>
-<li><a class="reference internal" href="#standoffdatatypetag" id="id38">StandoffDataTypeTag</a></li>
-<li><a class="reference internal" href="#standofflinktag" id="id39">StandoffLinkTag</a></li>
+<li><a class="reference internal" href="#links-between-resources" id="id34">Links Between Resources</a></li>
+<li><a class="reference internal" href="#text-with-standoff-markup" id="id35">Text with Standoff Markup</a><ul>
+<li><a class="reference internal" href="#subclasses-of-standofftag" id="id36">Subclasses of StandoffTag</a><ul>
+<li><a class="reference internal" href="#standoff-data-type-tags" id="id37">Standoff Data Type Tags</a></li>
+<li><a class="reference internal" href="#standofflinktag" id="id38">StandoffLinkTag</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#standoff-in-digital-editions" id="id40">Standoff in Digital Editions</a></li>
+<li><a class="reference internal" href="#internal-links-in-a-textvalue" id="id39">Internal Links in a TextValue</a></li>
+<li><a class="reference internal" href="#mapping-to-create-standoff-from-xml" id="id40">Mapping to Create Standoff From XML</a></li>
+<li><a class="reference internal" href="#standoff-in-digital-editions" id="id41">Standoff in Digital Editions</a></li>
+<li><a class="reference internal" href="#querying-standoff-in-sparql" id="id42">Querying Standoff in SPARQL</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#authorization" id="id41">Authorization</a><ul>
-<li><a class="reference internal" href="#users-and-groups" id="id42">Users and Groups</a></li>
-<li><a class="reference internal" href="#permissions" id="id43">Permissions</a></li>
+<li><a class="reference internal" href="#authorization" id="id43">Authorization</a><ul>
+<li><a class="reference internal" href="#users-and-groups" id="id44">Users and Groups</a></li>
+<li><a class="reference internal" href="#permissions" id="id45">Permissions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#consistency-checking" id="id44">Consistency Checking</a><ul>
-<li><a class="reference internal" href="#owl-cardinalities" id="id45">OWL Cardinalities</a></li>
-<li><a class="reference internal" href="#constraints-on-the-types-of-property-subjects-and-objects" id="id46">Constraints on the Types of Property Subjects and Objects</a></li>
-<li><a class="reference internal" href="#consistency-constraint-example" id="id47">Consistency Constraint Example</a></li>
+<li><a class="reference internal" href="#consistency-checking" id="id46">Consistency Checking</a><ul>
+<li><a class="reference internal" href="#owl-cardinalities" id="id47">OWL Cardinalities</a></li>
+<li><a class="reference internal" href="#constraints-on-the-types-of-property-subjects-and-objects" id="id48">Constraints on the Types of Property Subjects and Objects</a></li>
+<li><a class="reference internal" href="#consistency-constraint-example" id="id49">Consistency Constraint Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#open-questions" id="id48">Open Questions</a><ul>
-<li><a class="reference internal" href="#extending-existing-resource-definitions" id="id49">Extending Existing Resource Definitions</a></li>
+<li><a class="reference internal" href="#open-questions" id="id50">Open Questions</a><ul>
+<li><a class="reference internal" href="#extending-existing-resource-definitions" id="id51">Extending Existing Resource Definitions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#notes" id="id50">Notes</a></li>
-<li><a class="reference internal" href="#references" id="id51">References</a></li>
+<li><a class="reference internal" href="#notes" id="id52">Notes</a></li>
+<li><a class="reference internal" href="#references" id="id53">References</a></li>
 </ul>
 </div>
 <div class="section" id="introduction">
@@ -501,10 +504,13 @@ are recognised as separate in a full-text search index.</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasStandoff</span></code> (0-n)</dt>
 <dd>Points to a standoff markup tag. See <a class="reference internal" href="#knora-base-standoff"><span class="std std-ref">Text with Standoff Markup</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">valueHasMapping</span></code> (0-1)</dt>
+<dd>Points to the mapping used to create the standoff markup
+and to convert it back to the original XML. See <a class="reference internal" href="#knora-base-mapping"><span class="std std-ref">Mapping to Create Standoff From XML</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="datevalue">
-<h5><a class="toc-backref" href="#id21">DateValue</a><a class="headerlink" href="#datevalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-date-value"></span><h5><a class="toc-backref" href="#id21">DateValue</a><a class="headerlink" href="#datevalue" title="Permalink to this headline">¶</a></h5>
 <p>Humanities data includes many different types of dates. In Knora, a date
 has a specified calendar, and is always represented as a period with
 start and end points (which may be equal), each of which has a precision
@@ -528,15 +534,22 @@ Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></cod
 </dl>
 </div>
 <div class="section" id="intvalue">
-<h5><a class="toc-backref" href="#id22">IntValue</a><a class="headerlink" href="#intvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-int-value"></span><h5><a class="toc-backref" href="#id22">IntValue</a><a class="headerlink" href="#intvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents an integer. Property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasInteger</span></code> (1)</dt>
 <dd>An <code class="docutils literal"><span class="pre">xsd:integer</span></code>.</dd>
 </dl>
 </div>
+<div class="section" id="colorvalue">
+<span id="knora-base-color-value"></span><h5><a class="toc-backref" href="#id23">ColorValue</a><a class="headerlink" href="#colorvalue" title="Permalink to this headline">¶</a></h5>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">valueHasColor</span></code> (1)</dt>
+<dd>A string representing a color. The string encodes a color as hexadecimal RGB values, e.g. &#8220;#FF0000&#8221;.</dd>
+</dl>
+</div>
 <div class="section" id="decimalvalue">
-<h5><a class="toc-backref" href="#id23">DecimalValue</a><a class="headerlink" href="#decimalvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-decimal-value"></span><h5><a class="toc-backref" href="#id24">DecimalValue</a><a class="headerlink" href="#decimalvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents an arbitrary-precision decimal number. Property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasDecimal</span></code> (1)</dt>
@@ -544,7 +557,7 @@ Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></cod
 </dl>
 </div>
 <div class="section" id="urivalue">
-<h5><a class="toc-backref" href="#id24">UriValue</a><a class="headerlink" href="#urivalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-uri-value"></span><h5><a class="toc-backref" href="#id25">UriValue</a><a class="headerlink" href="#urivalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a non-Knora URI. Property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasUri</span></code> (1)</dt>
@@ -552,7 +565,7 @@ Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></cod
 </dl>
 </div>
 <div class="section" id="booleanvalue">
-<h5><a class="toc-backref" href="#id25">BooleanValue</a><a class="headerlink" href="#booleanvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-boolean-value"></span><h5><a class="toc-backref" href="#id26">BooleanValue</a><a class="headerlink" href="#booleanvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a boolean value. Property:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">valueHasBoolean</span></code> (1)</dt>
@@ -560,7 +573,7 @@ Currently <code class="docutils literal"><span class="pre">GREGORIAN</span></cod
 </dl>
 </div>
 <div class="section" id="geomvalue">
-<h5><a class="toc-backref" href="#id26">GeomValue</a><a class="headerlink" href="#geomvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-geom-value"></span><h5><a class="toc-backref" href="#id27">GeomValue</a><a class="headerlink" href="#geomvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a geometrical object as a JSON string, using normalized
 coordinates. Property:</p>
 <dl class="docutils">
@@ -569,7 +582,7 @@ coordinates. Property:</p>
 </dl>
 </div>
 <div class="section" id="geonamevalue">
-<h5><a class="toc-backref" href="#id27">GeonameValue</a><a class="headerlink" href="#geonamevalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-geoname-value"></span><h5><a class="toc-backref" href="#id28">GeonameValue</a><a class="headerlink" href="#geonamevalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a geolocation, using the identifiers found at
 <a class="reference external" href="http://geonames.org">GeoNames</a>. Property:</p>
 <dl class="docutils">
@@ -579,7 +592,7 @@ coordinates. Property:</p>
 </dl>
 </div>
 <div class="section" id="intervalvalue">
-<h5><a class="toc-backref" href="#id28">IntervalValue</a><a class="headerlink" href="#intervalvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-interval-value"></span><h5><a class="toc-backref" href="#id29">IntervalValue</a><a class="headerlink" href="#intervalvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a time interval, with precise start and end times on a
 timeline, e.g. relative to the beginning of an audio or video file.
 Properties:</p>
@@ -592,7 +605,7 @@ seconds.</dd>
 </dl>
 </div>
 <div class="section" id="listvalue">
-<h5><a class="toc-backref" href="#id29">ListValue</a><a class="headerlink" href="#listvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-list-value"></span><h5><a class="toc-backref" href="#id30">ListValue</a><a class="headerlink" href="#listvalue" title="Permalink to this headline">¶</a></h5>
 <p>Projects often need to define lists or hierarchies of categories that
 can be assigned to many different resources. Then, for example, a user
 interface can provide a drop-down menu to allow the user to assign a
@@ -620,7 +633,7 @@ siblings (absent if <code class="docutils literal"><span class="pre">isRootNode<
 </dl>
 </div>
 <div class="section" id="filevalue">
-<span id="knora-base-filevalue"></span><h5><a class="toc-backref" href="#id30">FileValue</a><a class="headerlink" href="#filevalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-filevalue"></span><h5><a class="toc-backref" href="#id31">FileValue</a><a class="headerlink" href="#filevalue" title="Permalink to this headline">¶</a></h5>
 <p>Knora stores certain kinds of data outside the triplestore, in files
 (see <a class="reference internal" href="#knora-base-representations"><span class="std std-ref">Representations</span></a>). Each digital object that is
 stored outside the triplestore has associated metadata, which is stored
@@ -680,7 +693,7 @@ does not provide a way to retrieve a previous version of a file, but
 this feature will be added in a subsequent version of the API.</p>
 </div>
 <div class="section" id="linkvalue">
-<span id="knora-base-linkvalue"></span><h5><a class="toc-backref" href="#id31">LinkValue</a><a class="headerlink" href="#linkvalue" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-linkvalue"></span><h5><a class="toc-backref" href="#id32">LinkValue</a><a class="headerlink" href="#linkvalue" title="Permalink to this headline">¶</a></h5>
 <p>A <code class="docutils literal"><span class="pre">LinkValue</span></code> is an RDF “reification” containing metadata about a link
 between two resources. It is therefore a subclass of <code class="docutils literal"><span class="pre">rdf:Statement</span></code>
 as well as of <code class="docutils literal"><span class="pre">Value</span></code>. It has these properties:</p>
@@ -701,7 +714,7 @@ deleted).</dd>
 <p>For details about how links are created in Knora, see <a class="reference internal" href="#knora-base-links"><span class="std std-ref">Links Between Resources</span></a>.</p>
 </div>
 <div class="section" id="externalresvalue">
-<h5><a class="toc-backref" href="#id32">ExternalResValue</a><a class="headerlink" href="#externalresvalue" title="Permalink to this headline">¶</a></h5>
+<h5><a class="toc-backref" href="#id33">ExternalResValue</a><a class="headerlink" href="#externalresvalue" title="Permalink to this headline">¶</a></h5>
 <p>Represents a resource that is not stored in the RDF triplestore managed
 by the Knora API server, but instead resides in an external repository
 managed by some other software. The <code class="docutils literal"><span class="pre">ExternalResValue</span></code> contains the
@@ -720,7 +733,7 @@ resource, assuming that a suitable gateway plugin is installed.</p>
 </div>
 </div>
 <div class="section" id="links-between-resources">
-<span id="knora-base-links"></span><h3><a class="toc-backref" href="#id33">Links Between Resources</a><a class="headerlink" href="#links-between-resources" title="Permalink to this headline">¶</a></h3>
+<span id="knora-base-links"></span><h3><a class="toc-backref" href="#id34">Links Between Resources</a><a class="headerlink" href="#links-between-resources" title="Permalink to this headline">¶</a></h3>
 <p>A link between two resources is expressed, first of all, as a triple, in
 which the subject is the resource that is the source of the link, the
 predicate is a “link property” (a subproperty of <code class="docutils literal"><span class="pre">kb:hasLinkTo</span></code>), and
@@ -891,7 +904,7 @@ We can visualise the result as the following graph:</p>
  }" />
 </div>
 <div class="section" id="text-with-standoff-markup">
-<span id="knora-base-standoff"></span><h3><a class="toc-backref" href="#id34">Text with Standoff Markup</a><a class="headerlink" href="#text-with-standoff-markup" title="Permalink to this headline">¶</a></h3>
+<span id="knora-base-standoff"></span><h3><a class="toc-backref" href="#id35">Text with Standoff Markup</a><a class="headerlink" href="#text-with-standoff-markup" title="Permalink to this headline">¶</a></h3>
 <p>Knora is designed to be able to store text with markup, which can
 indicate formatting and structure, as well as the complex observations
 involved in transcribing handwritten manuscripts. One popular way of
@@ -934,56 +947,100 @@ classes, has these properties:</p>
 <dt><code class="docutils literal"><span class="pre">standoffTagHasEnd</span></code> (1)</dt>
 <dd>The index of the last character in the text that has the attribute,
 plus 1.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasUUID</span></code> (1)</dt>
+<dd>A UUID identifying this instance and those corresponding to it
+in later versions of the <code class="docutils literal"><span class="pre">TextValue</span></code> it belongs to. The UUID is a means
+to maintain a reference to a particular range of a text also when new versions
+are made and standoff tag IRIs change.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasOriginalXMLID</span></code> (0-1)</dt>
+<dd>The original id of the XML element that the standoff tag represents, if any.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStartIndex</span></code> (1)</dt>
+<dd>The start index of the standoff tag. Start indexes are numbered from 0 within the context of a
+particular text. When several standoff tags share the same start position,
+they can be nested correctly with this information when transforming them to XML.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEndIndex</span></code> (1)</dt>
+<dd>The end index of the standoff tag. Start indexes are numbered from 0 within the context of a
+particular text. When several standoff tags share the same end position,
+they can be nested correctly with this information when transforming them to XML.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStartParent</span></code> (0-1)</dt>
+<dd>Points to the parent standoff tag. This corresponds to the original nesting of tags in XML.
+If a standoff tag has no parent, it represents the XML root element.
+If the original XML element is a CLIX tag, it represents the start
+of a virtual (non syntactical) hierarchy.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEndParent</span></code> (0-1)</dt>
+<dd>Points to the parent standoff tag if the original XML element is a CLIX tag and represents the end
+of a virtual (non syntactical) hierarchy.</dd>
 </dl>
 <p>The <code class="docutils literal"><span class="pre">StandoffTag</span></code> class is not used directly in RDF data; instead, its
-subclasses are used. A few subclasses are currently provided, and more
-will be added to support TEI semantics. In a future version of the Knora
-API server, a project will be able to define its own custom standoff tag
-classes.</p>
+subclasses are used. A few subclasses are currently provided in <code class="docutils literal"><span class="pre">standoff-onto.ttl</span></code>, and more
+will be added to support TEI semantics. Projects are able to define their own custom standoff tag
+classes (direct subclasses of <code class="docutils literal"><span class="pre">StandoffTag</span></code> or one of the standoff data type classes or subclasses
+of one of the standoff classes defined in <code class="docutils literal"><span class="pre">standoff-onto.ttl</span></code>).</p>
 <div class="section" id="subclasses-of-standofftag">
-<h4><a class="toc-backref" href="#id35">Subclasses of StandoffTag</a><a class="headerlink" href="#subclasses-of-standofftag" title="Permalink to this headline">¶</a></h4>
-<div class="section" id="standoffvisualtag">
-<h5><a class="toc-backref" href="#id36">StandoffVisualTag</a><a class="headerlink" href="#standoffvisualtag" title="Permalink to this headline">¶</a></h5>
-<p>Represents a typographical style. Subclasses:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">StandoffItalicTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffBoldTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffUnderlineTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffStrikethroughTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffSuperscriptTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffSubscriptTag</span></code></li>
-</ul>
-</div>
-<div class="section" id="standoffstructuraltag">
-<h5><a class="toc-backref" href="#id37">StandoffStructuralTag</a><a class="headerlink" href="#standoffstructuraltag" title="Permalink to this headline">¶</a></h5>
-<p>Represents an element of the structure of a text. Subclasses:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">StandoffParagraphTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader1Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader2Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader3Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader4Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader5Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffHeader6Tag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffOrderedListTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffUnorderedListTag</span></code></li>
-<li><code class="docutils literal"><span class="pre">StandoffListElementTag</span></code></li>
-</ul>
-</div>
-<div class="section" id="standoffdatatypetag">
-<h5><a class="toc-backref" href="#id38">StandoffDataTypeTag</a><a class="headerlink" href="#standoffdatatypetag" title="Permalink to this headline">¶</a></h5>
-<p>Associates data in some Knora value type with a substring in a text.
-Subclasses:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">StandoffUriTag</span></code> Indicates that a substring is associated with a
-URI.</li>
-<li><code class="docutils literal"><span class="pre">StandoffDateValueTag</span></code> Indicates that a substring represents a
-date, which is stored in the same form that is used for
-<code class="docutils literal"><span class="pre">kb:DateValue</span></code>.</li>
+<h4><a class="toc-backref" href="#id36">Subclasses of StandoffTag</a><a class="headerlink" href="#subclasses-of-standofftag" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="standoff-data-type-tags">
+<h5><a class="toc-backref" href="#id37">Standoff Data Type Tags</a><a class="headerlink" href="#standoff-data-type-tags" title="Permalink to this headline">¶</a></h5>
+<p>Associates data in some Knora value type with a substring in a text. Standoff data type
+tags are subclasses of <code class="docutils literal"><span class="pre">ValueBase</span></code> classes.</p>
+<ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> Indicates that a substring refers to another <code class="docutils literal"><span class="pre">kb:Resource</span></code>.</dt>
+<dd><p class="first last">See <a class="reference internal" href="#knora-base-standoff-link"><span class="std std-ref">StandoffLinkTag</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffInternalReferenceTag</span></code> Indicates that a substring refers to another standoff tag in the same text</dt>
+<dd><p class="first last">value. See <a class="reference internal" href="#knora-base-standoff-internal-reference"><span class="std std-ref">Internal Links in a TextValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffUriTag</span></code> Indicates that a substring is associated with a</dt>
+<dd><p class="first last">URI, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:UriValue</span></code>. See <a class="reference internal" href="#knora-base-uri-value"><span class="std std-ref">UriValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffDateTag</span></code> Indicates that a substring represents a</dt>
+<dd><p class="first last">date, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DateValue</span></code>. See <a class="reference internal" href="#knora-base-date-value"><span class="std std-ref">DateValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffColorTag</span></code> Indicates that a substring represents a color,</dt>
+<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:ColorValue</span></code>. See <a class="reference internal" href="#knora-base-color-value"><span class="std std-ref">ColorValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffIntegerTag</span></code> Indicates that a substring represents an integer,</dt>
+<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntegerValue</span></code>. See <a class="reference internal" href="#knora-base-int-value"><span class="std std-ref">IntValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffDecimalTag</span></code> Indicates that a substring represents a number with fractions,</dt>
+<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DecimalValue</span></code>. See <a class="reference internal" href="#knora-base-decimal-value"><span class="std std-ref">DecimalValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffIntervalTag</span></code> Indicates that a substring represents an interval,</dt>
+<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntervalValue</span></code>. See <a class="reference internal" href="#knora-base-interval-value"><span class="std std-ref">IntervalValue</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">StandoffBooleanTag</span></code> Indicates that a substring represents a Boolean,</dt>
+<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:BooleanValue</span></code>. See <a class="reference internal" href="#knora-base-boolean-value"><span class="std std-ref">BooleanValue</span></a>.</p>
+</dd>
+</dl>
+</li>
 </ul>
 </div>
 <div class="section" id="standofflinktag">
-<span id="knora-base-standoff-link"></span><h5><a class="toc-backref" href="#id39">StandoffLinkTag</a><a class="headerlink" href="#standofflinktag" title="Permalink to this headline">¶</a></h5>
+<span id="knora-base-standoff-link"></span><h5><a class="toc-backref" href="#id38">StandoffLinkTag</a><a class="headerlink" href="#standofflinktag" title="Permalink to this headline">¶</a></h5>
 <p>A <code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> Indicates that a substring is associated with a
 Knora resource. For example, if a repository contains resources
 representing persons, a text could be marked up so that each time a
@@ -1102,8 +1159,62 @@ to see the source and target resources. The owner of these link values
 is always <code class="docutils literal"><span class="pre">kb:SystemUser</span></code> (see <a class="reference internal" href="#knora-base-users-and-groups"><span class="std std-ref">Users and Groups</span></a>).</p>
 </div>
 </div>
+<div class="section" id="internal-links-in-a-textvalue">
+<span id="knora-base-standoff-internal-reference"></span><h4><a class="toc-backref" href="#id39">Internal Links in a TextValue</a><a class="headerlink" href="#internal-links-in-a-textvalue" title="Permalink to this headline">¶</a></h4>
+<p>Internal links in a <code class="docutils literal"><span class="pre">TextValue</span></code> can be using the data type standoff class <code class="docutils literal"><span class="pre">StandoffInternalReferenceTag</span></code> or a subclass of it.
+It has the following property:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">standoffTagHasInternalReference</span></code> (1)</dt>
+<dd>Points to a <code class="docutils literal"><span class="pre">StandoffTag</span></code> that belongs to the same <code class="docutils literal"><span class="pre">TextValue</span></code>.
+It has an <code class="docutils literal"><span class="pre">objectClassConstraint</span></code> of <code class="docutils literal"><span class="pre">StandoffTag</span></code>.</dd>
+</dl>
+<p>For links to a <code class="docutils literal"><span class="pre">kb:Resource</span></code>, see <a class="reference internal" href="#knora-base-standoff-link"><span class="std std-ref">StandoffLinkTag</span></a>.</p>
+</div>
+<div class="section" id="mapping-to-create-standoff-from-xml">
+<span id="knora-base-mapping"></span><h4><a class="toc-backref" href="#id40">Mapping to Create Standoff From XML</a><a class="headerlink" href="#mapping-to-create-standoff-from-xml" title="Permalink to this headline">¶</a></h4>
+<p>A mapping allows for the conversion of an XML document to RDF-standoff
+and back. A mapping defines one-to-one relations between XML elements (with or without a class) and attributes
+and standoff classes and properties (see <a class="reference internal" href="../knora-api-server/api_v1/create-a-mapping.html#xml-to-standoff-mapping"><span class="std std-ref">XML to Standoff Mapping</span></a>).</p>
+<p>A mapping is represented by a <code class="docutils literal"><span class="pre">kb:XMLToStandoffMapping</span></code> which contains one or more <code class="docutils literal"><span class="pre">kb:MappingElement</span></code>.
+A <code class="docutils literal"><span class="pre">kb:MappingElement</span></code> maps an XML element (including attributes) to a standoff class and standoff properties.
+It has the following properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLTagname</span></code> (1)</dt>
+<dd>The name of the XML element that
+is mapped to a standoff class.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLNamespace</span></code> (1)</dt>
+<dd>The XML namespace of the XML element that
+is mapped to a standoff class. If no namespace is given, <code class="docutils literal"><span class="pre">noNamespace</span></code> is used.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLClass</span></code> (1)</dt>
+<dd>The name of the class of the XML element. If it has no class,
+<code class="docutils literal"><span class="pre">noClass</span></code> is used.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasStandoffClass</span></code> (1)</dt>
+<dd>The standoff class the XML element is mapped to.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLAttribute</span></code> (0-n)</dt>
+<dd>Maps XML attributes to standoff properties using <code class="docutils literal"><span class="pre">MappingXMLAttribute</span></code>. See below.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasStandoffDataTypeClass</span></code> (0-1)</dt>
+<dd>Indicates the standoff data type class
+of the standoff class the XML element is mapped to.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingElementRequiresSeparator</span></code> (1)</dt>
+<dd>Indicates if there should be an invisible word separator inserted
+after the XML element in the RDF-standoff representation. Once the markup is stripped, text segments that
+belonged to different elements may be concatenated.</dd>
+</dl>
+<p>A <code class="docutils literal"><span class="pre">MappingXMLAttribute</span></code> has the following properties:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLAttributename</span></code></dt>
+<dd>The name of the XML attribute that is mapped to a standoff property.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasXMLNamespace</span></code></dt>
+<dd>The namespace of the XML attribute that is mapped to a standoff property.
+If no namespace is given, <code class="docutils literal"><span class="pre">noNamespace</span></code> is used.</dd>
+<dt><code class="docutils literal"><span class="pre">mappingHasStandoffProperty</span></code></dt>
+<dd>The standoff property the XML attribute is mapped to.</dd>
+</dl>
+<p>Knora includes a standard mapping used by the SALSAH GUI. It has the IRI <code class="docutils literal"><span class="pre">http://data.knora.org/projects/standoff/mappings/StandardMapping</span></code> and defines
+mappings for a few elements used to write texts with simple markup (see <a class="reference internal" href="../knora-api-server/api_v1/create-a-mapping.html#xml-to-standoff-mapping"><span class="std std-ref">XML to Standoff Mapping</span></a>).</p>
+</div>
 <div class="section" id="standoff-in-digital-editions">
-<h4><a class="toc-backref" href="#id40">Standoff in Digital Editions</a><a class="headerlink" href="#standoff-in-digital-editions" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id41">Standoff in Digital Editions</a><a class="headerlink" href="#standoff-in-digital-editions" title="Permalink to this headline">¶</a></h4>
 <p>Knora’s standoff is designed to make it possible to convert XML
 documents to standoff and back. One application for this feature is an
 editing workflow in which an editor works in an XML editor, and the
@@ -1137,10 +1248,10 @@ properties:</p>
 <dd>The index of the start position.</dd>
 <dt><code class="docutils literal"><span class="pre">standoffTagHasEndIndex</span></code> (0-1)</dt>
 <dd>The index of the end position, if this is a non-hierarchical tag.</dd>
-<dt><code class="docutils literal"><span class="pre">standoffTagHasStartParentIndex</span></code> (0-1)</dt>
-<dd>The index of the tag, if any, that contains the start position.</dd>
-<dt><code class="docutils literal"><span class="pre">standoffTagHasEndParentIndex</span></code> (0-1)</dt>
-<dd>The index of the tag, if any, that contains the end position, if
+<dt><code class="docutils literal"><span class="pre">standoffTagHasStartParent</span></code> (0-1)</dt>
+<dd>The IRI of the tag, if any, that contains the start position.</dd>
+<dt><code class="docutils literal"><span class="pre">standoffTagHasEndParent</span></code> (0-1)</dt>
+<dd>The IRI of the tag, if any, that contains the end position, if
 this is a non-hierarchical tag.</dd>
 <dt><code class="docutils literal"><span class="pre">standoffTagHasUUID</span></code> (0-1)</dt>
 <dd>A UUID that can be used to annotate a standoff tag that may be
@@ -1149,12 +1260,41 @@ text (such as a diplomatic transcription and an edited critical
 text).</dd>
 </dl>
 </div>
+<div class="section" id="querying-standoff-in-sparql">
+<h4><a class="toc-backref" href="#id42">Querying Standoff in SPARQL</a><a class="headerlink" href="#querying-standoff-in-sparql" title="Permalink to this headline">¶</a></h4>
+<p>A future version of the Knora API server will provide an API for querying standoff markup.
+In the meantime, it is possible to query it directly in SPARQL. For example, here is a
+SPARQL query (using RDFS inference) that finds all the text values texts that have a standoff
+date tag referring to Christmas Eve 2016, contained in a <code class="docutils literal"><span class="pre">StandoffItalicTag</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>PREFIX knora-base: &lt;http://www.knora.org/ontology/knora-base#&gt;
+PREFIX standoff: &lt;http://www.knora.org/ontology/standoff#&gt;
+
+select * where {
+    ?standoffTag a knora-base:StandoffDateTag  .
+
+    ?standoffTag knora-base:valueHasStartJDN ?dateStart .
+    ?standoffTag knora-base:valueHasEndJDN ?dateEnd .
+
+    FILTER (2457747  &lt;= ?dateEnd &amp;&amp; 2457747  &gt;= ?dateStart)
+
+    ?standoffTag knora-base:standoffTagHasStartParent ?parent .
+    ?parent a standoff:StandoffItalicTag .
+
+    ?textValue knora-base:valueHasStandoff ?standoffTag .
+    ?textValue knora-base:valueHasString ?string .
+
+    ?standoffTag knora-base:standoffTagHasStart ?startPos .
+    ?standoffTag knora-base:standoffTagHasEnd ?endPos .
+}
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="authorization">
-<span id="knora-base-authorization"></span><h2><a class="toc-backref" href="#id41">Authorization</a><a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h2>
+<span id="knora-base-authorization"></span><h2><a class="toc-backref" href="#id43">Authorization</a><a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="users-and-groups">
-<span id="knora-base-users-and-groups"></span><h3><a class="toc-backref" href="#id42">Users and Groups</a><a class="headerlink" href="#users-and-groups" title="Permalink to this headline">¶</a></h3>
+<span id="knora-base-users-and-groups"></span><h3><a class="toc-backref" href="#id44">Users and Groups</a><a class="headerlink" href="#users-and-groups" title="Permalink to this headline">¶</a></h3>
 <p>Each Knora user is represented by an object belonging to the class
 <code class="docutils literal"><span class="pre">kb:User</span></code>, which is a subclass of <code class="docutils literal"><span class="pre">foaf:Person</span></code>, and has the
 following properties:</p>
@@ -1200,7 +1340,7 @@ created automatically for resource references in standoff markup (see
 <a class="reference internal" href="#knora-base-standoff-link"><span class="std std-ref">StandoffLinkTag</span></a>).</p>
 </div>
 <div class="section" id="permissions">
-<h3><a class="toc-backref" href="#id43">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id45">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
 <p>The owner of an object is always allowed to perform any operation on it.
 An object can grant the following permissions, which are stored in a
 compact format in a single string, which is the object of the predicate
@@ -1265,7 +1405,7 @@ permission literal would be:</p>
 </div>
 </div>
 <div class="section" id="consistency-checking">
-<h2><a class="toc-backref" href="#id44">Consistency Checking</a><a class="headerlink" href="#consistency-checking" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id46">Consistency Checking</a><a class="headerlink" href="#consistency-checking" title="Permalink to this headline">¶</a></h2>
 <p>Knora tries to enforce repository consistency by checking constraints
 that are specified in the Knora base ontology and in project-specific
 ontologies. Three types of consistency rules are enforced:</p>
@@ -1279,7 +1419,7 @@ properties must be satisfied.</li>
 triplestore-dependent; Knora may be able to provide stricter checks with
 some triplestores than with others.</p>
 <div class="section" id="owl-cardinalities">
-<span id="knora-base-cardinalities"></span><h3><a class="toc-backref" href="#id45">OWL Cardinalities</a><a class="headerlink" href="#owl-cardinalities" title="Permalink to this headline">¶</a></h3>
+<span id="knora-base-cardinalities"></span><h3><a class="toc-backref" href="#id47">OWL Cardinalities</a><a class="headerlink" href="#owl-cardinalities" title="Permalink to this headline">¶</a></h3>
 <p>As noted in <a class="reference internal" href="#knora-base-resources"><span class="std std-ref">Resources</span></a>, each subclass of <code class="docutils literal"><span class="pre">Resource</span></code>
 must use OWL cardinality restrictions to specify the properties it can
 have. More specifically, a resource is allowed to have a property that
@@ -1337,9 +1477,9 @@ providing little practical benefit.</p>
 <p>For more information about OWL cardinalities, see&nbsp;the <a class="reference external" href="http://www.w3.org/TR/2012/REC-owl2-primer-20121211/">OWL 2 Primer</a>.</p>
 </div>
 <div class="section" id="constraints-on-the-types-of-property-subjects-and-objects">
-<span id="knora-base-property-restrictions"></span><h3><a class="toc-backref" href="#id46">Constraints on the Types of Property Subjects and Objects</a><a class="headerlink" href="#constraints-on-the-types-of-property-subjects-and-objects" title="Permalink to this headline">¶</a></h3>
+<span id="knora-base-property-restrictions"></span><h3><a class="toc-backref" href="#id48">Constraints on the Types of Property Subjects and Objects</a><a class="headerlink" href="#constraints-on-the-types-of-property-subjects-and-objects" title="Permalink to this headline">¶</a></h3>
 <p>When a project-specific ontology defines a property, it must indicate
-the types that are allowed as subjects and objects of the property. This
+the types that are allowed as objects (and, if possible, as subjects) of the property. This
 is done using the following Knora-specific properties:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">subjectClassConstraint</span></code></dt>
@@ -1362,7 +1502,7 @@ purposes.</dd>
 </dl>
 </div>
 <div class="section" id="consistency-constraint-example">
-<h3><a class="toc-backref" href="#id47">Consistency Constraint Example</a><a class="headerlink" href="#consistency-constraint-example" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id49">Consistency Constraint Example</a><a class="headerlink" href="#consistency-constraint-example" title="Permalink to this headline">¶</a></h3>
 <p>A project-specific ontology could define consistency constraints as in
 this simplified example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">:</span><span class="n">book</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
@@ -1386,16 +1526,16 @@ this simplified example:</p>
 </div>
 </div>
 <div class="section" id="open-questions">
-<h2><a class="toc-backref" href="#id48">Open Questions</a><a class="headerlink" href="#open-questions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id50">Open Questions</a><a class="headerlink" href="#open-questions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="extending-existing-resource-definitions">
-<h3><a class="toc-backref" href="#id49">Extending Existing Resource Definitions</a><a class="headerlink" href="#extending-existing-resource-definitions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id51">Extending Existing Resource Definitions</a><a class="headerlink" href="#extending-existing-resource-definitions" title="Permalink to this headline">¶</a></h3>
 <p>How should extensions of existing resources be handled? Project B
 extends a resource defined in the project A ontology, by adding new
 properties/values which are interesting for project B.</p>
 </div>
 </div>
 <div class="section" id="notes">
-<h2><a class="toc-backref" href="#id50">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id52">Notes</a><a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -1430,7 +1570,7 @@ user’s possibility to freely annotate any ranges in the text.</td></tr>
 </table>
 </div>
 <div class="section" id="references">
-<h2><a class="toc-backref" href="#id51">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id53">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <table class="docutils citation" frame="void" id="schmidt2016" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -1459,7 +1599,7 @@ user’s possibility to freely annotate any ranges in the text.</td></tr>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

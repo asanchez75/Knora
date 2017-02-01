@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
     <link rel="next" title="Plans for Knora API v2" href="plans-for-api-v2.html" />
     <link rel="prev" title="Authentication in the Knora API Server" href="authentication.html" /> 
   </head>
@@ -370,10 +371,10 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 <h3>Template: OPEN<a class="headerlink" href="#template-open" title="Permalink to this headline">¶</a></h3>
 <p>The <em>OPEN</em> template, defines the following permissions:</p>
 <blockquote>
-<div><ul class="simple">
+<div><ul>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectAdmin</span></code> group:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>ProjectAllAdminPermission</em>.</li>
 </ul>
@@ -382,7 +383,7 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 </li>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectMember</span></code> group:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>CR</em> for the <em>knora-base:Creator</em> and <em>knora-base:ProjectAdmin</em> group.</li>
 <li>receives explicitly <em>M</em> for the <em>ProjectMember</em> group.</li>
@@ -398,10 +399,10 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 <h3>Template: CLOSED<a class="headerlink" href="#template-closed" title="Permalink to this headline">¶</a></h3>
 <p>The <em>CLOSED</em> template, defined the following permissions:</p>
 <blockquote>
-<div><ul class="simple">
+<div><ul>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectAdmin</span></code> group:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>ProjectAllAdminPermission</em>.</li>
 </ul>
@@ -410,7 +411,7 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 </li>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectMember</span></code> group:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>CR</em> for the <em>knora-base:Creator</em> and <em>knora-base:ProjectAdmin</em> group.</li>
 <li>receives explicitly <em>M</em> for the <em>ProjectMember</em> group.</li>
@@ -850,14 +851,18 @@ three endpoints corresponding to the three classes of objects that they have an 
 <h3>Projects Endpoint<a class="headerlink" href="#projects-endpoint" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Create project</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin</li>
-<li>Required information: projectShortname (unique; used for named graphs), projectBasepath</li>
-<li>Optional information: projectLongname, projectDescription, projectKeyword, projectLogo</li>
-<li>Returns IRI of newly created project</li>
+<dd><ul class="first last">
+<li><p class="first">Required permission: SystemAdmin</p>
+</li>
+<li><p class="first">Required information: projectShortname (unique; used for named graphs), projectBasepath</p>
+</li>
+<li><p class="first">Optional information: projectLongname, projectDescription, projectKeyword, projectLogo</p>
+</li>
+<li><p class="first">Returns IRI of newly created project</p>
+</li>
 <li><dl class="first docutils">
 <dt>Effects:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>create project</li>
 <li>create group named <em>ProjectAdmin</em>, give group <em>hasProjectAllAdminPermission</em> and <em>hasProjectResourceCreateAllPermission</em></li>
 <li>create group named <em>ProjectMember</em>, give group <em>hasProjectResourceCreateAllPermission</em>,
@@ -1122,7 +1127,7 @@ and some are attached to resources (e.g., this group has read/modify permission,
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

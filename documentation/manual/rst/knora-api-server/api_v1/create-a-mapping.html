@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>XML to Standoff Mapping &#8212; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
+    <link rel="next" title="Adding Resources" href="adding-resources.html" />
+    <link rel="prev" title="Reading and Searching Resources" href="reading-and-searching-resources.html" /> 
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>Knora 0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>XML to Standoff Mapping</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="reading-and-searching-resources.html">Reading and Searching Resources</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="adding-resources.html">Adding Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="xml-to-standoff-mapping">
+<span id="id1"></span><h1>XML to Standoff Mapping<a class="headerlink" href="#xml-to-standoff-mapping" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#the-knora-standard-mapping" id="id6">The Knora Standard Mapping</a></li>
+<li><a class="reference internal" href="#creating-a-custom-mapping" id="id7">Creating a custom Mapping</a><ul>
+<li><a class="reference internal" href="#basic-structure-of-a-mapping" id="id8">Basic Structure of a Mapping</a></li>
+<li><a class="reference internal" href="#id-and-class-attributes" id="id9"><code class="docutils literal"><span class="pre">id</span></code> and <code class="docutils literal"><span class="pre">class</span></code> Attributes</a></li>
+<li><a class="reference internal" href="#respecting-cardinalities" id="id10">Respecting Cardinalities</a></li>
+<li><a class="reference internal" href="#standoff-data-types" id="id11">Standoff Data Types</a><ul>
+<li><a class="reference internal" href="#internal-references-in-an-xml-document" id="id12">Internal References in an XML Document</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#predefined-standoff-classes-and-properties" id="id13">Predefined Standoff Classes and Properties</a></li>
+<li><a class="reference internal" href="#respecting-property-types" id="id14">Respecting Property Types</a></li>
+<li><a class="reference internal" href="#validating-a-mapping-and-sending-it-to-knora" id="id15">Validating a Mapping and sending it to Knora</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="the-knora-standard-mapping">
+<h2><a class="toc-backref" href="#id6">The Knora Standard Mapping</a><a class="headerlink" href="#the-knora-standard-mapping" title="Permalink to this headline">¶</a></h2>
+<p>A mapping allows for the conversion of XML to standoff representation in RDF and back. In order to create a TextValue with markup, the text has to be provided in XML format, along with the IRI of the mapping that will be used to convert the markup to standoff.
+However, a mapping is only needed if a TextValue with markup should be created. If a text has no markup, it is submitted as a mere sequence of characters.</p>
+<p>The two cases are described in the TypeScript interfaces <code class="docutils literal"><span class="pre">simpletext</span></code> and <code class="docutils literal"><span class="pre">richtext</span></code> in module <code class="docutils literal"><span class="pre">basicMessageComponents</span></code>.</p>
+<p>Knora offers a standard mapping with the IRI <code class="docutils literal"><span class="pre">http://data.knora.org/projects/standoff/mappings/StandardMapping</span></code>. The standard mapping covers the HTML elements and attributes supported by the GUI&#8217;s text editor CKEditor <a class="footnote-reference" href="#id4" id="id2">[1]</a>
+(please note that the HTML has to be encoded in strict XML syntax). The standard mapping contains the following elements and attributes that are mapped to standoff classes and properties defined in the ontology:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">&lt;text&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffRootTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;p&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffParagraphTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;em&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffItalicTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;strong&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffBoldTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;u&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffUnderlineTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;sub&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffSubscriptTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;sup&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffSuperscriptTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;strike&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffStrikeTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;URL&quot;&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">knora-base:StandoffUriTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">class=&quot;salsah-link&quot;</span> <span class="pre">href=&quot;Knora</span> <span class="pre">IRI&quot;&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">knora-base:StandoffLinkTag</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;br&gt;</span></code> -&gt; <code class="docutils literal"><span class="pre">standoff:StandoffBrTag</span></code></li>
+</ul>
+</div></blockquote>
+<p>The HTML produced by CKEditor is wrapped in an XML doctype and a pair of root tags <code class="docutils literal"><span class="pre">&lt;text&gt;...&lt;/text&gt;</span></code> and then sent to Knora. The XML sent to the GUI by Knora is unwrapped accordingly (see <code class="docutils literal"><span class="pre">jquery.htmleditor.js</span></code>).
+Although the GUI supports HTML5, it is treated as if it was XHTML in strict XML notation.</p>
+</div>
+<div class="section" id="creating-a-custom-mapping">
+<h2><a class="toc-backref" href="#id7">Creating a custom Mapping</a><a class="headerlink" href="#creating-a-custom-mapping" title="Permalink to this headline">¶</a></h2>
+<p>The Knora standard mapping only supports a few HTML tags. In order to submit more complex XML markup to Knora, a custom mapping has to be created first.
+Basically, a mapping expresses the relations between XML elements and attributes and their corresponding standoff classes and properties.
+The relations expressed in a mapping are one-to-one relations, so the XML can be recreated from the data in RDF. However, since HTML offers a very limited set of elements, Knora mappings support the combination of element names
+and classes. In this way, the same element can be used several times in combination with another classname (please note that <code class="docutils literal"><span class="pre">&lt;a&gt;</span></code> without a class is a mere hyperlink whereas <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">class=&quot;salsah-link&quot;&gt;</span></code> is an internal link/standoff link).</p>
+<div class="section" id="basic-structure-of-a-mapping">
+<h3><a class="toc-backref" href="#id8">Basic Structure of a Mapping</a><a class="headerlink" href="#basic-structure-of-a-mapping" title="Permalink to this headline">¶</a></h3>
+<p>The mapping is written in XML itself (for a formal description, see <code class="docutils literal"><span class="pre">webapi/src/resources/mappingXMLToStandoff.xsd</span></code>). It has the following structure (the indentation corresponds to the nesting in XML):</p>
+<ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;mapping&gt;</span></code>: the root element</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;mappingElement&gt;</span></code>: an element of the mapping (at least one)</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;tag&gt;</span></code>: information about the XML element that is mapped to a standoff class</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">&lt;name&gt;</span></code>: name of the XML element</li>
+<li><code class="docutils literal"><span class="pre">&lt;class&gt;</span></code>: value of the class attribute of the XML element, if any. If the element has no class attribute, the keyword <code class="docutils literal"><span class="pre">noClass</span></code> has to be used.</li>
+<li><code class="docutils literal"><span class="pre">&lt;namespace&gt;</span></code>: the namespace the XML element belongs to, if any. If the element does not belong to a namespace, the keyword <code class="docutils literal"><span class="pre">noNamespace</span></code> has to be used.</li>
+<li><code class="docutils literal"><span class="pre">&lt;separatesWords&gt;</span></code>: a Boolean value indicating whether this tag separates words in the text. Once an XML document is converted to RDF-standoff the markup is stripped from the text, possibly leading to continuous text that has been separated by tags before. For structural tags like paragraphs etc., <code class="docutils literal"><span class="pre">&lt;separatesWords&gt;</span></code> can be set to <code class="docutils literal"><span class="pre">true</span></code> in which case a special separator is inserted in the the text in the RDF representation. In this way, words stay separated and are represented in the fulltext index as such.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;standoffClass&gt;</span></code>: information about the standoff class the XML element is mapped to</dt>
+<dd><ul class="first last">
+<li><p class="first"><code class="docutils literal"><span class="pre">&lt;classIri&gt;</span></code>: Iri of the standoff class the XML element is mapped to</p>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;attributes&gt;</span></code>: XML attributes to be mapped to standoff properties (other than <code class="docutils literal"><span class="pre">id</span></code> or <code class="docutils literal"><span class="pre">class</span></code>), if any</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;attribute&gt;</span></code>: an XML attribute to be mapped to a standoff property, may be repeated</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">&lt;attributeName&gt;</span></code>: the name of the XML attribute</li>
+<li><code class="docutils literal"><span class="pre">&lt;namespace&gt;</span></code>: the namespace the attribute belogs to, if any. If the attribute does not belong to a namespace, the keyword <code class="docutils literal"><span class="pre">noNamespace</span></code> has to be used.</li>
+<li><code class="docutils literal"><span class="pre">&lt;propertyIri&gt;</span></code>: the Iri of the standoff property the XML attribute is mapped to.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">&lt;datatype&gt;</span></code>: the data type of the standoff class, if any.</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">&lt;type&gt;</span></code>: the Iri of the data type standoff class</li>
+<li><code class="docutils literal"><span class="pre">&lt;attributeName&gt;</span></code>: the name of the attribute holding the typed value in the expected Knora standard format</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>XML structure of a mapping:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">mapping</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">tag</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">element</span> <span class="n">name</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">class</span><span class="o">&gt;</span><span class="n">XML</span> <span class="k">class</span> <span class="nc">name</span> <span class="ow">or</span> <span class="s2">&quot;noClass&quot;</span><span class="o">&lt;/</span><span class="n">class</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">namespace</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">namespace</span> <span class="ow">or</span> <span class="s2">&quot;noNamespace&quot;</span><span class="o">&lt;/</span><span class="n">namespace</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">separatesWords</span><span class="o">&gt;</span><span class="n">true</span> <span class="ow">or</span> <span class="n">false</span><span class="o">&lt;/</span><span class="n">separatesWords</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">tag</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">standoffClass</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">classIri</span><span class="o">&gt;</span><span class="n">standoff</span> <span class="k">class</span> <span class="nc">Iri</span><span class="o">&lt;/</span><span class="n">classIri</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">attributes</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">attribute</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">attributeName</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">attribute</span> <span class="n">name</span><span class="o">&lt;/</span><span class="n">attributeName</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">namespace</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">namespace</span> <span class="ow">or</span> <span class="s2">&quot;noNamespace&quot;</span><span class="o">&lt;/</span><span class="n">namespace</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">propertyIri</span><span class="o">&gt;</span><span class="n">standoff</span> <span class="nb">property</span> <span class="n">Iri</span><span class="o">&lt;/</span><span class="n">propertyIri</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="n">attribute</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">datatype</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nb">type</span><span class="o">&gt;</span><span class="n">standoff</span> <span class="n">data</span> <span class="nb">type</span> <span class="n">class</span><span class="o">&lt;/</span><span class="nb">type</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">attributeName</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">attribute</span> <span class="k">with</span> <span class="n">the</span> <span class="n">typed</span> <span class="n">value</span><span class="o">&lt;/</span><span class="n">attributeName</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">datatype</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">standoffClass</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+       <span class="o">...</span>
+    <span class="o">&lt;/</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">mapping</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Please note that the absence of an XML namespace and/or a class have to be explicitly stated using the keywords <code class="docutils literal"><span class="pre">noNamespace</span></code> and <code class="docutils literal"><span class="pre">noClass</span></code> <a class="footnote-reference" href="#id5" id="id3">[2]</a>.</p>
+</div>
+<div class="section" id="id-and-class-attributes">
+<h3><a class="toc-backref" href="#id9"><code class="docutils literal"><span class="pre">id</span></code> and <code class="docutils literal"><span class="pre">class</span></code> Attributes</a><a class="headerlink" href="#id-and-class-attributes" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">id</span></code> and <code class="docutils literal"><span class="pre">class</span></code> attributes are supported by default and do not have to be included in the mapping like other attributes.
+The <code class="docutils literal"><span class="pre">id</span></code> attribute identifies an element and must be unique in the document. <code class="docutils literal"><span class="pre">id</span></code> is an optional attribute.
+The <code class="docutils literal"><span class="pre">class</span></code> attribute allows for the reuse of an element in the mapping, i.e. the same element can be combined with different class names and mapped to different standoff classes (mapping element <code class="docutils literal"><span class="pre">&lt;class&gt;</span></code> in <code class="docutils literal"><span class="pre">&lt;tag&gt;</span></code>).</p>
+</div>
+<div class="section" id="respecting-cardinalities">
+<h3><a class="toc-backref" href="#id10">Respecting Cardinalities</a><a class="headerlink" href="#respecting-cardinalities" title="Permalink to this headline">¶</a></h3>
+<p>A mapping from XML elements and attributes to standoff classes and standoff properties must respect the cardinalities defined in the ontology for those very standoff classes.
+If an XML element is mapped to a certain standoff class and this class requires a standoff property, an attribute must be defined for the XML element mapping to that very standoff property.
+Equally, all mappings for attributes of an XML element must have corresponding cardinalities for standoff properties defined for the standoff class the XML element maps to.</p>
+<p>However, since an XML attribute may occur once at maximum, it makes sense to make the corresponding standoff property required (<code class="docutils literal"><span class="pre">owl:cardinality</span></code> of one) in the ontology or optional (<code class="docutils literal"><span class="pre">owl:maxCardinality</span></code> of one),
+but not allowing it more than once.</p>
+</div>
+<div class="section" id="standoff-data-types">
+<h3><a class="toc-backref" href="#id11">Standoff Data Types</a><a class="headerlink" href="#standoff-data-types" title="Permalink to this headline">¶</a></h3>
+<p>Knora allows the use of all its value types as standoff data types (defined in <code class="docutils literal"><span class="pre">knora-base.ttl</span></code>):</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffLinkTag</span></code>: Represents a reference to a Knora resource (the IRI of the target resource must be submitted in the data type attribute).</li>
+<li><code class="docutils literal"><span class="pre">knora-base:StandoffInternalReferenceTag</span></code>: Represents an internal reference inside a document (the id of the target element inside the same document must be indicated in the data type attribute), see <a class="reference internal" href="#internal-references"><span class="std std-ref">Internal References in an XML Document</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffUriTag</span></code>: Represents a reference to a URI (the URI of the target resource must be submitted in the data type attribute).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffDateTag</span></code>: Represents a date (a Knora date string must be submitted in the data type attribute, e.g. <code class="docutils literal"><span class="pre">GREGORIAN:2017-01-27</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffColorTag</span></code>: Represents a color (a hexadecimal RGB color string must be submitted in the data type attribute, e.g. <code class="docutils literal"><span class="pre">#0000FF</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffIntegerTag</span></code>: Represents an integer (the integer must be submitted in the data type attribute).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffDecimalTag</span></code>: Represents a number with fractions (the decimal number must be submitted in the data type attribute, e.g. <code class="docutils literal"><span class="pre">1.1</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffIntervalTag</span></code>: Represents an interval (two decimal numbers separated with a comma must be submitted in the data type attribute, e.g. <code class="docutils literal"><span class="pre">1.1,2.2</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">knora-base::StandoffBooleanTag</span></code>: Represents a Boolean value (<code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code> must be submitted in the data type attribute).</li>
+</ul>
+<p>The basic idea is that parts of a text can be marked up in a way that allows using Knora&#8217;s built-in data types. In order to do so, the typed values have to be provided in a standardized way in an attribute that has to be defined in the mapping.</p>
+<p>Data type standoff classes are standoff classes with predefined properties (e.g., a <code class="docutils literal"><span class="pre">knora-base:StandoffLinkTag</span></code> has a <code class="docutils literal"><span class="pre">knora-base:standoffTagHasLink</span></code> and a <code class="docutils literal"><span class="pre">knora-base:StandoffIntegerTag</span></code> has a <code class="docutils literal"><span class="pre">knora-base:valueHasInteger</span></code>).
+Please note the data type standoff classes can not be combined, i.e. a standoff class can only be the subclass of <strong>one</strong> data type standoff class.
+However, standoff data type classes can be subclassed and extended further by assigning properties to them (see below).</p>
+<p>The following simple mapping illustrates this principle:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;mapping&gt;
+     &lt;mappingElement&gt;
+        &lt;tag&gt;
+            &lt;name&gt;text&lt;/name&gt;
+            &lt;class&gt;noClass&lt;/class&gt;
+            &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+            &lt;separatesWords&gt;false&lt;/separatesWords&gt;
+        &lt;/tag&gt;
+        &lt;standoffClass&gt;
+            &lt;classIri&gt;http://www.knora.org/ontology/standoff#StandoffRootTag&lt;/classIri&gt;
+        &lt;/standoffClass&gt;
+    &lt;/mappingElement&gt;
+
+    &lt;mappingElement&gt;
+        &lt;tag&gt;
+            &lt;name&gt;mydate&lt;/name&gt;
+            &lt;class&gt;noClass&lt;/class&gt;
+            &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+            &lt;separatesWords&gt;false&lt;/separatesWords&gt;
+        &lt;/tag&gt;
+        &lt;standoffClass&gt;
+            &lt;classIri&gt;http://www.knora.org/ontology/anything#StandoffEventTag&lt;/classIri&gt;
+            &lt;attributes&gt;
+                &lt;attribute&gt;
+                    &lt;attributeName&gt;description&lt;/attributeName&gt;
+                    &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+                    &lt;propertyIri&gt;http://www.knora.org/ontology/anything#standoffEventTagHasDescription&lt;/propertyIri&gt;
+                &lt;/attribute&gt;
+            &lt;/attributes&gt;
+            &lt;datatype&gt;
+                &lt;type&gt;http://www.knora.org/ontology/knora-base#StandoffDateTag&lt;/type&gt;
+                &lt;attributeName&gt;knoraDate&lt;/attributeName&gt;
+            &lt;/datatype&gt;
+        &lt;/standoffClass&gt;
+    &lt;/mappingElement&gt;
+&lt;mapping&gt;
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">&lt;datatype&gt;</span></code> <strong>must</strong> hold the Iri of a standoff data type class (see list above). The <code class="docutils literal"><span class="pre">&lt;classIri&gt;</span></code> must be a subclass of this type or this type itself (the latter is probably not recommendable since semantics are missing: what is the meaning of the date?).
+In the example above, the standoff class is <code class="docutils literal"><span class="pre">anything:StandoffEventTag</span></code> which has the following definition in the ontology <code class="docutils literal"><span class="pre">anything-onto.ttl</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">anything</span><span class="p">:</span><span class="n">StandoffEventTag</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Class</span> <span class="p">;</span>
+
+    <span class="n">rdfs</span><span class="p">:</span><span class="n">subClassOf</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">StandoffDateTag</span><span class="p">,</span>
+                   <span class="p">[</span>
+                      <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">owl</span><span class="p">:</span><span class="n">Restriction</span> <span class="p">;</span>
+                      <span class="n">owl</span><span class="p">:</span><span class="n">onProperty</span> <span class="p">:</span><span class="n">standoffEventTagHasDescription</span> <span class="p">;</span>
+                      <span class="n">owl</span><span class="p">:</span><span class="n">cardinality</span> <span class="s2">&quot;1&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">nonNegativeInteger</span>
+                   <span class="p">]</span> <span class="p">;</span>
+
+    <span class="n">rdfs</span><span class="p">:</span><span class="n">label</span> <span class="s2">&quot;Represents an event in a TextValue&quot;</span><span class="nd">@en</span> <span class="p">;</span>
+
+    <span class="n">rdfs</span><span class="p">:</span><span class="n">comment</span> <span class="s2">&quot;&quot;&quot;Represents an event in a TextValue&quot;&quot;&quot;</span><span class="nd">@en</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">anything:StandoffEventTag</span></code> is a subclass of <code class="docutils literal"><span class="pre">knora-base:StandoffDateTag</span></code> and therefore has the data type date.
+It also requires the standoff property <code class="docutils literal"><span class="pre">anything:standoffEventTagHasDescription</span></code> which is defined as an attribute in the mapping.</p>
+<p>Once the mapping has been created, an XML like the following could be sent to Knora and converted to standoff:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;text&gt;
+    We had a party on &lt;mydate description=&quot;new year&quot; knoraDate=&quot;GREGORIAN:2016-12-31&quot;&gt;New Year&#39;s Eve&lt;/mydate&gt;. It was a lot of fun.
+&lt;/text&gt;
+</pre></div>
+</div>
+<p>The attribute holds the date in the format of a Knora date string (the format is also documented in the typescript type alias <code class="docutils literal"><span class="pre">dateString</span></code> in module <code class="docutils literal"><span class="pre">basicMessageComponents</span></code>. There you will also find documentation about the other types like color etc.).
+Knora date strings have this format: <code class="docutils literal"><span class="pre">GREGORIAN|JULIAN):YYYY[-MM[-DD]][:YYYY[-MM[-DD]]]</span></code>. This allows for different formats as well as for imprecision and periods.
+Intervals are submitted as one attribute in the following format: <code class="docutils literal"><span class="pre">interval-attribute=&quot;1.0,2.0&quot;</span></code> (two decimal numbers separated with a comma).</p>
+<p>You will find a sample mapping with all the data types and a sample XML file in the the test data: <code class="docutils literal"><span class="pre">webapi/_test_data/test_route/texts/mappingForHTML.xml</span></code> and <code class="docutils literal"><span class="pre">webapi/_test_data/test_route/texts/HTML.xml</span></code>.</p>
+<div class="section" id="internal-references-in-an-xml-document">
+<span id="internal-references"></span><h4><a class="toc-backref" href="#id12">Internal References in an XML Document</a><a class="headerlink" href="#internal-references-in-an-xml-document" title="Permalink to this headline">¶</a></h4>
+<p>Internal references inside an XML document can be represented using the data type standoff class <code class="docutils literal"><span class="pre">knora-base:StandoffInternalReferenceTag</span></code> or a subclass of it.
+This class has a standoff property that points to a standoff node representing the target XML element when converted to RDF.</p>
+<p>The following example shows the definition of a mapping element for an internal reference (for reasons of simplicity, only the mapping element for the element is question is depicted):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">tag</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">ref</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">class</span><span class="o">&gt;</span><span class="n">noClass</span><span class="o">&lt;/</span><span class="n">class</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">namespace</span><span class="o">&gt;</span><span class="n">noNamespace</span><span class="o">&lt;/</span><span class="n">namespace</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">separatesWords</span><span class="o">&gt;</span><span class="n">false</span><span class="o">&lt;/</span><span class="n">separatesWords</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">tag</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">standoffClass</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">classIri</span><span class="o">&gt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="c1">#StandoffInternalReferenceTag&lt;/classIri&gt;</span>
+        <span class="o">&lt;</span><span class="n">datatype</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nb">type</span><span class="o">&gt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="c1">#StandoffInternalReferenceTag&lt;/type&gt;</span>
+            <span class="o">&lt;</span><span class="n">attributeName</span><span class="o">&gt;</span><span class="n">internalRef</span><span class="o">&lt;/</span><span class="n">attributeName</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">datatype</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">standoffClass</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">mappingElement</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Now, an internal reference to an element in the same document can be made that will be converted to a pointer in RDF:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;text&gt;
+    This is an &lt;sample id=&quot;1&quot;&gt;element&lt;/sample&gt; and here is a reference to &lt;ref internalRef=&quot;#1&quot;&gt;it&lt;/ref&gt;.
+&lt;/text&gt;
+</pre></div>
+</div>
+<p>An internal reference in XML has to start with a <code class="docutils literal"><span class="pre">#</span></code> followed by the value of the <code class="docutils literal"><span class="pre">id</span></code> attribute of the element referred to.</p>
+</div>
+</div>
+<div class="section" id="predefined-standoff-classes-and-properties">
+<h3><a class="toc-backref" href="#id13">Predefined Standoff Classes and Properties</a><a class="headerlink" href="#predefined-standoff-classes-and-properties" title="Permalink to this headline">¶</a></h3>
+<p>The standoff ontology <code class="docutils literal"><span class="pre">standoff-onto.ttl</span></code> offers a set of predefined standoff classes that can be used in a custom mapping like the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;mapping&gt;
+    &lt;mappingElement&gt;
+        &lt;tag&gt;
+            &lt;name&gt;myDoc&lt;/name&gt;
+            &lt;class&gt;noClass&lt;/class&gt;
+            &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+            &lt;separatesWords&gt;false&lt;/separatesWords&gt;
+        &lt;/tag&gt;
+        &lt;standoffClass&gt;
+            &lt;classIri&gt;http://www.knora.org/ontology/standoff#StandoffRootTag&lt;/classIri&gt;
+            &lt;attributes&gt;
+                &lt;attribute&gt;
+                    &lt;attributeName&gt;documentType&lt;/attributeName&gt;
+                    &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+                    &lt;propertyIri&gt;http://www.knora.org/ontology/standoff#standoffRootTagHasDocumentType&lt;/propertyIri&gt;
+                &lt;/attribute&gt;
+            &lt;/attributes&gt;
+        &lt;/standoffClass&gt;
+    &lt;/mappingElement&gt;
+
+    &lt;mappingElement&gt;
+        &lt;tag&gt;
+            &lt;name&gt;p&lt;/name&gt;
+            &lt;class&gt;noClass&lt;/class&gt;
+            &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+            &lt;separatesWords&gt;true&lt;/separatesWords&gt;
+        &lt;/tag&gt;
+        &lt;standoffClass&gt;
+            &lt;classIri&gt;http://www.knora.org/ontology/standoff#StandoffParagraphTag&lt;/classIri&gt;
+        &lt;/standoffClass&gt;
+    &lt;/mappingElement&gt;
+
+    &lt;mappingElement&gt;
+        &lt;tag&gt;
+            &lt;name&gt;i&lt;/name&gt;
+            &lt;class&gt;noClass&lt;/class&gt;
+            &lt;namespace&gt;noNamespace&lt;/namespace&gt;
+            &lt;separatesWords&gt;false&lt;/separatesWords&gt;
+        &lt;/tag&gt;
+        &lt;standoffClass&gt;
+            &lt;classIri&gt;http://www.knora.org/ontology/standoff#StandoffItalicTag&lt;/classIri&gt;
+        &lt;/standoffClass&gt;
+    &lt;/mappingElement&gt;
+&lt;mapping&gt;
+</pre></div>
+</div>
+<p>Predefined standoff classes may be used by various projects, each providing a custom mapping to be able to recreate the original XML from RDF.
+Predefined standoff classes may also be inherited and extended in project specific ontologies.</p>
+<p>The mapping above allows for an XML like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;myDoc documentType=&quot;letter&quot;&gt;
+    &lt;p&gt;
+        This my text that is &lt;i&gt;very&lt;/i&gt; interesting.
+    &lt;/p&gt;
+    &lt;p&gt;
+        And here it goes on.
+    &lt;/p&gt;
+&lt;/myDoc&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="respecting-property-types">
+<h3><a class="toc-backref" href="#id14">Respecting Property Types</a><a class="headerlink" href="#respecting-property-types" title="Permalink to this headline">¶</a></h3>
+<p>When mapping XML attributes to standoff properties, attention has to be paid to the properties&#8217; object constraints.</p>
+<p>In the ontology, standoff property literals may have one of the following <code class="docutils literal"><span class="pre">knora-base:objectDatatypeConstraint</span></code>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">xsd:string</span></code></li>
+<li><code class="docutils literal"><span class="pre">xsd:integer</span></code></li>
+<li><code class="docutils literal"><span class="pre">xsd:boolean</span></code></li>
+<li><code class="docutils literal"><span class="pre">xsd:decimal</span></code></li>
+<li><code class="docutils literal"><span class="pre">xsd:anyURI</span></code></li>
+</ul>
+<p>In XML, all attribute values are submitted as strings. However, these string representations need to be convertible to the types defined in the ontology.
+If they are not, the request will be rejected. It is recommended to enforce types on attributes by applying XML Schema validations (restrictions).</p>
+<p>Links (object property) to a <code class="docutils literal"><span class="pre">knora-base:Resource</span></code> can be represented using the data type standoff class <code class="docutils literal"><span class="pre">knora-base::StandoffLinkTag</span></code>, internal links using the data type standoff class <code class="docutils literal"><span class="pre">knora-base:StandoffInternalReferenceTag</span></code>.</p>
+</div>
+<div class="section" id="validating-a-mapping-and-sending-it-to-knora">
+<h3><a class="toc-backref" href="#id15">Validating a Mapping and sending it to Knora</a><a class="headerlink" href="#validating-a-mapping-and-sending-it-to-knora" title="Permalink to this headline">¶</a></h3>
+<p>A mapping can be validated before sending it to Knora with the following XML Schema file: <code class="docutils literal"><span class="pre">webapi/src/resources/mappingXMLToStandoff.xsd</span></code>.
+Any mapping that does not conform to this XML Schema file will be rejected by Knora.</p>
+<p>The mapping has to be sent as a multipart request to the standoff route using the path segment <code class="docutils literal"><span class="pre">mapping</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTP</span> <span class="n">POST</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">host</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">mapping</span>
+</pre></div>
+</div>
+<p>The multipart request consists of two named parts:</p>
+<ul>
+<li><p class="first">&#8220;json&#8221; -&gt;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="s2">&quot;projectIRI&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;my mapping&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;mappingName&quot;</span><span class="p">:</span> <span class="s2">&quot;MappingNameSegment&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">&#8220;xml&#8221; -&gt;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;mapping&gt;
+    ...
+&lt;/mapping&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+<p>A successful response returns the Iri of the mapping. However, the Iri of a mapping is predictable: it consists of the project Iri followed by <code class="docutils literal"><span class="pre">/mappings/</span></code> and the <code class="docutils literal"><span class="pre">mappingName</span></code> submitted in the JSON
+(if the name already exists, the request will be rejected).
+Once created, a mapping can be used to create TextValues in Knora. The formats are documented in the typescript interfaces <code class="docutils literal"><span class="pre">addMappingRequest</span></code> and <code class="docutils literal"><span class="pre">addMappingResponse</span></code> in module <code class="docutils literal"><span class="pre">mappingFormats</span></code></p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>CKeditor offers the possibility to define filter rules (<a class="reference external" href="http://docs.ckeditor.com/#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tags%2Fproperties">CKEditor</a>). They should reflect the elements supported by the mapping (see <code class="docutils literal"><span class="pre">jquery.htmleditor.js</span></code>).</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>This is because we use XML Schema validation to ensure the one-to-one relations between XML elements and standoff classes. XML Schema validations unique checks do not support optional values.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="reading-and-searching-resources.html">Reading and Searching Resources</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="adding-resources.html">Adding Resources</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

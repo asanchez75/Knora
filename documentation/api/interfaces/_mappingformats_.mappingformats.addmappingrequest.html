@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>textattr | Knora API V1 Format Documentation</title>
+	<title>addMappingRequest | Knora API V1 Format Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,16 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_basicmessagecomponents_.html">&quot;basicMessageComponents&quot;</a>
+					<a href="../modules/_mappingformats_.html">&quot;mappingFormats&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html">basicMessageComponents</a>
+					<a href="../modules/_mappingformats_.mappingformats.html">mappingFormats</a>
 				</li>
 				<li>
-					<a href="_basicmessagecomponents_.basicmessagecomponents.textattr.html">textattr</a>
+					<a href="_mappingformats_.mappingformats.addmappingrequest.html">addMappingRequest</a>
 				</li>
 			</ul>
-			<h1>Interface textattr</h1>
+			<h1>Interface addMappingRequest</h1>
 		</div>
 	</div>
 </header>
@@ -75,27 +75,86 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents the standoff information for a text value.</p>
+						<p>Create a new mapping.</p>
 					</div>
+					<p>HTTP POST <a href="http://host/v1/mapping">http://host/v1/mapping</a></p>
+					<p>This is the JSON part of a multipart request.
+						The part&#39;s name is &quot;json&quot;.
+					The mapping must be sent as XML in another part with the name <code>xml</code>.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">textattr</span>
+						<span class="target">addMappingRequest</span>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-module">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_basicmessagecomponents_.basicmessagecomponents.standoffposition.html" class="tsd-signature-type">standoffPosition</a><span class="tsd-signature-symbol">&gt;</span></div>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A map of attribute names to standoff positions.
-						For each attribute the standoff positions indicate in which ranges of the text the attribute occurs.</p>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappingformats_.mappingformats.addmappingrequest.html#label" class="tsd-kind-icon">label</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappingformats_.mappingformats.addmappingrequest.html#mappingname" class="tsd-kind-icon">mapping<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappingformats_.mappingformats.addmappingrequest.html#project_id" class="tsd-kind-icon">project_<wbr>id</a></li>
+							</ul>
+						</section>
 					</div>
-				</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="label" class="tsd-anchor"></a>
+					<h3>label</h3>
+					<div class="tsd-signature tsd-kind-icon">label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/100b6004/salsah/src/typescript_interfaces/mappingFormats.ts#L46">mappingFormats.ts:46</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A label describing the mapping.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="mappingname" class="tsd-anchor"></a>
+					<h3>mapping<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">mapping<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/100b6004/salsah/src/typescript_interfaces/mappingFormats.ts#L53">mappingFormats.ts:53</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A name that is going to be part of the mapping&#39;s IRI.
+								A mapping IRI consist of the project IRI, the segment &quot;mappings&quot;
+							and the <code>mappingName</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="project_id" class="tsd-anchor"></a>
+					<h3>project_<wbr>id</h3>
+					<div class="tsd-signature tsd-kind-icon">project_<wbr>id<span class="tsd-signature-symbol">:</span> <a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/100b6004/salsah/src/typescript_interfaces/mappingFormats.ts#L41">mappingFormats.ts:41</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The IRI of the project the mapping belongs to.</p>
+						</div>
+					</div>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -107,13 +166,8 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_addvalueformats_.html">"add<wbr>Value<wbr>Formats"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_basicmessagecomponents_.html">"basic<wbr>Message<wbr>Components"</a>
-						<ul>
-							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html">basic<wbr>Message<wbr>Components</a>
-							</li>
-						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_changevalueformats_.html">"change<wbr>Value<wbr>Formats"</a>
@@ -130,6 +184,14 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_hierarchicallistresponseformats_.html">"hierarchical<wbr>List<wbr>Response<wbr>Formats"</a>
 					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_mappingformats_.html">"mapping<wbr>Formats"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_mappingformats_.mappingformats.html">mapping<wbr>Formats</a>
+							</li>
+						</ul>
+					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourceresponseformats_.html">"resource<wbr>Response<wbr>Formats"</a>
 					</li>
@@ -143,123 +205,26 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.basicresponse.html" class="tsd-kind-icon">basic<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.booleanvalue.html" class="tsd-kind-icon">boolean<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.colorvalue.html" class="tsd-kind-icon">color<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.createorchangefilevaluerequest.html" class="tsd-kind-icon">create<wbr>OrChange<wbr>File<wbr>Value<wbr>Request</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.date.html" class="tsd-kind-icon">date</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.datevalue.html" class="tsd-kind-icon">date<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.decimalvalue.html" class="tsd-kind-icon">decimal<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.geometryvalue.html" class="tsd-kind-icon">geometry<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.geonamevalue.html" class="tsd-kind-icon">geoname<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.hierarchicallistvalue.html" class="tsd-kind-icon">hierarchical<wbr>List<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.integervalue.html" class="tsd-kind-icon">integer<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.interval.html" class="tsd-kind-icon">interval</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.intervalvalue.html" class="tsd-kind-icon">interval<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.linkvalue.html" class="tsd-kind-icon">link<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.locationitem.html" class="tsd-kind-icon">location<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.projectitem.html" class="tsd-kind-icon">project<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.richtext.html" class="tsd-kind-icon">richtext</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.richtextvalue.html" class="tsd-kind-icon">richtext<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.standoffposition.html" class="tsd-kind-icon">standoff<wbr>Position</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.textattr.html" class="tsd-kind-icon">textattr</a>
+						<a href="_mappingformats_.mappingformats.addmappingrequest.html" class="tsd-kind-icon">add<wbr>Mapping<wbr>Request</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_mappingformats_.mappingformats.addmappingrequest.html#label" class="tsd-kind-icon">label</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_mappingformats_.mappingformats.addmappingrequest.html#mappingname" class="tsd-kind-icon">mapping<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_mappingformats_.mappingformats.addmappingrequest.html#project_id" class="tsd-kind-icon">project_<wbr>id</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.urivalue.html" class="tsd-kind-icon">uri<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.userdata.html" class="tsd-kind-icon">userdata</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_basicmessagecomponents_.basicmessagecomponents.valuebase.html" class="tsd-kind-icon">value<wbr>Base</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knoraaccess" class="tsd-kind-icon">Knora<wbr>Access</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-kind-icon">KnoraIRI</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knoralistnodeiri" class="tsd-kind-icon">Knora<wbr>List<wbr>NodeIRI</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorarights" class="tsd-kind-icon">Knora<wbr>Rights</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorastatuscode" class="tsd-kind-icon">Knora<wbr>Status<wbr>Code</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#uri" class="tsd-kind-icon">URI</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#color" class="tsd-kind-icon">color</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#datestring" class="tsd-kind-icon">date<wbr>String</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#decimal" class="tsd-kind-icon">decimal</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#geometry" class="tsd-kind-icon">geometry</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#geoname" class="tsd-kind-icon">geoname</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#integer" class="tsd-kind-icon">integer</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knoravalue" class="tsd-kind-icon">knora<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#protocoloptions" class="tsd-kind-icon">protocol<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#textattrstringified" class="tsd-kind-icon">textattr<wbr>Stringified</a>
+						<a href="_mappingformats_.mappingformats.addmappingresponse.html" class="tsd-kind-icon">add<wbr>Mapping<wbr>Response</a>
 					</li>
 				</ul>
 			</nav>
