@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
-    <link rel="up" title="Introduction" href="index.html" />
     <link rel="next" title="The Knora Ontologies" href="../knora-ontologies/index.html" />
     <link rel="prev" title="What Is Knora?" href="what-is-knora.html" /> 
   </head>
@@ -62,7 +61,7 @@ is designed to store an image of each page of each book, as well as RDF data
 about books, pages, their contents, and relationships between them. At the moment,
 only the RDF data is provided in the example project, not the images.</p>
 <p>The <code class="docutils literal"><span class="pre">incunabula</span></code> ontology is in the file <code class="docutils literal"><span class="pre">incunabula-onto.ttl</span></code>, and its
-data is in the file <code class="docutils literal"><span class="pre">incunabula-data.ttl</span></code>. Both these files are in a
+data is in the file <code class="docutils literal"><span class="pre">incunabula-demo-data.ttl</span></code>. Both these files are in a
 standard RDF file format called <a class="reference external" href="https://www.w3.org/TR/turtle/">Turtle</a>. The Knora distribution includes
 sample scripts (in the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> directory) for importing these files
 directly into different triplestores. If you are starting a new project from
@@ -522,7 +521,7 @@ not allowed to have a <code class="docutils literal"><span class="pre">knora-bas
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

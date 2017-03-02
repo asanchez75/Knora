@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
     <link rel="next" title="Plans for Knora API v2" href="plans-for-api-v2.html" />
     <link rel="prev" title="Authentication in the Knora API Server" href="authentication.html" /> 
   </head>
@@ -88,8 +87,8 @@ project designated by the <code class="docutils literal"><span class="pre">knora
 <dd>When checking a user&#8217;s permission, the user is automatically assigned to this group through the
 <code class="docutils literal"><span class="pre">knora-base:isInProjectAdminGroup</span></code> property, which points to the project in question.</dd>
 <dt><strong>knora-base:SystemAdmin</strong>:</dt>
-<dd>The <code class="docutils literal"><span class="pre">root</span></code> user is by default member of this group. Membership is received by setting the property
-<code class="docutils literal"><span class="pre">knora-base:isInSystemAdminGroup</span></code> to <code class="docutils literal"><span class="pre">true</span></code> on a <code class="docutils literal"><span class="pre">knora-base:User</span></code>.</dd>
+<dd>Membership is received by setting the property <code class="docutils literal"><span class="pre">knora-base:isInSystemAdminGroup</span></code> to <code class="docutils literal"><span class="pre">true</span></code> on a
+<code class="docutils literal"><span class="pre">knora-base:User</span></code>.</dd>
 </dl>
 <p>To use these build-in groups as values for properties (Object Access and Default Permissions), the IRI is constructed by
 appending the name of the built-in group to <code class="docutils literal"><span class="pre">knora-base</span></code>, e.g., <code class="docutils literal"><span class="pre">knora-base:KnownUser</span></code> where <code class="docutils literal"><span class="pre">knora-base</span></code>
@@ -336,6 +335,8 @@ a property (<code class="docutils literal"><span class="pre">knora-base:forPrope
 <p>If the user creating a new object is a member of more than one group with such attached permissions, and additionally
 default object access permission are defined on resource classes and/or properties, then the final set of default object
 access permissions that will result is <strong>additive</strong> and <strong>most permissive</strong>.</p>
+<p>The default object access permissions defined on the <strong>SystemAdmin</strong> group are additionally used for system admin users,
+and are added to the calculated final set of permissions.</p>
 <p>Example default object access permission instance:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">permissions</span><span class="o">/</span><span class="mi">002</span><span class="o">&gt;</span>
         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">DefaultObjectAccessPermission</span> <span class="p">;</span>
@@ -371,10 +372,10 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 <h3>Template: OPEN<a class="headerlink" href="#template-open" title="Permalink to this headline">¶</a></h3>
 <p>The <em>OPEN</em> template, defines the following permissions:</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectAdmin</span></code> group:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>ProjectAllAdminPermission</em>.</li>
 </ul>
@@ -383,7 +384,7 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 </li>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectMember</span></code> group:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>CR</em> for the <em>knora-base:Creator</em> and <em>knora-base:ProjectAdmin</em> group.</li>
 <li>receives explicitly <em>M</em> for the <em>ProjectMember</em> group.</li>
@@ -399,10 +400,10 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 <h3>Template: CLOSED<a class="headerlink" href="#template-closed" title="Permalink to this headline">¶</a></h3>
 <p>The <em>CLOSED</em> template, defined the following permissions:</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectAdmin</span></code> group:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
 <li>receives explicitly <em>ProjectAllAdminPermission</em>.</li>
 </ul>
@@ -411,11 +412,10 @@ access permission. Currently, two different templates will be defined <em>OPEN</
 </li>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">knora-base:ProjectMember</span></code> group:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>receives explicitly <em>ProjectResourceCreateAllPermission</em>.</li>
-<li>receives explicitly <em>CR</em> for the <em>knora-base:Creator</em> and <em>knora-base:ProjectAdmin</em> group.</li>
+<li>receives explicitly <em>CR</em> for the <em>knora-base:ProjectAdmin</em> group.</li>
 <li>receives explicitly <em>M</em> for the <em>ProjectMember</em> group.</li>
-<li>receives explicitly <em>V</em> for the <em>knora-base:KnownUser</em> group.</li>
 </ul>
 </dd>
 </dl>
@@ -686,7 +686,7 @@ by using the <em>knora-base:forProject</em> and either <em>knora-base:forGroup</
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">permissions</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">AdministrativePermission</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">images</span><span class="o">&gt;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forGroup</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">ProjectMember</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasPermission</span> <span class="s2">&quot;ProjectResourceCreateAllPermission&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="o">.</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasPermissions</span> <span class="s2">&quot;ProjectResourceCreateAllPermission&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="o">.</span>
 </pre></div>
 </div>
 <p><strong>Administrative permission restricting project admin permission on a group:</strong></p>
@@ -708,7 +708,7 @@ by using the <em>knora-base:forProject</em> and either <em>knora-base:forGroup</
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">images</span><span class="o">&gt;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forGroup</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">ProjectMember</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasPermissions</span> <span class="s2">&quot;CR knora-base:Creator|</span>
-                                 <span class="n">M</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">permissions</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;|</span>
+                                 <span class="n">M</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">groups</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;|</span>
                                  <span class="n">V</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">KnownUser</span><span class="s2">&quot;^^xsd:string .</span>
 </pre></div>
 </div>
@@ -830,16 +830,14 @@ three endpoints corresponding to the three classes of objects that they have an 
 </dd>
 </dl>
 <p>Example User Information stored in admin graph:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="mi">91</span><span class="n">e19f1e01</span><span class="o">&gt;</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">User</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">userid</span> <span class="s2">&quot;root&quot;</span> <span class="p">;</span>
-     <span class="n">foaf</span><span class="p">:</span><span class="n">familyName</span> <span class="s2">&quot;Admin&quot;</span> <span class="p">;</span>
-     <span class="n">foaf</span><span class="p">:</span><span class="n">givenName</span> <span class="s2">&quot;Administrator&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">password</span> <span class="s2">&quot;a94a8fe5ccb19ba61c4c0873d391e987982fbbd3&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">passwordSalt</span> <span class="s2">&quot;&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">email</span> <span class="s2">&quot;test@test.ch&quot;</span> <span class="p">;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="mf">91e19</span><span class="n">f1e01</span><span class="o">&gt;</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">User</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">email</span> <span class="s2">&quot;test@test.ch&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">givenName</span> <span class="s2">&quot;Administrator&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">familyName</span> <span class="s2">&quot;Admin&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">password</span> <span class="s2">&quot;$2a$10$fTEr/xVjPq7UBAy1O6KWKOM1scLhKGeRQdR4GTA997QPqHzXv0MnW&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">phone</span> <span class="s2">&quot;123456&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">preferredLanguage</span> <span class="s2">&quot;de&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isActiveUser</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">preferredLanguage</span> <span class="s2">&quot;de&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">status</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isInProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isInSystemAdminGroup</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isInProjectAdminGroup</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
@@ -851,18 +849,14 @@ three endpoints corresponding to the three classes of objects that they have an 
 <h3>Projects Endpoint<a class="headerlink" href="#projects-endpoint" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Create project</strong>:</dt>
-<dd><ul class="first last">
-<li><p class="first">Required permission: SystemAdmin</p>
-</li>
-<li><p class="first">Required information: projectShortname (unique; used for named graphs), projectBasepath</p>
-</li>
-<li><p class="first">Optional information: projectLongname, projectDescription, projectKeyword, projectLogo</p>
-</li>
-<li><p class="first">Returns IRI of newly created project</p>
-</li>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin</li>
+<li>Required information: projectShortname (unique; used for named graphs), projectBasepath</li>
+<li>Optional information: projectLongname, projectDescription, projectKeyword, projectLogo</li>
+<li>Returns IRI of newly created project</li>
 <li><dl class="first docutils">
 <dt>Effects:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>create project</li>
 <li>create group named <em>ProjectAdmin</em>, give group <em>hasProjectAllAdminPermission</em> and <em>hasProjectResourceCreateAllPermission</em></li>
 <li>create group named <em>ProjectMember</em>, give group <em>hasProjectResourceCreateAllPermission</em>,
@@ -909,29 +903,10 @@ three endpoints corresponding to the three classes of objects that they have an 
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectBasepath</span> <span class="s2">&quot;/imldata/SALSAH-TEST-01/images&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectShortname</span> <span class="s2">&quot;images&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectLongname</span> <span class="s2">&quot;Images Collection Demo&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectOntolgyGraph</span> <span class="s2">&quot;http://www.knora.org/ontology/images&quot;</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectOntologyGraph</span> <span class="s2">&quot;http://www.knora.org/ontology/images&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">projectDataGraph</span> <span class="s2">&quot;http://www.knora.org/data/images&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">isActiveProject</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasSelfJoinEnabled</span> <span class="s2">&quot;false&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="o">.</span>
-
-
-<span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">groups</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span>
-     <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">UserGroup</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupName</span> <span class="s2">&quot;ProjectAdmin&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupDescription</span> <span class="s2">&quot;Default Project Admin Group&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">belongsToProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasProjectAllAdminPermission</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasProjectResourceCreateAllPermission</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="o">.</span>
-
-
-<span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">groups</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span>
-     <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">UserGroup</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupName</span> <span class="s2">&quot;ProjectMember&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupDescription</span> <span class="s2">&quot;Default Project Member Group&quot;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">belongsToProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasProjectResourceCreateAllPermission</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasDefaultChangeRightsPermission</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">Creator</span> <span class="p">;</span>
-     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasDefaultViewPermission</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">KnownUser</span> <span class="o">.</span>
 </pre></div>
 </div>
 </div>
@@ -1002,6 +977,7 @@ hasProjectRestrictedGroupAdminPermission (for this group)</li>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupName</span> <span class="s2">&quot;Name of the group&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">groupDescription</span> <span class="s2">&quot;A description of the group&quot;</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">belongsToProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">status</span> <span class="s2">&quot;true&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasSelfJoinEnabled</span> <span class="s2">&quot;false&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="o">.</span>
 </pre></div>
 </div>
@@ -1127,7 +1103,7 @@ and some are attached to resources (e.g., this group has read/modify permission,
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
