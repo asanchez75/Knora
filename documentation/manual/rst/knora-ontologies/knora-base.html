@@ -901,6 +901,9 @@ We can visualise the result as the following graph:</p>
     linkValue -&gt; isInCollection [label = &quot;predicate&quot;]
     linkValue -&gt; collection [label = &quot;object&quot;]
  }" />
+<p>The Knora API server allows a user to see a link if
+the requesting user has permission to see the source and target resources
+as well as the <code class="docutils literal"><span class="pre">kb:LinkValue</span></code>.</p>
 </div>
 <div class="section" id="text-with-standoff-markup">
 <span id="knora-base-standoff"></span><h3><a class="toc-backref" href="#id35">Text with Standoff Markup</a><a class="headerlink" href="#text-with-standoff-markup" title="Permalink to this headline">¶</a></h3>
@@ -1144,9 +1147,10 @@ following triples:</p>
     }
  }" />
 <p>Link values created automatically for resource references in standoff
-are automatically visible to all users, as long as they have permission
-to see the source and target resources. The creator of these link values
-is always <code class="docutils literal"><span class="pre">kb:SystemUser</span></code> (see <a class="reference internal" href="#knora-base-users-and-groups"><span class="std std-ref">Users and Groups</span></a>).</p>
+are visible to all users, and the creator of these link values
+is always <code class="docutils literal"><span class="pre">kb:SystemUser</span></code> (see <a class="reference internal" href="#knora-base-users-and-groups"><span class="std std-ref">Users and Groups</span></a>).
+The Knora API server allows a user to see a standoff link if the user
+has permission to see the source and target resources.</p>
 </div>
 </div>
 <div class="section" id="internal-links-in-a-textvalue">
@@ -1332,8 +1336,9 @@ created automatically for resource references in standoff markup (see
 <div class="section" id="permissions">
 <h3><a class="toc-backref" href="#id45">Permissions</a><a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h3>
 <p>An object can grant the following permissions, which are stored in a
-compact format in a single string, which is the object of the predicate
-<code class="docutils literal"><span class="pre">kb:hasPermissions</span></code>:</p>
+compact format in a single string. This string is the object of the predicate
+<code class="docutils literal"><span class="pre">kb:hasPermissions</span></code>, which is required on every <code class="docutils literal"><span class="pre">kb:Resource</span></code> and
+<code class="docutils literal"><span class="pre">kb:Value</span></code>.</p>
 <ol class="arabic simple">
 <li><strong>Restricted view permission (RV)</strong> Allows a restricted view of
 the object, e.g.&nbsp;a view of an image with a watermark.</li>
