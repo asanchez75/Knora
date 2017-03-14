@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Starting GraphDB-SE 7 &#8212; Knora 0.1 documentation</title>
+    <title>Starting GraphDB-SE &#8212; Knora 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -27,17 +27,17 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Build Process" href="build-process.html" />
-    <link rel="prev" title="Starting Fuseki 2" href="fuseki.html" /> 
+    <link rel="prev" title="Starting Fuseki 3" href="fuseki.html" /> 
   </head>
   <body role="document">
       <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
           <span>Knora 0.1 documentation</span></a></h1>
-        <h2 class="heading"><span>Starting GraphDB-SE 7</span></h2>
+        <h2 class="heading"><span>Starting GraphDB-SE</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
       
         <p>
-        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 2</a>
+        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 3</a>
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
@@ -48,46 +48,45 @@
       <div class="content">
         
         
-  <div class="section" id="starting-graphdb-se-7">
-<span id="id1"></span><h1>Starting GraphDB-SE 7<a class="headerlink" href="#starting-graphdb-se-7" title="Permalink to this headline">¶</a></h1>
-<p>Inside the Knora API server git repository, there is a folder called <code class="docutils literal"><span class="pre">/triplestores/graphdb-se-7</span></code> containing the
-GraphDB-SE-7 distribution archive and the dockerfile we will use to build the docker image. This docker image will then
-be used to run a docker container, inside which GraphDB will be running.</p>
+  <div class="section" id="starting-graphdb-se">
+<span id="id1"></span><h1>Starting GraphDB-SE<a class="headerlink" href="#starting-graphdb-se" title="Permalink to this headline">¶</a></h1>
+<p>Inside the Knora API server git repository, there is a folder called <code class="docutils literal"><span class="pre">/triplestores/graphdb-se</span></code> containing the
+latest supported version of the GraphDB-SE distribution archive.</p>
+<div class="section" id="running-locally">
+<h2>Running Locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h2>
+<p>Unzip <code class="docutils literal"><span class="pre">graphdb-se-x.x.x-dist.zip</span></code> to a place of your choosing and run the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd /to/unziped/location
+$ ./bin/graphdb -Dgraphdb.license.file=/path/to/GRAPHDB_SE.license
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-inside-docker">
+<h2>Running inside Docker<a class="headerlink" href="#running-inside-docker" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="important-steps">
-<h2>Important Steps<a class="headerlink" href="#important-steps" title="Permalink to this headline">¶</a></h2>
-<p>To be able to successfully run GraphDB inside docker three important steps need to be done beforhand:</p>
+<h3>Important Steps<a class="headerlink" href="#important-steps" title="Permalink to this headline">¶</a></h3>
+<p>To be able to successfully run GraphDB inside docker two important steps need to be done beforhand:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li>Install Docker from <a class="reference external" href="http://docker.com">http://docker.com</a>.</li>
-<li>Copy the GraphDB-SE license file into this folder and name it <code class="docutils literal"><span class="pre">GRAPHDB_SE.license</span></code>. It is already added to a
-local <code class="docutils literal"><span class="pre">.gitignore</span></code> file which can be found inside this folder. Under no circumstance should the license file be
-committed to Github.</li>
-<li>(optional) The current version of <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> from the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> needs to be copied to this folder
-each time it was changed. This file needs to be copied into the docker image, which can only be done if it is found
-inside this folder.</li>
+<li>Copy the GraphDB-SE license file into a folder of you choosing and name it <code class="docutils literal"><span class="pre">GRAPHDB_SE.license</span></code>. We will mount
+this folder into the docker container, so that the license can be used by GraphDB running inside the container.</li>
 </ol>
 </div></blockquote>
 </div>
 <div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>From inside the <code class="docutils literal"><span class="pre">triplestores/graphdb-se-7</span></code> folder, type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ docker build -t graphdb .
-$ docker run --rm -it -p 7200:7200 graphdb
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default"><div class="highlight"><pre><span></span> $ docker run --rm -it -v /path/to/license/folder:/external -p 7200:7200 dhlabbasel/graphdb
+
+
+- ``--rm`` removes the container as soon as you stop it
+- ``-p`` forwards the exposed port to your host (or if you use boot2docker to this IP)
+- ``-it`` allows interactive mode, so you see if something get&#39;s deployed
 </pre></div>
 </div>
-<p>Do not forget the &#8216;.&#8217; in the first command.</p>
-<blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">--rm</span></code> removes the container as soon as you stop it</li>
-<li><code class="docutils literal"><span class="pre">-p</span></code> forwards the exposed port to your host (or if you use boot2docker to this IP)</li>
-<li><code class="docutils literal"><span class="pre">-it</span></code> allows interactive mode, so you see if something get&#8217;s deployed</li>
-</ul>
-</div></blockquote>
 <p>After the GraphDB inside the docker container has started, you can find the GraphDB workbench here: <a class="reference external" href="http://localhost:7200">http://localhost:7200</a></p>
 <p>Above, we create and start a transient container (<code class="docutils literal"><span class="pre">--rm</span></code> flag). To create a container that we can stop and start again
 at a later time, follow the following steps:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span> $ docker build -t graphdb &lt;path-to-dockerfile&gt;
- $ docker run --name graphdb -d -t -p 7200:7200 graphdb
+<div class="highlight-default"><div class="highlight"><pre><span></span> $ docker run --name graphdb -d -t -v /path/to/license/folder:/external -p 7200:7200 dhlabbasel/graphdb
 
  (to see the console output, attach to the container; to detach press Ctrl-c)
  $ docker attach graphdb
@@ -109,13 +108,14 @@ at a later time, follow the following steps:</p>
 </div>
 </div>
 </div>
+</div>
 
 
       </div>
       <div class="bottomnav" role="navigation" aria-label="bottom navigation">
       
         <p>
-        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 2</a>
+        «&#160;&#160;<a href="fuseki.html">Starting Fuseki 3</a>
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
@@ -126,7 +126,7 @@ at a later time, follow the following steps:</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

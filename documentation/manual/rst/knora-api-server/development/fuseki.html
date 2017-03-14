@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Starting Fuseki 2 &#8212; Knora 0.1 documentation</title>
+    <title>Starting Fuseki 3 &#8212; Knora 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,13 +26,13 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Starting GraphDB-SE 7" href="graphdb.html" />
+    <link rel="next" title="Starting GraphDB-SE" href="graphdb.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
   </head>
   <body role="document">
       <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
           <span>Knora 0.1 documentation</span></a></h1>
-        <h2 class="heading"><span>Starting Fuseki 2</span></h2>
+        <h2 class="heading"><span>Starting Fuseki 3</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
       
@@ -41,20 +41,20 @@
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="graphdb.html">Starting GraphDB-SE 7</a>&#160;&#160;»
+        <a href="graphdb.html">Starting GraphDB-SE</a>&#160;&#160;»
         </p>
 
       </div>
       <div class="content">
         
         
-  <div class="section" id="starting-fuseki-2">
-<span id="id1"></span><h1>Starting Fuseki 2<a class="headerlink" href="#starting-fuseki-2" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="starting-fuseki-3">
+<span id="starting-fuseki"></span><h1>Starting Fuseki 3<a class="headerlink" href="#starting-fuseki-3" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="locally">
 <h2>Locally<a class="headerlink" href="#locally" title="Permalink to this headline">¶</a></h2>
 <p>Inside the Knora API server git repository, there is a folder called
 <code class="docutils literal"><span class="pre">triplestores/fuseki</span></code> containing a script named <code class="docutils literal"><span class="pre">fuseki-server</span></code>. All needed
-configuration files are in place. To start Fuseki 2, just run this
+configuration files are in place. To start Fuseki 3, just run this
 script:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ ./fuseki-server
 </pre></div>
@@ -62,14 +62,10 @@ script:</p>
 </div>
 <div class="section" id="inside-docker">
 <h2>Inside Docker<a class="headerlink" href="#inside-docker" title="Permalink to this headline">¶</a></h2>
-<p>Inside the Knora API server git repository, there is a folder called <code class="docutils literal"><span class="pre">triplestores/fuseki</span></code> containing the
-<code class="docutils literal"><span class="pre">Dockerfile</span></code> we can use to create the docker image:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd triplestores/fuseki
-$ docker build -t fuseki .
-$ docker run --rm -it -p 3030:3030 fuseki
+<p>We can use the <code class="docutils literal"><span class="pre">dhlabbasel:fuseki</span></code> docker image from docker hub:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ docker run --rm -it -p 3030:3030 dhlabbasel/fuseki
 </pre></div>
 </div>
-<p>Do not forget the &#8216;.&#8217; in the first command.</p>
 </div>
 </div>
 
@@ -82,14 +78,14 @@ $ docker run --rm -it -p 3030:3030 fuseki
         &#160;&#160;::&#160;&#160;
         <a class="uplink" href="../../index.html">Contents</a>
         &#160;&#160;::&#160;&#160;
-        <a href="graphdb.html">Starting GraphDB-SE 7</a>&#160;&#160;»
+        <a href="graphdb.html">Starting GraphDB-SE</a>&#160;&#160;»
         </p>
 
       </div>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>
