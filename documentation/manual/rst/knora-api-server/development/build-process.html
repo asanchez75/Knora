@@ -335,7 +335,11 @@ lazy val webApiLibs = Seq(
     &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % akkaVersion,
     &quot;com.typesafe.akka&quot; %% &quot;akka-slf4j&quot; % akkaVersion,
     &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % akkaHttpVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-xml&quot; % akkaHttpVersion,
     &quot;com.typesafe.akka&quot; %% &quot;akka-http-spray-json&quot; % akkaHttpVersion,
+
+    &quot;org.scala-lang.modules&quot; %% &quot;scala-xml&quot; % &quot;1.0.6&quot;,
+
     // testing
     &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test&quot;,
     //CORS support
@@ -552,7 +556,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
       </div>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and André Fatton.
+        &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
