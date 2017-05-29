@@ -26,6 +26,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import org.knora.webapi.messages.v1.store.triplestoremessages.{RdfDataObject, TriplestoreJsonProtocol}
 import org.knora.webapi.util.MutableTestIri
 import org.knora.webapi.{FileWriteException, ITSpec, InvalidApiJsonException}
+import org.scalatest.Tag
 import spray.json._
 
 import scala.concurrent.duration._
@@ -72,8 +73,11 @@ class SipiV1ITSpec extends ITSpec(SipiV1ITSpec.config) with TriplestoreJsonProto
 
     "Knora and Sipi" should {
 
+
         "create an 'incunabula:page' with binary data" in {
+
             createTmpFileDir()
+
 
             // JSON describing the resource to be created.
             val paramsPageWithBinaries =
@@ -185,7 +189,13 @@ class SipiV1ITSpec extends ITSpec(SipiV1ITSpec.config) with TriplestoreJsonProto
             checkResponseOK(knoraPutRequest)
         }
 
-        "create an 'incunabula:page' with parameters" in {
+        object CreateIncunabulaPageWithParam extends Tag("create.incubabula.page.with.param")
+
+        "create an 'incunabula:page' with parameters" taggedAs (CreateIncunabulaPageWithParam) in {
+
+            val start = System.currentTimeMillis()
+            System.out.println("#### start: "+ start)
+
             // The image to be uploaded.
             val fileToSend = new File(pathToChlaus)
             assert(fileToSend.exists(), s"File $pathToChlaus does not exist")
@@ -199,15 +209,24 @@ class SipiV1ITSpec extends ITSpec(SipiV1ITSpec.config) with TriplestoreJsonProto
                 )
             )
 
+            val update = System.currentTimeMillis()
+            System.out.println("#### before sipi send: "+ update +", elapsed: "+ (update-start))
+
             // Send a POST request to Sipi, asking it to make a thumbnail of the image.
             val sipiRequest = Post(baseSipiUrl + "/make_thumbnail", sipiFormData) ~> addCredentials(BasicHttpCredentials(username, password))
             val sipiResponseJson = getResponseJson(sipiRequest)
+
+            val update2 = System.currentTimeMillis()
+            System.out.println("#### after sipi send: "+ update2 +", elapsed: "+ (update2-start) +", sipi upload: "+ (update2-update))
 
             // Request the thumbnail from Sipi.
             val jsonFields = sipiResponseJson.fields
             val previewUrl = jsonFields("preview_path").asInstanceOf[JsString].value
             val sipiGetRequest = Get(previewUrl) ~> addCredentials(BasicHttpCredentials(username, password))
             checkResponseOK(sipiGetRequest)
+
+            val update3 = System.currentTimeMillis()
+            System.out.println("#### after sipi preview: "+ update3 +", elapsed: "+ (update3-start) +", sipi preview: "+ (update3-update2))
 
             val fileParams = JsObject(
                 Map(
@@ -239,9 +258,15 @@ class SipiV1ITSpec extends ITSpec(SipiV1ITSpec.config) with TriplestoreJsonProto
                    |}
                 """.stripMargin
 
+            val update4 = System.currentTimeMillis()
+            System.out.println("#### before knora call: "+ update4 +", elapsed: "+ (update4-start) +", preparation: "+ (update4-update3))
+
             // Send the JSON in a POST request to the Knora API server.
             val knoraPostRequest = Post(baseApiUrl + "/v1/resources", HttpEntity(ContentTypes.`application/json`, knoraParams)) ~> addCredentials(BasicHttpCredentials(username, password))
             val knoraPostResponseJson = getResponseJson(knoraPostRequest)
+
+            val update5 = System.currentTimeMillis()
+            System.out.println("#### after knora call: "+ update5 +", elapsed: "+ (update5-start) +", preparation: "+ (update5-update4))
 
             // Get the IRI of the newly created resource.
             val resourceIri: String = knoraPostResponseJson.fields("res_id").asInstanceOf[JsString].value
