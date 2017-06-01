@@ -59,10 +59,11 @@
 <ul class="simple">
 <li><a class="reference internal" href="#introduction" id="id3">Introduction</a></li>
 <li><a class="reference internal" href="#handling-errors-with-futures" id="id4">Handling Errors with Futures</a></li>
-<li><a class="reference internal" href="#designing-with-futures" id="id5">Designing with Futures</a></li>
-<li><a class="reference internal" href="#mixing-futures-with-non-futures" id="id6">Mixing Futures with non-Futures</a></li>
-<li><a class="reference internal" href="#how-to-write-for-comprehensions" id="id7">How to Write For-Comprehensions</a></li>
-<li><a class="reference internal" href="#execution-contexts" id="id8">Execution Contexts</a></li>
+<li><a class="reference internal" href="#using-recover-on-futures" id="id5">Using <code class="docutils literal"><span class="pre">recover</span></code> on Futures</a></li>
+<li><a class="reference internal" href="#designing-with-futures" id="id6">Designing with Futures</a></li>
+<li><a class="reference internal" href="#mixing-futures-with-non-futures" id="id7">Mixing Futures with non-Futures</a></li>
+<li><a class="reference internal" href="#how-to-write-for-comprehensions" id="id8">How to Write For-Comprehensions</a></li>
+<li><a class="reference internal" href="#execution-contexts" id="id9">Execution Contexts</a></li>
 </ul>
 </div>
 <div class="section" id="introduction">
@@ -177,8 +178,35 @@ necessary if you need to call the template function at the <em>very
 beginning</em> of a <code class="docutils literal"><span class="pre">for</span></code>-comprehension. In the rest of the <code class="docutils literal"><span class="pre">for</span></code>
 comprehension, you&#8217;ll already implicitly have a <code class="docutils literal"><span class="pre">Future</span></code> object.</p>
 </div>
+<div class="section" id="using-recover-on-futures">
+<h2><a class="toc-backref" href="#id5">Using <code class="docutils literal"><span class="pre">recover</span></code> on Futures</a><a class="headerlink" href="#using-recover-on-futures" title="Permalink to this headline">¶</a></h2>
+<p>By using <code class="docutils literal"><span class="pre">recover</span></code> on a &nbsp;<code class="docutils literal"><span class="pre">Future</span></code>, an apt error message can be thrown if the <code class="docutils literal"><span class="pre">Future</span></code> fails. This is particularly useful when an an error message should be made more clear depending on the context the <code class="docutils literal"><span class="pre">Future</span></code> is used in.</p>
+<p>For example, we are asking the resources responder to query for a certain resource in order to process it in a special way. However, the client does not know that the resources responder is sent a request and in case the resource cannot be found, the message sent back from the resources responder (<code class="docutils literal"><span class="pre">NotFoundException</span></code>) would not make sense to it. Instead, we would like to handle the message in a way so that it makes sense for the operation the client actually executed. We can do this by calling <code class="docutils literal"><span class="pre">recover</span></code> on a <code class="docutils literal"><span class="pre">Future</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>private def mySpecialResourceRequest(iri: IRI, userProfile: UserProfileV1): Future[...] = {
+
+    val resourceRequestFuture = for {
+        resResponse: ResourceFullResponseV1 &lt;- (responderManager ? ResourceFullGetRequestV1(iri = iri, userProfile = userProfile, getIncoming = false)).mapTo[ResourceFullResponseV1]
+    } yield resResponse
+
+    val resourceRequestFutureRecovered = resourceRequestFuture.recover {
+        case notFound: NotFoundException =&gt; throw BadRequestException(s&quot;Special resource handling failed because the resource could not be found: ${notFound.message}&quot;)
+    }
+
+    for {
+
+        res &lt;- resourceRequestFutureRecovered
+
+        ...
+
+    } yield ...
+
+}
+</pre></div>
+</div>
+<p>Please note that the content of the <code class="docutils literal"><span class="pre">Future</span></code> has to be accessed using <code class="docutils literal"><span class="pre">&lt;-</span></code> to make this work correctly. Otherwise the content will never be looked at.</p>
+</div>
 <div class="section" id="designing-with-futures">
-<h2><a class="toc-backref" href="#id5">Designing with Futures</a><a class="headerlink" href="#designing-with-futures" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Designing with Futures</a><a class="headerlink" href="#designing-with-futures" title="Permalink to this headline">¶</a></h2>
 <p>In the current design, the Knora API Server almost never blocks to wait for a
 future to complete. The normal flow of control works like this:</p>
 <ol class="arabic simple">
@@ -212,7 +240,7 @@ need to use <code class="docutils literal"><span class="pre">ask</span></code> t
 the method return a future.</p>
 </div>
 <div class="section" id="mixing-futures-with-non-futures">
-<h2><a class="toc-backref" href="#id6">Mixing Futures with non-Futures</a><a class="headerlink" href="#mixing-futures-with-non-futures" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Mixing Futures with non-Futures</a><a class="headerlink" href="#mixing-futures-with-non-futures" title="Permalink to this headline">¶</a></h2>
 <p>If you have a <code class="docutils literal"><span class="pre">match</span> <span class="pre">...</span> <span class="pre">case</span></code> or <code class="docutils literal"><span class="pre">if</span></code> expression, and one branch
 obtains some data in a future, but another branch can produce the data
 immediately, you can wrap the result of the latter branch in a future,
@@ -233,7 +261,7 @@ so that both branches have the same type:</p>
 </div>
 </div>
 <div class="section" id="how-to-write-for-comprehensions">
-<h2><a class="toc-backref" href="#id7">How to Write For-Comprehensions</a><a class="headerlink" href="#how-to-write-for-comprehensions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">How to Write For-Comprehensions</a><a class="headerlink" href="#how-to-write-for-comprehensions" title="Permalink to this headline">¶</a></h2>
 <p>Here are some basic rules for writing <code class="docutils literal"><span class="pre">for</span></code>-comprehensions:</p>
 <ol class="arabic simple">
 <li>The first line of a <code class="docutils literal"><span class="pre">for</span></code>-comprehension has to be a &#8220;generator&#8221;,
@@ -250,7 +278,7 @@ returns <code class="docutils literal"><span class="pre">Unit</span></code>, you
 which all have to produce the same type (e.g. <code class="docutils literal"><span class="pre">Future</span></code>).</p>
 </div>
 <div class="section" id="execution-contexts">
-<h2><a class="toc-backref" href="#id8">Execution Contexts</a><a class="headerlink" href="#execution-contexts" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">Execution Contexts</a><a class="headerlink" href="#execution-contexts" title="Permalink to this headline">¶</a></h2>
 <p>Whenever you use a future, there has to be an implicit &#8216;execution context&#8217; in
 scope. <a class="reference external" href="http://docs.scala-lang.org/overviews/core/futures.html">Scala&#8217;s documentation on futures</a> says, &#8216;you can think of execution
 contexts as thread pools&#8217;.</p>

@@ -57,17 +57,8 @@
 <h1>Running the Knora API Server on a Production System<a class="headerlink" href="#running-the-knora-api-server-on-a-production-system" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#supervisord" id="id2">Supervisord</a><ul>
-<li><a class="reference internal" href="#configuration" id="id3">Configuration</a></li>
-<li><a class="reference internal" href="#controlling-processes" id="id4">Controlling Processes</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#tomcat-application-server-fuseki-2" id="id5">Tomcat Application Server (Fuseki 2)</a><ul>
-<li><a class="reference internal" href="#installation" id="id6">Installation</a></li>
-<li><a class="reference internal" href="#id1" id="id7">Configuration</a></li>
-<li><a class="reference internal" href="#administration" id="id8">Administration</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#creating-and-running-the-distribution-package" id="id1">Creating and running the distribution package</a></li>
+<li><a class="reference internal" href="#running-a-supported-triplestore" id="id2">Running a supported triplestore</a></li>
 </ul>
 </div>
 <p>This section describes possible ways of running the Knora API server in
@@ -80,100 +71,24 @@ is advised.</p>
 description. The general idea should be usable on all platforms with
 small changes.</p>
 </div>
-<p>To run the Knora API server, we have two main components. First, the <code class="docutils literal"><span class="pre">jar</span></code>
+<p>To run the Knora API server, we have two main components. First, the zipped
 distribution of the server and second a supported triplestore.</p>
-<p>The jar distribution of the server can be either run manually or as a service
-for which we will use <code class="docutils literal"><span class="pre">supervisord</span></code> as described in the
-<a class="reference internal" href="#supervisord-label"><span class="std std-ref">Supervisord</span></a> section.</p>
-<p>The supported triplestore can also be run manually (as described in the
-documentation of each distribution) or it can be run under an application
-server as described in the <a class="reference internal" href="#tomcat-application-label"><span class="std std-ref">Tomcat Application Server (Fuseki 2)</span></a> section.</p>
-<div class="section" id="supervisord">
-<span id="supervisord-label"></span><h2><a class="toc-backref" href="#id2">Supervisord</a><a class="headerlink" href="#supervisord" title="Permalink to this headline">¶</a></h2>
-<p>For running Knora-API we will use supervisord, which allows us to run
-our java application easily as a service.</p>
-<ul class="simple">
-<li><a class="reference external" href="https://serversforhackers.com/monitoring-processes-with-supervisord">https://serversforhackers.com/monitoring-processes-with-supervisord</a></li>
-</ul>
-<div class="section" id="configuration">
-<h3><a class="toc-backref" href="#id3">Configuration</a><a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>/etc/supervisord.d/knora-api.conf</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">program</span><span class="p">:</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="p">]</span>
-<span class="n">command</span><span class="o">=</span><span class="n">sh</span> <span class="n">run</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">directory</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">vhosts</span><span class="o">/</span><span class="n">api</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span>
-<span class="n">autostart</span><span class="o">=</span><span class="n">true</span>
-<span class="n">autorestart</span><span class="o">=</span><span class="n">true</span>
-<span class="n">startretries</span><span class="o">=</span><span class="mi">3</span>
-<span class="n">stderr_logfile</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">log</span>
-<span class="n">stdout_logfile</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">knora</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">log</span>
-<span class="n">user</span><span class="o">=</span><span class="n">root</span>
-<span class="n">environment</span><span class="o">=</span>
-</pre></div>
+<div class="section" id="creating-and-running-the-distribution-package">
+<h2><a class="toc-backref" href="#id1">Creating and running the distribution package</a><a class="headerlink" href="#creating-and-running-the-distribution-package" title="Permalink to this headline">¶</a></h2>
+<p>Inside the <cite>knora/webapi</cite> folder run the following <cite>sbt</cite> commands:</p>
+<p><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">$</span> <span class="pre">sbt</span> <span class="pre">packageBin</span>
+<span class="pre">`</span></code></p>
+<p>This will create a <cite>zip</cite> file inside the <cite>knora/webapi/target/universal</cite> folder.
+To run the Knora API Server, unzip this package, and execute the <cite>webapi</cite> script
+inside the <cite>bin</cite> folder.</p>
+<p>Alternatively, the command <cite>sbt stage</cite> will create a folder with the same content as before,
+but will skip the zipping step.</p>
 </div>
-<p>We need to create the directory for the log files!</p>
-</div>
-<div class="section" id="controlling-processes">
-<h3><a class="toc-backref" href="#id4">Controlling Processes</a><a class="headerlink" href="#controlling-processes" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ supervisorctl reread $ supervisorctl update $ supervisorctl
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="tomcat-application-server-fuseki-2">
-<span id="tomcat-application-label"></span><h2><a class="toc-backref" href="#id5">Tomcat Application Server (Fuseki 2)</a><a class="headerlink" href="#tomcat-application-server-fuseki-2" title="Permalink to this headline">¶</a></h2>
-<p>Fuseki 2 provides a <code class="docutils literal"><span class="pre">.war</span></code> packaged distribution, which alows a deployment under
-an application server. We chose Tomcat, but there are other options available,
-e.g., Glassfish, Jetty, etc.</p>
-<div class="section" id="installation">
-<h3><a class="toc-backref" href="#id6">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
-<p>We use yum to install Tomcat:</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>$ yum install tomcat</dd>
-</dl>
-</div>
-<div class="section" id="id1">
-<h3><a class="toc-backref" href="#id7">Configuration</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>Fuseki 2 and GraphDB are deployed using tomcat.</p>
-<p>The relevant directories are as follows:</p>
-<blockquote>
-<div><ul class="simple">
-<li><dl class="first docutils">
-<dt>Tomcat Webapps folder, where both the Fuseki 2 and GraphDB <code class="docutils literal"><span class="pre">.war</span></code> file is</dt>
-<dd>dropped in: <code class="docutils literal"><span class="pre">/var/lib/tomcat/webapps</span></code></dd>
-</dl>
-</li>
-<li>Fuseki configuration folder: <code class="docutils literal"><span class="pre">/etc/fuseki</span></code></li>
-<li><dl class="first docutils">
-<dt>Data folder: <code class="docutils literal"><span class="pre">/usr/share/tomcat</span></code></dt>
-<dd><ul class="first last">
-<li>for Fuseki: <code class="docutils literal"><span class="pre">usr/share/tomcat/.fuseki</span></code></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div></blockquote>
-</div>
-<div class="section" id="administration">
-<h3><a class="toc-backref" href="#id8">Administration</a><a class="headerlink" href="#administration" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">tomcat</span></code></li>
-<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">tomcat</span></code></li>
-<li><code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">tomcat</span></code></li>
-</ul>
-</div></blockquote>
-<dl class="docutils">
-<dt>If someting is wrong, first check the log files:</dt>
-<dd><ul class="first last simple">
-<li><code class="docutils literal"><span class="pre">/var/log/tomcat/</span></code></li>
-</ul>
-</dd>
-</dl>
-</div>
+<div class="section" id="running-a-supported-triplestore">
+<h2><a class="toc-backref" href="#id2">Running a supported triplestore</a><a class="headerlink" href="#running-a-supported-triplestore" title="Permalink to this headline">¶</a></h2>
+<p>See the chapters on <a class="reference internal" href="../development/fuseki.html#starting-fuseki"><span class="std std-ref">Starting Fuseki 3</span></a> and <a class="reference internal" href="../development/graphdb.html#starting-graphdb-se"><span class="std std-ref">Starting GraphDB-SE</span></a> on how
+to start a supported triplestore.</p>
 </div>
 </div>
 

@@ -335,13 +335,8 @@ permission</li>
 </div></blockquote>
 </div></blockquote>
 <p>A single instance of <code class="docutils literal"><span class="pre">knora-base:DefaultObjectAccessPermission</span></code> must always reference a project, but can only
-reference <strong>either</strong> a group (<code class="docutils literal"><span class="pre">knora-base:forGroup</span></code> property), a resource class (<code class="docutils literal"><span class="pre">knora-base:forResourceClass</span></code>), or
-a property (<code class="docutils literal"><span class="pre">knora-base:forProperty</span></code>).</p>
-<p>If the user creating a new object is a member of more than one group with such attached permissions, and additionally
-default object access permission are defined on resource classes and/or properties, then the final set of default object
-access permissions that will result is <strong>additive</strong> and <strong>most permissive</strong>.</p>
-<p>The default object access permissions defined on the <strong>SystemAdmin</strong> group are additionally used for system admin users,
-and are added to the calculated final set of permissions.</p>
+reference <strong>either</strong> a group (<code class="docutils literal"><span class="pre">knora-base:forGroup</span></code> property), a resource class (<code class="docutils literal"><span class="pre">knora-base:forResourceClass</span></code>), a
+property (<code class="docutils literal"><span class="pre">knora-base:forProperty</span></code>), or a combination of resource class <strong>and</strong> property.</p>
 <p>Example default object access permission instance:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">permissions</span><span class="o">/</span><span class="mi">002</span><span class="o">&gt;</span>
         <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">DefaultObjectAccessPermission</span> <span class="p">;</span>
@@ -353,6 +348,33 @@ and are added to the calculated final set of permissions.</p>
 <p>This instance is setting default object access permissions to the project member group of a project, giving change
 right permission to the creator, modify permission to all project members, and view permission to known users. Further,
 this <strong>implicitly</strong> applies to all resource classes and all their properties inside the project.</p>
+</div>
+<div class="section" id="permission-precedence-rules">
+<h3>Permission Precedence Rules<a class="headerlink" href="#permission-precedence-rules" title="Permalink to this headline">¶</a></h3>
+<p>For both administrative permissions and default object access permissions, the resulting permissions are derived by
+applying precedence rules, for the case that the user is member of more than one group.</p>
+<p>The following list is sorted by the permission precedence level in descending order:</p>
+<blockquote>
+<div><ul class="simple">
+<li>permissions on <code class="docutils literal"><span class="pre">knora-base:ProjectAdmin</span></code> (highest level)</li>
+<li>permissions on resource classes and property combination (own project)</li>
+<li>permissions on resource classes and property combination (<code class="docutils literal"><span class="pre">knora-base:SystemProject</span></code>)</li>
+<li>permissions on resource classes / properties (own project)</li>
+<li>permissions on resource classes / properties (<code class="docutils literal"><span class="pre">knora-base:SystemProject</span></code>)</li>
+<li>permissions on custom groups</li>
+<li>permissions on <code class="docutils literal"><span class="pre">knora-base:ProjectMember</span></code></li>
+<li>permissions on <code class="docutils literal"><span class="pre">knora-base:KnownUser</span></code> (lowest level)</li>
+</ul>
+</div></blockquote>
+<p>The permissions on resource classes / properties are only relevant for default object access permissions.</p>
+<p><strong>Administrative Permissions</strong>: When a user performs an operation requiring administrative permissions, then <strong>only</strong>
+the permissions from the <strong>highest level</strong> are taken into account. If a user is a member of more than one group on the
+same level (only possible for custom groups) then the defined permissions are summed up and all are taken into account.</p>
+<p><strong>Default Object Access Permissions</strong>: When a user creates a resource or value, then <strong>only</strong> the default object
+permissions from the <strong>highest level</strong> are applied. If a user is a member of more than one group on the same level
+(only possible for custom groups) then the defined permissions are summed up and the most permissive are applied.</p>
+<p>In the case of users belonging to the <strong>SystemAdmin</strong> group, but which are not members of a project and thus no group
+belonging to the project, the <em>default object access permissions</em> from the <strong>highest defined level</strong> will apply.</p>
 </div>
 </div>
 <div class="section" id="implicit-permissions">
@@ -731,6 +753,15 @@ by using the <em>knora-base:forProject</em> and either <em>knora-base:forGroup</
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forProperty</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">images</span><span class="c1">#lastname&gt; ;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasPermissions</span> <span class="s2">&quot;D knora-base:ProjectMember,knora-base:Creator|</span>
                                 <span class="n">V</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">KnownUser</span><span class="p">,</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">UnknownUser</span><span class="s2">&quot;^^ .</span>
+</pre></div>
+</div>
+<p><strong>Default object access permission on a resource class and property:</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">permissions</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">DefaultObjectAccessPermission</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forProject</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forResourceClass</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">images</span><span class="c1">#person&gt; ;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">forProperty</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="n">images</span><span class="c1">#lastname&gt; ;</span>
+     <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasPermissions</span> <span class="s2">&quot;CR knora-base:Creator,knora-base:ProjectMember|</span>
+                                 <span class="n">V</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">KnownUser</span><span class="p">,</span><span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">UnknownUser</span><span class="s2">&quot;^^xsd:string .</span>
 </pre></div>
 </div>
 <p><strong>Default object access permission on a knora-base property:</strong></p>

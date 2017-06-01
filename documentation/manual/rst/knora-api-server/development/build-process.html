@@ -115,34 +115,30 @@ $ sbt
 <div class="section" id="using-graphdb">
 <h3><a class="toc-backref" href="#id4">Using GraphDB</a><a class="headerlink" href="#using-graphdb" title="Permalink to this headline">¶</a></h3>
 <p>The archive with the newest supported version of the GraphDB-SE triplestore is provided under
-<code class="docutils literal"><span class="pre">`triplestores/graphdb-se-7`</span></code>. Please keep in mind, that GraphDB-SE must be licensed separately by the user, and that
+<code class="docutils literal"><span class="pre">`triplestores/graphdb-se`</span></code>. Please keep in mind, that GraphDB-SE must be licensed separately by the user, and that
 no license file is provided in the repository. GraphDB-SE will not run without a license file.</p>
-<p>To be able to successfully run GraphDB inside docker three important steps need to be done beforhand:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>Install Docker from <a class="reference external" href="http://docker.com">http://docker.com</a>.</li>
-<li>Copy the GraphDB-SE license file into this folder and name it <code class="docutils literal"><span class="pre">GRAPHDB_SE.license</span></code>. It is already added to a
-local <code class="docutils literal"><span class="pre">.gitignore</span></code> file which can be found inside this folder. Under no circumstance should the license file be
-committed to Github.</li>
-<li>(optional) The current version of <code class="docutils literal"><span class="pre">KnoraRules.pie</span></code> from the <code class="docutils literal"><span class="pre">webapi/scripts</span></code> needs to be copied to this folder
-each time it was changed. This file needs to be copied into the docker image, which can only be done if it is found
-inside this folder.</li>
-</ol>
-</div></blockquote>
-<p>From inside this folder, type:</p>
-<p><code class="docutils literal"><span class="pre">`</span>
-<span class="pre">$</span> <span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-t</span> <span class="pre">graphdb</span> <span class="pre">.</span>
-<span class="pre">$</span> <span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">-it</span> <span class="pre">-p</span> <span class="pre">7200:7200</span> <span class="pre">graphdb</span>
-<span class="pre">`</span></code></p>
-<p>Do not forget the &#8216;.&#8217; in the first command.</p>
-<blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">`--rm`</span></code> removes the container as soon as you stop it</li>
-<li><code class="docutils literal"><span class="pre">`-p`</span></code> forwards the exposed port to your host (or if you use boot2docker to this IP)</li>
-<li><code class="docutils literal"><span class="pre">`-it`</span></code> allows interactive mode, so you see if something get&#8217;s deployed</li>
-</ul>
-</div></blockquote>
+<p>Unzip <code class="docutils literal"><span class="pre">graphdb-se-x.x.x-dist.zip</span></code> to a place of your choosing and run the following, to start graphdb:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd /to/unziped/location
+$ ./bin/graphdb -Dgraphdb.license.file=/path/to/GRAPHDB_SE.license
+</pre></div>
+</div>
 <p>After the GraphDB inside the docker container has started, you can find the GraphDB workbench here: <a class="reference external" href="http://localhost:7200">http://localhost:7200</a></p>
+<p>Then in another terminal, load some test data into the triplestore:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/webapi/scripts
+$ ./graphdb-se-local-init-knora-test.sh
+</pre></div>
+</div>
+<p>Then go back to the webapi root directory and use SBT to start the API server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/webapi
+$ sbt
+&gt; compile
+&gt; re-start
+</pre></div>
+</div>
+<p>To shut down the Knora API server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">re</span><span class="o">-</span><span class="n">stop</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="running-the-automated-tests">
@@ -156,7 +152,13 @@ inside this folder.</li>
 </div>
 <div class="section" id="running-tests-with-graphdb">
 <h3><a class="toc-backref" href="#id7">Running Tests with GraphDB</a><a class="headerlink" href="#running-tests-with-graphdb" title="Permalink to this headline">¶</a></h3>
-<p>Make sure GraphDB is running. Then at the SBT prompt:</p>
+<p>Make sure GraphDB is running (as described earlier).</p>
+<p>Then in another terminal, initialise the repository used for automated testing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ cd KNORA_PROJECT_DIRECTORY/webapi/scripts
+$ ./graphdb-se-local-init-knora-test-unit.sh
+</pre></div>
+</div>
+<p>Run the automated tests from sbt:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">graphdb</span><span class="p">:</span><span class="n">test</span>
 </pre></div>
 </div>
@@ -193,12 +195,14 @@ looks like this:</p>
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+<span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
 <span class="l l-Scalar l-Scalar-Plain">git</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">scala</span>
 <span class="l l-Scalar l-Scalar-Plain">scala</span><span class="p p-Indicator">:</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">2.11.7</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">2.12.1</span>
 <span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span>
 <span class="l l-Scalar l-Scalar-Plain">cache</span><span class="p p-Indicator">:</span>
@@ -230,7 +234,7 @@ looks like this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>import sbt._
 import sbt.Keys._
 import spray.revolver.RevolverPlugin._
-import com.typesafe.sbt.SbtNativePackager.autoImport._
+import NativePackagerHelper._
 
 connectInput in run := true
 
@@ -298,15 +302,6 @@ lazy val webapi = (project in file(&quot;.&quot;)).
             )
         ): _*).
         settings(
-            //javaOptions in FusekiTest ++= javaFusekiTestOptions,
-            //javaOptions in FusekiTomcatTest ++= javaFusekiTomcatTestOptions,
-            //javaOptions in GraphDBTest ++= javaGraphDBTestOptions,
-            //javaOptions in EmbeddedJenaTDBTest ++= javaEmbeddedJenaTDBTestOptions,
-            //fork in FusekiTest := true,
-            //parallelExecution in FusekiTest := false,
-            //testOptions in FusekiTest += Tests.Argument(&quot;-oDF&quot;)
-        ).
-        settings(
             libraryDependencies ++= webApiLibs,
             scalacOptions ++= Seq(&quot;-feature&quot;, &quot;-unchecked&quot;, &quot;-deprecation&quot;, &quot;-Yresolve-term-conflict:package&quot;),
             logLevel := Level.Info,
@@ -317,15 +312,32 @@ lazy val webapi = (project in file(&quot;.&quot;)).
             mainClass in (Compile, run) := Some(&quot;org.knora.webapi.Main&quot;),
             fork in Test := true,
             javaOptions in Test ++= javaTestOptions,
-            parallelExecution in Test := false
+            parallelExecution in Test := false,
+            // enable publishing the jar produced by `sbt it:package`
+            publishArtifact in (IntegrationTest, packageBin) := true
+        ).
+        settings( // enable deployment staging with `sbt stage`
+          mappings in Universal ++= {
+            // copy the scripts folder
+            directory(&quot;scripts&quot;) ++
+            // copy configuration files to config directory
+            contentOf(&quot;src/main/resources&quot;).toMap.mapValues(&quot;config/&quot; + _)
+          },
+          // add &#39;config&#39; directory first in the classpath of the start script,
+          scriptClasspath := Seq(&quot;../config/&quot;) ++ scriptClasspath.value,
+          // add license
+          licenses := Seq((&quot;GNU AGPL&quot;, url(&quot;https://www.gnu.org/licenses/agpl-3.0&quot;))),
+          // need this here, but why?
+          mainClass in Compile := Some(&quot;org.knora.webapi.Main&quot;)
         ).
         settings(Revolver.settings: _*).
-        enablePlugins(SbtTwirl) // Enable the SbtTwirl plugin
+        enablePlugins(SbtTwirl). // Enable the SbtTwirl plugin
+        enablePlugins(JavaAppPackaging) // Enable the sbt-native-packager plugin
 
 lazy val webApiCommonSettings = Seq(
     organization := &quot;org.knora&quot;,
     name := &quot;webapi&quot;,
-    version := &quot;0.1.0&quot;,
+    version := &quot;0.1.0-beta&quot;,
     ivyScala := ivyScala.value map { _.copy(overrideScalaVersion = true) },
     scalaVersion := &quot;2.12.1&quot;
 )
@@ -391,7 +403,8 @@ lazy val webApiLibs = Seq(
     &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-rio-turtle&quot; % &quot;2.0M3&quot;,
     &quot;org.rogach&quot; %% &quot;scallop&quot; % &quot;2.0.5&quot;,
     &quot;com.google.gwt&quot; % &quot;gwt-servlet&quot; % &quot;2.8.0&quot;,
-    &quot;net.sf.saxon&quot; % &quot;Saxon-HE&quot; % &quot;9.7.0-14&quot;
+    &quot;net.sf.saxon&quot; % &quot;Saxon-HE&quot; % &quot;9.7.0-14&quot;,
+    &quot;com.jsuereth&quot; % &quot;scala-arm_2.12&quot; % &quot;2.0&quot;
 )
 
 lazy val javaRunOptions = Seq(
@@ -449,35 +462,6 @@ lazy val javaEmbeddedJenaTDBTestOptions = Seq(
 lazy val javaIntegrationTestOptions = Seq(
     &quot;-Dconfig.resource=graphdb.conf&quot;
 ) ++ javaTestOptions
-
-// skip test before creating fat-jar
-test in assembly := {}
-
-// set fat-jar main class
-mainClass in assembly := Some(&quot;org.knora.webapi.Main&quot;)
-
-// change merge strategy for fat-jar
-assemblyMergeStrategy in assembly := {
-    case PathList(&quot;org&quot;, &quot;apache&quot;, &quot;commons&quot;, &quot;logging&quot;, xs @ _*)   =&gt; MergeStrategy.first
-    case PathList(&quot;META-INF&quot;, xs @ _*) =&gt;
-    xs.map(_.toLowerCase) match {
-        case (&quot;manifest.mf&quot; :: Nil) | (&quot;index.list&quot; :: Nil) | (&quot;dependencies&quot; :: Nil) =&gt;
-        MergeStrategy.discard
-        case ps @ (x :: xs) if ps.last.endsWith(&quot;.sf&quot;) || ps.last.endsWith(&quot;.dsa&quot;) || ps.last.endsWith(&quot;license&quot;) || ps.last.endsWith(&quot;license.txt&quot;) || ps.last.endsWith(&quot;notice&quot;) || ps.last.endsWith(&quot;notice.txt&quot;) =&gt;
-        MergeStrategy.discard
-        case &quot;plexus&quot; :: xs =&gt;
-        MergeStrategy.discard
-        case &quot;services&quot; :: xs =&gt;
-        MergeStrategy.filterDistinctLines
-        case (&quot;spring.schemas&quot; :: Nil) | (&quot;spring.handlers&quot; :: Nil) =&gt;
-        MergeStrategy.filterDistinctLines
-        case ps@(x :: xs) if ps.last.endsWith(&quot;aop.xml&quot;) =&gt; MergeStrategy.first
-        case _ =&gt; MergeStrategy.deduplicate
-    }
-    case x =&gt;
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
 </pre></div>
 </div>
 </div>
