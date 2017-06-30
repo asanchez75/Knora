@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
     <link rel="next" title="Setup IntelliJ for development of Knora" href="intellij-config.html" />
     <link rel="prev" title="Starting GraphDB-SE" href="graphdb.html" /> 
   </head>
@@ -196,24 +197,178 @@ looks like this:</p>
 15
 16
 17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
 <span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
+
+<span class="l l-Scalar l-Scalar-Plain">addons</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">chrome</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">stable</span>
+
 <span class="l l-Scalar l-Scalar-Plain">git</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+
 <span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">scala</span>
+
 <span class="l l-Scalar l-Scalar-Plain">scala</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">2.12.1</span>
+
 <span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
 <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span>
+
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker</span>
+
+<span class="l l-Scalar l-Scalar-Plain">env</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">global</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="s">&quot;Sj0D8wR3Vx0J0h+LBUIh9t1PWjLJ2NEiKILf3JO5nuGdlU7dPhbFomR4w08q85O4d60km38ml7zpapC4noDQnbAFQHC6XeOe5CWPYFXCxkw7ueBoxhy/vkfSzypXp0UTNUX3S7+RcGJcTxLaZcUC9u+UaoWB0LMkmOcIlrKIDuzm3HcefMsml8gYX1xhS2TQJ8P7ZerzBmm0kERYLUabhxTnj5WAvue0d1xbUtzCzT1LpignOfsUZ9kHTagQEA15JsU0iNrMCvlDcxRWj8OzLhHRoHui4bJPQQfKEA8oMnTkPyzBRLmqafqHvmGcNQp9iGhuU04gb+FkF4gubBkLrxEvgTL/D5vIin3BHQvnZna9zSnUguZS+jw4sfEYcjZgYRzgMRPma/630ZM08FSZZ/qjSTCut4Cjua5aw2Vf9pYhf+Aad5rR0T2JmVYKp6Ik92aLhPOF9U40MacKRPPT54RIjCYcakZlmU4vl+kK37l3sYjvD57LeSs3PlqvkpSxwJzaQDhZFOZ+c7ICo+zU7DcQnWkN7k+ErKBOE7r0mIqvYuBYhdteBVKfo8a4rpDzYJDXaWzBdjc8ZKiEFQvFHngnZjR2UtKc0CAc6Y7ieCWIvBZYdMoHhKsBwFDaO1iuWwDLW3cswXaPEqENonlVAnXePu7KkQeB2acwDzPkhlI=&quot;</span> <span class="c1">#DOCKER_USER</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="s">&quot;iM3Wjt3f5yUaU16yKstwBEEFA8WKx8qcTVnOwF+o9+sooD1SZ39nYJDPgpHHNwFZ1aSkre5ATPEw+dfslr7SnnwYQeYHjYldcqudB+7pq4dmY5U3rCTsjZCH1XmLnnLO45CZRy05pIAUSxWpIiX5khWoHZd704UlDncqIU/6paWWNkywPb2P4UBZ5Xeai1NTS1URHRz0A4aD+dqwKS6P+baq4CyKLC/AqjsTDI+TV4C26FXXTgS0Ly9VfBVZ55D+SdVHgCZXJaHerAixjSX6zvenfkd/87GR6NEAgJ9QofF2nDEXBZZm4jPv5d285Cc4iUvRo1HLbI1VlALya3qUA9Prbno8QQaChNdjRS7mSplkCxZZKzBItpjvI009NPl20zX6GROb/JCjWHRZ4R358cebFKKqE4W1GBArS0piVbdqZyWA/t5KANouQIdrh+lepAf/Xq5JRcDP9r+Rk2hHLk2Rmj97gv001eRf9GjSEC1Qo1kwu1FabZok1UIemJHpY7yWO4d3ZKSOCyQ0WdW6rLMFGkouoByrFVfNPBVxLqDJ3YVL/4x5jc0Q9+G5jm6omqNwQSsn60nUizZJp1fuLGQRUNj8EDvRhxLgVkOJqFf4P/4qRas47k1wkWBk2iBlpNp2eQTY42IZovPIyT+NCfbdg0yyZRyHThpfc+KfTeg=&quot;</span> <span class="c1">#DOCKER_PASS</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">WEBAPI_REPO=dhlabbasel/webapi</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SALSAH_REPO=dhlabbasel/salsah</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SIPI_REPO=dhlabbasel/sipi</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">COMMIT=${TRAVIS_COMMIT::8}</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TAG=${TRAVIS_BRANCH//\//-}</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DOCKERHOST=$(ip route get 8.8.8.8 | awk &#39;{print $NF; exit}&#39;)</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CHROME_BIN=google-chrome-stable</span>
+
 <span class="l l-Scalar l-Scalar-Plain">cache</span><span class="p p-Indicator">:</span>
   <span class="l l-Scalar l-Scalar-Plain">directories</span><span class="p p-Indicator">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">$HOME/.ivy2</span>
-<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd webapi/ &amp;&amp; sbt test</span>
+
+<span class="l l-Scalar l-Scalar-Plain">jobs</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">include</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
+      <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+        <span class="c1"># start fuseki</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+        <span class="c1"># start the built-in webapi server tests</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt test</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
+      <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+        <span class="c1"># start fuseki</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+        <span class="c1"># start the sipi container (with production config)</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker run -d --add-host webapihost:$DOCKERHOST -v /tmp:/tmp -v $HOME:$HOME -p 1024:1024 $SIPI_REPO:develop</span>
+        <span class="c1"># start the integration tests</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt fuseki-it:test</span>
+    <span class="c1">#- stage: webapi-graphdb</span>
+    <span class="c1">#  script:</span>
+    <span class="c1">#    # start graphdb</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+    <span class="c1">#    # start the built-in webapi server tests</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt test</span>
+    <span class="c1">#- stage: test</span>
+    <span class="c1">#  script:</span>
+    <span class="c1">#    #- &quot;export DISPLAY=:99.0&quot;</span>
+    <span class="c1">#    #- &quot;sh -e /etc/init.d/xvfb start&quot;</span>
+    <span class="c1">#    #- sleep 3 # give xvfb some time to start</span>
+    <span class="c1">#    # start fuseki</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+    <span class="c1">#    # start the sipi container (with test config)</span>
+    <span class="c1">#    - docker run -d --add-host webapihost:$DOCKERHOST -v /tmp:/tmp -v $HOME:$HOME -p 1024:1024 $SIPI_REPO:develop /sipi/local/bin/sipi --config=/sipi/config/sipi.knora-test-docker-config.lua</span>
+    <span class="c1">#    # start the webapi and salsah server</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt &quot;run allowResetTriplestoreContentOperationOverHTTP&quot; &amp;</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/salsah/ &amp;&amp; sbt run &amp;</span>
+    <span class="c1">#    # wait for the webapi server to start before we proceed with running the salsah tests</span>
+    <span class="c1">#    - until netstat -an 2&gt;/dev/null | grep &#39;3333.*LISTEN&#39;; do true; done</span>
+    <span class="c1">#    # unzip chromedriver</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/salsah/lib/chromedriver/ &amp;&amp; unzip chromedriver_linux64.zip</span>
+    <span class="c1">#    # start built-in salsah browser tests</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/salsah/ &amp;&amp; sbt headless:test</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">publish</span>
+      <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker login -u $DOCKER_USER -p $DOCKER_PASS</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker build $TRAVIS_BUILD_DIR/webapi/ -t $WEBAPI_REPO:$COMMIT</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker tag $WEBAPI_REPO:$COMMIT $WEBAPI_REPO:$TAG</span>
+        <span class="c1"># only push to docker if it is not a pull request</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_EVENT_TYPE&quot; != &quot;pull_request&quot; ]; then docker push $WEBAPI_REPO ; fi</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker build $TRAVIS_BUILD_DIR/salsah/ -t $SALSAH_REPO:$COMMIT</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker tag $SALSAH_REPO:$COMMIT $SALSAH_REPO:$TAG</span>
+        <span class="c1"># only push to docker if it is not a pull request</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_EVENT_TYPE&quot; != &quot;pull_request&quot; ]; then docker push $SALSAH_REPO ; fi</span>
+        <span class="c1"># get the develop sipi and tag it as &#39;develop-knora&#39; so we know that this version is tested (only on the develop branch)</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker pull $SIPI_REPO:develop</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TAG&quot; == &quot;develop&quot; ]; then docker tag $SIPI_REPO:develop $SIPI_REPO:knora-develop ; fi</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_EVENT_TYPE&quot; != &quot;pull_request&quot; ]; then docker push $SIPI_REPO ; fi</span>
+
 <span class="l l-Scalar l-Scalar-Plain">notifications</span><span class="p p-Indicator">:</span>
   <span class="l l-Scalar l-Scalar-Plain">slack</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">AJZARDC7P6bwjFwk6gpe+p2ozLj+bH3h83PapfCTL0xi7frHd4y6/jXOs9ac+m7ia5FlnzgBxrf0lmaE+IkqlRzxo5dPNYkDIbMC3nrf48kS+uQjf87X1Pn6bDVBLL56L1xIeaEXAqLLWNZ8m1UQ3ykVHgUbUbimjm43eCMpUiretgOqQgreZuLGVxPDU4KrGYZ93FvT2Nzp1Iagld0KXJ1up/uKlpSZAIpJPhgWYIhSGwj9hYG50iENvtsOX/zTe2hjhKWaPmVxHWo8qNyyHfX/+3ODQhvKu3LQsFXbW8WQ1r86EUDrGWeT6mlCYbjR1Wk/7wEKvGts/7vnTNJ8H2xDG9ADc4zIzIpnz0+gndIXuguxuMZEdm1H9okcDqraa4OV01bobr43RVC4hTZCiEBt7wCd/c+C1lJahAQUQoKsbmp5idKrjUyESJ0ZbU6hgkKeOvEvUqv0msYJGWW/C5BlUlro08AgZ9h6nOfu8jJQ49x9QbSWLjTVDg8CEq3w8FDATGA6FKdDqgmsi/3ROjgdewPgyxE3XZ2UpAbAdMPeuGvFoU91X8gScm6ys6abLy0vdCL3LyqmBu/Vzdg1RzU7oqUqSbR5LSMh8pwAwy26j6Awp+pDEzBtyL59yN6r6wgxmbJ5KT+XJReEH6Ao0C6ay23E8T/3YmI3qbjX8xE=</span>
+    <span class="l l-Scalar l-Scalar-Plain">secure</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gaazomUbAB4q7bH2XOiZXqHvU2gd/X/jIRLAJW9vjcRbY6o48eiEdNXF2umraHG0q+5UUEJ5dfvxiPtC4PiUq8uD6J+R0fEWrWznYoIeEWEXjKxRxWplrWJ9Ke+PJb3wCV6cXBGMfxDpvYQbVjsy7n0aQmjNs4Drz+llqL5SilTdswTylwvUdufad0QaovXklL+p0w9vRHRKzQkYKa9phL10VcJa8TPI74tuFcTHnK6TcMNW6p0vzAaF6JVgzoRPzUgXnEPCw4pI8zqOF1ghPpQByNXKiYofPWt1yTFgb60LQarDEiHXunXAA/sf2gx616pWLVjDFGziXVzhiGUDUjM5I1p7hPyA2rTB63AAZustFcGeD+jbHNHIFhcvvCHVHjJfp8M7LrUR+MBqz5mJNi/9KgxyZ8I9Df28TxmKxGFaGW8t4PZdA75/49Hos0TqtIp5m+eo8mTksUJogEJJokRZUKraMBhC0cNCry0kp+EQ06F4usLoDyZTUar4OSuNSiymf+zwz6jZo8dF/cluRYellwewE9NJiNWGN4DiBhk2vGJ7OtWMDPkl1tqkG8npoqbT4s38esjxfa/XcworGfeqE+9mzugVzkIKIX2lB6QxZp0AKQVOiy7JwwdtcjVMLvceiNPEWfe8fhLMX02oqYz2uoibRmHMxKPa5CpmUIg=</span>
 </pre></div>
 </td></tr></table></div>
 <p>It basically means:</p>
@@ -244,7 +399,7 @@ connectInput in run := true
 lazy val webapi = (project in file(&quot;.&quot;)).
         configs(
             FusekiTest,
-            FusekiTomcatTest,
+            FusekiIntegrationTest,
             GraphDBTest,
             GraphDBFreeTest,
             SesameTest,
@@ -259,10 +414,10 @@ lazy val webapi = (project in file(&quot;.&quot;)).
                 testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
             )
         ): _*).
-        settings(inConfig(FusekiTomcatTest)(
+        settings(inConfig(FusekiIntegrationTest)(
             Defaults.testTasks ++ Seq(
                 fork := true,
-                javaOptions ++= javaFusekiTomcatTestOptions,
+                javaOptions ++= javaFusekiIntegrationTestOptions,
                 testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
             )
         ): _*).
@@ -342,8 +497,8 @@ lazy val webApiCommonSettings = Seq(
     scalaVersion := &quot;2.12.1&quot;
 )
 
-lazy val akkaVersion = &quot;2.4.16&quot;
-lazy val akkaHttpVersion = &quot;10.0.3&quot;
+lazy val akkaVersion = &quot;2.4.19&quot;
+lazy val akkaHttpVersion = &quot;10.0.7&quot;
 
 lazy val webApiLibs = Seq(
     // akka
@@ -396,10 +551,10 @@ lazy val webApiLibs = Seq(
     &quot;com.sksamuel.diff&quot; % &quot;diff&quot; % &quot;1.1.11&quot;,
     &quot;org.xmlunit&quot; % &quot;xmlunit-core&quot; % &quot;2.1.1&quot;,
     // testing
-    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
-    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
-    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
-    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test, fuseki, fuseki-tomcat, graphdb, tdb, it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
     &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-rio-turtle&quot; % &quot;2.0M3&quot;,
     &quot;org.rogach&quot; %% &quot;scallop&quot; % &quot;2.0.5&quot;,
     &quot;com.google.gwt&quot; % &quot;gwt-servlet&quot; % &quot;2.8.0&quot;,
@@ -409,8 +564,8 @@ lazy val webApiLibs = Seq(
 
 lazy val javaRunOptions = Seq(
     // &quot;-showversion&quot;,
-    &quot;-Xms2048m&quot;,
-    &quot;-Xmx4096m&quot;
+    &quot;-Xms1G&quot;,
+    &quot;-Xmx1G&quot;
     // &quot;-verbose:gc&quot;,
     //&quot;-XX:+UseG1GC&quot;,
     //&quot;-XX:MaxGCPauseMillis=500&quot;
@@ -418,8 +573,8 @@ lazy val javaRunOptions = Seq(
 
 lazy val javaTestOptions = Seq(
     // &quot;-showversion&quot;,
-    &quot;-Xms2048m&quot;,
-    &quot;-Xmx4096m&quot;
+    &quot;-Xms2G&quot;,
+    &quot;-Xmx4G&quot;
     // &quot;-verbose:gc&quot;,
     //&quot;-XX:+UseG1GC&quot;,
     //&quot;-XX:MaxGCPauseMillis=500&quot;,
@@ -431,9 +586,9 @@ lazy val javaFusekiTestOptions = Seq(
     &quot;-Dconfig.resource=fuseki.conf&quot;
 ) ++ javaTestOptions
 
-lazy val FusekiTomcatTest = config(&quot;fuseki-tomcat&quot;) extend(Test)
-lazy val javaFusekiTomcatTestOptions = Seq(
-    &quot;-Dconfig.resource=fuseki-tomcat.conf&quot;
+lazy val FusekiIntegrationTest = config(&quot;fuseki-it&quot;) extend(IntegrationTest)
+lazy val javaFusekiIntegrationTestOptions = Seq(
+    &quot;-Dconfig.resource=fuseki.conf&quot;
 ) ++ javaTestOptions
 
 lazy val GraphDBTest = config(&quot;graphdb&quot;) extend(Test)
@@ -578,7 +733,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/development/build-process.rst.txt"
+              <a href="../../../_sources/rst/knora-api-server/development/build-process.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -587,7 +742,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
         </div>
         <div class="clearer"></div>

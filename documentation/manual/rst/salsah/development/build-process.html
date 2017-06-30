@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing SALSAH" href="index.html" />
     <link rel="next" title="SALSAH Design Documentation" href="../design-documentation/index.html" />
     <link rel="prev" title="Developing SALSAH" href="index.html" /> 
   </head>
@@ -107,10 +108,15 @@ $ sbt
 $ sbt
 &gt; compile
 &gt; re-start
-&gt; test
+&gt; test # or headless:test for running tests in headless mode
 </pre></div>
 </div>
 <p>Note: please be patient as salsah can take up to one mimute (end of a time-out) before reporting some errors.</p>
+</div>
+<div class="section" id="runing-automated-tests-in-headless-browser-mode">
+<h2>Runing automated tests in headless browser mode<a class="headerlink" href="#runing-automated-tests-in-headless-browser-mode" title="Permalink to this headline">¶</a></h2>
+<p>The automated tests can also be run in the headless browser mode, which is supported in Chrome version 59 or higher.</p>
+<p>To run the tests in headless mode, execute them with the <code class="docutils literal"><span class="pre">headless</span></code> prefix, e.g., <code class="docutils literal"><span class="pre">$</span> <span class="pre">sbt</span> <span class="pre">headless:test</span></code>.</p>
 </div>
 <div class="section" id="sbt-build-configuration">
 <h2>SBT Build Configuration<a class="headerlink" href="#sbt-build-configuration" title="Permalink to this headline">¶</a></h2>
@@ -121,7 +127,17 @@ import com.typesafe.sbt.SbtNativePackager.autoImport._
 import com.typesafe.sbt.packager.MappingsHelper.{contentOf, directory}
 
 lazy val salsah = (project in file(&quot;.&quot;)).
+        configs(
+            HeadlessTest
+        ).
         settings(salsahCommonSettings:  _*).
+        settings(inConfig(HeadlessTest)(
+            Defaults.testTasks ++ Seq(
+                fork := true,
+                javaOptions ++= javaHeadlessTestOptions,
+                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
+            )
+        ): _*).
         settings(
             libraryDependencies ++= salsahLibs,
             logLevel := Level.Info,
@@ -159,8 +175,8 @@ lazy val salsahCommonSettings = Seq(
 
 lazy val javaRunOptions = Seq(
     // &quot;-showversion&quot;,
-    &quot;-Xms2048m&quot;,
-    &quot;-Xmx4096m&quot;
+    &quot;-Xms256m&quot;,
+    &quot;-Xmx256m&quot;
     // &quot;-verbose:gc&quot;,
     //&quot;-XX:+UseG1GC&quot;,
     //&quot;-XX:MaxGCPauseMillis=500&quot;
@@ -168,33 +184,38 @@ lazy val javaRunOptions = Seq(
 
 lazy val javaTestOptions = Seq(
     // &quot;-showversion&quot;,
-    &quot;-Xms2048m&quot;,
-    &quot;-Xmx4096m&quot;
+    &quot;-Xms512m&quot;,
+    &quot;-Xmx512m&quot;
     // &quot;-verbose:gc&quot;,
     //&quot;-XX:+UseG1GC&quot;,
     //&quot;-XX:MaxGCPauseMillis=500&quot;,
     //&quot;-XX:MaxMetaspaceSize=4096m&quot;
 )
 
+
+lazy val HeadlessTest = config(&quot;headless&quot;) extend(Test)
+lazy val javaHeadlessTestOptions = Seq(
+    &quot;-Dconfig.resource=headless-testing.conf&quot;
+) ++ javaTestOptions
+
+lazy val akkaVersion = &quot;2.4.19&quot;
+lazy val akkaHttpVersion = &quot;10.0.7&quot;
+
 lazy val salsahLibs = Seq(
     // akka
-    &quot;com.typesafe.akka&quot; % &quot;akka-http-core-experimental_2.11&quot; % &quot;2.0-M2&quot;,
-    &quot;com.typesafe.akka&quot; % &quot;akka-http-experimental_2.11&quot; % &quot;2.0-M2&quot;,
-    &quot;com.typesafe.akka&quot; % &quot;akka-http-spray-json-experimental_2.11&quot; % &quot;2.0-M2&quot;,
-    &quot;com.typesafe.akka&quot; % &quot;akka-http-xml-experimental_2.11&quot; % &quot;2.0-M2&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-actor&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-agent&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-slf4j&quot; % akkaVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http&quot; % akkaHttpVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-xml&quot; % akkaHttpVersion,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-spray-json&quot; % akkaHttpVersion,
     // testing
-    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit-experimental&quot; % &quot;2.0-M2&quot; % &quot;test&quot;,
-    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;2.2.5&quot; % &quot;test&quot;,
-    &quot;org.seleniumhq.selenium&quot; % &quot;selenium-java&quot; % &quot;2.35.0&quot; % &quot;test&quot;,
-    &quot;io.spray&quot; %% &quot;spray-http&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-httpx&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-util&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-io&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-can&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-caching&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-routing&quot; % &quot;1.3.3&quot;,
-    &quot;io.spray&quot; %% &quot;spray-json&quot; % &quot;1.3.2&quot;,
-    &quot;io.spray&quot; %% &quot;spray-client&quot; % &quot;1.3.2&quot;
+    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test&quot;,
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test&quot;,
+    &quot;org.seleniumhq.selenium&quot; % &quot;selenium-java&quot; % &quot;3.4.0&quot; % &quot;test&quot;
 )
 </pre></div>
 </div>
@@ -247,7 +268,7 @@ lazy val salsahLibs = Seq(
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/salsah/development/build-process.rst.txt"
+              <a href="../../../_sources/rst/salsah/development/build-process.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -256,7 +277,7 @@ lazy val salsahLibs = Seq(
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
         </div>
         <div class="clearer"></div>
