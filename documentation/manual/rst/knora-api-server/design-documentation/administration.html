@@ -845,27 +845,158 @@ three endpoints corresponding to the three classes of objects that they have an 
 <div class="section" id="users-endpoint">
 <h3>Users Endpoint<a class="headerlink" href="#users-endpoint" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
+<dt><strong>Get users</strong></dt>
+<dd><ul class="first last simple">
+<li>GET: <code class="docutils literal"><span class="pre">/v1/users</span></code></li>
+</ul>
+</dd>
+<dt><strong>Get user</strong></dt>
+<dd><ul class="first last simple">
+<li>GET:<code class="docutils literal"><span class="pre">/v1/users/&lt;userIri&gt;</span></code></li>
+</ul>
+</dd>
 <dt><strong>Create user</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: none, self-registration is allowed</li>
-<li>Required information: username, given name, family name, email, password</li>
-<li>Optional information: phone</li>
-<li>Returns IRI of newly created user</li>
-</ul>
-</dd>
-<dt><strong>Update user</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / User</li>
-<li>Changeable information: username, given name, family name, email, password, phone</li>
-</ul>
-</dd>
-<dt><strong>Delete user (-&gt; update user)</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / User</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:isActiveUser</span></code> with value <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
+<li>Required information: email (unique), given name, family name, password, password, status, systemAdmin</li>
+<li>Returns information about the newly created user</li>
+<li>TypeScript Docs: userFormats - CreateUserApiRequestV1</li>
+<li>POST: <code class="docutils literal"><span class="pre">/v1/users/</span></code></li>
+<li>BODY:</li>
 </ul>
 </dd>
 </dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;donald.duck@example.org&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;givenName&quot;</span><span class="p">:</span> <span class="s2">&quot;Donald&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;familyName&quot;</span><span class="p">:</span> <span class="s2">&quot;Duck&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;systemAdmin&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Update user information</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / User</li>
+<li>Changeable information: email, given name, family name, password, status, SystemAdmin membership</li>
+<li>Remark: There are four distinct use case / payload combination. It is not possible to mix cases, e.g., sending
+<code class="docutils literal"><span class="pre">newUserStatus</span></code> and basic user information at the same time will result in an error: (1) change password:
+oldPassword, newPassword, (2) change status: newUserStatus, (3) change system admin membership: newSystemAdminMembershipStatus,
+and (4) change basic user information: email, givenName, familyName, lang</li>
+<li>TypeScript Docs: userFormats - ChangeUserApiRequestV1</li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/users/&lt;userIRI&gt;</span></code></li>
+<li>BODY:</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;donald.big.duck@example.org&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;givenName&quot;</span><span class="p">:</span> <span class="s2">&quot;Big Donald&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;familyName&quot;</span><span class="p">:</span> <span class="s2">&quot;Duckmann&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;de&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Update user&#8217;s password</strong></dt>
+<dd><ul class="first last simple">
+<li>Required permission: User</li>
+<li>Changeable information: password</li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/users/&lt;userIri&gt;</span></code></li>
+<li>BODY:</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;oldPassword&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;newPassword&quot;</span><span class="p">:</span> <span class="s2">&quot;test1234&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Delete user</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / User</li>
+<li>Remark: The same as updating a user and changing <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">false</span></code>. To un-delete, set <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/users/&lt;userIRI&gt;</span></code></li>
+<li>BODY:</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">false</span> <span class="o">//</span> <span class="n">true</span> <span class="ow">or</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Delete user (-&gt; update user)</strong></dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / User</li>
+<li>Remark: The same as updating a user and changing <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">false</span></code>. To un-delete, set <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>DELETE: <code class="docutils literal"><span class="pre">/v1/projects/projectIRI</span></code></li>
+<li>BODY: empty</li>
+</ul>
+</dd>
+<dt><strong>Get user&#8217;s project memberships</strong></dt>
+<dd><ul class="first last simple">
+<li>GET: <code class="docutils literal"><span class="pre">/v1/users/projects/&lt;userIRI&gt;</span></code></li>
+</ul>
+</dd>
+<dt><strong>Add/remove user to/from project</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / ProjectAdmin / User (if project self-assignment is enabled)</li>
+<li>Required information: project IRI, user IRI</li>
+<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInProject</span></code> user property</li>
+<li>POST / DELETE: <code class="docutils literal"><span class="pre">/v1/users/projects/&lt;userIRI&gt;/&lt;projectIRI&gt;</span></code></li>
+<li>BODY: empty</li>
+</ul>
+</dd>
+<dt><strong>Get user&#8217;s project admin memberships</strong></dt>
+<dd><ul class="first last simple">
+<li>GET: <code class="docutils literal"><span class="pre">/v1/users/projects-admin/&lt;userIri&gt;</span></code></li>
+</ul>
+</dd>
+<dt><strong>Add/remove user to/from project admin group</strong></dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / ProjectAdmin</li>
+<li>Required information: project IRI, user IRI</li>
+<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInProjectAdminGroup</span></code> user property</li>
+<li>POST / DELETE: <code class="docutils literal"><span class="pre">/v1/users/projects-admin/&lt;userIRI&gt;/&lt;projectIRI&gt;</span></code></li>
+<li>BODY: empty</li>
+</ul>
+</dd>
+<dt><strong>Get user&#8217;s group memberships</strong></dt>
+<dd><ul class="first last simple">
+<li>GET: <code class="docutils literal"><span class="pre">/v1/users/groups/&lt;userIri&gt;</span></code></li>
+</ul>
+</dd>
+<dt><strong>Add/remove user to/from &#8216;normal&#8217; group</strong> (not <em>SystemAdmin</em> or <em>ProjectAdmin</em>):</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectAllGroupAdminPermission /
+hasProjectRestrictedGroupAdminPermission (for this group) / User (if group self-assignment is enabled)</li>
+<li>Required information: group IRI, user IRI</li>
+<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code></li>
+<li>POST / DELETE: <code class="docutils literal"><span class="pre">/v1/users/groups/&lt;userIRI&gt;/&lt;groupIRI&gt;</span></code></li>
+<li>BODY: empty</li>
+</ul>
+</dd>
+<dt><strong>Add/remove user to/from system admin group</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / User</li>
+<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:isInSystemAdminGroup</span></code> with value <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/users/&lt;userIri&gt;</span></code></li>
+<li>BODY:</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;newSystemAdminMembershipStatus&quot;</span><span class="p">:</span> <span class="n">false</span> <span class="o">//</span> <span class="n">true</span> <span class="ow">or</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>Example User Information stored in admin graph:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">data</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="mi">91</span><span class="n">e19f1e01</span><span class="o">&gt;</span> <span class="n">rdf</span><span class="p">:</span><span class="nb">type</span> <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">User</span> <span class="p">;</span>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">email</span> <span class="s2">&quot;test@test.ch&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">string</span> <span class="p">;</span>
@@ -886,55 +1017,67 @@ three endpoints corresponding to the three classes of objects that they have an 
 <h3>Projects Endpoint<a class="headerlink" href="#projects-endpoint" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Create project</strong>:</dt>
-<dd><ul class="first last">
-<li><p class="first">Required permission: SystemAdmin</p>
-</li>
-<li><p class="first">Required information: projectShortname (unique; used for named graphs), projectBasepath</p>
-</li>
-<li><p class="first">Optional information: projectLongname, projectDescription, projectKeyword, projectLogo</p>
-</li>
-<li><p class="first">Returns IRI of newly created project</p>
-</li>
-<li><dl class="first docutils">
-<dt>Effects:</dt>
 <dd><ul class="first last simple">
-<li>create project</li>
-<li>create group named <em>ProjectAdmin</em>, give group <em>hasProjectAllAdminPermission</em> and <em>hasProjectResourceCreateAllPermission</em></li>
-<li>create group named <em>ProjectMember</em>, give group <em>hasProjectResourceCreateAllPermission</em>,
-<em>knora-base:hasDefaultChangeRightsPermission</em> for <em>knora-base:Creator</em>,
-<em>knora-base:hasDefaultModifyPermission</em> for this <em>ProjectMember</em> group, and
-<em>knora-base:hasDefaultViewPermission</em> for <em>knora-base:KnownUser</em></li>
+<li>Required permission: SystemAdmin</li>
+<li>Required information: shortname (unique; used for named graphs), status, selfjoin</li>
+<li>Optional information: longname, description, keywords, logo</li>
+<li>Returns information about the newly created project</li>
+<li>Remark: There are two distinct use cases / payload combination: (1) change ontology and data graph: ontologygraph,
+datagraph, (2) basic project information: shortname, longname, description, keywords, logo, institution, status,
+selfjoin</li>
+<li>TypeScript Docs: projectFormats - CreateProjectApiRequestV1</li>
+<li>POST: <code class="docutils literal"><span class="pre">/v1/projects/</span></code></li>
+<li>BODY:</li>
 </ul>
 </dd>
 </dl>
-</li>
-</ul>
-</dd>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;newproject&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;project longname&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;project description&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="s2">&quot;keywords&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;logo&quot;</span><span class="p">:</span> <span class="s2">&quot;/fu/bar/baz.jpg&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;selfjoin&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
 <dt><strong>Update project information</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / ProjectAdmin</li>
-<li>Changeable information: longname, description</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:projectLongname</span></code>, <code class="docutils literal"><span class="pre">knora-base:description</span></code></li>
+<li>Changeable information: shortname, longname, description, keywords, logo, status, selfjoin</li>
+<li>TypeScript Docs: projectFormats - ChangeProjectApiRequestV1</li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/projects/&lt;projectIRI&gt;</span></code></li>
+<li>BODY:</li>
 </ul>
 </dd>
-<dt><strong>Add/remove user to/from project</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / ProjectAdmin / User (if project self-assignment is enabled)</li>
-<li>Required information: project IRI, user IRI</li>
-<li>Optional information: admin status</li>
-<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInProject</span></code> and <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code> named <code class="docutils literal"><span class="pre">ProjectMember</span></code> of current project</li>
-</ul>
-</dd>
-<dt><strong>Delete/Un-Delete project (-&gt; update project)</strong>:</dt>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;shortname&quot;</span><span class="p">:</span> <span class="s2">&quot;newproject&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;longname&quot;</span><span class="p">:</span> <span class="s2">&quot;project longname&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;project description&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="s2">&quot;keywords&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;logo&quot;</span><span class="p">:</span> <span class="s2">&quot;/fu/bar/baz.jpg&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;selfjoin&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Get project members</strong></dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / ProjectAdmin</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:isActiveProject</span></code> with value <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
+<li>Required information: project IRI</li>
+<li>GET: <code class="docutils literal"><span class="pre">/v1/projects/members/&lt;projectIRI&gt;</span></code></li>
 </ul>
 </dd>
-<dt><strong>Enable/disable self-join</strong>:</dt>
+<dt><strong>Delete project (-&gt; update project)</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / ProjectAdmin</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:hasSelfAssignmentEnabled</span></code> with value <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
+<li>Remark: The same as updating a project and changing <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">false</span></code>. To un-delete, set <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>DELETE: <code class="docutils literal"><span class="pre">/v1/projects/&lt;projectIRI&gt;</span></code></li>
+<li>BODY: empty</li>
 </ul>
 </dd>
 </dl>
@@ -957,58 +1100,50 @@ three endpoints corresponding to the three classes of objects that they have an 
 <dt><strong>Create group</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectAllGroupAdminPermission</li>
-<li>Required information: group name (unique inside project), project IRI</li>
+<li>Required information: name (unique inside project), project IRI</li>
 <li>Optional information: group description</li>
-<li>Returns IRI of newly created group</li>
+<li>Returns information about the newly created group</li>
+<li>TypeScript Docs: groupFormats - CreateGroupApiRequestV1</li>
+<li>POST: <code class="docutils literal"><span class="pre">/v1/groups</span></code></li>
+<li>BODY:</li>
 </ul>
 </dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;NewGroup&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;NewGroupDescription&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;project&quot;</span><span class="p">:</span> <span class="s2">&quot;http://data.knora.org/projects/images&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;selfjoin&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
 <dt><strong>Update group information</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / hasProjectAllAdminPermission /  hasProjectAllGroupAdminPermission /
 hasProjectRestrictedGroupAdminPermission (for this group)</li>
-<li>Changeable information: name, group description</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">&lt;http://xmlns.com/foaf/0.1/name&gt;</span></code>, <code class="docutils literal"><span class="pre">knora-base:groupDescription</span></code></li>
+<li>Changeable information: name, description, status, selfjoin</li>
+<li>TypeScript Docs: groupFormats - ChangeGroupApiRequestV1</li>
+<li>PUT: <code class="docutils literal"><span class="pre">/v1/groups/&lt;groupIRI&gt;</span></code></li>
+<li>BODY:</li>
 </ul>
 </dd>
-<dt><strong>Add/remove user to/from &#8216;normal&#8217; group</strong> (not <em>SystemAdmin</em> or <em>ProjectAdmin</em>):</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectAllGroupAdminPermission /
-hasProjectRestrictedGroupAdminPermission (for this group) / User (if group self-assignment is enabled)</li>
-<li>Required information: group IRI, user IRI</li>
-<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code></li>
-</ul>
-</dd>
-<dt><strong>Add/remove user to/from SystemAdmin group</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin</li>
-<li>Required information: group IRI (<a class="reference external" href="http://www.knora.org/ontology/knora-base#SystemAdmin">http://www.knora.org/ontology/knora-base#SystemAdmin</a>), user IRI</li>
-<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code></li>
-</ul>
-</dd>
-<dt><strong>Add/remove user to/from ProjectAdmin group</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin, ProjectAdmin</li>
-<li>Required information: project IRI, group IRI, user IRI</li>
-<li>Effects: <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code></li>
-</ul>
-</dd>
-<dt><strong>Enable/disable self-join</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectAllGroupAdminPermission /
-hasProjectRestrictedGroupAdminPermission (for this group)</li>
-<li>Effects property: <code class="docutils literal"><span class="pre">knora-base:hasSelfAssignmentEnabled</span></code> with value <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
-</ul>
-</dd>
-<dt><strong>Add/change administrative permissions to a group</strong>:</dt>
-<dd><ul class="first last simple">
-<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectRightsAdminPermission</li>
-<li>Effects property: resource creation permissions, project administration permissions, default permissions</li>
-</ul>
-</dd>
-<dt><strong>Delete group</strong>:</dt>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;UpdatedGroupName&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;UpdatedGroupDescription&quot;</span><span class="o">.</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;selfjoin&quot;</span><span class="p">:</span> <span class="n">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Delete group (-&gt; update group)</strong>:</dt>
 <dd><ul class="first last simple">
 <li>Required permission: SystemAdmin / hasProjectAllAdminPermission</li>
-<li>Effect: <code class="docutils literal"><span class="pre">knora-base:isInGroup</span></code> / removes group from any object permissions</li>
+<li>Remark: The same as updating a group and changing <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">false</span></code>. To un-delete, set <code class="docutils literal"><span class="pre">status</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>DELETE: <code class="docutils literal"><span class="pre">/v1/groups/&lt;groupIRI&gt;</span></code></li>
 </ul>
 </dd>
 </dl>
@@ -1022,6 +1157,21 @@ hasProjectRestrictedGroupAdminPermission (for this group)</li>
      <span class="n">knora</span><span class="o">-</span><span class="n">base</span><span class="p">:</span><span class="n">hasSelfJoinEnabled</span> <span class="s2">&quot;false&quot;</span><span class="o">^^</span><span class="n">xsd</span><span class="p">:</span><span class="n">boolean</span> <span class="o">.</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="permissions-endpoint">
+<h3>Permissions Endpoint<a class="headerlink" href="#permissions-endpoint" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Add/change/delete administrative permissions</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectRightsAdminPermission</li>
+</ul>
+</dd>
+<dt><strong>Add/change/delete default object access permissions</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Required permission: SystemAdmin / hasProjectAllAdminPermission / hasProjectRightsAdminPermission</li>
+</ul>
+</dd>
+</dl>
 </div>
 </div>
 <div class="section" id="redesign-questions-june-2016">

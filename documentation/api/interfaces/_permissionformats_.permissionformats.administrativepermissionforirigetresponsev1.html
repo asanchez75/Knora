@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>permissionData | Knora API V1 Format Documentation</title>
+	<title>AdministrativePermissionForIriGetResponseV1 | Knora API V1 Format Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,16 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.html">&quot;sessionResponseFormats&quot;</a>
+					<a href="../modules/_permissionformats_.html">&quot;permissionFormats&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">sessionResponseFormats</a>
+					<a href="../modules/_permissionformats_.permissionformats.html">permissionFormats</a>
 				</li>
 				<li>
-					<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html">permissionData</a>
+					<a href="_permissionformats_.permissionformats.administrativepermissionforirigetresponsev1.html">AdministrativePermissionForIriGetResponseV1</a>
 				</li>
 			</ul>
-			<h1>Interface permissionData</h1>
+			<h1>Interface AdministrativePermissionForIriGetResponseV1</h1>
 		</div>
 	</div>
 </header>
@@ -75,7 +75,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents a user&#39;s permission data.</p>
+						<p>Represents a response to a request for a single administrative permission.</p>
 					</div>
 				</div>
 			</section>
@@ -83,7 +83,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">permissionData</span>
+						<span class="target">AdministrativePermissionForIriGetResponseV1</span>
 					</li>
 				</ul>
 			</section>
@@ -94,9 +94,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#administrativepermissionsperproject" class="tsd-kind-icon">administrative<wbr>Permissions<wbr>Per<wbr>Project</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#defaultobjectaccesspermissionsperproject" class="tsd-kind-icon">default<wbr>Object<wbr>Access<wbr>Permissions<wbr>Per<wbr>Project</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#groupsperproject" class="tsd-kind-icon">groups<wbr>Per<wbr>Project</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_permissionformats_.permissionformats.administrativepermissionforirigetresponsev1.html#sdministrativepermission" class="tsd-kind-icon">sdministrative<wbr>Permission</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,73 +103,14 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="administrativepermissionsperproject" class="tsd-anchor"></a>
-					<h3>administrative<wbr>Permissions<wbr>Per<wbr>Project</h3>
-					<div class="tsd-signature tsd-kind-icon">administrative<wbr>Permissions<wbr>Per<wbr>Project<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="sdministrativepermission" class="tsd-anchor"></a>
+					<h3>sdministrative<wbr>Permission</h3>
+					<div class="tsd-signature tsd-kind-icon">sdministrative<wbr>Permission<span class="tsd-signature-symbol">:</span> <a href="_permissionformats_.permissionformats.administrativepermissionv1.html" class="tsd-signature-type">AdministrativePermissionV1</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L217">sessionResponseFormats.ts:217</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/permissionFormats.ts#L38">permissionFormats.ts:38</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The user&#39;s administrative permissions for each project. The keys are project IRIs.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_sessionresponseformats_.sessionresponseformats.permission.html" class="tsd-signature-type">permission</a><span class="tsd-signature-symbol">&gt;</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="defaultobjectaccesspermissionsperproject" class="tsd-anchor"></a>
-					<h3>default<wbr>Object<wbr>Access<wbr>Permissions<wbr>Per<wbr>Project</h3>
-					<div class="tsd-signature tsd-kind-icon">default<wbr>Object<wbr>Access<wbr>Permissions<wbr>Per<wbr>Project<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L224">sessionResponseFormats.ts:224</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The user&#39;s default object access permissions for each project. The keys are project IRIs.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_sessionresponseformats_.sessionresponseformats.permission.html" class="tsd-signature-type">permission</a><span class="tsd-signature-symbol">&gt;</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="groupsperproject" class="tsd-anchor"></a>
-					<h3>groups<wbr>Per<wbr>Project</h3>
-					<div class="tsd-signature tsd-kind-icon">groups<wbr>Per<wbr>Project<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L210">sessionResponseFormats.ts:210</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The groups the user belongs to for each project. The keys are project IRIs.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a><span class="tsd-signature-symbol">&gt;</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -200,10 +139,24 @@
 						<a href="../modules/_graphdataresponseformats_.html">"graph<wbr>Data<wbr>Response<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_groupformats_.html">"group<wbr>Formats"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_hierarchicallistresponseformats_.html">"hierarchical<wbr>List<wbr>Response<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mappingformats_.html">"mapping<wbr>Formats"</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_permissionformats_.html">"permission<wbr>Formats"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_permissionformats_.permissionformats.html">permission<wbr>Formats</a>
+							</li>
+						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_projectformats_.html">"project<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourceresponseformats_.html">"resource<wbr>Response<wbr>Formats"</a>
@@ -211,13 +164,11 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_searchresponseformats_.html">"search<wbr>Response<wbr>Formats"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_sessionresponseformats_.html">"session<wbr>Response<wbr>Formats"</a>
-						<ul>
-							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">session<wbr>Response<wbr>Formats</a>
-							</li>
-						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_userformats_.html">"user<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_valueresponseformats_.html">"value<wbr>Response<wbr>Formats"</a>
@@ -227,37 +178,46 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.loginresponse.html" class="tsd-kind-icon">login<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permission.html" class="tsd-kind-icon">permission</a>
+						<a href="_permissionformats_.permissionformats.administrativepermissioncreateresponsev1.html" class="tsd-kind-icon">Administrative<wbr>Permission<wbr>Create<wbr>Response<wbr>V1</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html" class="tsd-kind-icon">permission<wbr>Data</a>
+						<a href="_permissionformats_.permissionformats.administrativepermissionforirigetresponsev1.html" class="tsd-kind-icon">Administrative<wbr>Permission<wbr>For<wbr>Iri<wbr>Get<wbr>Response<wbr>V1</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#administrativepermissionsperproject" class="tsd-kind-icon">administrative<wbr>Permissions<wbr>Per<wbr>Project</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#defaultobjectaccesspermissionsperproject" class="tsd-kind-icon">default<wbr>Object<wbr>Access<wbr>Permissions<wbr>Per<wbr>Project</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html#groupsperproject" class="tsd-kind-icon">groups<wbr>Per<wbr>Project</a>
+								<a href="_permissionformats_.permissionformats.administrativepermissionforirigetresponsev1.html#sdministrativepermission" class="tsd-kind-icon">sdministrative<wbr>Permission</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.project.html" class="tsd-kind-icon">project</a>
+						<a href="_permissionformats_.permissionformats.administrativepermissionforprojectgroupgetresponsev1.html" class="tsd-kind-icon">Administrative<wbr>Permission<wbr>For<wbr>Project<wbr>Group<wbr>Get<wbr>Response<wbr>V1</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html" class="tsd-kind-icon">user<wbr>Profile</a>
+						<a href="_permissionformats_.permissionformats.administrativepermissionv1.html" class="tsd-kind-icon">Administrative<wbr>Permission<wbr>V1</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_sessionresponseformats_.sessionresponseformats.userdata.html" class="tsd-kind-icon">userdata</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.administrativepermissionsforprojectgetresponsev1.html" class="tsd-kind-icon">Administrative<wbr>Permissions<wbr>For<wbr>Project<wbr>Get<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.defaultobjectaccesspermissionforirigetresponsev1.html" class="tsd-kind-icon">Default<wbr>Object<wbr>Access<wbr>Permission<wbr>For<wbr>Iri<wbr>Get<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.defaultobjectaccesspermissiongetresponsev1.html" class="tsd-kind-icon">Default<wbr>Object<wbr>Access<wbr>Permission<wbr>Get<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.defaultobjectaccesspermissionv1.html" class="tsd-kind-icon">Default<wbr>Object<wbr>Access<wbr>Permission<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.defaultobjectaccesspermissionsforprojectgetresponsev1.html" class="tsd-kind-icon">Default<wbr>Object<wbr>Access<wbr>Permissions<wbr>For<wbr>Project<wbr>Get<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.permissiondatav1.html" class="tsd-kind-icon">Permission<wbr>Data<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_permissionformats_.permissionformats.permissionv1.html" class="tsd-kind-icon">Permission<wbr>V1</a>
 					</li>
 				</ul>
 			</nav>

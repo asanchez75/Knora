@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>project | Knora API V1 Format Documentation</title>
+	<title>CreateProjectApiRequestV1 | Knora API V1 Format Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,16 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.html">&quot;sessionResponseFormats&quot;</a>
+					<a href="../modules/_projectformats_.html">&quot;projectFormats&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">sessionResponseFormats</a>
+					<a href="../modules/_projectformats_.projectformats.html">projectFormats</a>
 				</li>
 				<li>
-					<a href="_sessionresponseformats_.sessionresponseformats.project.html">project</a>
+					<a href="_projectformats_.projectformats.createprojectapirequestv1.html">CreateProjectApiRequestV1</a>
 				</li>
 			</ul>
-			<h1>Interface project</h1>
+			<h1>Interface CreateProjectApiRequestV1</h1>
 		</div>
 	</div>
 </header>
@@ -75,15 +75,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Describes a project that a user is a member of.</p>
+						<p>Represents an API request payload sent during a project creation request.</p>
 					</div>
+					<p>HTTP POST request to <a href="http://host/v1/projects">http://host/v1/projects</a></p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">project</span>
+						<span class="target">CreateProjectApiRequestV1</span>
 					</li>
 				</ul>
 			</section>
@@ -94,17 +95,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#belongstoinstitution" class="tsd-kind-icon">belongs<wbr>ToInstitution</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#datanamedgraph" class="tsd-kind-icon">data<wbr>Named<wbr>Graph</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#hasselfjoinenabled" class="tsd-kind-icon">has<wbr>Self<wbr>Join<wbr>Enabled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#keywords" class="tsd-kind-icon">keywords</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#logo" class="tsd-kind-icon">logo</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#longname" class="tsd-kind-icon">longname</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#ontologynamedgraph" class="tsd-kind-icon">ontology<wbr>Named<wbr>Graph</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#shortname" class="tsd-kind-icon">shortname</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.project.html#status" class="tsd-kind-icon">status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#keywords" class="tsd-kind-icon">keywords</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#logo" class="tsd-kind-icon">logo</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#longname" class="tsd-kind-icon">longname</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#selfjoin" class="tsd-kind-icon">selfjoin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#shortname" class="tsd-kind-icon">shortname</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_projectformats_.projectformats.createprojectapirequestv1.html#status" class="tsd-kind-icon">status</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,137 +110,77 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="belongstoinstitution" class="tsd-anchor"></a>
-					<h3>belongs<wbr>ToInstitution</h3>
-					<div class="tsd-signature tsd-kind-icon">belongs<wbr>ToInstitution<span class="tsd-signature-symbol">:</span> <a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L145">sessionResponseFormats.ts:145</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The IRI of the institution, if any, that the project belongs to.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="datanamedgraph" class="tsd-anchor"></a>
-					<h3>data<wbr>Named<wbr>Graph</h3>
-					<div class="tsd-signature tsd-kind-icon">data<wbr>Named<wbr>Graph<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L160">sessionResponseFormats.ts:160</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The name of the RDF graph containing the project&#39;s data.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="description" class="tsd-anchor"></a>
-					<h3>description</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L140">sessionResponseFormats.ts:140</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L47">projectFormats.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A description of the project.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="hasselfjoinenabled" class="tsd-anchor"></a>
-					<h3>has<wbr>Self<wbr>Join<wbr>Enabled</h3>
-					<div class="tsd-signature tsd-kind-icon">has<wbr>Self<wbr>Join<wbr>Enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L180">sessionResponseFormats.ts:180</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>True if users can add themselves to the project.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L130">sessionResponseFormats.ts:130</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The project&#39;s IRI.</p>
+							<p>The description of the project to be created.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="keywords" class="tsd-anchor"></a>
-					<h3>keywords</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> keywords</h3>
 					<div class="tsd-signature tsd-kind-icon">keywords<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L170">sessionResponseFormats.ts:170</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L52">projectFormats.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Keywords describing the project.</p>
+							<p>The keywords of the project to be created.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="logo" class="tsd-anchor"></a>
-					<h3>logo</h3>
-					<div class="tsd-signature tsd-kind-icon">logo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> logo</h3>
+					<div class="tsd-signature tsd-kind-icon">logo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L150">sessionResponseFormats.ts:150</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L57">projectFormats.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The filename of the project&#39;s logo, if any.</p>
+							<p>The logo of the project to be created.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="longname" class="tsd-anchor"></a>
-					<h3>longname</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> longname</h3>
 					<div class="tsd-signature tsd-kind-icon">longname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L175">sessionResponseFormats.ts:175</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L42">projectFormats.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The project&#39;s full name.</p>
+							<p>The longname of the project to be created.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ontologynamedgraph" class="tsd-anchor"></a>
-					<h3>ontology<wbr>Named<wbr>Graph</h3>
-					<div class="tsd-signature tsd-kind-icon">ontology<wbr>Named<wbr>Graph<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="selfjoin" class="tsd-anchor"></a>
+					<h3>selfjoin</h3>
+					<div class="tsd-signature tsd-kind-icon">selfjoin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L155">sessionResponseFormats.ts:155</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L67">projectFormats.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The name of the RDF graph containing the project&#39;s ontology.</p>
+							<p>The status of self-join of the project to be created.</p>
 						</div>
 					</div>
 				</section>
@@ -253,12 +190,12 @@
 					<div class="tsd-signature tsd-kind-icon">shortname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L135">sessionResponseFormats.ts:135</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L37">projectFormats.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The project&#39;s short name.</p>
+							<p>The shortname of the project to be created (unique).</p>
 						</div>
 					</div>
 				</section>
@@ -268,12 +205,12 @@
 					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L165">sessionResponseFormats.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/projectFormats.ts#L62">projectFormats.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>True if the project is active.</p>
+							<p>The status of the project to be created (active = true, inactive = false).</p>
 						</div>
 					</div>
 				</section>
@@ -304,10 +241,24 @@
 						<a href="../modules/_graphdataresponseformats_.html">"graph<wbr>Data<wbr>Response<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_groupformats_.html">"group<wbr>Formats"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_hierarchicallistresponseformats_.html">"hierarchical<wbr>List<wbr>Response<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mappingformats_.html">"mapping<wbr>Formats"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_permissionformats_.html">"permission<wbr>Formats"</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_projectformats_.html">"project<wbr>Formats"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_projectformats_.projectformats.html">project<wbr>Formats</a>
+							</li>
+						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourceresponseformats_.html">"resource<wbr>Response<wbr>Formats"</a>
@@ -315,13 +266,11 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_searchresponseformats_.html">"search<wbr>Response<wbr>Formats"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_sessionresponseformats_.html">"session<wbr>Response<wbr>Formats"</a>
-						<ul>
-							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">session<wbr>Response<wbr>Formats</a>
-							</li>
-						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_userformats_.html">"user<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_valueresponseformats_.html">"value<wbr>Response<wbr>Formats"</a>
@@ -331,61 +280,55 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.loginresponse.html" class="tsd-kind-icon">login<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permission.html" class="tsd-kind-icon">permission</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html" class="tsd-kind-icon">permission<wbr>Data</a>
+						<a href="_projectformats_.projectformats.changeprojectapirequestv1.html" class="tsd-kind-icon">Change<wbr>Project<wbr>Api<wbr>Request<wbr>V1</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.project.html" class="tsd-kind-icon">project</a>
+						<a href="_projectformats_.projectformats.createprojectapirequestv1.html" class="tsd-kind-icon">Create<wbr>Project<wbr>Api<wbr>Request<wbr>V1</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#belongstoinstitution" class="tsd-kind-icon">belongs<wbr>ToInstitution</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#description" class="tsd-kind-icon">description</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#datanamedgraph" class="tsd-kind-icon">data<wbr>Named<wbr>Graph</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#keywords" class="tsd-kind-icon">keywords</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#description" class="tsd-kind-icon">description</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#logo" class="tsd-kind-icon">logo</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#hasselfjoinenabled" class="tsd-kind-icon">has<wbr>Self<wbr>Join<wbr>Enabled</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#longname" class="tsd-kind-icon">longname</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#id" class="tsd-kind-icon">id</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#selfjoin" class="tsd-kind-icon">selfjoin</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#keywords" class="tsd-kind-icon">keywords</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#shortname" class="tsd-kind-icon">shortname</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#logo" class="tsd-kind-icon">logo</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#longname" class="tsd-kind-icon">longname</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#ontologynamedgraph" class="tsd-kind-icon">ontology<wbr>Named<wbr>Graph</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#shortname" class="tsd-kind-icon">shortname</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.project.html#status" class="tsd-kind-icon">status</a>
+								<a href="_projectformats_.projectformats.createprojectapirequestv1.html#status" class="tsd-kind-icon">status</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html" class="tsd-kind-icon">user<wbr>Profile</a>
+						<a href="_projectformats_.projectformats.projectadminmembersgetresponsev1.html" class="tsd-kind-icon">Project<wbr>Admin<wbr>Members<wbr>Get<wbr>Response<wbr>V1</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_sessionresponseformats_.sessionresponseformats.userdata.html" class="tsd-kind-icon">userdata</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_projectformats_.projectformats.projectinforesponsev1.html" class="tsd-kind-icon">Project<wbr>Info<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_projectformats_.projectformats.projectinfov1.html" class="tsd-kind-icon">Project<wbr>Info<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_projectformats_.projectformats.projectmembersgetresponsev1.html" class="tsd-kind-icon">Project<wbr>Members<wbr>Get<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_projectformats_.projectformats.projectoperationresponsev1.html" class="tsd-kind-icon">Project<wbr>Operation<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_projectformats_.projectformats.projectsresponsev1.html" class="tsd-kind-icon">Projects<wbr>Response<wbr>V1</a>
 					</li>
 				</ul>
 			</nav>

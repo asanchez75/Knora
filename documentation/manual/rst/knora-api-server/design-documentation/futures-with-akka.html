@@ -245,12 +245,16 @@ the method return a future.</p>
 <p>If you have a <code class="docutils literal"><span class="pre">match</span> <span class="pre">...</span> <span class="pre">case</span></code> or <code class="docutils literal"><span class="pre">if</span></code> expression, and one branch
 obtains some data in a future, but another branch can produce the data
 immediately, you can wrap the result of the latter branch in a future,
-so that both branches have the same type:</p>
+so that both branches have the same type. Here we use an alternative
+implementation of <code class="docutils literal"><span class="pre">scala.concurrent.Future</span></code>, found in
+<code class="docutils literal"><span class="pre">akka.http.scaladsl.util.FastFuture</span></code>, which tries to avoid scheduling
+to an <code class="docutils literal"><span class="pre">scala.concurrent.ExecutionContext</span></code> if possible, i.e. if the
+given future value is already present:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>def getTotalOfFooAndBar(howToGetFoo: String): Future[Int] = {
     for {
         foo &lt;- howToGetFoo match {
             case &quot;askForIt&quot; =&gt; (fooActor ? GetFoo(&quot;foo&quot;)).mapTo[Foo]
-            case &quot;createIt&quot; =&gt; Future(new Foo())
+            case &quot;createIt&quot; =&gt; FastFuture.successful(new Foo())
         }
 
         bar &lt;- (barActor ? GetBar(&quot;bar&quot;)).mapTo[Bar]

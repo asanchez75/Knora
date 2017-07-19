@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>userProfile | Knora API V1 Format Documentation</title>
+	<title>GroupMembersResponseV1 | Knora API V1 Format Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,27 +56,35 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.html">&quot;sessionResponseFormats&quot;</a>
+					<a href="../modules/_groupformats_.html">&quot;groupFormats&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">sessionResponseFormats</a>
+					<a href="../modules/_groupformats_.groupformats.html">groupFormats</a>
 				</li>
 				<li>
-					<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html">userProfile</a>
+					<a href="_groupformats_.groupformats.groupmembersresponsev1.html">GroupMembersResponseV1</a>
 				</li>
 			</ul>
-			<h1>Interface userProfile</h1>
+			<h1>Interface GroupMembersResponseV1</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a response to a request for a list of members inside a single group.</p>
+					</div>
+					<p>HTTP GET request to <a href="http://host/v1/groups/members/groupIRI">http://host/v1/groups/members/groupIRI</a></p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">userProfile</span>
+						<span class="target">GroupMembersResponseV1</span>
 					</li>
 				</ul>
 			</section>
@@ -87,12 +95,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#groups" class="tsd-kind-icon">groups</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#issystemuser" class="tsd-kind-icon">is<wbr>System<wbr>User</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#permissiondata" class="tsd-kind-icon">permission<wbr>Data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#projects_info" class="tsd-kind-icon">projects_<wbr>info</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#sessionid" class="tsd-kind-icon">session<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_groupformats_.groupformats.groupmembersresponsev1.html#members" class="tsd-kind-icon">members</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,100 +104,17 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="groups" class="tsd-anchor"></a>
-					<h3>groups</h3>
-					<div class="tsd-signature tsd-kind-icon">groups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="members" class="tsd-anchor"></a>
+					<h3>members</h3>
+					<div class="tsd-signature tsd-kind-icon">members<span class="tsd-signature-symbol">:</span> <a href="../modules/_basicmessagecomponents_.basicmessagecomponents.html#knorairi" class="tsd-signature-type">KnoraIRI</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L48">sessionResponseFormats.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/ec915944/salsah/src/typescript_interfaces/groupFormats.ts#L121">groupFormats.ts:121</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The IRIs of the groups that the user belongs to.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="issystemuser" class="tsd-anchor"></a>
-					<h3>is<wbr>System<wbr>User</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>System<wbr>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L60">sessionResponseFormats.ts:60</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>True if the user is the system user.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="permissiondata" class="tsd-anchor"></a>
-					<h3>permission<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">permission<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html" class="tsd-signature-type">permissionData</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L65">sessionResponseFormats.ts:65</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The user&#39;s permission data.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="projects_info" class="tsd-anchor"></a>
-					<h3>projects_<wbr>info</h3>
-					<div class="tsd-signature tsd-kind-icon">projects_<wbr>info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L53">sessionResponseFormats.ts:53</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Projects the user is a member of. The keys are project IRIs.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="_sessionresponseformats_.sessionresponseformats.project.html" class="tsd-signature-type">project</a></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="sessionid" class="tsd-anchor"></a>
-					<h3>session<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">session<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L75">sessionResponseFormats.ts:75</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Not used.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="userdata" class="tsd-anchor"></a>
-					<h3>user<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="_sessionresponseformats_.sessionresponseformats.userdata.html" class="tsd-signature-type">userdata</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dhlab-basel/Knora/blob/9d74ecbe/salsah/src/typescript_interfaces/sessionResponseFormats.ts#L70">sessionResponseFormats.ts:70</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Additional data about the user.</p>
+							<p>The group&#39;s members.</p>
 						</div>
 					</div>
 				</section>
@@ -224,6 +144,14 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_graphdataresponseformats_.html">"graph<wbr>Data<wbr>Response<wbr>Formats"</a>
 					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_groupformats_.html">"group<wbr>Formats"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_groupformats_.groupformats.html">group<wbr>Formats</a>
+							</li>
+						</ul>
+					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_hierarchicallistresponseformats_.html">"hierarchical<wbr>List<wbr>Response<wbr>Formats"</a>
 					</li>
@@ -231,18 +159,22 @@
 						<a href="../modules/_mappingformats_.html">"mapping<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_permissionformats_.html">"permission<wbr>Formats"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_projectformats_.html">"project<wbr>Formats"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourceresponseformats_.html">"resource<wbr>Response<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_searchresponseformats_.html">"search<wbr>Response<wbr>Formats"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_sessionresponseformats_.html">"session<wbr>Response<wbr>Formats"</a>
-						<ul>
-							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_sessionresponseformats_.sessionresponseformats.html">session<wbr>Response<wbr>Formats</a>
-							</li>
-						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_userformats_.html">"user<wbr>Formats"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_valueresponseformats_.html">"value<wbr>Response<wbr>Formats"</a>
@@ -252,46 +184,34 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.loginresponse.html" class="tsd-kind-icon">login<wbr>Response</a>
+						<a href="_groupformats_.groupformats.changegroupapirequestv1.html" class="tsd-kind-icon">Change<wbr>Group<wbr>Api<wbr>Request<wbr>V1</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permission.html" class="tsd-kind-icon">permission</a>
+						<a href="_groupformats_.groupformats.creategroupapirequestv1.html" class="tsd-kind-icon">Create<wbr>Group<wbr>Api<wbr>Request<wbr>V1</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.permissiondata.html" class="tsd-kind-icon">permission<wbr>Data</a>
+						<a href="_groupformats_.groupformats.groupinforesponsev1.html" class="tsd-kind-icon">Group<wbr>Info<wbr>Response<wbr>V1</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.project.html" class="tsd-kind-icon">project</a>
+						<a href="_groupformats_.groupformats.groupinfov1.html" class="tsd-kind-icon">Group<wbr>Info<wbr>V1</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html" class="tsd-kind-icon">user<wbr>Profile</a>
+						<a href="_groupformats_.groupformats.groupmembersresponsev1.html" class="tsd-kind-icon">Group<wbr>Members<wbr>Response<wbr>V1</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#groups" class="tsd-kind-icon">groups</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#issystemuser" class="tsd-kind-icon">is<wbr>System<wbr>User</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#permissiondata" class="tsd-kind-icon">permission<wbr>Data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#projects_info" class="tsd-kind-icon">projects_<wbr>info</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#sessionid" class="tsd-kind-icon">session<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_sessionresponseformats_.sessionresponseformats.userprofile.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
+								<a href="_groupformats_.groupformats.groupmembersresponsev1.html#members" class="tsd-kind-icon">members</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_sessionresponseformats_.sessionresponseformats.userdata.html" class="tsd-kind-icon">userdata</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_groupformats_.groupformats.groupoperationresponsev1.html" class="tsd-kind-icon">Group<wbr>Operation<wbr>Response<wbr>V1</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_groupformats_.groupformats.groupsresponsev1.html" class="tsd-kind-icon">Groups<wbr>Response<wbr>V1</a>
 					</li>
 				</ul>
 			</nav>
