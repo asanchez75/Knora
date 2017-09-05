@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Developing the Knora API Server" href="index.html" />
     <link rel="next" title="Starting Fuseki 3" href="fuseki.html" />
     <link rel="prev" title="Developing the Knora API Server" href="index.html" /> 
   </head>
@@ -84,16 +83,14 @@
 <div class="section" id="triple-store">
 <h2><a class="toc-backref" href="#id2">Triple Store</a><a class="headerlink" href="#triple-store" title="Permalink to this headline">¶</a></h2>
 <p>A number of triplestore implementations are available, including <a class="reference external" href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a> as
-well as proprietary options. The Knora API server is tested and configured to
-work out of the box with the following triplestores:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://ontotext.com/products/graphdb/">Ontotext GraphDB</a>, a high-performance, proprietary triplestore. The Knora
-API server is tested with GraphDB Standard Edition and GraphDB Free (which
-is proprietary but available free of charge).</li>
-<li><a class="reference external" href="https://jena.apache.org/">Apache Jena</a>, which is <a class="reference external" href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a>. Knora comes bundled with Jena and with
-its standalone SPARQL server, Fuseki.</li>
-</ul>
-<p>See the chapters on <a class="reference internal" href="fuseki.html#starting-fuseki"><span class="std std-ref">Starting Fuseki 3</span></a> and <a class="reference internal" href="graphdb.html#starting-graphdb-se"><span class="std std-ref">Starting GraphDB-SE</span></a> for more details.</p>
+well as proprietary options. The Knora API server is designed to work with any
+standards-compliant triplestore. It is primarily tested with <a class="reference external" href="http://ontotext.com/products/graphdb/">Ontotext GraphDB</a>, a
+high-performance, proprietary triplestore. We recommend GraphDB Standard Edition,
+but GraphDB Free (which is proprietary but available free of charge) also works.</p>
+<p>Knora includes support for <a class="reference external" href="https://jena.apache.org/">Apache Jena</a>, which is <a class="reference external" href="http://www.gnu.org/philosophy/free-sw.en.html">free software</a>, but use of
+Jena is deprecated, and support for it will probably be removed in the future.</p>
+<p>Built-in support and configuration for other triplestores is planned.</p>
+<p>See the chapters on <a class="reference internal" href="graphdb.html#starting-graphdb"><span class="std std-ref">Starting GraphDB</span></a> and <a class="reference internal" href="fuseki.html#starting-fuseki"><span class="std std-ref">Starting Fuseki 3</span></a> for more details.</p>
 </div>
 <div class="section" id="sipi">
 <h2><a class="toc-backref" href="#id3">SIPI</a><a class="headerlink" href="#sipi" title="Permalink to this headline">¶</a></h2>
@@ -193,7 +190,7 @@ docker container:</p>
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/development/overview.txt"
+              <a href="../../../_sources/rst/knora-api-server/development/overview.rst.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -202,7 +199,7 @@ docker container:</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
         </div>
         <div class="clearer"></div>

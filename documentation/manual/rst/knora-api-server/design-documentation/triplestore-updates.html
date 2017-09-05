@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Knora API Server Design Documentation" href="index.html" />
     <link rel="next" title="Consistency Checking" href="consistency-checking.html" />
     <link rel="prev" title="How to Add an API Route" href="how-to-add-a-route.html" /> 
   </head>
@@ -274,7 +273,7 @@ update in its own transaction.</p>
 <h3><a class="toc-backref" href="#id13">Ensuring Data Consistency</a><a class="headerlink" href="#ensuring-data-consistency" title="Permalink to this headline">¶</a></h3>
 <p>Knora enforces consistency constraints using three redundant mechanisms:</p>
 <ol class="arabic simple">
-<li>By doing pre-update checks in SPARQL SELECT queries.</li>
+<li>By doing pre-update checks using SPARQL SELECT queries and cached ontology data.</li>
 <li>By doing checks in the <code class="docutils literal"><span class="pre">WHERE</span></code> clauses of SPARQL updates.</li>
 <li>By using GraphDB&#8217;s built-in consistency checker (see <a class="reference internal" href="consistency-checking.html#consistency-checking"><span class="std std-ref">Consistency Checking</span></a>).</li>
 </ol>
@@ -295,13 +294,14 @@ consistency checks and provides values for variables that are used in the
 the <code class="docutils literal"><span class="pre">WHERE</span></code> clause are not met (e.g. because the data to be updated does not
 exist), the <code class="docutils literal"><span class="pre">WHERE</span></code> clause should return no results; as a result, the update
 will not be performed.</p>
-<p>Regardless of whether the update succeeds or not, it returns nothing. So the
-only way to find out whether it was successful is to do a <code class="docutils literal"><span class="pre">SELECT</span></code>
-afterwards. Moreover, if the update failed, there is no straightforward way to
-find out why. This is one reason why Knora does pre-update checks by means of
-separate <code class="docutils literal"><span class="pre">SELECT</span></code> queries, <em>before</em> performing the update. This makes it
-possible to return specific error messages to the user to indicate why an
-update cannot be performed.</p>
+<p>Regardless of whether the update changes the contents of the triplestore, it
+returns nothing. If the update did nothing because the conditions of the WHERE
+clause were not met, the only way to find out is to do a <code class="docutils literal"><span class="pre">SELECT</span></code>
+afterwards. Moreover, in this case, there is no straightforward way to
+find out which conditions was not met. This is one reason why Knora does
+pre-update checks using separate <code class="docutils literal"><span class="pre">SELECT</span></code> queries and/or cached ontology
+data, <em>before</em> performing the update. This makes it possible to return specific
+error messages to the user to indicate why an update cannot be performed.</p>
 <p>Moreover, while some checks are easy to do in a SPARQL update, others are
 difficult, impractical, or impossible. Easy checks include checking whether a
 resource or value exists or is deleted, and checking that the
@@ -311,6 +311,14 @@ poorly on Jena. Knora does not do permission checks in SPARQL, because its
 permission-checking algorithm is too complex to be implemented in SPARQL. For
 this reason, Knora&#8217;s check for duplicate values cannot be done in SPARQL
 update code, because it relies on permission checks.</p>
+<p>In a bulk import operation, which can create a large number of resources in
+a single SPARQL update, a <code class="docutils literal"><span class="pre">WHERE</span></code> clause can become very expensive for the
+triplestore, in terms of memory as well as execution time. Moreover, RDF4J
+(and hence GraphDB) uses a recursive algorithm to parse SPARQL queries with
+<code class="docutils literal"><span class="pre">WHERE</span></code> clauses, so the size of a <code class="docutils literal"><span class="pre">WHERE</span></code> clause is limited by the stack space
+available to the Java Virtual Machine. Therefore, in bulk import operations,
+Knora uses <code class="docutils literal"><span class="pre">INSERT</span> <span class="pre">DATA</span></code>, which does not involve a <code class="docutils literal"><span class="pre">WHERE</span></code> clause. Bulk
+imports thus rely on checks (1) and (3) above.</p>
 </div>
 </div>
 <div class="section" id="sparql-update-examples">
@@ -507,7 +515,7 @@ return no rows.</p>
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/design-documentation/triplestore-updates.txt"
+              <a href="../../../_sources/rst/knora-api-server/design-documentation/triplestore-updates.rst.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -516,7 +524,7 @@ return no rows.</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
         </div>
         <div class="clearer"></div>
