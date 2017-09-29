@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Developing the Knora API Server" href="index.html" />
     <link rel="next" title="Setup IntelliJ for development of Knora" href="intellij-config.html" />
     <link rel="prev" title="Starting GraphDB" href="graphdb.html" /> 
   </head>
@@ -285,7 +286,11 @@ looks like this:</p>
 104
 105
 106
-107</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+107
+108
+109
+110
+111</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
 <span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
 
 <span class="l l-Scalar l-Scalar-Plain">addons</span><span class="p p-Indicator">:</span>
@@ -320,40 +325,45 @@ looks like this:</p>
   <span class="l l-Scalar l-Scalar-Plain">directories</span><span class="p p-Indicator">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">$HOME/.ivy2</span>
 
+
+<span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">openssl aes-256-cbc -K $encrypted_6254b38dc8d5_key -iv $encrypted_6254b38dc8d5_iv -in $TRAVIS_BUILD_DIR/private/graphdb.license.enc -out $TRAVIS_BUILD_DIR/private/graphdb.license -d</span>
+
+<span class="l l-Scalar l-Scalar-Plain">stages</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">publish</span> <span class="c1"># generally, only publish if we are on &#39;develop&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">if</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">branch = develop</span>
+
 <span class="l l-Scalar l-Scalar-Plain">jobs</span><span class="p p-Indicator">:</span>
   <span class="l l-Scalar l-Scalar-Plain">include</span><span class="p p-Indicator">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
       <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
-        <span class="c1"># TODO: re-enable this when the build environment has enough memory for it.</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep 1</span>
-        <span class="c1"># unzip graphdb-free</span>
-        <span class="c1">#- unzip $TRAVIS_BUILD_DIR/triplestores/graphdb-free/graphdb-free-8.2.0-dist.zip -d /tmp &amp;&amp; sudo mv /tmp/graphdb-free-8.2.0 /graphdb</span>
-        <span class="c1">#- cp $TRAVIS_BUILD_DIR/webapi/scripts/KnoraRules.pie /graphdb</span>
-        <span class="c1"># start and initialize graphdb-free</span>
-        <span class="c1">#- cd /graphdb &amp;&amp; ./bin/graphdb &gt; /dev/null 2&gt;&amp;1 &amp;</span>
-        <span class="c1">#- sleep 15</span>
-        <span class="c1">#- cd $TRAVIS_BUILD_DIR/webapi/scripts &amp;&amp; ./graphdb-free-init-knora-test-unit.sh</span>
+        <span class="c1"># prepare needed graphdb-se files</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mkdir -p $TRAVIS_BUILD_DIR/data/conf</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cp $TRAVIS_BUILD_DIR/private/graphdb.license $TRAVIS_BUILD_DIR/data/conf/graphdb.license</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mkdir -p $TRAVIS_BUILD_DIR/graphdb</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cp $TRAVIS_BUILD_DIR/webapi/scripts/KnoraRules.pie $TRAVIS_BUILD_DIR/graphdb</span>
+        <span class="c1"># start and initialize graphdb-se</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker run -d -p 127.0.0.1:7200:7200 -v $TRAVIS_BUILD_DIR/data:/opt/graphdb/home -v $TRAVIS_BUILD_DIR/graphdb:/graphdb ontotext/graphdb:8.2.0-se</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep 15</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/scripts &amp;&amp; ./graphdb-se-docker-init-knora-test-unit.sh</span>
         <span class="c1"># start the built-in webapi server tests</span>
-        <span class="c1"># - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt test</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt graphdb:test</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
       <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
-        <span class="c1"># unzip graphdb-free</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">unzip $TRAVIS_BUILD_DIR/triplestores/graphdb-free/graphdb-free-8.2.0-dist.zip -d /tmp &amp;&amp; sudo mv /tmp/graphdb-free-8.2.0 /graphdb</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cp $TRAVIS_BUILD_DIR/webapi/scripts/KnoraRules.pie /graphdb</span>
-        <span class="c1"># start and initialize graphdb-free</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd /graphdb &amp;&amp; ./bin/graphdb &gt; /dev/null 2&gt;&amp;1 &amp;</span>
+        <span class="c1"># prepare needed graphdb-se files</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mkdir -p $TRAVIS_BUILD_DIR/data/conf</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cp $TRAVIS_BUILD_DIR/private/graphdb.license $TRAVIS_BUILD_DIR/data/conf/graphdb.license</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mkdir -p $TRAVIS_BUILD_DIR/graphdb</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cp $TRAVIS_BUILD_DIR/webapi/scripts/KnoraRules.pie $TRAVIS_BUILD_DIR/graphdb</span>
+        <span class="c1"># start and initialize graphdb-se</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker run -d -p 127.0.0.1:7200:7200 -v $TRAVIS_BUILD_DIR/data:/opt/graphdb/home -v $TRAVIS_BUILD_DIR/graphdb:/graphdb ontotext/graphdb:8.2.0-se</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep 15</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/scripts &amp;&amp; ./graphdb-free-init-knora-test-unit.sh</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/scripts &amp;&amp; ./graphdb-se-docker-init-knora-test-unit.sh</span>
         <span class="c1"># start the sipi container (with production config)</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker run -d --add-host webapihost:$DOCKERHOST -v /tmp:/tmp -v $HOME:$HOME -p 1024:1024 $SIPI_REPO:develop</span>
         <span class="c1"># start the integration tests</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt graphdb-free-it:test</span>
-    <span class="c1">#- stage: webapi-graphdb</span>
-    <span class="c1">#  script:</span>
-    <span class="c1">#    # start graphdb</span>
-    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
-    <span class="c1">#    # start the built-in webapi server tests</span>
-    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt test</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt it:test</span>
     <span class="c1">#- stage: test</span>
     <span class="c1">#  script:</span>
     <span class="c1">#    #- &quot;export DISPLAY=:99.0&quot;</span>
@@ -374,20 +384,19 @@ looks like this:</p>
     <span class="c1">#    - cd $TRAVIS_BUILD_DIR/salsah/ &amp;&amp; sbt headless:test</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stage</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">publish</span>
       <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
-        <span class="c1"># generally, only create, tag and push to docker if we are on &#39;develop&#39;</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker login -u $DOCKER_USER -p $DOCKER_PASS</span>
         <span class="c1"># webapi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker build $TRAVIS_BUILD_DIR/webapi/ -t $WEBAPI_REPO:develop ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker tag $WEBAPI_REPO:develop $WEBAPI_REPO:latest ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker push $WEBAPI_REPO ; fi</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker build $TRAVIS_BUILD_DIR/webapi/ -t $WEBAPI_REPO:develop</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker tag $WEBAPI_REPO:develop $WEBAPI_REPO:latest</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker push $WEBAPI_REPO</span>
         <span class="c1"># salsah</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker build $TRAVIS_BUILD_DIR/salsah/ -t $SALSAH_REPO:develop ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker tag $SALSAH_REPO:develop $SALSAH_REPO:latest ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker push $SALSAH_REPO ; fi</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker build $TRAVIS_BUILD_DIR/salsah/ -t $SALSAH_REPO:develop</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker tag $SALSAH_REPO:develop $SALSAH_REPO:latest</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker push $SALSAH_REPO</span>
         <span class="c1"># sipi: get the develop sipi and tag it as &#39;develop-knora&#39; so we know that this version is tested (only on the develop branch)</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker pull $SIPI_REPO:develop ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker tag $SIPI_REPO:develop $SIPI_REPO:knora-develop ; fi</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">if [ &quot;$TRAVIS_BRANCH&quot; = &quot;develop&quot; ]; then docker push $SIPI_REPO ; fi</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker pull $SIPI_REPO:develop</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker tag $SIPI_REPO:develop $SIPI_REPO:knora-develop</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker push $SIPI_REPO</span>
 
 <span class="l l-Scalar l-Scalar-Plain">notifications</span><span class="p p-Indicator">:</span>
   <span class="l l-Scalar l-Scalar-Plain">slack</span><span class="p p-Indicator">:</span>
@@ -759,7 +768,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/development/build-process.rst.txt"
+              <a href="../../../_sources/rst/knora-api-server/development/build-process.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -768,7 +777,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
         </div>
         <div class="clearer"></div>

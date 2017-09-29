@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Using API V1" href="index.html" />
     <link rel="next" title="Reading Values" href="reading-values.html" />
     <link rel="prev" title="XML to Standoff Mapping" href="create-a-mapping.html" /> 
   </head>
@@ -258,34 +259,47 @@ XML looks like this:</p>
 </pre></div>
 </div>
 <p>This illustrates several aspects of XML imports:</p>
-<ul class="simple">
-<li>The root XML element must be <code class="docutils literal"><span class="pre">knoraXmlImport:resources</span></code>.</li>
-<li>There is an XML namespace corresponding each ontology used in the import. These namespaces can be found in the
-XML schema files returned by the Knora API server.</li>
-<li>We have copied and pasted <code class="docutils literal"><span class="pre">xmlns=&quot;http://api.knora.org/ontology/biblio/xml-import/v1#&quot;</span></code> from the main XML schema,
-<code class="docutils literal"><span class="pre">biblio.xsd</span></code>. This enables the Knora API server to identify the main ontology we are using.</li>
-<li>We have used <code class="docutils literal"><span class="pre">xsi:schemaLocation</span></code> to indicate the main schema&#8217;s namespace and filename. If we put our XML document in
-the same directory as the schemas, and we run an XML validator to check the XML, it should load the schemas.</li>
-<li>The child elements of <code class="docutils literal"><span class="pre">knoraXmlImport:resources</span></code> represent resources to be created. The order of these elements
-is unimportant.</li>
-<li>Each resource must have an ID, which must be an XML <a class="reference external" href="https://www.w3.org/TR/REC-xml-names/#NT-NCName">NCName</a>, and must be unique within the file. These IDs are used only during the import,
-and will not be stored in the triplestore.</li>
-<li>The first child element of each resource must be a <code class="docutils literal"><span class="pre">knoraXmlImport:label</span></code>, which will be stored as the resource&#8217;s <code class="docutils literal"><span class="pre">rdfs:label</span></code>.</li>
-<li>Optionally, the second child element of a resource can provide metadata about a file to be attached to the resource
-(see <a class="reference internal" href="#bulk-import-with-digital-representations"><span class="std std-ref">Bulk Import of Resources with Digital Representations</span></a>).</li>
-<li>The remaining child elements of each resource represent its property values. These must be sorted in alphabetical order by
-property name.</li>
-<li>If a property has mutliple values, these are represented as multiple adjacent property elements.</li>
-<li>The type of each value must be specified using the attribute <code class="docutils literal"><span class="pre">knoraType</span></code>.</li>
-<li>A link to another resource described in the XML import is represented as a child element of a property element,
+<ul>
+<li><p class="first">The root XML element must be <code class="docutils literal"><span class="pre">knoraXmlImport:resources</span></code>.</p>
+</li>
+<li><p class="first">There is an XML namespace corresponding each ontology used in the import. These namespaces can be found in the
+XML schema files returned by the Knora API server.</p>
+</li>
+<li><p class="first">We have copied and pasted <code class="docutils literal"><span class="pre">xmlns=&quot;http://api.knora.org/ontology/biblio/xml-import/v1#&quot;</span></code> from the main XML schema,
+<code class="docutils literal"><span class="pre">biblio.xsd</span></code>. This enables the Knora API server to identify the main ontology we are using.</p>
+</li>
+<li><p class="first">We have used <code class="docutils literal"><span class="pre">xsi:schemaLocation</span></code> to indicate the main schema&#8217;s namespace and filename. If we put our XML document in
+the same directory as the schemas, and we run an XML validator to check the XML, it should load the schemas.</p>
+</li>
+<li><p class="first">The child elements of <code class="docutils literal"><span class="pre">knoraXmlImport:resources</span></code> represent resources to be created. The order of these elements
+is unimportant.</p>
+</li>
+<li><p class="first">Each resource must have an ID, which must be an XML <a class="reference external" href="https://www.w3.org/TR/REC-xml-names/#NT-NCName">NCName</a>, and must be unique within the file. These IDs are used only during the import,
+and will not be stored in the triplestore.</p>
+</li>
+<li><p class="first">The first child element of each resource must be a <code class="docutils literal"><span class="pre">knoraXmlImport:label</span></code>, which will be stored as the resource&#8217;s <code class="docutils literal"><span class="pre">rdfs:label</span></code>.</p>
+</li>
+<li><p class="first">Optionally, the second child element of a resource can provide metadata about a file to be attached to the resource
+(see <a class="reference internal" href="#bulk-import-with-digital-representations"><span class="std std-ref">Bulk Import of Resources with Digital Representations</span></a>).</p>
+</li>
+<li><p class="first">The remaining child elements of each resource represent its property values. These must be sorted in alphabetical order by
+property name.</p>
+</li>
+<li><p class="first">If a property has mutliple values, these are represented as multiple adjacent property elements.</p>
+</li>
+<li><p class="first">The type of each value must be specified using the attribute <code class="docutils literal"><span class="pre">knoraType</span></code>.</p>
+</li>
+<li><p class="first">A link to another resource described in the XML import is represented as a child element of a property element,
 with attributes <code class="docutils literal"><span class="pre">knoraType=&quot;link_value&quot;</span></code> and <code class="docutils literal"><span class="pre">linkType=&quot;ref&quot;</span></code>, and a <code class="docutils literal"><span class="pre">target</span></code> attribute containing
-the ID of the target resource.</li>
-<li>There is a specfic syntax for referring to properties from other ontologies. In the example, <code class="docutils literal"><span class="pre">beol:comment</span></code>
+the ID of the target resource.</p>
+</li>
+<li><p class="first">There is a specfic syntax for referring to properties from other ontologies. In the example, <code class="docutils literal"><span class="pre">beol:comment</span></code>
 is defined in the ontology <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/beol</span></code>. In the XML, we refer to it as
-<code class="docutils literal"><span class="pre">biblio:beol__comment</span></code>.</li>
+<code class="docutils literal"><span class="pre">biblio:beol__comment</span></code>.</p>
+</li>
 <li><dl class="first docutils">
 <dt>A text value can contain XML markup. If it does:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>The text value element must have the attribute <code class="docutils literal"><span class="pre">mapping_id</span></code>, specifying a mapping from XML to standoff markup (see <a class="reference internal" href="create-a-mapping.html#xml-to-standoff-mapping"><span class="std std-ref">XML to Standoff Mapping</span></a>).</li>
 <li>It is necessary to specify the appropriate XML namespace (in this case the null namespace, <code class="docutils literal"><span class="pre">xmlns=&quot;&quot;</span></code>) for the XML markup in the text value.</li>
 <li>The XML markup in the text value will not be validated by the schema.</li>
@@ -420,7 +434,7 @@ be attached to the resource, along with its MIME type:</p>
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/api_v1/adding-resources.rst.txt"
+              <a href="../../../_sources/rst/knora-api-server/api_v1/adding-resources.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -429,7 +443,7 @@ be attached to the resource, along with its MIME type:</p>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
         </div>
         <div class="clearer"></div>

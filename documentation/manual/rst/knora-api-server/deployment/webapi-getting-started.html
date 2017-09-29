@@ -17,8 +17,7 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -26,6 +25,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Deploying the Knora API Server" href="index.html" />
     <link rel="next" title="Using HTTPS in the Knora API Server" href="webapi-https.html" />
     <link rel="prev" title="Deploying the Knora API Server" href="index.html" /> 
   </head>
@@ -74,10 +75,10 @@ for more details.</p>
 <p>To create a test repository called <code class="docutils literal"><span class="pre">knora-test</span></code> and load test data into it,
 go to <code class="docutils literal"><span class="pre">webapi/scripts</span></code> and run the script for the triplestore you have
 chosen.</p>
-<ul class="simple">
+<ul>
 <li><dl class="first docutils">
 <dt>For GraphDB SE:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>If you are running GraphDB directly from its installation directory (using its <code class="docutils literal"><span class="pre">graphdb</span></code> script), run <code class="docutils literal"><span class="pre">graphdb-se-local-init-knora-test.sh</span></code>.</li>
 <li>If you are running GraphDB from a Docker image, run <code class="docutils literal"><span class="pre">graphdb-se-docker-init-knora-test.sh</span></code>.</li>
 </ul>
@@ -86,13 +87,14 @@ chosen.</p>
 </li>
 <li><dl class="first docutils">
 <dt>For GraphDB Free:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>Configuration is currently provided only for running GraphDB Free in Docker. To create a test repository, run <code class="docutils literal"><span class="pre">graphdb-free-init-knora-test.sh</span></code></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>For Fuseki, run <code class="docutils literal"><span class="pre">fuseki-load-test-data.sh</span></code>.</li>
+<li><p class="first">For Fuseki, run <code class="docutils literal"><span class="pre">fuseki-load-test-data.sh</span></code>.</p>
+</li>
 </ul>
 <p>You can create your own scripts based on these scripts, to create new
 repositories and optionally to load existing Knora-compliant RDF data into
@@ -229,7 +231,7 @@ be implemented as subclasses of <code class="docutils literal"><span class="pre"
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/deployment/webapi-getting-started.rst.txt"
+              <a href="../../../_sources/rst/knora-api-server/deployment/webapi-getting-started.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -238,7 +240,7 @@ be implemented as subclasses of <code class="docutils literal"><span class="pre"
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
         </div>
         <div class="clearer"></div>
