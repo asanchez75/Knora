@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../index.html" />
-    <link rel="up" title="The Knora Ontologies" href="index.html" />
     <link rel="next" title="The Knora API Server" href="../knora-api-server/index.html" />
     <link rel="prev" title="The Knora Ontologies" href="index.html" /> 
   </head>
@@ -990,59 +989,50 @@ of one of the standoff classes defined in <code class="docutils literal"><span c
 <h5><a class="toc-backref" href="#id37">Standoff Data Type Tags</a><a class="headerlink" href="#standoff-data-type-tags" title="Permalink to this headline">¶</a></h5>
 <p>Associates data in some Knora value type with a substring in a text. Standoff data type
 tags are subclasses of <code class="docutils literal"><span class="pre">ValueBase</span></code> classes.</p>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffLinkTag</span></code> Indicates that a substring refers to another <code class="docutils literal"><span class="pre">kb:Resource</span></code>.</dt>
-<dd><p class="first last">See <a class="reference internal" href="#knora-base-standoff-link"><span class="std std-ref">StandoffLinkTag</span></a>.</p>
-</dd>
+<dd>See <a class="reference internal" href="#knora-base-standoff-link"><span class="std std-ref">StandoffLinkTag</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffInternalReferenceTag</span></code> Indicates that a substring refers to another standoff tag in the same text</dt>
-<dd><p class="first last">value. See <a class="reference internal" href="#knora-base-standoff-internal-reference"><span class="std std-ref">Internal Links in a TextValue</span></a>.</p>
-</dd>
+<dd>value. See <a class="reference internal" href="#knora-base-standoff-internal-reference"><span class="std std-ref">Internal Links in a TextValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffUriTag</span></code> Indicates that a substring is associated with a</dt>
-<dd><p class="first last">URI, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:UriValue</span></code>. See <a class="reference internal" href="#knora-base-uri-value"><span class="std std-ref">UriValue</span></a>.</p>
-</dd>
+<dd>URI, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:UriValue</span></code>. See <a class="reference internal" href="#knora-base-uri-value"><span class="std std-ref">UriValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffDateTag</span></code> Indicates that a substring represents a</dt>
-<dd><p class="first last">date, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DateValue</span></code>. See <a class="reference internal" href="#knora-base-date-value"><span class="std std-ref">DateValue</span></a>.</p>
-</dd>
+<dd>date, which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DateValue</span></code>. See <a class="reference internal" href="#knora-base-date-value"><span class="std std-ref">DateValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffColorTag</span></code> Indicates that a substring represents a color,</dt>
-<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:ColorValue</span></code>. See <a class="reference internal" href="#knora-base-color-value"><span class="std std-ref">ColorValue</span></a>.</p>
-</dd>
+<dd>which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:ColorValue</span></code>. See <a class="reference internal" href="#knora-base-color-value"><span class="std std-ref">ColorValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffIntegerTag</span></code> Indicates that a substring represents an integer,</dt>
-<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntegerValue</span></code>. See <a class="reference internal" href="#knora-base-int-value"><span class="std std-ref">IntValue</span></a>.</p>
-</dd>
+<dd>which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntegerValue</span></code>. See <a class="reference internal" href="#knora-base-int-value"><span class="std std-ref">IntValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffDecimalTag</span></code> Indicates that a substring represents a number with fractions,</dt>
-<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DecimalValue</span></code>. See <a class="reference internal" href="#knora-base-decimal-value"><span class="std std-ref">DecimalValue</span></a>.</p>
-</dd>
+<dd>which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:DecimalValue</span></code>. See <a class="reference internal" href="#knora-base-decimal-value"><span class="std std-ref">DecimalValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffIntervalTag</span></code> Indicates that a substring represents an interval,</dt>
-<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntervalValue</span></code>. See <a class="reference internal" href="#knora-base-interval-value"><span class="std std-ref">IntervalValue</span></a>.</p>
-</dd>
+<dd>which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:IntervalValue</span></code>. See <a class="reference internal" href="#knora-base-interval-value"><span class="std std-ref">IntervalValue</span></a>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">StandoffBooleanTag</span></code> Indicates that a substring represents a Boolean,</dt>
-<dd><p class="first last">which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:BooleanValue</span></code>. See <a class="reference internal" href="#knora-base-boolean-value"><span class="std std-ref">BooleanValue</span></a>.</p>
-</dd>
+<dd>which is stored in the same form that is used for <code class="docutils literal"><span class="pre">kb:BooleanValue</span></code>. See <a class="reference internal" href="#knora-base-boolean-value"><span class="std std-ref">BooleanValue</span></a>.</dd>
 </dl>
 </li>
 </ul>
@@ -1635,7 +1625,7 @@ user’s possibility to freely annotate any ranges in the text.</td></tr>
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../_sources/rst/knora-ontologies/knora-base.txt"
+              <a href="../../_sources/rst/knora-ontologies/knora-base.rst.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -1644,7 +1634,7 @@ user’s possibility to freely annotate any ranges in the text.</td></tr>
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="top" title="Knora 0.1 documentation" href="../../index.html" />
-    <link rel="up" title="Developing the Knora API Server" href="index.html" />
     <link rel="next" title="Setup IntelliJ for development of Knora" href="intellij-config.html" />
     <link rel="prev" title="Starting GraphDB" href="graphdb.html" /> 
   </head>
@@ -170,7 +169,7 @@ $ ./graphdb-se-local-init-knora-test-unit.sh
 <p>To test the Knora API server with many concurrent connections on Mac OS X, you
 will need to adjust some kernel parameters to allow more open connections, to
 recycle ephemeral ports more quickly, and to use a wider range of ephemeral
-port numbers. The script <code class="docutils literal"><span class="pre">webapi/scripts/os-x-kernel-test-config.sh</span></code> will do
+port numbers. The script <code class="docutils literal"><span class="pre">webapi/scripts/macOS-kernel-test-config.sh</span></code> will do
 this.</p>
 </div>
 <div class="section" id="continuous-integration">
@@ -768,7 +767,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           </div>
           <div role="note" aria-label="source link">
               <br/>
-              <a href="../../../_sources/rst/knora-api-server/development/build-process.txt"
+              <a href="../../../_sources/rst/knora-api-server/development/build-process.rst.txt"
                 rel="nofollow">Show Source</a>
           </div>
         </div>
@@ -777,7 +776,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
           
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
         </div>
         <div class="clearer"></div>
