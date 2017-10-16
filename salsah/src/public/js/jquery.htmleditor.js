@@ -139,7 +139,7 @@
                 // specify allowed elements, attributes, and classes
                 // this must conform to the `STANDARD_MAPPING`
                 // CKEditor guide to filters: https://docs.ckeditor.com/#!/guide/dev_advanced_content_filter-section-custom-mode-example
-                var filter = ' p em strong strike u sub sup hr h1 h2 h3 h4 h5 h6 pre table tbody tr td ol ul li cite blockquote code; a[!href](salsah-link) ';
+                var filter = ' p em strong strike u sub sup hr h1 h2 h3 h4 h5 h6 pre table tbody tr td ol ul li cite blockquote code; a[!href](salsah-link) ; section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup[*] ';
 
 				var config = {
 					language: (SALSAH.userprofile && SALSAH.userprofile.userData && SALSAH.userprofile.userData.lang) ? SALSAH.userprofile.userData.lang : 'en' ,
@@ -187,10 +187,13 @@
                 		{ name: 'basicstyles', items: [ 'Format', 'Bold', 'Italic', 'Strike', 'Underline', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
                 		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Blockquote' ] },
                 		{ name: 'links', items: [ 'Link', 'Unlink' ] },
-                		{ name: 'insert', items: [ 'Table', 'HorizontalRule'] },
+                		{ name: 'insert', items: [ 'Table', 'HorizontalRule', 'Footnotes'] },
                 		{ name: 'tools', items: [ 'Maximize' ] }
 	               ],
-                   
+
+                   // apply the same css as used in the rest of Salsah
+                   extraPlugins: 'clipboard,footnotes,lineutils,widget,widgetselection',
+
                    // apply the same css as used in the rest of Salsah
                    contentsCss: '/ckeditor.css',
                    customConfig: '/js/empty_config.js'
