@@ -1240,39 +1240,6 @@ class StandoffV1R2RSpec extends R2RSpec {
 
         }
 
-        /*
-        "create a mapping resource for standoff conversion for editor" in {
-
-            val mappingFileToSend = new File(RequestParams.pathToEditorMapping)
-
-            val formDataMapping = Multipart.FormData(
-                Multipart.FormData.BodyPart(
-                    "json",
-                    HttpEntity(ContentTypes.`application/json`, RequestParams.paramsCreateEditorMappingFromXML)
-                ),
-                Multipart.FormData.BodyPart(
-                    "xml",
-                    HttpEntity.fromPath(ContentTypes.`text/xml(UTF-8)`, mappingFileToSend.toPath),
-                    Map("filename" -> mappingFileToSend.getName)
-                )
-            )
-
-            // send mapping xml to route
-            Post("/v1/mapping", formDataMapping) ~> addCredentials(BasicHttpCredentials(anythingUserEmail, password)) ~> standoffPath ~> check {
-
-                assert(status == StatusCodes.OK, "standoff mapping creation route returned a non successful HTTP status code: " + responseAs[String])
-
-                // check if mappingIri is correct
-                val mappingIri = ResponseUtils.getStringMemberFromResponse(response, "mappingIri")
-
-                assert(mappingIri == anythingProjectIri + "/mappings/EditorMapping", "Iri of the new mapping is not correct")
-
-
-            }
-
-        }
-        */
-
         "create a TextValue from an XML representing a specific CKEditor document with footnotes" in {
 
             val xmlFileToSend = new File(RequestParams.pathToEditor)
