@@ -5,7 +5,11 @@
     </p>
 
     <p>
-        <section class="footnotes">this is an editor section</section>
+        <section class="footnotes">this is an editor section
+            <header>
+                <h2>Footnotes</h2>
+            </header>
+        </section>
     </p>
 
 </text>

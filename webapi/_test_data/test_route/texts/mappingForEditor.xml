@@ -56,4 +56,28 @@
         </standoffClass>
     </mappingElement>
 
+    <mappingElement>
+        <tag>
+            <name>header</name>
+            <class>noClass</class>
+            <namespace>noNamespace</namespace>
+            <separatesWords>false</separatesWords>
+        </tag>
+        <standoffClass>
+            <classIri>http://www.knora.org/ontology/standoff#StandoffHeaderTag</classIri>
+        </standoffClass>
+    </mappingElement>
+
+    <mappingElement>
+        <tag>
+            <name>h2</name>
+            <class>noClass</class>
+            <namespace>noNamespace</namespace>
+            <separatesWords>true</separatesWords>
+        </tag>
+        <standoffClass>
+            <classIri>http://www.knora.org/ontology/standoff#StandoffHeader2Tag</classIri>
+        </standoffClass>
+    </mappingElement>
+
 </mapping>
