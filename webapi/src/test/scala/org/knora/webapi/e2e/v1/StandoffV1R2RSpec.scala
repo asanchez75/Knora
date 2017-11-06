@@ -143,12 +143,25 @@ class StandoffV1R2RSpec extends R2RSpec {
                |}
              """.stripMargin
 
+        val paramsCreateEditorMappingFromXML =
+            s"""
+               |{
+               |  "project_id": "$anythingProjectIri",
+               |  "label": "mapping for Editor",
+               |  "mappingName": "EditorMapping"
+               |}
+             """.stripMargin
+
         // Standard HTML is the html code that can be translated into Standoff markup with the OntologyConstants.KnoraBase.StandardMapping
         val pathToStandardHTML = "_test_data/test_route/texts/StandardHTML.xml"
 
         val pathToHTMLMapping = "_test_data/test_route/texts/mappingForHTML.xml"
 
         val pathToHTML = "_test_data/test_route/texts/HTML.xml"
+
+        val pathToEditorMapping = "_test_data/test_route/texts/mappingForEditor.xml"
+
+        val pathToEditor = "_test_data/test_route/texts/Editor.xml"
 
 
     }
@@ -1190,6 +1203,126 @@ class StandoffV1R2RSpec extends R2RSpec {
                 // the error message should inform the user that the provided mapping Iri is invalid
                 assert(responseAs[String].contains(s"mapping ${anythingProjectIri}/invalidPathForMappings/HTMLMapping does not exist"))
 
+
+            }
+
+        }
+
+
+        "create a mapping resource for standoff conversion for editor" in {
+
+            val mappingFileToSend = new File(RequestParams.pathToEditorMapping)
+
+            val formDataMapping = Multipart.FormData(
+                Multipart.FormData.BodyPart(
+                    "json",
+                    HttpEntity(ContentTypes.`application/json`, RequestParams.paramsCreateEditorMappingFromXML)
+                ),
+                Multipart.FormData.BodyPart(
+                    "xml",
+                    HttpEntity.fromPath(ContentTypes.`text/xml(UTF-8)`, mappingFileToSend.toPath),
+                    Map("filename" -> mappingFileToSend.getName)
+                )
+            )
+
+            // send mapping xml to route
+            Post("/v1/mapping", formDataMapping) ~> addCredentials(BasicHttpCredentials(anythingUserEmail, password)) ~> standoffPath ~> check {
+
+                assert(status == StatusCodes.OK, "standoff mapping creation route returned a non successful HTTP status code: " + responseAs[String])
+
+                // check if mappingIri is correct
+                val mappingIri = ResponseUtils.getStringMemberFromResponse(response, "mappingIri")
+
+                assert(mappingIri == anythingProjectIri + "/mappings/EditorMapping", "Iri of the new mapping is not correct")
+
+
+            }
+
+        }
+
+        /*
+        "create a mapping resource for standoff conversion for editor" in {
+
+            val mappingFileToSend = new File(RequestParams.pathToEditorMapping)
+
+            val formDataMapping = Multipart.FormData(
+                Multipart.FormData.BodyPart(
+                    "json",
+                    HttpEntity(ContentTypes.`application/json`, RequestParams.paramsCreateEditorMappingFromXML)
+                ),
+                Multipart.FormData.BodyPart(
+                    "xml",
+                    HttpEntity.fromPath(ContentTypes.`text/xml(UTF-8)`, mappingFileToSend.toPath),
+                    Map("filename" -> mappingFileToSend.getName)
+                )
+            )
+
+            // send mapping xml to route
+            Post("/v1/mapping", formDataMapping) ~> addCredentials(BasicHttpCredentials(anythingUserEmail, password)) ~> standoffPath ~> check {
+
+                assert(status == StatusCodes.OK, "standoff mapping creation route returned a non successful HTTP status code: " + responseAs[String])
+
+                // check if mappingIri is correct
+                val mappingIri = ResponseUtils.getStringMemberFromResponse(response, "mappingIri")
+
+                assert(mappingIri == anythingProjectIri + "/mappings/EditorMapping", "Iri of the new mapping is not correct")
+
+
+            }
+
+        }
+        */
+
+        "create a TextValue from an XML representing a specific CKEditor document with footnotes" in {
+
+            val xmlFileToSend = new File(RequestParams.pathToEditor)
+
+            val newValueParams =
+                s"""
+                        {
+                          "project_id": "http://data.knora.org/projects/anything",
+                          "res_id": "http://data.knora.org/a-thing",
+                          "prop": "http://www.knora.org/ontology/anything#hasText",
+                          "richtext_value": {
+                                "xml": ${JsString(Source.fromFile(xmlFileToSend).mkString)},
+                                "mapping_id": "${anythingProjectIri}/mappings/EditorMapping"
+                          }
+                        }
+                        """
+
+            // create standoff from XML
+            Post("/v1/values", HttpEntity(ContentTypes.`application/json`, newValueParams)) ~> addCredentials(BasicHttpCredentials(anythingUserEmail, password)) ~> valuesPath ~> check {
+
+                assert(status == StatusCodes.OK, "creation of a TextValue from XML returned a non successful HTTP status code: " + responseAs[String])
+
+                firstTextValueIri.set(ResponseUtils.getStringMemberFromResponse(response, "id"))
+
+
+            }
+
+
+        }
+
+        "read the XML TextValue back to XML and compare it to the XML that was originally sent as editor document" in {
+
+            val xmlFile = new File(RequestParams.pathToEditor)
+
+            Get("/v1/values/" + URLEncoder.encode(firstTextValueIri.get, "UTF-8")) ~> addCredentials(BasicHttpCredentials(anythingUserEmail, password)) ~> valuesPath ~> check {
+
+                assert(response.status == StatusCodes.OK, "reading back text value to XML failed")
+
+                val xml = AkkaHttpUtils.httpResponseToJson(response).fields.get("value") match {
+                    case Some(value: JsObject) => value.fields.get("xml") match {
+                        case Some(JsString(xml: String)) => xml
+                        case _ => throw new InvalidApiJsonException("member 'xml' not given")
+                    }
+                    case _ => throw new InvalidApiJsonException("member 'value' not given")
+                }
+
+                // Compare the original XML with the regenerated XML.
+                val xmlDiff: Diff = DiffBuilder.compare(Input.fromString(Source.fromFile(xmlFile)(Codec.UTF8).mkString)).withTest(Input.fromString(xml)).build()
+
+                xmlDiff.hasDifferences should be(false)
 
             }
 
