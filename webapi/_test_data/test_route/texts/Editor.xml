@@ -2,12 +2,23 @@
 <text documentType="html">
     <p>
         <section>this is a section</section>
+        
+        <sup id="oia5l">[1]</sup>
+        <sup class="ckcontent" data-footnote-id="#oia5l">[1]</sup>
     </p>
 
     <p>
         <section class="footnotes">this is an editor section
             <header>
                 <h2>Footnotes</h2>
+                
+                <ol>
+                    <li id="footnote-1"><sup>^ </sup>
+                        <cite>wer</cite>
+                    </li>
+                    <li class="ckcontent" id="footnote-1" data-footnote-id="#oia5l"><sup>^ </sup>
+                    </li>
+                </ol>
             </header>
         </section>
     </p>

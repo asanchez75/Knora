@@ -80,4 +80,96 @@
         </standoffClass>
     </mappingElement>
 
+    <mappingElement>
+        <tag>
+            <name>sup</name>
+            <class>noClass</class>
+            <namespace>noNamespace</namespace>
+            <separatesWords>false</separatesWords>
+        </tag>
+        <standoffClass>
+            <classIri>http://www.knora.org/ontology/standoff#StandoffSuperscriptTag</classIri>
+        </standoffClass>
+    </mappingElement>
+
+    <mappingElement>
+        <tag>
+            <name>sup</name>
+            <class>ckcontent</class>
+            <namespace>noNamespace</namespace>
+            <separatesWords>false</separatesWords>
+        </tag>
+        <standoffClass>
+            <classIri>http://www.knora.org/ontology/knora-base#StandoffInternalReferenceTag</classIri>
+            <datatype>
+                <type>http://www.knora.org/ontology/knora-base#StandoffInternalReferenceTag</type>
+                <attributeName>data-footnote-id</attributeName>
+            </datatype>
+        </standoffClass>
+    </mappingElement>
+
+    <mappingElement>
+        <tag>
+            <name>cite</name>
+            <class>noClass</class>
+            <namespace>noNamespace</namespace>
+            <separatesWords>true</separatesWords>
+        </tag>
+        <standoffClass>
+            <classIri>http://www.knora.org/ontology/standoff#StandoffCiteTag</classIri>
+        </standoffClass>
+    </mappingElement>
+    
+        <mappingElement>
+            <tag>
+                <name>ol</name>
+                <class>noClass</class>
+                <namespace>noNamespace</namespace>
+                <separatesWords>true</separatesWords>
+            </tag>
+            <standoffClass>
+                <classIri>http://www.knora.org/ontology/standoff#StandoffOrderedListTag</classIri>
+            </standoffClass>
+        </mappingElement>
+
+        <mappingElement>
+            <tag>
+                <name>ul</name>
+                <class>noClass</class>
+                <namespace>noNamespace</namespace>
+                <separatesWords>true</separatesWords>
+            </tag>
+            <standoffClass>
+                <classIri>http://www.knora.org/ontology/standoff#StandoffUnorderedListTag</classIri>
+            </standoffClass>
+        </mappingElement>
+
+        <mappingElement>
+            <tag>
+                <name>li</name>
+                <class>noClass</class>
+                <namespace>noNamespace</namespace>
+                <separatesWords>true</separatesWords>
+            </tag>
+            <standoffClass>
+                <classIri>http://www.knora.org/ontology/standoff#StandoffListElementTag</classIri>
+            </standoffClass>
+        </mappingElement>
+
+        <mappingElement>
+            <tag>
+                <name>li</name>
+                <class>ckcontent</class>
+                <namespace>noNamespace</namespace>
+                <separatesWords>false</separatesWords>
+            </tag>
+            <standoffClass>
+                <classIri>http://www.knora.org/ontology/standoff#StandoffInternalBackReferenceTag</classIri>
+                <datatype>
+                    <type>http://www.knora.org/ontology/knora-base#StandoffInternalReferenceTag</type>
+                    <attributeName>data-footnote-id</attributeName>
+                </datatype>
+            </standoffClass>
+        </mappingElement>
+    
 </mapping>

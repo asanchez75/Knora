@@ -317,7 +317,7 @@
                 rdfs:comment "Represents subscript in a TextValue"@en .
                 
 
-###  http://www.knora.org/ontology/standoff-html-editor#StandoffLineTag
+###  http://www.knora.org/ontology/standoff#StandoffLineTag
 
 :StandoffLineTag rdf:type owl:Class ;
 
@@ -326,7 +326,7 @@
                 rdfs:comment "Represents a line to seperate content in a TextValue"@en .
 
 
-###  http://www.knora.org/ontology/standoff-html-editor#StandoffPreTag
+###  http://www.knora.org/ontology/standoff#StandoffPreTag
 
 :StandoffPreTag rdf:type owl:Class ;
 
@@ -334,7 +334,7 @@
 
                 rdfs:comment "Represents a preformatted content in a TextValue"@en .
                 
-###  http://www.knora.org/ontology/standoff-html-editor#StandoffSectionTag
+###  http://www.knora.org/ontology/standoff#StandoffSectionTag
 
 :StandoffSectionTag rdf:type owl:Class ;
 
@@ -342,7 +342,7 @@
 
                 rdfs:comment "Represents a section of a document"@en .
                 
-###  http://www.knora.org/ontology/standoff-html-editor#StandoffSectionEditorTag
+###  http://www.knora.org/ontology/standoff#StandoffSectionEditorTag
 
 :StandoffSectionEditorTag rdf:type owl:Class ;
 
@@ -350,10 +350,19 @@
 
                 rdfs:comment "Represents a section of a document for the editor"@en .
                 
-###  http://www.knora.org/ontology/standoff-html-editor#StandoffHeaderTag
+###  http://www.knora.org/ontology/standoff#StandoffHeaderTag
 
 :StandoffHeaderTag rdf:type owl:Class ;
 
                 rdfs:subClassOf :StandoffStructuralTag ;
 
                 rdfs:comment "Represents a header section of a document"@en .
+                
+###  http://www.knora.org/ontology/standoff#StandoffInternalBackReferenceTag
+
+:StandoffInternalBackReferenceTag rdf:type owl:Class ;
+
+                rdfs:subClassOf knora-base:StandoffInternalReferenceTag ;
+                
+                rdfs:comment "Represents a internal back-reference"@en .
+                
