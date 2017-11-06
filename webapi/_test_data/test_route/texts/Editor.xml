@@ -4,4 +4,8 @@
         <section>this is a section</section>
     </p>
 
+    <p>
+        <section class="footnotes">this is an editor section</section>
+    </p>
+
 </text>
