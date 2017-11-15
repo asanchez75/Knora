@@ -289,7 +289,13 @@ looks like this:</p>
 108
 109
 110
-111</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+111
+112
+113
+114
+115
+116
+117</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
 <span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
 
 <span class="l l-Scalar l-Scalar-Plain">addons</span><span class="p p-Indicator">:</span>
@@ -327,6 +333,8 @@ looks like this:</p>
 
 <span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">openssl aes-256-cbc -K $encrypted_6254b38dc8d5_key -iv $encrypted_6254b38dc8d5_iv -in $TRAVIS_BUILD_DIR/private/graphdb.license.enc -out $TRAVIS_BUILD_DIR/private/graphdb.license -d</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo apt-get -qq update</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo apt-get install -y expect</span>
 
 <span class="l l-Scalar l-Scalar-Plain">stages</span><span class="p p-Indicator">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">test</span>
@@ -365,15 +373,19 @@ looks like this:</p>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt it:test</span>
     <span class="c1">#- stage: test</span>
     <span class="c1">#  script:</span>
-    <span class="c1">#    #- &quot;export DISPLAY=:99.0&quot;</span>
-    <span class="c1">#    #- &quot;sh -e /etc/init.d/xvfb start&quot;</span>
-    <span class="c1">#    #- sleep 3 # give xvfb some time to start</span>
-    <span class="c1">#    # start fuseki</span>
-    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/triplestores/fuseki/ &amp;&amp; ./fuseki-server &amp;</span>
+    <span class="c1">#    # prepare needed graphdb-se files</span>
+    <span class="c1">#    - mkdir -p $TRAVIS_BUILD_DIR/data/conf</span>
+    <span class="c1">#    - cp $TRAVIS_BUILD_DIR/private/graphdb.license $TRAVIS_BUILD_DIR/data/conf/graphdb.license</span>
+    <span class="c1">#    - mkdir -p $TRAVIS_BUILD_DIR/graphdb</span>
+    <span class="c1">#    - cp $TRAVIS_BUILD_DIR/webapi/scripts/KnoraRules.pie $TRAVIS_BUILD_DIR/graphdb</span>
+    <span class="c1">#    # start and initialize graphdb-se</span>
+    <span class="c1">#    - docker run -d -p 127.0.0.1:7200:7200 -v $TRAVIS_BUILD_DIR/data:/opt/graphdb/home -v $TRAVIS_BUILD_DIR/graphdb:/graphdb ontotext/graphdb:8.2.0-se</span>
+    <span class="c1">#    - sleep 15</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/scripts &amp;&amp; ./graphdb-se-docker-init-knora-test.sh</span>
     <span class="c1">#    # start the sipi container (with test config)</span>
     <span class="c1">#    - docker run -d --add-host webapihost:$DOCKERHOST -v /tmp:/tmp -v $HOME:$HOME -p 1024:1024 $SIPI_REPO:develop /sipi/local/bin/sipi --config=/sipi/config/sipi.knora-test-docker-config.lua</span>
     <span class="c1">#    # start the webapi and salsah server</span>
-    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt &quot;run allowResetTriplestoreContentOperationOverHTTP&quot; &amp;</span>
+    <span class="c1">#    - cd $TRAVIS_BUILD_DIR/webapi/ &amp;&amp; sbt &quot;run allowReloadOverHTTP&quot; &amp;</span>
     <span class="c1">#    - cd $TRAVIS_BUILD_DIR/salsah/ &amp;&amp; sbt run &amp;</span>
     <span class="c1">#    # wait for the webapi server to start before we proceed with running the salsah tests</span>
     <span class="c1">#    - until netstat -an 2&gt;/dev/null | grep &#39;3333.*LISTEN&#39;; do true; done</span>
@@ -432,8 +444,6 @@ lazy val webapi = (project in file(&quot;.&quot;)).
             FusekiTest,
             FusekiIntegrationTest,
             GraphDBTest,
-            GraphDBFreeTest,
-            GraphDBFreeIntegrationTest,
             EmbeddedJenaTDBTest,
             IntegrationTest
         ).
@@ -456,20 +466,6 @@ lazy val webapi = (project in file(&quot;.&quot;)).
             Defaults.testTasks ++ Seq(
                 fork := true,
                 javaOptions ++= javaGraphDBTestOptions,
-                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
-            )
-        ): _*).
-        settings(inConfig(GraphDBFreeTest)(
-            Defaults.testTasks ++ Seq(
-                fork := true,
-                javaOptions ++= javaGraphDBFreeTestOptions,
-                testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
-            )
-        ): _*).
-        settings(inConfig(GraphDBFreeIntegrationTest)(
-            Defaults.testTasks ++ Seq(
-                fork := true,
-                javaOptions ++= javaGraphDBFreeIntegrationTestOptions,
                 testOptions += Tests.Argument(&quot;-oDF&quot;) // show full stack traces and test case durations
             )
         ): _*).
@@ -583,10 +579,10 @@ lazy val webApiLibs = Seq(
     &quot;org.xmlunit&quot; % &quot;xmlunit-core&quot; % &quot;2.1.1&quot;,
     &quot;io.igl&quot; %% &quot;jwt&quot; % &quot;1.2.2&quot;,
     // testing
-    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it, graphdb-free-it&quot;,
-    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it, graphdb-free-it&quot;,
-    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it, graphdb-free-it&quot;,
-    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test, fuseki, graphdb, tdb, it, fuseki-it, graphdb-free-it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-http-testkit&quot; % akkaHttpVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;com.typesafe.akka&quot; %% &quot;akka-stream-testkit&quot; % akkaVersion % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
+    &quot;org.scalatest&quot; %% &quot;scalatest&quot; % &quot;3.0.0&quot; % &quot;test, fuseki, graphdb, tdb, it, fuseki-it&quot;,
     &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-rio-turtle&quot; % &quot;2.2.1&quot;,
     &quot;org.eclipse.rdf4j&quot; % &quot;rdf4j-queryparser-sparql&quot; % &quot;2.2.1&quot;,
     &quot;org.rogach&quot; %% &quot;scallop&quot; % &quot;2.0.5&quot;,
@@ -628,16 +624,6 @@ lazy val javaFusekiIntegrationTestOptions = Seq(
 lazy val GraphDBTest = config(&quot;graphdb&quot;) extend(Test)
 lazy val javaGraphDBTestOptions = Seq(
     &quot;-Dconfig.resource=graphdb.conf&quot;
-) ++ javaTestOptions
-
-lazy val GraphDBFreeTest = config(&quot;graphdb-free&quot;) extend(Test)
-lazy val javaGraphDBFreeTestOptions = Seq(
-    &quot;-Dconfig.resource=graphdb-free.conf&quot;
-) ++ javaTestOptions
-
-lazy val GraphDBFreeIntegrationTest = config(&quot;graphdb-free-it&quot;) extend(IntegrationTest)
-lazy val javaGraphDBFreeIntegrationTestOptions = Seq(
-    &quot;-Dconfig.resource=graphdb-free.conf&quot;
 ) ++ javaTestOptions
 
 lazy val EmbeddedJenaTDBTest = config(&quot;tdb&quot;) extend(Test)
@@ -734,6 +720,7 @@ file which will be loaded into a named graph by the name of <code class="docutil
 <li class="toctree-l2"><a class="reference internal" href="../design-documentation/index.html">Knora API Server Design Documentation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Developing the Knora API Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api_v1/index.html">Using API V1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_v2/index.html">Using API V2</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../salsah/index.html">SALSAH</a></li>

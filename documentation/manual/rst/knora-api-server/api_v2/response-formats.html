@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>V2 Response Formats &#8212; Knora 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SALSAH" href="../../salsah/index.html" />
+    <link rel="prev" title="Querying, creating, and updating Ontologies" href="ontology-information.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../../index.html">Knora 0.1 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="ontology-information.html" title="Querying, creating, and updating Ontologies"
+             accesskey="P">previous</a> |
+          <a href="../../salsah/index.html" title="SALSAH"
+             accesskey="N">next</a> |
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="v2-response-formats">
+<span id="response-formats-v2"></span><h1>V2 Response Formats<a class="headerlink" href="#v2-response-formats" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#resources-sequence" id="id1">Resources Sequence</a></li>
+</ul>
+</div>
+<div class="section" id="resources-sequence">
+<h2><a class="toc-backref" href="#id1">Resources Sequence</a><a class="headerlink" href="#resources-sequence" title="Permalink to this headline">¶</a></h2>
+<p>For the sake of consistency, the same response format, <code class="docutils literal"><span class="pre">ResourcesSequence</span></code>, is used whenever one or more resources
+are returned in an API response. This means that different API operations give responses with the same structure, which represent different views on the data depending on which API route was used (context).</p>
+<p>For example, a resource request returns a resource and all its properties. In a full-text search, the resource is returned with the properties that matched the search criteria.</p>
+<p>A response to an extended search may represent a whole graph of interconnected resources.</p>
+<p>Basically, resources are returned in form of an ordered sequence, including information about how many elements the list has. Dependent resources, i.e. resources that are referred to by other resources on the top level, are nested in link values.</p>
+<p>See interface <code class="docutils literal"><span class="pre">ResourcesSequence</span></code> in module <code class="docutils literal"><span class="pre">ResourcesResponse</span></code> (exists for both API schemas: <code class="docutils literal"><span class="pre">ApiV2Simple</span></code> and <code class="docutils literal"><span class="pre">ApiV2WithValueObjects</span></code>).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../knora-ontologies/index.html">The Knora Ontologies</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">The Knora API Server</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../deployment/index.html">Deploying the Knora API Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../design-documentation/index.html">Knora API Server Design Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/index.html">Developing the Knora API Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_v1/index.html">Using API V1</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Using API V2</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../salsah/index.html">SALSAH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sipi/index.html">Sipi</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="ontology-information.html" title="Querying, creating, and updating Ontologies"
+              >previous</a> |
+            <a href="../../salsah/index.html" title="SALSAH"
+              >next</a> |
+            <a href="../../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../../_sources/rst/knora-api-server/api_v2/response-formats.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, Lukas Rosenthaler, Benjamin Geer, Ivan Subotic, Tobias Schweizer, André Kilchenmann, and Sepideh Alassi.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
