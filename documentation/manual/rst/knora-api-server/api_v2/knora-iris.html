@@ -71,15 +71,24 @@
 <p>The IRIs used in Knora repositories and in the Knora API v2 follow certain conventions.</p>
 <div class="section" id="project-codes">
 <h2><a class="toc-backref" href="#id1">Project Codes</a><a class="headerlink" href="#project-codes" title="Permalink to this headline">¶</a></h2>
-<p>A project code is a hexadecimal number of at least four digits, assigned by the <a class="reference external" href="http://dasch.swiss/">DaSCH</a> to uniquely identify a Knora project regardless of where it is hosted. Project codes are currently optional. It is recommended that new projects request a project code and use it in their ontology IRIs, to avoid possible future naming conflicts.</p>
-<p>The range of project IDs from <code class="docutils literal"><span class="pre">0000</span></code> to <code class="docutils literal"><span class="pre">00FF</span></code> inclusive is reserved for local testing. Thus, the first useful project will be <code class="docutils literal"><span class="pre">0100</span></code>.</p>
+<p>A project code is a hexadecimal number of at least four digits, assigned by the <a class="reference external" href="http://dasch.swiss/">DaSCH</a> to uniquely
+identify a Knora project regardless of where it is hosted. Project codes are currently optional. It
+is recommended that new projects request a project code and use it in their ontology IRIs, to avoid
+possible future naming conflicts.</p>
+<p>The range of project IDs from <code class="docutils literal"><span class="pre">0000</span></code> to <code class="docutils literal"><span class="pre">00FF</span></code> inclusive is reserved for local testing. Thus,
+the first useful project will be <code class="docutils literal"><span class="pre">0100</span></code>.</p>
 </div>
 <div class="section" id="iris-for-ontologies-and-ontology-entities">
 <h2><a class="toc-backref" href="#id2">IRIs for Ontologies and Ontology Entities</a><a class="headerlink" href="#iris-for-ontologies-and-ontology-entities" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="internal-ontology-iris">
 <h3><a class="toc-backref" href="#id3">Internal Ontology IRIs</a><a class="headerlink" href="#internal-ontology-iris" title="Permalink to this headline">¶</a></h3>
-<p>Starting with Knora API v2, Knora makes a distinction between internal and external ontologies. Internal ontologies are used in the triplestore, while external ontologies are used in the API. For each internal ontology, there is a corresponding external ontology. Some internal ontologies are built into Knora, while others are project-specific. The Knora API server automatically generates external ontologies based on project-specific internal ontologies.</p>
-<p>Each internal ontology has an IRI, which is also the IRI of the named graph that contains the ontology in the triplestore. An internal project-specific ontology IRI has the form:</p>
+<p>Starting with Knora API v2, Knora makes a distinction between internal and external ontologies.
+Internal ontologies are used in the triplestore, while external ontologies are used in the API. For
+each internal ontology, there is a corresponding external ontology. Some internal ontologies are
+built into Knora, while others are project-specific. The Knora API server automatically generates
+external ontologies based on project-specific internal ontologies.</p>
+<p>Each internal ontology has an IRI, which is also the IRI of the named graph that contains the
+ontology in the triplestore. An internal project-specific ontology IRI has the form:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="p">[</span><span class="n">PROJECT_CODE</span><span class="o">/</span><span class="p">]</span><span class="n">ONTOLOGY_NAME</span>
 </pre></div>
 </div>
@@ -87,14 +96,17 @@
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">knora</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="mi">0001</span><span class="o">/</span><span class="n">example</span>
 </pre></div>
 </div>
-<p>An ontology name must be a valid XML <a class="reference external" href="https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName">NCName</a>. The following names are reserved for built-in internal Knora ontologies:</p>
+<p>An ontology name must be a valid XML <a class="reference external" href="https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName">NCName</a>. The following names are reserved for built-in internal
+Knora ontologies:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">knora-base</span></code></li>
 <li><code class="docutils literal"><span class="pre">standoff</span></code></li>
 <li><code class="docutils literal"><span class="pre">salsah-gui</span></code></li>
 <li><code class="docutils literal"><span class="pre">dc</span></code></li>
 </ul>
-<p>Names starting with <code class="docutils literal"><span class="pre">knora</span></code> are reserved for future built-in Knora ontologies. A project-specific ontology name may not start with the letter <code class="docutils literal"><span class="pre">v</span></code> followed by a digit, and may not contain these reserved words:</p>
+<p>Names starting with <code class="docutils literal"><span class="pre">knora</span></code> are reserved for future built-in Knora ontologies. A project-specific
+ontology name may not start with the letter <code class="docutils literal"><span class="pre">v</span></code> followed by a digit, and may not contain these
+reserved words:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">knora</span></code></li>
 <li><code class="docutils literal"><span class="pre">ontology</span></code></li>
@@ -103,27 +115,45 @@
 </div>
 <div class="section" id="external-ontology-iris">
 <h3><a class="toc-backref" href="#id4">External Ontology IRIs</a><a class="headerlink" href="#external-ontology-iris" title="Permalink to this headline">¶</a></h3>
-<p>Unlike internal ontology IRIs, external ontology IRIs are meant to be dereferenced as URLs. When an ontology IRI is dereferenced, the ontology itself can be served either in a machine-readable format or as human-readable documentation.</p>
+<p>Unlike internal ontology IRIs, external ontology IRIs are meant to be dereferenced as URLs. When an
+ontology IRI is dereferenced, the ontology itself can be served either in a machine-readable format
+or as human-readable documentation.</p>
 <p>The IRI of an external Knora ontology has the form:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">HOST</span><span class="p">[:</span><span class="n">PORT</span><span class="p">]</span><span class="o">/</span><span class="n">ontology</span><span class="o">/</span><span class="p">[</span><span class="n">PROJECT_CODE</span><span class="o">/</span><span class="p">]</span><span class="n">ONTOLOGY_NAME</span><span class="o">/</span><span class="n">API_VERSION</span>
 </pre></div>
 </div>
-<p>For built-in ontologies, the host is always <code class="docutils literal"><span class="pre">api.knora.org</span></code>. Otherwise, the hostname and port configured in <code class="docutils literal"><span class="pre">application.conf</span></code> under <code class="docutils literal"><span class="pre">app.http.knora-api.host</span></code> and <code class="docutils literal"><span class="pre">app.http.knora-api.http-port</span></code> are used (the port is omitted if it is 80).</p>
-<p>This means that when a built-in external ontology IRI is dereferenced, the ontology can be served by a Knora API server running at <code class="docutils literal"><span class="pre">api.knora.org</span></code>. When a project-specific external ontology IRI is dereferenced, the ontology can be served by the Knora API server that hosts the project. During development and testing, this could be <code class="docutils literal"><span class="pre">localhost</span></code>.</p>
-<p>The name of an external ontology is the same as the name of the corresponding internal ontology, with one exception: the external form of <code class="docutils literal"><span class="pre">knora-base</span></code> is called <code class="docutils literal"><span class="pre">knora-api</span></code>.</p>
-<p>The API version identifier indicates not only the version of the API, but also an API &#8216;schema&#8217;. The Knora API v2 is available in two schemas:</p>
+<p>For built-in ontologies, the host is always <code class="docutils literal"><span class="pre">api.knora.org</span></code>. Otherwise, the hostname and port
+configured in <code class="docutils literal"><span class="pre">application.conf</span></code> under <code class="docutils literal"><span class="pre">app.http.knora-api.host</span></code> and <code class="docutils literal"><span class="pre">app.http.knora-api.http-</span>
+<span class="pre">port</span></code> are used (the port is omitted if it is 80).</p>
+<p>This means that when a built-in external ontology IRI is dereferenced, the ontology can be served by
+a Knora API server running at <code class="docutils literal"><span class="pre">api.knora.org</span></code>. When a project-specific external ontology IRI is
+dereferenced, the ontology can be served by the Knora API server that hosts the project. During
+development and testing, this could be <code class="docutils literal"><span class="pre">localhost</span></code>.</p>
+<p>The name of an external ontology is the same as the name of the corresponding internal ontology,
+with one exception: the external form of <code class="docutils literal"><span class="pre">knora-base</span></code> is called <code class="docutils literal"><span class="pre">knora-api</span></code>.</p>
+<p>The API version identifier indicates not only the version of the API, but also an API &#8216;schema&#8217;. The
+Knora API v2 is available in two schemas:</p>
 <ul class="simple">
-<li>A default schema, which is suitable both for reading and for editing data. The default schema represents values primarily as complex objects. Its version identifier is <code class="docutils literal"><span class="pre">v2</span></code>.</li>
-<li>A simple schema, which is suitable for reading data but not for editing it. The simple schema facilitates interoperability between Knora ontologies and non-Knora ontologies, since it represents values primarily as literals. Its version identifier is <code class="docutils literal"><span class="pre">simple/v2</span></code>.</li>
+<li>A default schema, which is suitable both for reading and for editing data. The default schema
+represents values primarily as complex objects. Its version identifier is <code class="docutils literal"><span class="pre">v2</span></code>.</li>
+<li>A simple schema, which is suitable for reading data but not for editing it. The simple schema
+facilitates interoperability between Knora ontologies and non-Knora ontologies, since it
+represents values primarily as literals. Its version identifier is <code class="docutils literal"><span class="pre">simple/v2</span></code>.</li>
 </ul>
 <p>Other schemas could be added in the future for more specific use cases.</p>
-<p>When requesting an ontology, the client requests a particular schema. (This will also be true of most Knora API v2 requests: the client will be able to specify which schema the response should be provided in.)</p>
-<p>For example, suppose a Knora API server is running at <code class="docutils literal"><span class="pre">knora.example.org</span></code> and hosts an ontology whose internal IRI is <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/0001/example</span></code>. That ontology can then be requested using either of these IRIs:</p>
+<p>When requesting an ontology, the client requests a particular schema. (This will also be true of
+most Knora API v2 requests: the client will be able to specify which schema the response should be
+provided in.)</p>
+<p>For example, suppose a Knora API server is running at <code class="docutils literal"><span class="pre">knora.example.org</span></code> and hosts an ontology
+whose internal IRI is <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/0001/example</span></code>. That ontology can then be
+requested using either of these IRIs:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">http://knora.example.org/ontology/0001/example/v2</span></code> (for the default schema)</li>
 <li><code class="docutils literal"><span class="pre">http://knora.example.org/ontology/0001/example/simple/v2</span></code> (for the simple schema)</li>
 </ul>
-<p>While the internal <code class="docutils literal"><span class="pre">example</span></code> ontology refers to definitions in <code class="docutils literal"><span class="pre">knora-base</span></code>, the external <code class="docutils literal"><span class="pre">example</span></code> ontology that is served by the API refers instead to a <code class="docutils literal"><span class="pre">knora-api</span></code> ontology, whose IRI depends on the schema being used:</p>
+<p>While the internal <code class="docutils literal"><span class="pre">example</span></code> ontology refers to definitions in <code class="docutils literal"><span class="pre">knora-base</span></code>, the external
+<code class="docutils literal"><span class="pre">example</span></code> ontology that is served by the API refers instead to a <code class="docutils literal"><span class="pre">knora-api</span></code> ontology, whose IRI
+depends on the schema being used:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">http://api.knora.org/ontology/knora-api/v2</span></code> (for the default schema)</li>
 <li><code class="docutils literal"><span class="pre">http://api.knora.org/ontology/knora-api/simple/v2</span></code> (for the simple schema)</li>
@@ -131,7 +161,11 @@
 </div>
 <div class="section" id="ontology-entity-iris">
 <h3><a class="toc-backref" href="#id5">Ontology Entity IRIs</a><a class="headerlink" href="#ontology-entity-iris" title="Permalink to this headline">¶</a></h3>
-<p>Knora ontologies use &#8216;hash namespaces&#8217; (see <a class="reference external" href="https://www.w3.org/2001/sw/BestPractices/VM/http-examples/2006-01-18/#naming">URI Namespaces</a>). This means that the IRI of an ontology entity (a class or property definition) is constructed by adding a hash character (<code class="docutils literal"><span class="pre">#</span></code>) to the ontology IRI, followed by the name of the entity. In Knora, an entity name must be a valid XML <a class="reference external" href="https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName">NCName</a>. Thus, if there is a class called <code class="docutils literal"><span class="pre">ExampleThing</span></code> in an ontology whose internal IRI is <code class="docutils literal"><span class="pre">http://www.knora.org/ontology/0001/example</span></code>, that class has the following IRIs:</p>
+<p>Knora ontologies use &#8216;hash namespaces&#8217; (see <a class="reference external" href="https://www.w3.org/2001/sw/BestPractices/VM/http-examples/2006-01-18/#naming">URI Namespaces</a>). This means that the IRI of an
+ontology entity (a class or property definition) is constructed by adding a hash character (<code class="docutils literal"><span class="pre">#</span></code>)
+to the ontology IRI, followed by the name of the entity. In Knora, an entity name must be a valid
+XML <a class="reference external" href="https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName">NCName</a>. Thus, if there is a class called <code class="docutils literal"><span class="pre">ExampleThing</span></code> in an ontology whose internal IRI is
+<code class="docutils literal"><span class="pre">http://www.knora.org/ontology/0001/example</span></code>, that class has the following IRIs:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">http://www.knora.org/ontology/0001/example#ExampleThing</span></code> (in the internal ontology)</li>
 <li><code class="docutils literal"><span class="pre">http://HOST[:PORT]/ontology/0001/example/v2#ExampleThing</span></code> (in the API v2 default schema)</li>
@@ -141,12 +175,21 @@
 </div>
 <div class="section" id="iris-for-data">
 <h2><a class="toc-backref" href="#id6">IRIs for Data</a><a class="headerlink" href="#iris-for-data" title="Permalink to this headline">¶</a></h2>
-<p>Knora generates IRIs for data that it creates in the triplestore. Each generated data IRI contains one or more <a class="reference external" href="https://tools.ietf.org/html/rfc4122">UUID</a> identifiers to make it unique. To keep data IRIs relatively short, each UUID is <a class="reference external" href="https://tools.ietf.org/html/rfc4648">Base64</a> encoded, using the &#8216;URL and Filename safe Base64 Alphabet&#8217; specified in Table 2 of RFC 4648, without padding; thus each UUID is a 22-character string.</p>
-<p>Data IRIs are not currently intended to be dereferenced as URLs. Instead, each Knora resource will have a corresponding <a class="reference external" href="https://tools.ietf.org/html/draft-kunze-ark-18">ARK</a> URL, which will be handled by a server that redirects requests to the relevant Knora API server (see <a class="reference internal" href="#permalinks"><span class="std std-ref">Knora Resource Permalinks</span></a>). However, every generated data IRI begins with <code class="docutils literal"><span class="pre">http://rdfh.ch</span></code>. This domain is not curently used, but it is owned by the <a class="reference external" href="http://dasch.swiss/">DaSCH</a>, so it would be possible to make resource IRIs directly dereferenceable in the future.</p>
+<p>Knora generates IRIs for data that it creates in the triplestore. Each generated data IRI contains
+one or more <a class="reference external" href="https://tools.ietf.org/html/rfc4122">UUID</a> identifiers to make it unique. To keep data IRIs relatively short, each UUID is
+<a class="reference external" href="https://tools.ietf.org/html/rfc4648">Base64</a> encoded, using the &#8216;URL and Filename safe Base64 Alphabet&#8217; specified in Table 2 of RFC 4648,
+without padding; thus each UUID is a 22-character string.</p>
+<p>Data IRIs are not currently intended to be dereferenced as URLs. Instead, each Knora resource will
+have a corresponding <a class="reference external" href="https://tools.ietf.org/html/draft-kunze-ark-18">ARK</a> URL, which will be handled by a server that redirects requests to the
+relevant Knora API server (see <a class="reference internal" href="#permalinks"><span class="std std-ref">Knora Resource Permalinks</span></a>). However, every generated data IRI begins with
+<code class="docutils literal"><span class="pre">http://rdfh.ch</span></code>. This domain is not curently used, but it is owned by the <a class="reference external" href="http://dasch.swiss/">DaSCH</a>, so it would be
+possible to make resource IRIs directly dereferenceable in the future.</p>
 <p>The formats of generated data IRIs for different types of objects are as follows:</p>
 <ul class="simple">
 <li>Project: <code class="docutils literal"><span class="pre">http://rdfh.ch/projects/PROJECT_UUID</span></code></li>
-<li>Resource: <code class="docutils literal"><span class="pre">http://rdfh.ch/PROJECT_CODE/RESOURCE_UUID</span></code>. The current implementation actually uses the project shortname, but it will be changed to use the project code (<a class="reference external" href="https://github.com/dhlab-basel/Knora/issues/654">issue #654</a>).</li>
+<li>Resource: <code class="docutils literal"><span class="pre">http://rdfh.ch/PROJECT_CODE/RESOURCE_UUID</span></code>. The current implementation actually uses
+the project shortname, but it will be changed to use the project code
+(<a class="reference external" href="https://github.com/dhlab-basel/Knora/issues/654">issue #654</a>).</li>
 <li>Value: <code class="docutils literal"><span class="pre">http://rdfh.ch/PROJECT_CODE/RESOURCE_UUID/values/VALUE_UUID</span></code></li>
 <li>Standoff tag: <code class="docutils literal"><span class="pre">http://rdfh.ch/PROJECT_CODE/RESOURCE_UUID/values/VALUE_UUID/STANDOFF_UUID</span></code></li>
 <li>Group: <code class="docutils literal"><span class="pre">http://rdfh.ch/groups/GROUP_UUID</span></code></li>
