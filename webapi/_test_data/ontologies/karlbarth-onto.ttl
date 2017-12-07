@@ -44,6 +44,29 @@
        salsah-gui:guiAttribute "size=80" ,
                                "maxlength=255" .
 
+### ###########################################
+### karlbarth:hasText
+
+:hasText rdf:type owl:ObjectProperty ;
+
+                  rdfs:subPropertyOf knora-base:hasValue ;
+
+                  rdfs:label "Text"@de ,
+                             "texte"@fr ,
+                             "testo"@it ,
+                             "text"@en ;
+
+                  rdfs:comment """Text"""@de ,
+                               """Text"""@en ;
+
+                  knora-base:subjectClassConstraint :sermon ;
+
+                  knora-base:objectClassConstraint knora-base:TextValue ;
+
+                  salsah-gui:guiOrder "11"^^xsd:integer ;
+
+                  salsah-gui:guiElement salsah-gui:Richtext .
+
 
 ### ###########################################
 ### beol:hasGivenName
@@ -164,7 +187,12 @@
 		rdf:type owl:Restriction ;
 		owl:onProperty :title ;
 		owl:minCardinality "1"^^xsd:nonNegativeInteger
-	] ;
+	] ,
+	[
+        rdf:type owl:Restriction ;
+        owl:onProperty :hasText ;
+        owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ];
 
     rdfs:label "Predigt"@de ,
                 "Sermon"@fr ,
