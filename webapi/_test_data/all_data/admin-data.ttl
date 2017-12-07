@@ -470,3 +470,28 @@ Die Internetpublikation macht das digitalisierte Korpus dieser Frühdrucke  durc
   knora-base:isInProject <http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ> ;
   knora-base:isInSystemAdminGroup "false"^^xsd:boolean ;
   knora-base:isInProjectAdminGroup <http://rdfh.ch/projects/DczxPs-sR6aZN91qV92ZmQ> .
+
+###################################
+# Karl Barth                            #
+###################################
+
+<http://rdfh.ch/projects/karlbarth> a knora-base:knoraProject ;
+  knora-base:projectShortname "karlbarth"^^xsd:string ;
+  knora-base:projectLongname "Karl Barth"^^xsd:string ;
+  knora-base:projectDescription "Karl Barth"^^xsd:string ;
+  knora-base:projectOntology <http://www.knora.org/ontology/karlbarth> ;
+  knora-base:status "true"^^xsd:boolean ;
+  knora-base:hasSelfJoinEnabled "false"^^xsd:boolean .
+
+
+<http://rdfh.ch/users/karlbarth> a knora-base:User ;
+  knora-base:userid "karl"^^xsd:string ;
+  knora-base:familyName "Barth"^^xsd:string ;
+  knora-base:givenName "Karl"^^xsd:string ;
+  knora-base:password "$e0801$FGl9FDIWw+D83OeNPGmD9u2VTqIkJopIQECgmb2DSWQLS0TeKSvYoWAkbEv6KxePPlCI3CP9MmVHuvnWv8/kag==$mlegCYdGXt+ghuo8i0rLjgOiNnGDW604Q5g/v7zwBPU="^^xsd:string ;
+  knora-base:email "t.schweizer@unibas.ch"^^xsd:string ;
+  knora-base:preferredLanguage "de"^^xsd:string ;
+  knora-base:status "true"^^xsd:boolean ;
+  knora-base:isInProject <http://rdfh.ch/projects/karlbarth> ;
+  knora-base:isInSystemAdminGroup "false"^^xsd:boolean .
+
