@@ -234,3 +234,13 @@
 				"Person"@en ;
 
 	rdfs:comment "A resource representing a person"@en .
+
+
+###  http://www.knora.org/ontology/karlbarth#StandoffSaluteTag
+
+:StandoffSaluteTag rdf:type owl:Class ;
+
+                 rdfs:subClassOf knora-base:StandoffTag ;
+
+                 rdfs:comment "Represents the salute in a sermon"@en .
+
